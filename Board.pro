@@ -16,8 +16,19 @@ MOC_DIR = ./build
 UI_DIR = ./build
 
 SOURCES += src/main.cpp \
-        src/mainwindow.cpp
+    src/mainwindow.cpp
 
-HEADERS  += src/mainwindow.h
+HEADERS += src/mainwindow.h \
+    src/const.h
 
-FORMS    += ui/mainwindow.ui
+FORMS += ui/mainwindow.ui
+
+OTHER_FILES += web/page.html \
+    web/main.js
+
+copyfiles.commands = cp web $${DESTDIR} -r
+
+QMAKE_EXTRA_TARGETS += copyfiles
+POST_TARGETDEPS += copyfiles
+
+

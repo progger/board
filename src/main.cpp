@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Kulabuhov Michael, Kemerovo, Russia.
+ * Copyright (C) 2011 Kulabuhov Michail, Kemerovo, Russia.
  *
  * See the LICENSE file for terms of use.
  */
@@ -12,6 +12,6 @@ int main(int argc, char *argv[])
   QApplication a(argc, argv);
   MainWindow w;
   w.show();
-  
+
   return a.exec();
 }

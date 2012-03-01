@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Kulabuhov Michael, Kemerovo, Russia.
+ * Copyright (C) 2011 Kulabuhov Michail, Kemerovo, Russia.
  *
  * See the LICENSE file for terms of use.
  */
@@ -13,16 +13,23 @@ namespace Ui {
   class MainWindow;
 }
 
+class BoardCore;
+
 class MainWindow : public QMainWindow
 {
   Q_OBJECT
-  
+
 public:
   explicit MainWindow(QWidget *parent = 0);
   ~MainWindow();
-  
+
+public slots:
+  void chageMode();
+  void chageColor();
+
 private:
-  Ui::MainWindow *ui;
+  Ui::MainWindow *ui_;
+  BoardCore *core_;
 };
 
 #endif // MAINWINDOW_H

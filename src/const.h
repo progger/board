@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Kulabuhov Michael, Kemerovo, Russia.
+ * Copyright (C) 2011 Kulabuhov Michail, Kemerovo, Russia.
  *
  * See the LICENSE file for terms of use.
  */
@@ -9,6 +9,9 @@
 
 #define WEB_DIR "web"
 #define PAGE_FILE_NAME "page.html"
-#define DRAW_ELEMENT "draw_element"
+#define CORE_OBJECT "core"
+
+#define MODE_PEN "pen"
+#define MODE_MOVE "move"
 
 #endif // CONST_H

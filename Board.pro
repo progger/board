@@ -18,11 +18,13 @@ RCC_DIR = ./build
 
 SOURCES += src/main.cpp \
     src/mainwindow.cpp \
-    src/boardcore.cpp
+    src/boardcore.cpp \
+    src/boarddraw.cpp
 
 HEADERS += src/mainwindow.h \
     src/const.h \
-    src/boardcore.h
+    src/boardcore.h \
+    src/boarddraw.h
 
 FORMS += ui/mainwindow.ui
 
@@ -32,6 +34,8 @@ OTHER_FILES += web/page.html \
 
 RESOURCES += \
     res.qrc
+
+
 
 
 

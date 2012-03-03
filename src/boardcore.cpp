@@ -5,23 +5,17 @@
  */
 
 #include "boardcore.h"
+#include "boarddraw.h"
 #include "const.h"
 
 BoardCore::BoardCore(QObject *parent) :
   QObject(parent),
-  state_(false),
-  mode_()
+  draw_(new BoardDraw(this))
 {
 }
 
 void BoardCore::readyToWork()
 {
-  setMode(QString(MODE_PEN));
-  setColor(QString("black"));
-}
-
-void BoardCore::setMode(const QString &mode)
-{
-  mode_ = mode;
-  modeChanged();
+  draw_->setMode(QString(MODE_PEN));
+  draw_->setColor(QString("black"));
 }

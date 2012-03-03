@@ -11,6 +11,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "boardcore.h"
+#include "boarddraw.h"
 #include "const.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -26,6 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
   QWebPage * page = ui_->browser->page();
   QWebFrame * frame = page->currentFrame();
   frame->addToJavaScriptWindowObject(QString(CORE_OBJECT), core_);
+  frame->addToJavaScriptWindowObject(QString(DRAW_OBJECT), core_->getDraw());
   frame->load(QUrl("qrc:/web/page.html"));
 }
 
@@ -36,20 +38,22 @@ MainWindow::~MainWindow()
 
 void MainWindow::chageMode()
 {
+  BoardDraw *draw = core_->getDraw();
   if (ui_->actionPen->isChecked())
-    core_->setMode(QString(MODE_PEN));
+    draw->setMode(QString(MODE_PEN));
   else if (ui_->actionMove->isChecked())
-    core_->setMode(QString(MODE_MOVE));
+    draw->setMode(QString(MODE_MOVE));
 }
 
 void MainWindow::chageColor()
 {
-  if (core_->getColor() == QString("black"))
-    core_->setColor(QString("red"));
-  else if (core_->getColor() == QString("red"))
-    core_->setColor(QString("green"));
-  else if (core_->getColor() == QString("green"))
-    core_->setColor(QString("blue"));
-  else if (core_->getColor() == QString("blue"))
-    core_->setColor(QString("black"));
+  BoardDraw *draw = core_->getDraw();
+  if (draw->getColor() == QString("black"))
+    draw->setColor(QString("red"));
+  else if (draw->getColor() == QString("red"))
+    draw->setColor(QString("green"));
+  else if (draw->getColor() == QString("green"))
+    draw->setColor(QString("blue"));
+  else if (draw->getColor() == QString("blue"))
+    draw->setColor(QString("black"));
 }

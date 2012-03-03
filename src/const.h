@@ -9,7 +9,8 @@
 
 #define WEB_DIR "web"
 #define PAGE_FILE_NAME "page.html"
-#define CORE_OBJECT "core"
+#define CORE_OBJECT "coreObject"
+#define DRAW_OBJECT "drawObject"
 
 #define MODE_PEN "pen"
 #define MODE_MOVE "move"

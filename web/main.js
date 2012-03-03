@@ -1,10 +1,10 @@
 function draw_onMouseDown(e)
 {
     if (e.which !== 1) return;
-    core.state = true;
+    drawObject.state = true;
     this.lastX = e.pageX;
     this.lastY = e.pageY;
-    switch (core.mode)
+    switch (drawObject.mode)
     {
     case "pen":
         var ns = this.getAttribute("xmlns");
@@ -13,7 +13,7 @@ function draw_onMouseDown(e)
         var y = e.pageY - this.translateY;
         path.setAttribute("d", "M" + x + "," + y);
         path.setAttribute("stroke-width", "3");
-        path.setAttribute("stroke", core.color);
+        path.setAttribute("stroke", drawObject.color);
         path.setAttribute("fill", "none");
         this.path = path;
         this.mainGroup.appendChild(path);
@@ -26,13 +26,13 @@ function draw_onMouseDown(e)
 function draw_onMouseUp(e)
 {
     if (e.which !== 1) return;
-    core.state = false;
+    drawObject.state = false;
 };
 
 function draw_onMouseMove(e)
 {
-    if (!core.state) return;
-    switch (core.mode)
+    if (!drawObject.state) return;
+    switch (drawObject.mode)
     {
     case "pen":
         var path = this.path;
@@ -55,17 +55,11 @@ function draw_onMouseMove(e)
 
 function draw_onMouseOut(e)
 {
-      core.state = core.state && !isOutside(e, this);
-};
-
-function core_onModeChanged(e)
-{
-    core.state = false;
+      drawObject.state = drawObject.state && !isOutside(e, this);
 };
 
 function main()
 {
-    core.modeChanged.connect(this, core_onModeChanged);
     var draw = document.getElementById("draw");
     var mainGroup = document.getElementById("mainGroup");
     draw.mainGroup = mainGroup;
@@ -75,7 +69,7 @@ function main()
     draw.onmouseup = draw_onMouseUp;
     draw.onmousemove = draw_onMouseMove;
     draw.onmouseout = draw_onMouseOut;
-    core.readyToWork();
+    coreObject.readyToWork();
 };
 
 function globalError(message)

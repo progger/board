@@ -14,6 +14,7 @@ OBJECTS_DIR = ./build
 DESTDIR = ./bin
 MOC_DIR = ./build
 UI_DIR = ./build
+RCC_DIR = ./build
 
 SOURCES += src/main.cpp \
     src/mainwindow.cpp \
@@ -26,12 +27,13 @@ HEADERS += src/mainwindow.h \
 FORMS += ui/mainwindow.ui
 
 OTHER_FILES += web/page.html \
-    web/main.js
+    web/main.js \
+    web/tool.js
 
-copyfiles.commands = cp web $${DESTDIR} -r
+RESOURCES += \
+    res.qrc
 
-QMAKE_EXTRA_TARGETS += copyfiles
-POST_TARGETDEPS += copyfiles
+
 
 
 

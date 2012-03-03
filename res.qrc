@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>web/page.html</file>
+        <file>web/main.js</file>
+        <file>web/tool.js</file>
+    </qresource>
+</RCC>

@@ -1,16 +1,3 @@
-function isOutside(e, parent)
-{
-  var relatedTarget = e.relatedTarget;
-  while (relatedTarget && relatedTarget !== parent)
-    relatedTarget = relatedTarget.parentNode;
-  return !relatedTarget;
-};
-
-function getTranslateAttr(x, y)
-{
-    return "translate(" + x + " " + y + ")";
-}
-
 function draw_onMouseDown(e)
 {
     if (e.which !== 1) return;

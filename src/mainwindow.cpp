@@ -25,10 +25,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
   QWebPage * page = ui_->browser->page();
   QWebFrame * frame = page->currentFrame();
-  QDir dir(QString(WEB_DIR));
-  QString page_file = dir.filePath(QString(PAGE_FILE_NAME));
   frame->addToJavaScriptWindowObject(QString(CORE_OBJECT), core_);
-  frame->load(QUrl(page_file));
+  frame->load(QUrl("qrc:/web/page.html"));
 }
 
 MainWindow::~MainWindow()

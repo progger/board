@@ -32,13 +32,13 @@ MainWindow::~MainWindow()
   delete ui_;
 }
 
-void MainWindow::chageMode()
+void MainWindow::chageMode(bool toggled)
 {
+  if (!toggled) return;
+  QAction *mode = qobject_cast<QAction*>(sender());
+  if (!mode) return;
   BoardDraw *draw = core_->getDraw();
-  if (ui_->modePen->isChecked())
-    draw->setMode(QString(MODE_PEN));
-  else if (ui_->modeMove->isChecked())
-    draw->setMode(QString(MODE_MOVE));
+  draw->setMode(mode->text());
 }
 
 void MainWindow::chageColor()

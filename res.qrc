@@ -3,5 +3,9 @@
         <file>web/page.html</file>
         <file>web/main.js</file>
         <file>web/tool.js</file>
+        <file>res/pen.svg</file>
+        <file>res/rectangle.svg</file>
+        <file>res/circle.svg</file>
+        <file>res/move.svg</file>
     </qresource>
 </RCC>

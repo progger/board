@@ -24,7 +24,7 @@ public:
   ~MainWindow();
 
 public slots:
-  void chageMode();
+  void chageMode(bool toggled);
   void chageColor();
 
 private:

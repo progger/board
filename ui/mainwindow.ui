@@ -31,6 +31,8 @@
     <bool>false</bool>
    </attribute>
    <addaction name="modePen"/>
+   <addaction name="modeRectangle"/>
+   <addaction name="modeCircle"/>
    <addaction name="modeMove"/>
   </widget>
   <action name="stateColor">
@@ -46,19 +48,57 @@
     <property name="checkable">
      <bool>true</bool>
     </property>
+    <property name="icon">
+     <iconset resource="../res.qrc">
+      <normaloff>:/res/pen.svg</normaloff>:/res/pen.svg</iconset>
+    </property>
     <property name="text">
-     <string>Pen</string>
+     <string>pen</string>
     </property>
     <property name="toolTip">
      <string>Pen</string>
+    </property>
+   </action>
+   <action name="modeRectangle">
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+    <property name="icon">
+     <iconset resource="../res.qrc">
+      <normaloff>:/res/rectangle.svg</normaloff>:/res/rectangle.svg</iconset>
+    </property>
+    <property name="text">
+     <string>rectangle</string>
+    </property>
+    <property name="toolTip">
+     <string>Rectangle</string>
+    </property>
+   </action>
+   <action name="modeCircle">
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+    <property name="icon">
+     <iconset resource="../res.qrc">
+      <normaloff>:/res/circle.svg</normaloff>:/res/circle.svg</iconset>
+    </property>
+    <property name="text">
+     <string>circle</string>
+    </property>
+    <property name="toolTip">
+     <string>Circle</string>
     </property>
    </action>
    <action name="modeMove">
     <property name="checkable">
      <bool>true</bool>
     </property>
+    <property name="icon">
+     <iconset resource="../res.qrc">
+      <normaloff>:/res/move.svg</normaloff>:/res/move.svg</iconset>
+    </property>
     <property name="text">
-     <string>Move</string>
+     <string>move</string>
     </property>
     <property name="toolTip">
      <string>Move</string>
@@ -74,25 +114,89 @@
    <header>QtWebKit/QWebView</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../res.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>stateColor</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
    <slot>chageColor()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>modePen</sender>
    <signal>toggled(bool)</signal>
    <receiver>MainWindow</receiver>
-   <slot>chageMode()</slot>
+   <slot>chageMode(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>modeRectangle</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>chageMode(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>modeCircle</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>chageMode(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>modeMove</sender>
    <signal>toggled(bool)</signal>
    <receiver>MainWindow</receiver>
-   <slot>chageMode()</slot>
+   <slot>chageMode(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
  </connections>
 </ui>

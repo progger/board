@@ -30,7 +30,15 @@ FORMS += ui/mainwindow.ui
 
 OTHER_FILES += web/page.html \
     web/main.js \
-    web/tool.js
+    web/tool.js \
+    res/pen.svg \
+    res/rectangle.svg \
+    res/circle.svg \
+    res/move.svg
 
 RESOURCES += \
     res.qrc
+
+
+
+

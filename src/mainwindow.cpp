@@ -20,10 +20,6 @@ MainWindow::MainWindow(QWidget *parent) :
   core_(new BoardCore(this))
 {
   ui_->setupUi(this);
-  connect(ui_->actionPen, SIGNAL(toggled(bool)), SLOT(chageMode()));
-  connect(ui_->actionMove, SIGNAL(toggled(bool)), SLOT(chageMode()));
-  connect(ui_->actionColor, SIGNAL(triggered()), SLOT(chageColor()));
-
   QWebPage * page = ui_->browser->page();
   QWebFrame * frame = page->currentFrame();
   frame->addToJavaScriptWindowObject(QString(CORE_OBJECT), core_);
@@ -39,9 +35,9 @@ MainWindow::~MainWindow()
 void MainWindow::chageMode()
 {
   BoardDraw *draw = core_->getDraw();
-  if (ui_->actionPen->isChecked())
+  if (ui_->modePen->isChecked())
     draw->setMode(QString(MODE_PEN));
-  else if (ui_->actionMove->isChecked())
+  else if (ui_->modeMove->isChecked())
     draw->setMode(QString(MODE_MOVE));
 }
 

@@ -34,11 +34,3 @@ OTHER_FILES += web/page.html \
 
 RESOURCES += \
     res.qrc
-
-
-
-
-
-
-
-

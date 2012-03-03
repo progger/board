@@ -14,20 +14,26 @@
    <string>Board</string>
   </property>
   <widget class="QWebView" name="browser"/>
-  <widget class="QToolBar" name="mainToolBar">
+  <widget class="QToolBar" name="stateToolBar">
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionPen"/>
-   <addaction name="actionMove"/>
-   <addaction name="separator"/>
-   <addaction name="actionColor"/>
-   <addaction name="separator"/>
+   <addaction name="stateColor"/>
   </widget>
-  <action name="actionColor">
+  <widget class="QToolBar" name="modeToolBar">
+   <attribute name="toolBarArea">
+    <enum>LeftToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="modePen"/>
+   <addaction name="modeMove"/>
+  </widget>
+  <action name="stateColor">
    <property name="text">
     <string>Color</string>
    </property>
@@ -36,11 +42,8 @@
    </property>
   </action>
   <actiongroup name="mode">
-   <action name="actionPen">
+   <action name="modePen">
     <property name="checkable">
-     <bool>true</bool>
-    </property>
-    <property name="checked">
      <bool>true</bool>
     </property>
     <property name="text">
@@ -50,7 +53,7 @@
      <string>Pen</string>
     </property>
    </action>
-   <action name="actionMove">
+   <action name="modeMove">
     <property name="checkable">
      <bool>true</bool>
     </property>
@@ -72,5 +75,24 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>stateColor</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>chageColor()</slot>
+  </connection>
+  <connection>
+   <sender>modePen</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>chageMode()</slot>
+  </connection>
+  <connection>
+   <sender>modeMove</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>chageMode()</slot>
+  </connection>
+ </connections>
 </ui>

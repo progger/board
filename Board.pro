@@ -34,10 +34,14 @@ OTHER_FILES += web/page.html \
     res/pen.svg \
     res/rectangle.svg \
     res/circle.svg \
-    res/move.svg
+    res/move.svg \
+    web/draw.js \
+    web/error.js
 
 RESOURCES += \
     res.qrc
+
+
 
 
 

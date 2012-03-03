@@ -1,7 +1,9 @@
 <RCC>
     <qresource prefix="/">
         <file>web/page.html</file>
+        <file>web/error.js</file>
         <file>web/main.js</file>
+        <file>web/draw.js</file>
         <file>web/tool.js</file>
         <file>res/pen.svg</file>
         <file>res/rectangle.svg</file>

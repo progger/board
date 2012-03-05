@@ -36,10 +36,20 @@ OTHER_FILES += web/page.html \
     res/circle.svg \
     res/move.svg \
     web/draw.js \
-    web/error.js
+    web/error.js \
+    res/color/yellow.svg \
+    res/color/red.svg \
+    res/color/fuchsia.svg \
+    res/color/blue.svg \
+    res/color/black.svg \
+    res/color/aqua.svg \
+    res/color/lime.svg
 
 RESOURCES += \
     res.qrc
+
+
+
 
 
 

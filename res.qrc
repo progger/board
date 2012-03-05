@@ -9,5 +9,12 @@
         <file>res/rectangle.svg</file>
         <file>res/circle.svg</file>
         <file>res/move.svg</file>
+        <file>res/color/aqua.svg</file>
+        <file>res/color/black.svg</file>
+        <file>res/color/blue.svg</file>
+        <file>res/color/fuchsia.svg</file>
+        <file>res/color/lime.svg</file>
+        <file>res/color/red.svg</file>
+        <file>res/color/yellow.svg</file>
     </qresource>
 </RCC>

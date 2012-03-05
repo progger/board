@@ -41,15 +41,11 @@ void MainWindow::chageMode(bool toggled)
   draw->setMode(mode->text());
 }
 
-void MainWindow::chageColor()
+void MainWindow::chageColor(bool toggled)
 {
+  if (!toggled) return;
+  QAction *color = qobject_cast<QAction*>(sender());
+  if (!color) return;
   BoardDraw *draw = core_->getDraw();
-  if (draw->getColor() == QString("black"))
-    draw->setColor(QString("red"));
-  else if (draw->getColor() == QString("red"))
-    draw->setColor(QString("green"));
-  else if (draw->getColor() == QString("green"))
-    draw->setColor(QString("blue"));
-  else if (draw->getColor() == QString("blue"))
-    draw->setColor(QString("black"));
+  draw->setColor(color->text());
 }

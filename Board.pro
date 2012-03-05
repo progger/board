@@ -43,10 +43,12 @@ OTHER_FILES += web/page.html \
     res/color/blue.svg \
     res/color/black.svg \
     res/color/aqua.svg \
-    res/color/lime.svg
+    res/color/lime.svg \
+    res/ellipse.svg
 
 RESOURCES += \
     res.qrc
+
 
 
 

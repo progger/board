@@ -8,6 +8,7 @@
         <file>res/pen.svg</file>
         <file>res/rectangle.svg</file>
         <file>res/circle.svg</file>
+        <file>res/ellipse.svg</file>
         <file>res/move.svg</file>
         <file>res/color/aqua.svg</file>
         <file>res/color/black.svg</file>

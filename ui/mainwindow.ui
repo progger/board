@@ -39,6 +39,7 @@
    <addaction name="modePen"/>
    <addaction name="modeRectangle"/>
    <addaction name="modeCircle"/>
+   <addaction name="modeEllipse"/>
    <addaction name="modeMove"/>
   </widget>
   <actiongroup name="color">
@@ -192,6 +193,21 @@
     </property>
     <property name="toolTip">
      <string>Circle</string>
+    </property>
+   </action>
+   <action name="modeEllipse">
+    <property name="checkable">
+     <bool>true</bool>
+    </property>
+    <property name="icon">
+     <iconset resource="../res.qrc">
+      <normaloff>:/res/ellipse.svg</normaloff>:/res/ellipse.svg</iconset>
+    </property>
+    <property name="text">
+     <string>ellipse</string>
+    </property>
+    <property name="toolTip">
+     <string>Ellipse</string>
     </property>
    </action>
    <action name="modeMove">
@@ -369,6 +385,22 @@
   </connection>
   <connection>
    <sender>modeCircle</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>chageMode(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>modeEllipse</sender>
    <signal>toggled(bool)</signal>
    <receiver>MainWindow</receiver>
    <slot>chageMode(bool)</slot>

@@ -37,8 +37,8 @@ function drawRectangle(element, startX, startY, x, y)
         startY = y;
         y = tmp;
     }
-    width = x - startX;
-    height = y - startY;
+    var width = x - startX;
+    var height = y - startY;
     element.setAttribute("x", startX);
     element.setAttribute("y", startY);
     element.setAttribute("width", width);
@@ -62,6 +62,40 @@ function drawCircle(element, startX, startY, x, y)
     element.setAttribute("r", r);
 }
 
+function beginEllipse(draw)
+{
+    var element = createDrawElement(draw, "ellipse");
+    setDrawStyleAttr(element);
+    element.setAttribute("cx", draw.startX);
+    element.setAttribute("cy", draw.startY);
+    return element;
+}
+
+function drawEllipse(element, startX, startY, x, y)
+{
+    var tmp;
+    if (x < startX)
+    {
+        tmp = startX;
+        startX = x;
+        x = tmp;
+    }
+    if (y < startY)
+    {
+        tmp = startY;
+        startY = y;
+        y = tmp;
+    }
+    var rx = (x - startX) / 2;
+    var ry = (y - startY) / 2;
+    var cx = startX + rx;
+    var cy = startY + ry;
+    element.setAttribute("cx", cx);
+    element.setAttribute("cy", cy);
+    element.setAttribute("rx", rx);
+    element.setAttribute("ry", ry);
+}
+
 function draw_onMouseDown(e)
 {
     if (e.which !== 1) return;
@@ -81,6 +115,9 @@ function draw_onMouseDown(e)
         break;
     case "circle":
         element = beginCircle(this);
+        break;
+    case "ellipse":
+        element = beginEllipse(this);
         break;
     case "move":
         break;
@@ -114,6 +151,9 @@ function draw_onMouseMove(e)
         break;
     case "circle":
         drawCircle(element, this.startX, this.startY, x, y);
+        break;
+    case "ellipse":
+        drawEllipse(element, this.startX, this.startY, x, y);
         break;
     case "move":
         this.translateX += e.pageX - this.lastX;

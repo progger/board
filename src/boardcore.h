@@ -10,12 +10,13 @@
 #include <QObject>
 
 class BoardDraw;
+class QWebFrame;
 
 class BoardCore : public QObject
 {
   Q_OBJECT
 public:
-  explicit BoardCore(QObject *parent = 0);
+  explicit BoardCore(QObject *parent, QWebFrame *frame = 0);
   BoardDraw *getDraw() { return draw_; }
   Q_PROPERTY(BoardDraw *draw READ getDraw)
 
@@ -25,6 +26,7 @@ public slots:
   void readyToWork();
 
 private:
+  QWebFrame *frame_;
   BoardDraw *draw_;
 };
 

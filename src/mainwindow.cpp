@@ -16,15 +16,13 @@
 
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
-  ui_(new Ui::MainWindow),
-  core_(new BoardCore(this))
+  ui_(new Ui::MainWindow)
 {
   ui_->setupUi(this);
   QWebPage * page = ui_->browser->page();
-  QWebFrame * frame = page->currentFrame();
-  frame->addToJavaScriptWindowObject(QString(CORE_OBJECT), core_);
-  frame->addToJavaScriptWindowObject(QString(DRAW_OBJECT), core_->getDraw());
+  QWebFrame *frame = page->currentFrame();
   frame->load(QUrl("qrc:/web/page.html"));
+  core_ = new BoardCore(this, frame);
 }
 
 MainWindow::~MainWindow()
@@ -48,4 +46,14 @@ void MainWindow::chageColor(bool toggled)
   if (!color) return;
   BoardDraw *draw = core_->getDraw();
   draw->setColor(color->text());
+}
+
+void MainWindow::undo()
+{
+  core_->getDraw()->undo();
+}
+
+void MainWindow::redo()
+{
+  core_->getDraw()->redo();
 }

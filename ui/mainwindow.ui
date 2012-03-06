@@ -28,6 +28,9 @@
    <addaction name="colorBlue"/>
    <addaction name="colorFuchsia"/>
    <addaction name="colorAqua"/>
+   <addaction name="separator"/>
+   <addaction name="actionUndo"/>
+   <addaction name="actionRedo"/>
   </widget>
   <widget class="QToolBar" name="modeToolBar">
    <attribute name="toolBarArea">
@@ -42,6 +45,22 @@
    <addaction name="modeEllipse"/>
    <addaction name="modeMove"/>
   </widget>
+  <action name="actionUndo">
+   <property name="text">
+    <string>Ой</string>
+   </property>
+   <property name="toolTip">
+    <string>Undo</string>
+   </property>
+  </action>
+  <action name="actionRedo">
+   <property name="text">
+    <string>Ай</string>
+   </property>
+   <property name="toolTip">
+    <string>Redo</string>
+   </property>
+  </action>
   <actiongroup name="color">
    <action name="colorBlack">
     <property name="checkable">
@@ -420,6 +439,38 @@
    <signal>toggled(bool)</signal>
    <receiver>MainWindow</receiver>
    <slot>chageMode(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionUndo</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>undo()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionRedo</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>redo()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>

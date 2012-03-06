@@ -1,8 +1,6 @@
 function main()
 {
     var draw = document.getElementById("draw");
-    var mainGroup = document.getElementById("mainGroup");
-    draw.mainGroup = mainGroup;
     draw.translateX = 0;
     draw.translateY = 0;
     draw.onmousedown = draw_onMouseDown;

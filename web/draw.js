@@ -1,6 +1,6 @@
 function beginPen(draw)
 {
-    var element = createDrawElement(draw, "path");
+    var element = createSvgElement("path");
     setDrawStyleAttr(element);
     element.setAttribute("d", "M" + draw.startX + "," + draw.startY);
     return element;
@@ -15,7 +15,7 @@ function drawPen(element, x, y)
 
 function beginRectangle(draw)
 {
-    var element = createDrawElement(draw, "rect");
+    var element = createSvgElement("rect");
     setDrawStyleAttr(element);
     element.setAttribute("x", draw.startX);
     element.setAttribute("y", draw.startY);
@@ -47,7 +47,7 @@ function drawRectangle(element, startX, startY, x, y)
 
 function beginCircle(draw)
 {
-    var element = createDrawElement(draw, "circle");
+    var element = createSvgElement("circle");
     setDrawStyleAttr(element);
     element.setAttribute("cx", draw.startX);
     element.setAttribute("cy", draw.startY);
@@ -64,7 +64,7 @@ function drawCircle(element, startX, startY, x, y)
 
 function beginEllipse(draw)
 {
-    var element = createDrawElement(draw, "ellipse");
+    var element = createSvgElement("ellipse");
     setDrawStyleAttr(element);
     element.setAttribute("cx", draw.startX);
     element.setAttribute("cy", draw.startY);
@@ -124,7 +124,8 @@ function draw_onMouseDown(e)
     }
     if (element)
     {
-        this.mainGroup.appendChild(element);
+        var drawGroup = getDrawGroup(this);
+        drawGroup.appendChild(element);
     }
     this.element = element;
 }
@@ -159,7 +160,8 @@ function draw_onMouseMove(e)
         this.translateX += e.pageX - this.lastX;
         this.translateY += e.pageY - this.lastY;
         var translate = getTranslateAttr(this.translateX, this.translateY);
-        this.mainGroup.setAttribute("transform", translate);
+        var drawGroup = getDrawGroup(this);
+        drawGroup.setAttribute("transform", translate);
         break;
     }
     this.lastX = e.pageX;

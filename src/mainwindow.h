@@ -26,6 +26,8 @@ public:
 public slots:
   void chageMode(bool toggled);
   void chageColor(bool toggled);
+  void undo();
+  void redo();
 
 private:
   Ui::MainWindow *ui_;

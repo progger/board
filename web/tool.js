@@ -11,10 +11,15 @@ function getTranslateAttr(x, y)
     return "translate(" + x + " " + y + ")";
 }
 
-function createDrawElement(draw, name)
+function createSvgElement(name)
 {
-    var ns = draw.getAttribute("xmlns");
+    var ns = "http://www.w3.org/2000/svg";
     return document.createElementNS(ns, name);
+}
+
+function getDrawGroup(draw)
+{
+    return draw.firstChild.firstChild;
 }
 
 function setDrawStyleAttr(element)

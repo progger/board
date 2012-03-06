@@ -19,12 +19,16 @@ RCC_DIR = ./build
 SOURCES += src/main.cpp \
     src/mainwindow.cpp \
     src/boardcore.cpp \
-    src/boarddraw.cpp
+    src/boarddraw.cpp \
+    src/diff/diffitem.cpp \
+    src/diff/diffstack.cpp
 
 HEADERS += src/mainwindow.h \
     src/const.h \
     src/boardcore.h \
-    src/boarddraw.h
+    src/boarddraw.h \
+    src/diff/diffitem.h \
+    src/diff/diffstack.h
 
 FORMS += ui/mainwindow.ui
 
@@ -48,6 +52,14 @@ OTHER_FILES += web/page.html \
 
 RESOURCES += \
     res.qrc
+
+
+
+
+
+
+
+
 
 
 

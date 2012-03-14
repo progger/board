@@ -48,10 +48,12 @@ OTHER_FILES += web/page.html \
     res/color/black.svg \
     res/color/aqua.svg \
     res/color/lime.svg \
-    res/ellipse.svg
+    res/ellipse.svg \
+    web/transform.js
 
 RESOURCES += \
     res.qrc
+
 
 
 

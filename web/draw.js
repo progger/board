@@ -2,14 +2,14 @@ function beginPen(draw)
 {
     var element = createSvgElement("path");
     setDrawStyleAttr(element);
-    element.setAttribute("d", "M" + draw.startX + "," + draw.startY);
+    element.setAttribute("d", "M" + draw.start[0] + "," + draw.start[1]);
     return element;
 }
 
-function drawPen(element, x, y)
+function drawPen(element, p)
 {
     var d = element.getAttribute("d");
-    d += "L" + x + "," + y;
+    d += "L" + p[0] + "," + p[1];
     element.setAttribute("d", d);
 }
 
@@ -17,30 +17,34 @@ function beginRectangle(draw)
 {
     var element = createSvgElement("rect");
     setDrawStyleAttr(element);
-    element.setAttribute("x", draw.startX);
-    element.setAttribute("y", draw.startY);
+    element.setAttribute("x", draw.start[0]);
+    element.setAttribute("y", draw.start[1]);
     return element;
 }
 
-function drawRectangle(element, startX, startY, x, y)
+function drawRectangle(element, start, p)
 {
     var tmp;
-    if (x < startX)
+    var sx = start[0];
+    var sy = start[1];
+    var x = p[0];
+    var y = p[1];
+    if (x < sx)
     {
-        tmp = startX;
-        startX = x;
+        tmp = sx;
+        sx = x;
         x = tmp;
     }
-    if (y < startY)
+    if (y < sy)
     {
-        tmp = startY;
-        startY = y;
+        tmp = sy;
+        sy = y;
         y = tmp;
     }
-    var width = x - startX;
-    var height = y - startY;
-    element.setAttribute("x", startX);
-    element.setAttribute("y", startY);
+    var width = x - sx;
+    var height = y - sy;
+    element.setAttribute("x", sx);
+    element.setAttribute("y", sy);
     element.setAttribute("width", width);
     element.setAttribute("height", height);
 }
@@ -49,15 +53,15 @@ function beginCircle(draw)
 {
     var element = createSvgElement("circle");
     setDrawStyleAttr(element);
-    element.setAttribute("cx", draw.startX);
-    element.setAttribute("cy", draw.startY);
+    element.setAttribute("cx", draw.start[0]);
+    element.setAttribute("cy", draw.start[1]);
     return element;
 }
 
-function drawCircle(element, startX, startY, x, y)
+function drawCircle(element, start, p)
 {
-    var dx = x - startX;
-    var dy = y - startY;
+    var dx = p[0] - start[0];
+    var dy = p[1] - start[1];
     var r = Math.sqrt(dx * dx + dy * dy);
     element.setAttribute("r", r);
 }
@@ -66,30 +70,34 @@ function beginEllipse(draw)
 {
     var element = createSvgElement("ellipse");
     setDrawStyleAttr(element);
-    element.setAttribute("cx", draw.startX);
-    element.setAttribute("cy", draw.startY);
+    element.setAttribute("cx", draw.start[0]);
+    element.setAttribute("cy", draw.start[1]);
     return element;
 }
 
-function drawEllipse(element, startX, startY, x, y)
+function drawEllipse(element, start, p)
 {
     var tmp;
-    if (x < startX)
+    var sx = start[0];
+    var sy = start[1];
+    var x = p[0];
+    var y = p[1];
+    if (x < sx)
     {
-        tmp = startX;
-        startX = x;
+        tmp = sx;
+        sx = x;
         x = tmp;
     }
-    if (y < startY)
+    if (y < sy)
     {
-        tmp = startY;
-        startY = y;
+        tmp = sy;
+        sy = y;
         y = tmp;
     }
-    var rx = (x - startX) / 2;
-    var ry = (y - startY) / 2;
-    var cx = startX + rx;
-    var cy = startY + ry;
+    var rx = (x - sx) / 2;
+    var ry = (y - sy) / 2;
+    var cx = sx + rx;
+    var cy = sy + ry;
     element.setAttribute("cx", cx);
     element.setAttribute("cy", cy);
     element.setAttribute("rx", rx);
@@ -100,10 +108,10 @@ function draw_onMouseDown(e)
 {
     if (e.which !== 1) return;
     drawObject.state = true;
-    this.lastX = e.pageX;
-    this.lastY = e.pageY;
-    this.startX = e.pageX - this.translateX;
-    this.startY = e.pageY - this.translateY;
+    var drawGroup = getDrawGroup(this);
+    var m = getMatrix(drawGroup);
+    this.start = getPos(m, e);
+    this.last = this.start;
     var element;
     switch (drawObject.mode)
     {
@@ -124,7 +132,6 @@ function draw_onMouseDown(e)
     }
     if (element)
     {
-        var drawGroup = getDrawGroup(this);
         drawGroup.appendChild(element);
     }
     this.element = element;
@@ -139,33 +146,33 @@ function draw_onMouseUp(e)
 function draw_onMouseMove(e)
 {
     if (!drawObject.state) return;
+    var drawGroup = getDrawGroup(this);
     var element = this.element;
-    var x = e.pageX - this.translateX;
-    var y = e.pageY - this.translateY;
+    var m = getMatrix(drawGroup);
+    var p = getPos(m, e);
+
     switch (drawObject.mode)
     {
     case "pen":
-        drawPen(element, x, y);
+        drawPen(element, p);
         break;
     case "rectangle":
-        drawRectangle(element, this.startX, this.startY, x, y);
+        drawRectangle(element, this.start, p);
         break;
     case "circle":
-        drawCircle(element, this.startX, this.startY, x, y);
+        drawCircle(element, this.start, p);
         break;
     case "ellipse":
-        drawEllipse(element, this.startX, this.startY, x, y);
+        drawEllipse(element, this.start, p);
         break;
     case "move":
-        this.translateX += e.pageX - this.lastX;
-        this.translateY += e.pageY - this.lastY;
-        var translate = getTranslateAttr(this.translateX, this.translateY);
-        var drawGroup = getDrawGroup(this);
-        drawGroup.setAttribute("transform", translate);
+        var t = $T.translate(p[0] - this.last[0], p[1] - this.last[1]);
+        m = $T.mult(t, m);
+        p = getPos(m, e);
+        setMatrix(drawGroup, m);
         break;
     }
-    this.lastX = e.pageX;
-    this.lastY = e.pageY;
+    this.last = p;
 }
 
 function draw_onMouseOut(e)

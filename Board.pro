@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui webkit
+QT       += core gui webkit declarative
 
 TARGET = Board
 TEMPLATE = app
@@ -49,10 +49,24 @@ OTHER_FILES += web/page.html \
     res/color/aqua.svg \
     res/color/lime.svg \
     res/ellipse.svg \
-    web/transform.js
+    web/transform.js \
+    qml/Keyboard.qml \
+    qml/Button.qml \
+    qml/main.js \
+    qml/ButtonRow.qml
 
 RESOURCES += \
     res.qrc
+
+
+
+
+
+
+
+
+
+
 
 
 

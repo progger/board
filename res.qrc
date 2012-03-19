@@ -6,6 +6,10 @@
         <file>web/draw.js</file>
         <file>web/tool.js</file>
         <file>web/transform.js</file>
+        <file>qml/Keyboard.qml</file>
+        <file>qml/Button.qml</file>
+        <file>qml/ButtonRow.qml</file>
+        <file>qml/main.js</file>
         <file>res/pen.svg</file>
         <file>res/rectangle.svg</file>
         <file>res/circle.svg</file>

@@ -23,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent) :
   QWebFrame *frame = page->currentFrame();
   frame->load(QUrl("qrc:/web/page.html"));
   core_ = new BoardCore(this, frame);
+  ui_->keyboard->setResizeMode(QDeclarativeView::SizeRootObjectToView);
+  ui_->keyboard->setSource(QUrl("qrc:/qml/Keyboard.qml"));
 }
 
 MainWindow::~MainWindow()

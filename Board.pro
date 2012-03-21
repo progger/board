@@ -4,11 +4,11 @@
 #
 #-------------------------------------------------
 
-QT       += core gui webkit declarative
+QT       += core opengl declarative
 
 TARGET = Board
 TEMPLATE = app
-VERSION = 0.0.1
+VERSION = 0.0.2
 
 OBJECTS_DIR = ./build
 DESTDIR = ./bin
@@ -17,20 +17,21 @@ UI_DIR = ./build
 RCC_DIR = ./build
 
 SOURCES += src/main.cpp \
-    src/mainwindow.cpp \
-    src/boardcore.cpp \
     src/boarddraw.cpp \
     src/diff/diffitem.cpp \
-    src/diff/diffstack.cpp
+    src/diff/diffstack.cpp \
+    src/mainview.cpp \
+    src/core.cpp
 
-HEADERS += src/mainwindow.h \
+HEADERS += \
     src/const.h \
-    src/boardcore.h \
     src/boarddraw.h \
     src/diff/diffitem.h \
-    src/diff/diffstack.h
+    src/diff/diffstack.h \
+    src/mainview.h \
+    src/core.h
 
-FORMS += ui/mainwindow.ui
+FORMS +=
 
 OTHER_FILES += web/page.html \
     web/main.js \
@@ -41,48 +42,15 @@ OTHER_FILES += web/page.html \
     res/move.svg \
     web/draw.js \
     web/error.js \
-    res/color/yellow.svg \
-    res/color/red.svg \
-    res/color/fuchsia.svg \
-    res/color/blue.svg \
-    res/color/black.svg \
-    res/color/aqua.svg \
-    res/color/lime.svg \
     res/ellipse.svg \
     web/transform.js \
-    qml/Keyboard.qml \
+    qml/Draw.qml \
+    qml/ModeBar.qml \
+    qml/Style.qml \
     qml/Button.qml \
-    qml/main.js \
-    qml/ButtonRow.qml
+    qml/Keyboard.qml \
+    qml/keyboard.js \
+    qml/Board.qml
 
 RESOURCES += \
     res.qrc
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

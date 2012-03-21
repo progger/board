@@ -5,13 +5,13 @@
  */
 
 #include <QtGui/QApplication>
-#include "mainwindow.h"
+#include "mainview.h"
 
 int main(int argc, char *argv[])
 {
-  QApplication a(argc, argv);
-  MainWindow w;
-  w.show();
-
-  return a.exec();
+  QApplication app(argc, argv);
+  app.setGraphicsSystem("opengl");
+  MainView view;
+  view.showFullScreen();
+  return app.exec();
 }

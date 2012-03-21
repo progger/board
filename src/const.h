@@ -7,13 +7,6 @@
 #ifndef CONST_H
 #define CONST_H
 
-#define WEB_DIR "web"
-#define PAGE_FILE_NAME "page.html"
-#define CORE_OBJECT "coreObject"
 #define DRAW_OBJECT "drawObject"
-#define DRAW_SELECTOR "*#draw"
-
-#define MODE_PEN "pen"
-#define MODE_MOVE "move"
 
 #endif // CONST_H

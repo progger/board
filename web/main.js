@@ -1,13 +1,18 @@
-function main()
-{
-    var draw = document.getElementById("draw");
-    draw.translateX = 0;
-    draw.translateY = 0;
-    draw.onmousedown = draw_onMouseDown;
-    draw.onmouseup = draw_onMouseUp;
-    draw.onmousemove = draw_onMouseMove;
-    draw.onmouseout = draw_onMouseOut;
-    coreObject.readyToWork();
+/*
+ * Copyright (C) 2011 Kulabuhov Michail, Kemerovo, Russia.
+ *
+ * See the LICENSE file for terms of use.
+ */
+
+function main() {
+    var canvas = document.getElementById("canvas");
+    canvas.state = false;
+    canvas.onmousedown = canvas_onMouseDown;
+    canvas.onmouseup = canvas_onMouseUp;
+    canvas.onmousemove = canvas_onMouseMove;
+    canvas.onmouseout = canvas_onMouseOut;
+    canvas.onkeydown = canvas_onKeyDown;
+    canvas.onkeypress = canvas_onKeyPress;
 }
 
 window.onload = main;

@@ -1,23 +1,65 @@
-import QtQuick 1.1
+/*
+ * Copyright (C) 2011 Kulabuhov Michail, Kemerovo, Russia.
+ *
+ * See the LICENSE file for terms of use.
+ */
+
+import QtQuick 1.0
 
 Rectangle {
-    property real widthScale: 1
-    property variant buttonText;
+    id: button
+    property variant style
+    property string image
+    property string text
+    property bool pressed: false
+    property bool toggled: false
+    signal clicked()
 
-    width: keyboard.width / 15 * widthScale
-    height: keyboard.height / 5
-    color: keyboard.color
-    Rectangle {
-        anchors.fill: parent
-        anchors.margins: 2
-        radius: 4
-        color: "#404040"
-        Text {
-            id: text
-            text: buttonText[keyboard.layout][keyboard.shift]
-            color: "#E0E0E0"
-            anchors.centerIn: parent
-            font.pixelSize: parent.height / 2
+    radius: 8
+    border.color: mouseArea.containsMouse ? "#4040FF" : "#404040"
+    border.width: mouseArea.containsMouse ? 4 : 2
+    smooth: true
+    gradient: style.gradientButtonNormal
+    state: ""
+
+    states: [
+        State {
+            name: "pressed"
+            when: toggled || (pressed && mouseArea.containsMouse)
+            PropertyChanges {
+                target: button
+                gradient: style.gradientButtonPressed
+            }
+        },
+        State {
+            name: "hovered"
+            when: mouseArea.containsMouse
+            PropertyChanges {
+                target: button
+                gradient: style.gradientButtonHovered
+            }
         }
+    ]
+
+    MouseArea {
+        id: mouseArea
+        anchors.fill: parent
+        hoverEnabled: true
+        onPressedChanged: button.pressed = pressed
+        onClicked: button.clicked()
+    }
+
+    Image {
+        anchors.fill: parent
+        anchors.margins: 3
+        source: image
+        smooth: true
+    }
+
+    Text {
+        anchors.centerIn: parent
+        font.pixelSize: parent.height / 2
+        text: button.text
+        smooth: true
     }
 }

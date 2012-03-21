@@ -1,3 +1,9 @@
+/*
+ * Copyright (C) 2011 Kulabuhov Michail, Kemerovo, Russia.
+ *
+ * See the LICENSE file for terms of use.
+ */
+
 window.onerror = function(message, source, lineno)
         {
             var total = "";

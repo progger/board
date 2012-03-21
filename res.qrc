@@ -1,26 +1,21 @@
 <RCC>
     <qresource prefix="/">
+        <file>qml/Board.qml</file>
+        <file>qml/Style.qml</file>
+        <file>qml/ModeBar.qml</file>
+        <file>qml/Button.qml</file>
+        <file>qml/Draw.qml</file>
+        <file>qml/Keyboard.qml</file>
+        <file>qml/keyboard.js</file>
         <file>web/page.html</file>
         <file>web/error.js</file>
         <file>web/main.js</file>
         <file>web/draw.js</file>
-        <file>web/tool.js</file>
-        <file>web/transform.js</file>
-        <file>qml/Keyboard.qml</file>
-        <file>qml/Button.qml</file>
-        <file>qml/ButtonRow.qml</file>
-        <file>qml/main.js</file>
         <file>res/pen.svg</file>
         <file>res/rectangle.svg</file>
         <file>res/circle.svg</file>
         <file>res/ellipse.svg</file>
+        <file>res/text.svg</file>
         <file>res/move.svg</file>
-        <file>res/color/aqua.svg</file>
-        <file>res/color/black.svg</file>
-        <file>res/color/blue.svg</file>
-        <file>res/color/fuchsia.svg</file>
-        <file>res/color/lime.svg</file>
-        <file>res/color/red.svg</file>
-        <file>res/color/yellow.svg</file>
     </qresource>
 </RCC>

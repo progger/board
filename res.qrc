@@ -17,5 +17,9 @@
         <file>res/ellipse.svg</file>
         <file>res/text.svg</file>
         <file>res/move.svg</file>
+        <file>res/backspace.svg</file>
+        <file>res/enter.svg</file>
+        <file>res/left_arrow.svg</file>
+        <file>res/right_arrow.svg</file>
     </qresource>
 </RCC>

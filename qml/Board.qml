@@ -63,7 +63,6 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         height: board.height / 4
-        //visible: Core.keyboard
         opacity: Core.keyboard
         Behavior on opacity {
             NumberAnimation { duration: 500 }

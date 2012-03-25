@@ -13,6 +13,13 @@ function main() {
     canvas.onmouseout = canvas_onMouseOut;
     canvas.onkeydown = canvas_onKeyDown;
     canvas.onkeypress = canvas_onKeyPress;
+
+    var cursor = document.getElementById("text_cursor");
+    function blink() {
+        var b = cursor.getAttribute("display") == "none";
+        cursor.setAttribute("display", b ? "inline" : "none");
+    }
+    setInterval(blink, 500);
 }
 
 window.onload = main;

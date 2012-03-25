@@ -50,7 +50,11 @@ OTHER_FILES += web/page.html \
     qml/Button.qml \
     qml/Keyboard.qml \
     qml/keyboard.js \
-    qml/Board.qml
+    qml/Board.qml \
+    res/backspace.svg \
+    res/enter.svg \
+    res/left_arrow.svg \
+    res/right_arrow.svg
 
 RESOURCES += \
     res.qrc

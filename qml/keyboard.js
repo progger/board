@@ -18,7 +18,7 @@ var keys = [
                 {button: [["0", ")"], ["0", ")"]], size: 1},
                 {button: [["-", "_"], ["-", "_"]], size: 1},
                 {button: [["=", "+"], ["=", "+"]], size: 1},
-                {button: [["", ""], ["", ""]], size: 1.5, key: Qt.Key_Backspace},
+                {button: [["", ""], ["", ""]], size: 1.5, image: "backspace.svg", key: Qt.Key_Backspace},
             ],
             [
                 {button: [["q", "Q"], ["й", "Й"]], size: 1},
@@ -47,7 +47,7 @@ var keys = [
                 {button: [["l", "L"], ["д", "Д"]], size: 1},
                 {button: [[";", ":"], ["ж", "Ж"]], size: 1},
                 {button: [["'", "\""], ["э", "Э"]], size: 1},
-                {button: [["", ""], ["", ""]], size: 1.5, key: Qt.Key_Enter},
+                {button: [["", ""], ["", ""]], size: 1.5, image: "enter.svg", key: Qt.Key_Enter},
             ],
             [
                 {button: [["z", "Z"], ["я", "Я"]], size: 1},
@@ -65,8 +65,8 @@ var keys = [
             [
                 {button: [["рус", "рус"], ["eng", "eng"]], size: 1.5, click: "layoutClick"},
                 {button: [[" ", " "], [" ", " "]], size: 7.5},
-                {button: [["", ""], ["", ""]], size: 1, key: Qt.Key_Left},
-                {button: [["", ""], ["", ""]], size: 1, key: Qt.Key_Right},
+                {button: [["", ""], ["", ""]], size: 1, image: "left_arrow.svg", key: Qt.Key_Left},
+                {button: [["", ""], ["", ""]], size: 1, image: "right_arrow.svg", key: Qt.Key_Right},
             ]
         ]
 

@@ -54,7 +54,12 @@ OTHER_FILES += web/page.html \
     res/backspace.svg \
     res/enter.svg \
     res/left_arrow.svg \
-    res/right_arrow.svg
+    res/right_arrow.svg \
+    qml/ToolBar.qml \
+    res/close.svg \
+    qml/ColorSelector.qml \
+    qml/colorSelector.js \
+    res/more.svg
 
 RESOURCES += \
     res.qrc

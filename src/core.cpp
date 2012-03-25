@@ -7,17 +7,25 @@
 #include <QApplication>
 #include <QWidget>
 #include <QKeyEvent>
+#include <QColorDialog>
 #include "core.h"
+#include "mainview.h"
 
 using namespace Qt;
 
-Core::Core(QObject *parent) :
-  QObject(parent),
+Core::Core(MainView *view) :
+  QObject(view),
+  view_(view),
   mode_("pen"),
   color_("#000000"),
   keyboard_(false),
   font_size_(24)
 {
+}
+
+QColor Core::selectColor(QColor color)
+{
+  return QColorDialog::getColor(color);
 }
 
 void Core::emulateKeyPress(int key, int modifiers, const QString &text) const

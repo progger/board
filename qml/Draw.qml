@@ -4,7 +4,7 @@
  * See the LICENSE file for terms of use.
  */
 
-import QtQuick 1.0
+import QtQuick 1.1
 import QtWebKit 1.0
 
 WebView {

@@ -4,14 +4,14 @@
  * See the LICENSE file for terms of use.
  */
 
-import QtQuick 1.0
+import QtQuick 1.1
 
 Rectangle {
     id: modeBar
     property variant style
     property int buttonSize: width - 6
+    color: style.panelColor
 
-    color: "#C0C0C0"
     Column {
         y: 4
         anchors.left: parent.left

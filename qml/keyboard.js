@@ -68,7 +68,7 @@ var keys = [
                 {button: [["", ""], ["", ""]], size: 1, image: "left_arrow.svg", key: Qt.Key_Left},
                 {button: [["", ""], ["", ""]], size: 1, image: "right_arrow.svg", key: Qt.Key_Right},
             ]
-        ]
+        ];
 
 function charClick(button, data) {
     var text = data.button[keyboard.layout][keyboard.shift];

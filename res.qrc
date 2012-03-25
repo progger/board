@@ -2,11 +2,14 @@
     <qresource prefix="/">
         <file>qml/Board.qml</file>
         <file>qml/Style.qml</file>
+        <file>qml/ToolBar.qml</file>
         <file>qml/ModeBar.qml</file>
-        <file>qml/Button.qml</file>
         <file>qml/Draw.qml</file>
+        <file>qml/Button.qml</file>
         <file>qml/Keyboard.qml</file>
         <file>qml/keyboard.js</file>
+        <file>qml/ColorSelector.qml</file>
+        <file>qml/colorSelector.js</file>
         <file>web/page.html</file>
         <file>web/error.js</file>
         <file>web/main.js</file>
@@ -21,5 +24,7 @@
         <file>res/enter.svg</file>
         <file>res/left_arrow.svg</file>
         <file>res/right_arrow.svg</file>
+        <file>res/close.svg</file>
+        <file>res/more.svg</file>
     </qresource>
 </RCC>

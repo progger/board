@@ -27,8 +27,12 @@ function sortColors() {
     colors.sort(sortFunc);
 }
 
-function changeColor(index) {
+function clickColor(index) {
     if (selected == index) return;
+    changeColor(index);
+}
+
+function changeColor(index) {
     selected = index;
     var item = repeater.itemAt(index);
     Core.color = item.color;
@@ -40,6 +44,16 @@ function changeColor(index) {
         }
         else {
             item.freq *= 0.9;
+        }
+    }
+
+    for (i in colors) {
+        var obj = colors[i];
+        if (obj.color == item.color) {
+            obj.freq++
+        }
+        else {
+            obj.freq *= 0.95;
         }
     }
 }
@@ -74,27 +88,16 @@ function checkColor(color) {
 
 function selectColor(color) {
     colorGridRect.opacity = 0;
-
-    for (var i in colors) {
-        var obj = colors[i];
-        if (obj.color == color) {
-            obj.freq++
-        }
-        else {
-            obj.freq *= 0.9
-        }
-    }
-
     var index = getMinBar();
     var item = repeater.itemAt(index);
-    item.freq = (selected == index) ? 2 : 1
+    item.freq = 1
     item.color = color;
     changeColor(index);
 }
 
 function getMinBar() {
     var index = 0;
-    var min = repeater.itemAt(i).freq;
+    var min = repeater.itemAt(index).freq;
     for (var i = 1; i < numButtons; i++) {
         var item = repeater.itemAt(i);
         if (min > item.freq) {
@@ -111,9 +114,9 @@ function selectCustomColor(index) {
     if (!colorExsits(color)) {
         colors.push({color: color, freq: 1});
     }
-    item.freq = 2;
+    item.freq = 1;
     item.color = color;
-    Core.color = color;
+    changeColor(index);
 }
 
 function colorExsits(color) {

@@ -25,7 +25,7 @@ Rectangle {
             model: numButtons
 
             Rectangle {
-                property real freq: 1
+                property real freq: index ? 1 : 2
                 anchors.verticalCenter: parent.verticalCenter
                 height: buttonSize
                 width: buttonSize
@@ -35,9 +35,17 @@ Rectangle {
                 color: Script.colors[index].color
 
                 MouseArea {
+                    property bool dbl: false
                     anchors.fill: parent
-                    onClicked: Script.changeColor(index)
-                    onDoubleClicked: Script.selectCustomColor(index)
+                    onClicked: Script.clickColor(index)
+                    onDoubleClicked: dbl = true
+                    onReleased: dblClick()
+
+                    function dblClick() {
+                        if (!dbl) return;
+                        dbl = false;
+                        Script.selectCustomColor(index);
+                    }
                 }
             }
         }

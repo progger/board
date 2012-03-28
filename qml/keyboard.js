@@ -93,3 +93,18 @@ function click(button, data) {
         this[data.click](button, data);
     }
 }
+
+function getMaxLength() {
+    var max = 0;
+    for (var i in keys) {
+        var row = keys[i];
+        var len = 0;
+        for (var j in row) {
+            len += row[j].size;
+        }
+        if (len > max) {
+            max = len;
+        }
+    }
+    return max;
+}

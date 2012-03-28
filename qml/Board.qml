@@ -31,31 +31,24 @@ Rectangle {
         height: style.panelSize
     }
 
-    Rectangle {
-        id: centerArea
+    ModeBar {
+        id: modeBar
         anchors.top: menu.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
         anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        width: 44
+        style: board.style
+    }
 
-        ModeBar {
-            id: modeBar
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.left: parent.left
-            width: 44
-            style: board.style
-        }
-
-        Draw {
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.left: modeBar.right
-            anchors.right: parent.right
-        }
+    Draw {
+        anchors.top: toolBar.bottom
+        anchors.bottom: parent.bottom
+        anchors.left: modeBar.right
+        anchors.right: parent.right
     }
 
     Keyboard {
+        z: 1
         id: keyboard
         style: board.style
         anchors.bottom: parent.bottom

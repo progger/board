@@ -59,7 +59,8 @@ OTHER_FILES += web/page.html \
     res/close.svg \
     qml/ColorSelector.qml \
     qml/colorSelector.js \
-    res/more.svg
+    res/more.svg \
+    res/select.svg
 
 RESOURCES += \
     res.qrc

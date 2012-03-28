@@ -8,12 +8,15 @@ var xmlns = "http://www.w3.org/XML/1998/namespace"
 
 function canvas_onMouseDown(e) {
     if (e.which !== 1) return;
-    stopText(this);
+    endText(this);
     this.state = true;
     this.start = [e.pageX, e.pageY];
     this.last = this.start;
     var element;
     switch (board.core.mode) {
+        case "select":
+            beginSelect();
+            break;
         case "pen":
             element = beginPen(this);
             break;
@@ -39,6 +42,9 @@ function canvas_onMouseUp(e) {
     this.state = false;
     this.last = [e.pageX, e.pageY];
     switch (board.core.mode) {
+        case "select":
+            endSelect();
+            break;
         case "text":
             startText(this);
             board.core.mode = "select";
@@ -50,20 +56,22 @@ function canvas_onMouseMove(e) {
     if (!this.state) return;
     var element = this.element;
     var p = [e.pageX, e.pageY];
-    switch (board.core.mode)
-    {
-    case "pen":
-        drawPen(element, p);
-        break;
-    case "rectangle":
-        drawRectangle(element, this.start, p);
-        break;
-    case "circle":
-        drawCircle(element, this.start, p);
-        break;
-    case "ellipse":
-        drawEllipse(element, this.start, p);
-        break;
+    switch (board.core.mode)  {
+        case "select":
+            drawSelect(this.start, p);
+            break;
+        case "pen":
+            drawPen(element, p);
+            break;
+        case "rectangle":
+            drawRectangle(element, this.start, p);
+            break;
+        case "circle":
+            drawCircle(element, this.start, p);
+            break;
+        case "ellipse":
+            drawEllipse(element, this.start, p);
+            break;
     }
     this.last = p;
 }
@@ -84,7 +92,7 @@ function canvas_onKeyDown(e) {
             this.textCursor = cursor - 1;
             break;
         case 13:
-            stopText(this);
+            endText(this);
             return;
         case 37:
             if (cursor == 0) return;
@@ -109,6 +117,25 @@ function canvas_onKeyPress(e) {
     element.textContent = text;
     this.textCursor += 1;
     updateText(this);
+}
+
+function beginSelect() {
+    var element = document.getElementById("select_rect");
+    element.setAttribute("visibility", "visible");
+    element.setAttribute("x", canvas.start[0]);
+    element.setAttribute("y", canvas.start[1]);
+    element.setAttribute("width", "0");
+    element.setAttribute("height", "0");
+}
+
+function drawSelect(start, p) {
+    var element = document.getElementById("select_rect");
+    drawRectangle(element, start, p);
+}
+
+function endSelect() {
+    var element = document.getElementById("select_rect");
+    element.setAttribute("visibility", "hidden");
 }
 
 function beginPen(canvas) {
@@ -222,7 +249,7 @@ function startText(canvas) {
     board.core.keyboard = true;
 }
 
-function stopText(canvas) {
+function endText(canvas) {
     if (!canvas.textElement) return;
     canvas.textElement = null;
     canvas.textCursor = null;

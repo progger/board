@@ -20,6 +20,29 @@ function main() {
         cursor.setAttribute("display", b ? "inline" : "none");
     }
     setInterval(blink, 500);
+
+    board.core.updateMode.connect(modeChange)
+    modeChange();
+}
+
+function modeChange() {
+    var cursor;
+    switch (board.core.mode) {
+        case "pen":
+        case "rectangle":
+        case "circle":
+        case "ellipse":
+            cursor = "crosshair";
+            break;
+        case "text":
+            cursor = "text";
+            break;
+        default:
+            cursor = "default";
+            break;
+    }
+    var canvas = document.getElementById("canvas");
+    canvas.style.setProperty("cursor", cursor);
 }
 
 window.onload = main;

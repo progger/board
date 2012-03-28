@@ -20,6 +20,7 @@ Rectangle {
 
         Repeater {
             model: [
+                {"mode": "select", "image": "select.svg"},
                 {"mode": "pen", "image": "pen.svg"},
                 {"mode": "rectangle", "image": "rectangle.svg"},
                 {"mode": "circle", "image": "circle.svg"},

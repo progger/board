@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Kulabuhov Michail, Kemerovo, Russia.
+ * Copyright (C) 2012 Kulabuhov Michail, Kemerovo, Russia.
  *
  * See the LICENSE file for terms of use.
  */
@@ -22,7 +22,11 @@ function main() {
     setInterval(blink, 500);
 
     board.core.updateMode.connect(modeChange)
+    board.core.undo.connect(undo);
+    board.core.redo.connect(redo);
+
     modeChange();
+    checkpoint();
 }
 
 function modeChange() {

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Kulabuhov Michail, Kemerovo, Russia.
+ * Copyright (C) 2012 Kulabuhov Michail, Kemerovo, Russia.
  *
  * See the LICENSE file for terms of use.
  */
@@ -7,14 +7,16 @@
 import QtQuick 1.1
 import "colorSelector.js" as Script
 
-Rectangle {
+Item {
     id: colorSelector
     property variant style
     property int selected: 0
     property int numButtons: 4
     property int buttonSize: height - 8
+    width: row.width
 
     Row {
+        id: row
         x: 4
         anchors.top: parent.top
         anchors.bottom: parent.bottom

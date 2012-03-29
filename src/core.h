@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Kulabuhov Michael, Kemerovo, Russia.
+ * Copyright (C) 2012 Kulabuhov Michael, Kemerovo, Russia.
  *
  * See the LICENSE file for terms of use.
  */
@@ -33,6 +33,8 @@ signals:
   void updateColor();
   void updateKeyboard();
   void updateFontSize();
+  void undo();
+  void redo();
 
 public slots:
   void setMode(const QString &mode);

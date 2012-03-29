@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Kulabuhov Michail, Kemerovo, Russia.
+ * Copyright (C) 2012 Kulabuhov Michail, Kemerovo, Russia.
  *
  * See the LICENSE file for terms of use.
  */
@@ -21,6 +21,29 @@ Rectangle {
             style: toolBar.style
             anchors.verticalCenter: parent.verticalCenter
             height: parent.height
+        }
+
+        Item {
+            width: 16
+            height: parent.height
+        }
+
+        Button {
+            anchors.verticalCenter: parent.verticalCenter
+            style: toolBar.style
+            width: buttonSize
+            height: buttonSize
+            image: "qrc:/res/undo.svg"
+            onClicked: Core.undo()
+        }
+
+        Button {
+            anchors.verticalCenter: parent.verticalCenter
+            style: toolBar.style
+            width: buttonSize
+            height: buttonSize
+            image: "qrc:/res/redo.svg"
+            onClicked: Core.redo()
         }
     }
 

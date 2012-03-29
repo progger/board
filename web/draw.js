@@ -1,8 +1,9 @@
 /*
- * Copyright (C) 2011 Kulabuhov Michail, Kemerovo, Russia.
+ * Copyright (C) 2012 Kulabuhov Michail, Kemerovo, Russia.
  *
  * See the LICENSE file for terms of use.
  */
+
 var svgns = "http://www.w3.org/2000/svg";
 var xmlns = "http://www.w3.org/XML/1998/namespace"
 
@@ -48,6 +49,9 @@ function canvas_onMouseUp(e) {
         case "text":
             startText(this);
             board.core.mode = "select";
+            break;
+        default:
+            checkpoint();
             break;
     }
 }
@@ -160,27 +164,14 @@ function beginRectangle(canvas) {
 }
 
 function drawRectangle(element, start, p) {
-    var tmp;
-    var sx = start[0];
-    var sy = start[1];
-    var x = p[0];
-    var y = p[1];
-    if (x < sx) {
-        tmp = sx;
-        sx = x;
-        x = tmp;
-    }
-    if (y < sy) {
-        tmp = sy;
-        sy = y;
-        y = tmp;
-    }
-    var width = x - sx;
-    var height = y - sy;
-    element.setAttribute("x", sx);
-    element.setAttribute("y", sy);
-    element.setAttribute("width", width);
-    element.setAttribute("height", height);
+    var cx = (start[0] + p[0]) / 2;
+    var cy = (start[1] + p[1]) / 2;
+    var rx = Math.abs(start[0] - p[0]) / 2;
+    var ry = Math.abs(start[1] - p[1]) / 2;
+    element.setAttribute("x", cx - rx);
+    element.setAttribute("y", cy - ry);
+    element.setAttribute("width", rx * 2);
+    element.setAttribute("height", ry * 2);
 }
 
 function beginCircle(canvas) {
@@ -207,25 +198,10 @@ function beginEllipse(canvas) {
 }
 
 function drawEllipse(element, start, p) {
-    var tmp;
-    var sx = start[0];
-    var sy = start[1];
-    var x = p[0];
-    var y = p[1];
-    if (x < sx) {
-        tmp = sx;
-        sx = x;
-        x = tmp;
-    }
-    if (y < sy) {
-        tmp = sy;
-        sy = y;
-        y = tmp;
-    }
-    var rx = (x - sx) / 2;
-    var ry = (y - sy) / 2;
-    var cx = sx + rx;
-    var cy = sy + ry;
+    var cx = (start[0] + p[0]) / 2;
+    var cy = (start[1] + p[1]) / 2;
+    var rx = Math.abs(start[0] - p[0]) / 2;
+    var ry = Math.abs(start[1] - p[1]) / 2;
     element.setAttribute("cx", cx);
     element.setAttribute("cy", cy);
     element.setAttribute("rx", rx);
@@ -258,6 +234,7 @@ function endText(canvas) {
     var textCursor = document.getElementById("text_cursor");
     textCursor.setAttribute("visibility", "hidden");
     board.core.keyboard = false;
+    checkpoint();
 }
 
 function updateText(canvas) {

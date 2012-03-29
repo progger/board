@@ -17,17 +17,11 @@ UI_DIR = ./build
 RCC_DIR = ./build
 
 SOURCES += src/main.cpp \
-    src/boarddraw.cpp \
-    src/diff/diffitem.cpp \
-    src/diff/diffstack.cpp \
     src/mainview.cpp \
     src/core.cpp
 
 HEADERS += \
     src/const.h \
-    src/boarddraw.h \
-    src/diff/diffitem.h \
-    src/diff/diffstack.h \
     src/mainview.h \
     src/core.h
 
@@ -60,7 +54,10 @@ OTHER_FILES += web/page.html \
     qml/ColorSelector.qml \
     qml/colorSelector.js \
     res/more.svg \
-    res/select.svg
+    res/select.svg \
+    web/diff.js \
+    res/undo.svg \
+    res/redo.svg
 
 RESOURCES += \
     res.qrc

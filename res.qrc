@@ -14,6 +14,7 @@
         <file>web/error.js</file>
         <file>web/main.js</file>
         <file>web/draw.js</file>
+        <file>web/diff.js</file>
         <file>res/select.svg</file>
         <file>res/pen.svg</file>
         <file>res/rectangle.svg</file>
@@ -27,5 +28,7 @@
         <file>res/right_arrow.svg</file>
         <file>res/close.svg</file>
         <file>res/more.svg</file>
+        <file>res/undo.svg</file>
+        <file>res/redo.svg</file>
     </qresource>
 </RCC>

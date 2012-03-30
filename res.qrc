@@ -15,6 +15,13 @@
         <file>web/main.js</file>
         <file>web/draw.js</file>
         <file>web/diff.js</file>
+        <file>web/tool.js</file>
+        <file>web/shapes/select.js</file>
+        <file>web/shapes/pen.js</file>
+        <file>web/shapes/rectangle.js</file>
+        <file>web/shapes/circle.js</file>
+        <file>web/shapes/ellipse.js</file>
+        <file>web/shapes/text.js</file>
         <file>res/select.svg</file>
         <file>res/pen.svg</file>
         <file>res/rectangle.svg</file>

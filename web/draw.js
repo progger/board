@@ -4,31 +4,29 @@
  * See the LICENSE file for terms of use.
  */
 
-var svgns = "http://www.w3.org/2000/svg";
-var xmlns = "http://www.w3.org/XML/1998/namespace"
-
 function canvas_onMouseDown(e) {
     if (e.which !== 1) return;
-    endText(this);
+    Text.end(this);
     this.state = true;
-    this.start = [e.pageX, e.pageY];
-    this.last = this.start;
+    var start = createSvgPoint(e.pageX, e.pageY);
+    this.start = start;
+    this.last = start;
     var element;
     switch (board.core.mode) {
         case "select":
-            beginSelect();
+            Select.begin(start);
             break;
         case "pen":
-            element = beginPen(this);
+            element = Pen.begin(start);
             break;
         case "rectangle":
-            element = beginRectangle(this);
+            element = Rectangle.begin(start);
             break;
         case "circle":
-            element = beginCircle(this);
+            element = Circle.begin(start);
             break;
         case "ellipse":
-            element = beginEllipse(this);
+            element = Ellipse.begin(start);
             break;
     }
     if (element) {
@@ -41,17 +39,25 @@ function canvas_onMouseDown(e) {
 function canvas_onMouseUp(e) {
     if (e.which !== 1) return;
     this.state = false;
-    this.last = [e.pageX, e.pageY];
+    var element = this.element;
     switch (board.core.mode) {
         case "select":
-            endSelect();
+            Select.end();
+            break;
+        case "rectangle":
+            Rectangle.end(element);
+            Diff.checkpoint();
+            break;
+        case "ellipse":
+            Ellipse.end(element);
+            Diff.checkpoint();
             break;
         case "text":
-            startText(this);
+            Text.begin(this);
             board.core.mode = "select";
             break;
         default:
-            checkpoint();
+            Diff.checkpoint();
             break;
     }
 }
@@ -59,22 +65,23 @@ function canvas_onMouseUp(e) {
 function canvas_onMouseMove(e) {
     if (!this.state) return;
     var element = this.element;
-    var p = [e.pageX, e.pageY];
-    switch (board.core.mode)  {
+    var content = document.getElementById("content");
+    var p = createSvgPoint(e.pageX, e.pageY);
+    switch (board.core.mode) {
         case "select":
-            drawSelect(this.start, p);
+            Select.draw(this.start, p);
             break;
         case "pen":
-            drawPen(element, p);
+            Pen.draw(element, p);
             break;
         case "rectangle":
-            drawRectangle(element, this.start, p);
+            Rectangle.draw(element, this.start, p);
             break;
         case "circle":
-            drawCircle(element, this.start, p);
+            Circle.draw(element, this.start, p);
             break;
         case "ellipse":
-            drawEllipse(element, this.start, p);
+            Ellipse.draw(element, this.start, p);
             break;
     }
     this.last = p;
@@ -96,7 +103,7 @@ function canvas_onKeyDown(e) {
             this.textCursor = cursor - 1;
             break;
         case 13:
-            endText(this);
+            Text.end(this);
             return;
         case 37:
             if (cursor == 0) return;
@@ -107,7 +114,7 @@ function canvas_onKeyDown(e) {
             this.textCursor = cursor + 1;
             break;
     }
-    updateText(this);
+    Text.draw(this);
 }
 
 function canvas_onKeyPress(e) {
@@ -120,166 +127,6 @@ function canvas_onKeyPress(e) {
     text = text.substr(0, cursor) + key + text.substr(cursor);
     element.textContent = text;
     this.textCursor += 1;
-    updateText(this);
+    Text.draw(this);
 }
 
-function beginSelect() {
-    var element = document.getElementById("select_rect");
-    element.setAttribute("visibility", "visible");
-    element.setAttribute("x", canvas.start[0]);
-    element.setAttribute("y", canvas.start[1]);
-    element.setAttribute("width", "0");
-    element.setAttribute("height", "0");
-}
-
-function drawSelect(start, p) {
-    var element = document.getElementById("select_rect");
-    drawRectangle(element, start, p);
-}
-
-function endSelect() {
-    var element = document.getElementById("select_rect");
-    element.setAttribute("visibility", "hidden");
-}
-
-function beginPen(canvas) {
-    var element = createSvgElement("path");
-    setStyleAttr(element);
-    element.setAttribute("d", "M " + canvas.start[0] + "," + canvas.start[1]);
-    return element;
-}
-
-function drawPen(element, p) {
-    var d = element.getAttribute("d");
-    d += "L" + p[0] + "," + p[1];
-    element.setAttribute("d", d);
-}
-
-function beginRectangle(canvas) {
-    var element = createSvgElement("rect");
-    setStyleAttr(element);
-    element.setAttribute("x", canvas.start[0]);
-    element.setAttribute("y", canvas.start[1]);
-    return element;
-}
-
-function drawRectangle(element, start, p) {
-    var cx = (start[0] + p[0]) / 2;
-    var cy = (start[1] + p[1]) / 2;
-    var rx = Math.abs(start[0] - p[0]) / 2;
-    var ry = Math.abs(start[1] - p[1]) / 2;
-    element.setAttribute("x", cx - rx);
-    element.setAttribute("y", cy - ry);
-    element.setAttribute("width", rx * 2);
-    element.setAttribute("height", ry * 2);
-}
-
-function beginCircle(canvas) {
-    var element = createSvgElement("circle");
-    setStyleAttr(element);
-    element.setAttribute("cx", canvas.start[0]);
-    element.setAttribute("cy", canvas.start[1]);
-    return element;
-}
-
-function drawCircle(element, start, p) {
-    var dx = p[0] - start[0];
-    var dy = p[1] - start[1];
-    var r = Math.sqrt(dx * dx + dy * dy);
-    element.setAttribute("r", r);
-}
-
-function beginEllipse(canvas) {
-    var element = createSvgElement("ellipse");
-    setStyleAttr(element);
-    element.setAttribute("cx", canvas.start[0]);
-    element.setAttribute("cy", canvas.start[1]);
-    return element;
-}
-
-function drawEllipse(element, start, p) {
-    var cx = (start[0] + p[0]) / 2;
-    var cy = (start[1] + p[1]) / 2;
-    var rx = Math.abs(start[0] - p[0]) / 2;
-    var ry = Math.abs(start[1] - p[1]) / 2;
-    element.setAttribute("cx", cx);
-    element.setAttribute("cy", cy);
-    element.setAttribute("rx", rx);
-    element.setAttribute("ry", ry);
-}
-
-function startText(canvas) {
-    var element = createSvgElement("text");
-    element.setAttribute("fill", board.core.color);
-    element.setAttribute("font-size", board.core.fontSize);
-    element.setAttribute("font-family", "sans");
-    element.setAttribute("x", canvas.last[0]);
-    element.setAttribute("y", canvas.last[1]);
-    element.setAttributeNS(xmlns, "space", "preserve");
-
-    var content = document.getElementById("content");
-    content.appendChild(element);
-    canvas.textElement = element;
-    canvas.textCursor = 0;
-    updateText(canvas);
-    board.core.keyboard = true;
-}
-
-function endText(canvas) {
-    if (!canvas.textElement) return;
-    canvas.textElement = null;
-    canvas.textCursor = null;
-    var textBar = document.getElementById("text_bar");
-    textBar.setAttribute("visibility", "hidden");
-    var textCursor = document.getElementById("text_cursor");
-    textCursor.setAttribute("visibility", "hidden");
-    board.core.keyboard = false;
-    checkpoint();
-}
-
-function updateText(canvas) {
-    var element = canvas.textElement;
-    var p = [+element.getAttribute("x") - 4, +element.getAttribute("y") + 4];
-    var width = element.getComputedTextLength() + 8;
-    var height = board.core.fontSize;
-
-    var textBar = document.getElementById("text_bar");
-    textBar.setAttribute("x", p[0]);
-    textBar.setAttribute("y", p[1] - height);
-    textBar.setAttribute("width", width);
-    textBar.setAttribute("height", height);
-    textBar.setAttribute("visibility", "visible");
-
-    var cur;
-    if (canvas.textCursor == 0) {
-        cur = p[0] + 4;
-    }
-    else {
-        var pnt = element.getEndPositionOfChar(canvas.textCursor - 1);
-        cur = pnt.x;
-    }
-    var textCursor = document.getElementById("text_cursor");
-    textCursor.setAttribute("x1", cur);
-    textCursor.setAttribute("y1", p[1] - 2);
-    textCursor.setAttribute("x2", cur);
-    textCursor.setAttribute("y2", p[1] - height + 2);
-    textCursor.setAttribute("visibility", "visible");
-}
-
-function createSvgElement(name) {
-    return document.createElementNS(svgns, name);
-}
-
-function isOutside(e, parent) {
-  var relatedTarget = e.relatedTarget;
-  while (relatedTarget && relatedTarget !== parent)
-    relatedTarget = relatedTarget.parentNode;
-  return !relatedTarget;
-}
-
-function setStyleAttr(element) {
-    var fill = "fill:none;";
-    var stroke = "stroke:" + board.core.color + ";";
-    var strokeWidth = "stroke-width:3;";
-    element.setAttribute("style", fill + stroke + strokeWidth);
-}

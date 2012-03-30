@@ -29,7 +29,6 @@ FORMS +=
 
 OTHER_FILES += web/page.html \
     web/main.js \
-    web/tool.js \
     res/pen.svg \
     res/rectangle.svg \
     res/circle.svg \
@@ -37,7 +36,6 @@ OTHER_FILES += web/page.html \
     web/draw.js \
     web/error.js \
     res/ellipse.svg \
-    web/transform.js \
     qml/Draw.qml \
     qml/ModeBar.qml \
     qml/Style.qml \
@@ -57,7 +55,14 @@ OTHER_FILES += web/page.html \
     res/select.svg \
     web/diff.js \
     res/undo.svg \
-    res/redo.svg
+    res/redo.svg \
+    web/shapes/select.js \
+    web/shapes/pen.js \
+    web/shapes/rectangle.js \
+    web/shapes/circle.js \
+    web/shapes/ellipse.js \
+    web/shapes/text.js \
+    web/tool.js
 
 RESOURCES += \
     res.qrc

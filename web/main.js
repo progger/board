@@ -26,7 +26,7 @@ function main() {
     board.core.redo.connect(redo);
 
     modeChange();
-    checkpoint();
+    Diff.checkpoint();
 }
 
 function modeChange() {

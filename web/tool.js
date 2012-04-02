@@ -26,6 +26,16 @@ function createSvgLength(length) {
     return len;
 }
 
+function createSvgRect(x, y, w, h) {
+    var content = document.getElementById("content");
+    var rect = content.createSVGRect();
+    rect.x = x;
+    rect.y = y;
+    rect.width = w;
+    rect.height = h;
+    return rect;
+}
+
 function isOutside(e, parent) {
   var relatedTarget = e.relatedTarget;
   while (relatedTarget && relatedTarget !== parent)
@@ -52,4 +62,15 @@ function translate(element, x, y) {
     transform.setTranslate(x, y);
     transformList.appendItem(transform);
     transformList.consolidate();
+}
+
+function pointInRect(point, rect) {
+    return (point.x >= rect.x) && (point.x <= rect.x + rect.width) &&
+            (point.y >= rect.y) && (point.y <= rect.y + rect.height);
+}
+
+function dump(obj) {
+    for (var i in obj) {
+        alert(i + ": " + obj[i]);
+    }
 }

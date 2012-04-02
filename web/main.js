@@ -47,6 +47,10 @@ function modeChange() {
     }
     var canvas = document.getElementById("canvas");
     canvas.style.setProperty("cursor", cursor);
+
+    if (board.core.mode != "select") {
+        Select.hide();
+    }
 }
 
 window.onload = main;

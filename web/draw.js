@@ -14,7 +14,7 @@ function canvas_onMouseDown(e) {
     var element;
     switch (board.core.mode) {
         case "select":
-            Select.begin(start);
+            Select.begin(this, start);
             break;
         case "pen":
             element = Pen.begin(start);
@@ -42,7 +42,7 @@ function canvas_onMouseUp(e) {
     var element = this.element;
     switch (board.core.mode) {
         case "select":
-            Select.end();
+            Select.end(this);
             break;
         case "rectangle":
             Rectangle.end(element);
@@ -69,7 +69,7 @@ function canvas_onMouseMove(e) {
     var p = createSvgPoint(e.pageX, e.pageY);
     switch (board.core.mode) {
         case "select":
-            Select.draw(this.start, p);
+            Select.draw(this, p);
             break;
         case "pen":
             Pen.draw(element, p);

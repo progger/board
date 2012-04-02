@@ -25,15 +25,19 @@
           <rect id="text_bar" visibility="hidden" fill="none" stroke="black" stroke-width="2" stroke-dasharray="5,5"/>
           <rect id="select_rect" visibility="hidden" fill="yellow" fill-opacity="0.5" stroke="black" stroke-width="1" stroke-dasharray="3,3"/>
           <g id="select_box" visibility="hidden">
-            <rect id="select_bar" fill="none" stroke="blue" stroke-width="2" stroke-dasharray="3,3"/>
-            <circle id="select_point_tl" r="4" fill="blue" stroke="blue" stroke-width="1"/>
-            <circle id="select_point_tc" r="4" fill="blue" stroke="blue" stroke-width="1"/>
-            <circle id="select_point_tr" r="4" fill="blue" stroke="blue" stroke-width="1"/>
-            <circle id="select_point_cl" r="4" fill="blue" stroke="blue" stroke-width="1"/>
-            <circle id="select_point_cr" r="4" fill="blue" stroke="blue" stroke-width="1"/>
-            <circle id="select_point_bl" r="4" fill="blue" stroke="blue" stroke-width="1"/>
-            <circle id="select_point_bc" r="4" fill="blue" stroke="blue" stroke-width="1"/>
-            <circle id="select_point_br" r="4" fill="blue" stroke="blue" stroke-width="1"/>
+            <rect id="select_bar" style="cursor: move; fill: lime; fill-opacity: 0.5; stroke: blue; stroke-width: 2; stroke-dasharray: 3,3;"/>
+            <g id="select_point_group_1" visibility="hidden">
+              <circle id="select_point_tc" r="4" fill="blue" stroke="blue" stroke-width="1"/>
+              <circle id="select_point_cl" r="4" fill="blue" stroke="blue" stroke-width="1"/>
+              <circle id="select_point_cr" r="4" fill="blue" stroke="blue" stroke-width="1"/>
+              <circle id="select_point_bc" r="4" fill="blue" stroke="blue" stroke-width="1"/>
+            </g>
+            <g id="select_point_group_2" visibility="hidden">
+              <circle id="select_point_tl" r="4" fill="blue" stroke="blue" stroke-width="1"/>
+              <circle id="select_point_tr" r="4" fill="blue" stroke="blue" stroke-width="1"/>
+              <circle id="select_point_bl" r="4" fill="blue" stroke="blue" stroke-width="1"/>
+              <circle id="select_point_br" r="4" fill="blue" stroke="blue" stroke-width="1"/>
+            </g>
           </g>
         </g>
       </svg>

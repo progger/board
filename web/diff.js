@@ -62,6 +62,7 @@ var Diff = {
             return;
         }
 
+        if (content == this.lastContnet) return;
         var diff = new this.DiffItem(content, this.lastContnet);
         this.undoStack.push(diff);
         this.redoStack.length = 0;
@@ -92,9 +93,11 @@ var Diff = {
 }
 
 function undo() {
+    Select.hide();
     Diff.undo();
 }
 
 function redo() {
+    Select.hide();
     Diff.redo();
 }

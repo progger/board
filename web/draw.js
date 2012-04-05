@@ -46,20 +46,18 @@ function canvas_onMouseUp(e) {
             break;
         case "rectangle":
             Rectangle.end(element);
-            Diff.checkpoint();
             break;
         case "ellipse":
             Ellipse.end(element);
-            Diff.checkpoint();
             break;
         case "text":
             Text.begin(this);
             board.core.mode = "select";
             break;
         default:
-            Diff.checkpoint();
             break;
     }
+    Diff.checkpoint();
 }
 
 function canvas_onMouseMove(e) {

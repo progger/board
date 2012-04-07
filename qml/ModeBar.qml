@@ -29,7 +29,7 @@ Rectangle {
                 //{"mode": "move", "image": "move.svg"}
             ]
             Button {
-                style: modeBar.style
+                style: modeBar.style.normalButton
                 anchors.horizontalCenter: parent.horizontalCenter
                 width: buttonSize
                 height: buttonSize

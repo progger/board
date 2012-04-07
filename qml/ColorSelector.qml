@@ -53,7 +53,7 @@ Item {
         }
 
         Button {
-            style: colorSelector.style
+            style: colorSelector.style.normalButton
             anchors.verticalCenter: parent.verticalCenter
             width: 24
             height: parent.height - 6

@@ -24,6 +24,7 @@ function main() {
     board.core.updateMode.connect(modeChange)
     board.core.undo.connect(undo);
     board.core.redo.connect(redo);
+    board.core.del.connect(del);
 
     modeChange();
     Diff.checkpoint();

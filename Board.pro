@@ -62,7 +62,8 @@ OTHER_FILES += web/page.html \
     web/shapes/circle.js \
     web/shapes/ellipse.js \
     web/shapes/text.js \
-    web/tool.js
+    web/tool.js \
+    res/delete.svg
 
 RESOURCES += \
     res.qrc

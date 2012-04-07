@@ -13,22 +13,31 @@ Rectangle {
     property string text
     property bool pressed: false
     property bool toggled: false
+    property bool enabled: true
     signal clicked()
 
     radius: 8
-    border.color: mouseArea.containsMouse ? "#4040FF" : "#404040"
-    border.width: mouseArea.containsMouse ? 4 : 2
+    border.color: enabled ? mouseArea.containsMouse ? "#4040FF" : "#404040" : "#808080"
+    border.width: enabled ? mouseArea.containsMouse ? 4 : 2 : 1
     smooth: true
-    gradient: style.gradientButtonNormal
+    gradient: style.normal
     state: ""
 
     states: [
+        State {
+            name: "disabled"
+            when: !enabled
+            PropertyChanges {
+                target: button
+                gradient: style.disabled
+            }
+        },
         State {
             name: "pressed"
             when: toggled || (pressed && mouseArea.containsMouse)
             PropertyChanges {
                 target: button
-                gradient: style.gradientButtonPressed
+                gradient: style.pressed
             }
         },
         State {
@@ -36,7 +45,7 @@ Rectangle {
             when: mouseArea.containsMouse
             PropertyChanges {
                 target: button
-                gradient: style.gradientButtonHovered
+                gradient: style.hovered
             }
         }
     ]
@@ -46,7 +55,7 @@ Rectangle {
         anchors.fill: parent
         hoverEnabled: true
         onPressedChanged: button.pressed = pressed
-        onClicked: button.clicked()
+        onClicked: if (enabled) button.clicked()
     }
 
     Image {

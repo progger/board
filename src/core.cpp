@@ -58,3 +58,9 @@ void Core::setFontSize(int font_size)
   font_size_ = font_size;
   emit updateFontSize();
 }
+
+void Core::setSelected(bool selected)
+{
+  selected_ = selected;
+  emit updateSelected();
+}

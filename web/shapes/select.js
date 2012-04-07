@@ -15,7 +15,8 @@ var Select = {
 
         var element = document.getElementById("select_rect");
         element.setAttribute("visibility", "visible");
-        Rectangle.draw(element, start, start);
+        var p = createSvgPoint(start.x + 1, start.y + 1);
+        Rectangle.draw(element, start, p);
     },
 
     draw:
@@ -73,6 +74,7 @@ var Select = {
             list: list,
             rect: rect
         }
+        board.core.selected = true;
     },
 
     hide:
@@ -81,6 +83,20 @@ var Select = {
         selectBox.setAttribute("visibility", "hidden");
         var canvas = document.getElementById("canvas");
         canvas.select = undefined;
+        board.core.selected = false;
+    },
+
+    del:
+    function() {
+        var canvas = document.getElementById("canvas");
+        var content = document.getElementById("content");
+        var list = canvas.select.list;
+        for (var i = 0; i < list.length; i++) {
+            var element = list[i];
+            content.removeChild(element);
+        }
+        this.hide();
+        Diff.checkpoint();
     },
 
     getListRect:
@@ -138,4 +154,8 @@ var Select = {
         }
         return list;
     }
+}
+
+function del() {
+    Select.del();
 }

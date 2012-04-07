@@ -47,7 +47,7 @@ Item {
 
                     Button {
                         id: button
-                        style: keyboard.style
+                        style: keyboard.style.normalButton
                         width: height * modelData.size
                         anchors.top: parent.top
                         anchors.topMargin: 1

@@ -30,7 +30,7 @@ Rectangle {
 
         Button {
             anchors.verticalCenter: parent.verticalCenter
-            style: toolBar.style
+            style: toolBar.style.normalButton
             width: buttonSize
             height: buttonSize
             image: "qrc:/res/undo.svg"
@@ -39,18 +39,33 @@ Rectangle {
 
         Button {
             anchors.verticalCenter: parent.verticalCenter
-            style: toolBar.style
+            style: toolBar.style.normalButton
             width: buttonSize
             height: buttonSize
             image: "qrc:/res/redo.svg"
             onClicked: Core.redo()
+        }
+
+        Item {
+            width: 16
+            height: parent.height
+        }
+
+        Button {
+            anchors.verticalCenter: parent.verticalCenter
+            style: toolBar.style.normalButton
+            enabled: Core.selected;
+            width: buttonSize
+            height: buttonSize
+            image: "qrc:/res/delete.svg"
+            onClicked: Core.del()
         }
     }
 
     Button {
         x: parent.width - buttonSize - 4
         anchors.verticalCenter: parent.verticalCenter
-        style: toolBar.style
+        style: toolBar.style.closeButton
         width: buttonSize
         height: buttonSize
         image: "qrc:/res/close.svg"

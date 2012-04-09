@@ -60,6 +60,16 @@ Rectangle {
             image: "qrc:/res/delete.svg"
             onClicked: Core.del()
         }
+
+        Button {
+            anchors.verticalCenter: parent.verticalCenter
+            style: toolBar.style.normalButton
+            enabled: Core.selected;
+            width: buttonSize
+            height: buttonSize
+            image: "qrc:/res/duplicate.svg"
+            onClicked: Core.duplicate()
+        }
     }
 
     Button {

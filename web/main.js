@@ -25,6 +25,7 @@ function main() {
     board.core.undo.connect(undo);
     board.core.redo.connect(redo);
     board.core.del.connect(del);
+    board.core.duplicate.connect(duplicate);
 
     modeChange();
     Diff.checkpoint();

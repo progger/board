@@ -60,10 +60,14 @@ var Select = {
             this.hide();
             return;
         }
+        this.show(list);
+    },
 
+    show:
+    function(list) {
         var selectBox = document.getElementById("select_box");
         var selectBar = document.getElementById("select_bar");
-        rect = this.getListRect(list);
+        var rect = this.getListRect(list);
         selectBar.x.baseVal.value = rect.x;
         selectBar.y.baseVal.value = rect.y;
         selectBar.width.baseVal.value = rect.width;
@@ -96,6 +100,23 @@ var Select = {
             content.removeChild(element);
         }
         this.hide();
+        Diff.checkpoint();
+    },
+
+    duplicate:
+    function() {
+        var canvas = document.getElementById("canvas");
+        var content = document.getElementById("content");
+        var list = canvas.select.list;
+        var newList = new Array();
+        for (var i = 0; i < list.length; i++) {
+            var element = list[i];
+            element = element.cloneNode(true);
+            translate(element, 20, 20);
+            content.appendChild(element);
+            newList.push(element);
+        }
+        this.show(newList);
         Diff.checkpoint();
     },
 
@@ -158,4 +179,8 @@ var Select = {
 
 function del() {
     Select.del();
+}
+
+function duplicate() {
+    Select.duplicate();
 }

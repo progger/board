@@ -39,6 +39,7 @@ signals:
   void undo();
   void redo();
   void del();
+  void duplicate();
 
 public slots:
   void setMode(const QString &mode);

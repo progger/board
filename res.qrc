@@ -38,5 +38,6 @@
         <file>res/undo.svg</file>
         <file>res/redo.svg</file>
         <file>res/delete.svg</file>
+        <file>res/duplicate.svg</file>
     </qresource>
 </RCC>

@@ -15,8 +15,19 @@ var Pen = {
     },
 
     draw:
-    function(element, p) {
-        var seg = element.createSVGPathSegLinetoAbs(p.x, p.y);
+    function(element, last, p) {
+        var seg = element.createSVGPathSegLinetoRel(p.x - last.x, p.y - last.y);
         element.pathSegList.appendItem(seg);
+    },
+
+    end:
+    function(element) {
+        var rect = element.getBBox();
+        var x = rect.x + rect.width / 2;
+        var y = rect.y + rect.height / 2;
+        var seg = element.pathSegList.getItem(0);
+        seg.x = seg.x - x;
+        seg.y = seg.y - y;
+        translate(element, x, y);
     }
 }

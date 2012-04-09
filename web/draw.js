@@ -44,6 +44,9 @@ function canvas_onMouseUp(e) {
         case "select":
             Select.end(this);
             break;
+        case "pen":
+            Pen.end(element);
+            break;
         case "rectangle":
             Rectangle.end(element);
             break;
@@ -70,7 +73,7 @@ function canvas_onMouseMove(e) {
             Select.draw(this, p);
             break;
         case "pen":
-            Pen.draw(element, p);
+            Pen.draw(element, this.last, p);
             break;
         case "rectangle":
             Rectangle.draw(element, this.start, p);

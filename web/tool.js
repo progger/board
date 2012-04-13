@@ -56,10 +56,22 @@ function createTransform() {
     return transform;
 }
 
+function clearTransform(element) {
+    element.transform.baseVal.clear();
+}
+
 function translate(element, x, y) {
     var transformList = element.transform.baseVal;
     var transform = createTransform();
     transform.setTranslate(x, y);
+    transformList.insertItemBefore(transform, 0);
+    transformList.consolidate();
+}
+
+function scale(element, sx, sy) {
+    var transformList = element.transform.baseVal;
+    var transform = createTransform();
+    transform.setScale(sx, sy);
     transformList.appendItem(transform);
     transformList.consolidate();
 }

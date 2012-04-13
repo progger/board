@@ -14,7 +14,7 @@ function canvas_onMouseDown(e) {
     var element;
     switch (board.core.mode) {
         case "select":
-            Select.begin(this, start);
+            Select.begin(this, e.target, start);
             break;
         case "pen":
             element = Pen.begin(start);

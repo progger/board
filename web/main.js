@@ -26,6 +26,7 @@ function main() {
     board.core.redo.connect(redo);
     board.core.del.connect(del);
     board.core.duplicate.connect(duplicate);
+    board.core.save.connect(save);
 
     modeChange();
     Diff.checkpoint();
@@ -53,6 +54,17 @@ function modeChange() {
     if (board.core.mode != "select") {
         Select.hide();
     }
+}
+
+function save() {
+    var element = document.getElementById("content");
+    var w = element.width.baseVal.value;
+    var h = element.height.baseVal.value;
+    var svg = "<svg version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"" + w + "\" height=\"" + h + "\">";
+    var content = Diff.getContent();
+    var i = content.indexOf(">");
+    content = svg + content.substr(i + 1);
+    board.core.saveContent(content);
 }
 
 window.onload = main;

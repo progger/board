@@ -39,5 +39,6 @@
         <file>res/redo.svg</file>
         <file>res/delete.svg</file>
         <file>res/duplicate.svg</file>
+        <file>res/save.svg</file>
     </qresource>
 </RCC>

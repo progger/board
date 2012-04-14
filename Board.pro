@@ -64,7 +64,8 @@ OTHER_FILES += web/page.html \
     web/shapes/text.js \
     web/tool.js \
     res/delete.svg \
-    res/duplicate.svg
+    res/duplicate.svg \
+    res/save.svg
 
 RESOURCES += \
     res.qrc

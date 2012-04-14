@@ -8,6 +8,10 @@
 #include <QWidget>
 #include <QKeyEvent>
 #include <QColorDialog>
+#include <QFileDialog>
+#include <QLocale>
+#include <QDebug>
+#include "const.h"
 #include "core.h"
 #include "mainview.h"
 
@@ -25,7 +29,7 @@ Core::Core(MainView *view) :
 
 QColor Core::selectColor(QColor color)
 {
-  return QColorDialog::getColor(color);
+  return QColorDialog::getColor(color, view_);
 }
 
 void Core::emulateKeyPress(int key, int modifiers, const QString &text) const
@@ -33,6 +37,26 @@ void Core::emulateKeyPress(int key, int modifiers, const QString &text) const
   KeyboardModifiers md = KeyboardModifiers(modifiers);
   QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, key, md, text);
   QApplication::postEvent(QApplication::focusWidget(), event);
+}
+
+void Core::saveContent(const QString &content)
+{
+  QFileDialog dialog(view_);
+  dialog.setAcceptMode(QFileDialog::AcceptSave);
+  dialog.setFilter("*.svg");
+  dialog.setDefaultSuffix("svg");
+  if (dialog.exec())
+  {
+    QString file_name = dialog.selectedFiles().first();
+    QByteArray data;
+    data.append(XML_HEAD);
+    data.append(DOCTYPE_SVG);
+    data.append(content);
+    QFile file(file_name);
+    file.open(QIODevice::WriteOnly);
+    file.write(data);
+    file.close();
+  }
 }
 
 void Core::setMode(const QString &mode)

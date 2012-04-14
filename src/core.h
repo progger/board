@@ -40,6 +40,7 @@ signals:
   void redo();
   void del();
   void duplicate();
+  void save();
 
 public slots:
   void setMode(const QString &mode);
@@ -48,6 +49,7 @@ public slots:
   void setFontSize(int font_size);
   void setSelected(bool selected);
   void emulateKeyPress(int key, int modifiers, const QString & text = "") const;
+  void saveContent(const QString &content);
 
 private:
   MainView *view_;

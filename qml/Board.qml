@@ -20,6 +20,14 @@ Rectangle {
         width: style.panelSize
         height: style.panelSize
         color: style.panelColor
+
+        Button {
+            style: board.style.normalButton
+            anchors.fill: parent
+            anchors.margins: 2
+            image: "qrc:/res/save.svg"
+            onClicked: Core.save()
+        }
     }
 
     ToolBar {

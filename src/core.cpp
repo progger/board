@@ -9,8 +9,6 @@
 #include <QKeyEvent>
 #include <QColorDialog>
 #include <QFileDialog>
-#include <QLocale>
-#include <QDebug>
 #include "const.h"
 #include "core.h"
 #include "mainview.h"
@@ -21,6 +19,7 @@ Core::Core(MainView *view) :
   QObject(view),
   view_(view),
   mode_("pen"),
+  thickness_(3),
   color_("#000000"),
   keyboard_(false),
   font_size_(24)
@@ -63,6 +62,12 @@ void Core::setMode(const QString &mode)
 {
   mode_ = mode;
   emit updateMode();
+}
+
+void Core::setThickness(float thickness)
+{
+  thickness_ = thickness;
+  emit updateThickness();
 }
 
 void Core::setColor(const QString &color)

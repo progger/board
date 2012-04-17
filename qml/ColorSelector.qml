@@ -57,7 +57,7 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             width: 24
             height: parent.height - 6
-            image: "qrc:/res/more.svg"
+            image: "qrc:/res/down_arrow.svg"
             toggled: colorGridRect.opacity
             onClicked: Script.moreClick()
         }

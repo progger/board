@@ -51,7 +51,6 @@ OTHER_FILES += web/page.html \
     res/close.svg \
     qml/ColorSelector.qml \
     qml/colorSelector.js \
-    res/more.svg \
     res/select.svg \
     web/diff.js \
     res/undo.svg \
@@ -65,7 +64,12 @@ OTHER_FILES += web/page.html \
     web/tool.js \
     res/delete.svg \
     res/duplicate.svg \
-    res/save.svg
+    res/save.svg \
+    qml/SpinBox.qml \
+    res/up_arrow.svg \
+    res/down_arrow.svg \
+    res/thickness.svg \
+    res/font_size.svg
 
 RESOURCES += \
     res.qrc

@@ -16,6 +16,7 @@ class Core : public QObject
 {
   Q_OBJECT
   Q_PROPERTY(QString mode READ mode WRITE setMode NOTIFY updateMode)
+  Q_PROPERTY(float thickness READ thickness WRITE setThickness NOTIFY updateThickness)
   Q_PROPERTY(QString color READ color WRITE setColor NOTIFY updateColor)
   Q_PROPERTY(bool keyboard READ keyboard WRITE setKeyboard NOTIFY updateKeyboard)
   Q_PROPERTY(int fontSize READ fontSize WRITE setFontSize NOTIFY updateFontSize)
@@ -24,6 +25,7 @@ class Core : public QObject
 public:
   explicit Core(MainView *view);
   QString mode() const { return mode_; }
+  float thickness() { return thickness_; }
   QString color() const { return color_; }
   bool keyboard() { return keyboard_; }
   int fontSize() { return font_size_; }
@@ -32,6 +34,7 @@ public:
 
 signals:
   void updateMode();
+  void updateThickness();
   void updateColor();
   void updateKeyboard();
   void updateFontSize();
@@ -44,6 +47,7 @@ signals:
 
 public slots:
   void setMode(const QString &mode);
+  void setThickness(float thickness);
   void setColor(const QString &color);
   void setKeyboard(bool keyboard);
   void setFontSize(int font_size);
@@ -54,6 +58,7 @@ public slots:
 private:
   MainView *view_;
   QString mode_;
+  float thickness_;
   QString color_;
   bool keyboard_;
   int font_size_;

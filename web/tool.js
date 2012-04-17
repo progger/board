@@ -47,7 +47,7 @@ function setStyle(element) {
     var style = element.style;
     style.setProperty("fill", "none");
     style.setProperty("stroke", board.core.color);
-    style.setProperty("stroke-width", 3);
+    style.setProperty("stroke-width", board.core.thickness);
 }
 
 function createTransform() {

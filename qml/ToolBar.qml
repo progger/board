@@ -70,6 +70,56 @@ Rectangle {
             image: "qrc:/res/duplicate.svg"
             onClicked: Core.duplicate()
         }
+
+        Item {
+            width: 16
+            height: parent.height
+        }
+
+        Image {
+            anchors.verticalCenter: parent.verticalCenter
+            height: buttonSize
+            width: buttonSize
+            source: "qrc:/res/thickness.svg"
+            smooth: true
+        }
+
+        SpinBox {
+            style: toolBar.style
+            anchors.verticalCenter: parent.verticalCenter
+            width: 60
+            height: buttonSize
+            onValueChanged: Core.thickness = value
+            step: 0.5
+            minValue: 0.5
+            maxValue: 10
+            Component.onCompleted: value = Core.thickness
+        }
+
+        Item {
+            width: 8
+            height: parent.height
+        }
+
+        Image {
+            anchors.verticalCenter: parent.verticalCenter
+            height: buttonSize
+            width: buttonSize
+            source: "qrc:/res/font_size.svg"
+            smooth: true
+        }
+
+        SpinBox {
+            style: toolBar.style
+            width: 60
+            anchors.verticalCenter: parent.verticalCenter
+            height: buttonSize
+            onValueChanged: Core.fontSize = value
+            step: 2
+            minValue: 10
+            maxValue: 60
+            Component.onCompleted: value = Core.fontSize
+        }
     }
 
     Button {

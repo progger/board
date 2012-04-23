@@ -13,12 +13,15 @@ Rectangle {
     property real step: 1
     property real minValue: 0
     property real maxValue: 100
+    property int lineCount: (maxValue - minValue) / step + 1
+    property real itemHeight: textBar.height / 2
     border.width: 2
     border.color: "black"
     color: "white"
     radius: 4
 
     Item {
+        id: textBar
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.left: parent.left
@@ -29,6 +32,11 @@ Rectangle {
             font.pixelSize: parent.height / 2
             text: value.toPrecision(2);
             smooth: true
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: selectBar.opacity = !selectBar.opacity
         }
     }
 
@@ -59,6 +67,52 @@ Rectangle {
             radius: 4
             image: "qrc:/res/down_arrow.svg"
             onClicked: value = Math.max(value - step, minValue)
+        }
+    }
+
+    Rectangle {
+        id: selectBar
+        z: 1
+        anchors.top: parent.bottom
+        anchors.left: parent.left
+        width: textBar.width
+        height: itemHeight * lineCount
+        border.width: 2
+        border.color: "black"
+        gradient: Gradient {
+            GradientStop { position: 0; color: "#C0C0C0" }
+            GradientStop { position: 1; color: "#F0F0F0" }
+        }
+        smooth: true
+        opacity: 0
+
+        Repeater {
+            model: lineCount
+
+            Item {
+                anchors.left: parent.left
+                anchors.right: parent.right
+                y: itemHeight * modelData
+                height: itemHeight
+
+                Text {
+                    anchors.centerIn: parent
+                    text: (minValue + step * modelData).toPrecision(2)
+                    smooth: true
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                               value = minValue + step * modelData;
+                               selectBar.opacity = 0;
+                    }
+                }
+            }
+        }
+
+        Behavior on opacity {
+            NumberAnimation { duration: 300 }
         }
     }
 }

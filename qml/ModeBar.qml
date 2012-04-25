@@ -25,7 +25,8 @@ Rectangle {
                 {"mode": "rectangle", "image": "rectangle.svg"},
                 {"mode": "circle", "image": "circle.svg"},
                 {"mode": "ellipse", "image": "ellipse.svg"},
-                {"mode": "text", "image": "text.svg"}
+                {"mode": "text", "image": "text.svg"},
+                {"mode": "image", "image": "image.svg"}
                 //{"mode": "move", "image": "move.svg"}
             ]
             Button {

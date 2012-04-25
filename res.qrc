@@ -23,12 +23,14 @@
         <file>web/shapes/circle.js</file>
         <file>web/shapes/ellipse.js</file>
         <file>web/shapes/text.js</file>
+        <file>web/shapes/image.js</file>
         <file>res/select.svg</file>
         <file>res/pen.svg</file>
         <file>res/rectangle.svg</file>
         <file>res/circle.svg</file>
         <file>res/ellipse.svg</file>
         <file>res/text.svg</file>
+        <file>res/image.svg</file>
         <file>res/move.svg</file>
         <file>res/backspace.svg</file>
         <file>res/enter.svg</file>

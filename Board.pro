@@ -69,7 +69,9 @@ OTHER_FILES += web/page.html \
     res/up_arrow.svg \
     res/down_arrow.svg \
     res/thickness.svg \
-    res/font_size.svg
+    res/font_size.svg \
+    res/image.svg \
+    web/shapes/image.js
 
 RESOURCES += \
     res.qrc

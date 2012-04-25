@@ -54,6 +54,13 @@ function modeChange() {
     if (board.core.mode != "select") {
         Select.hide();
     }
+
+    if (board.core.mode == "image") {
+        board.core.selectImage();
+        if (!board.core.imageContent) {
+            board.core.mode = "select";
+        }
+    }
 }
 
 function save() {

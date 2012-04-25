@@ -11,6 +11,7 @@
 #include <QColor>
 
 class MainView;
+class QFile;
 
 class Core : public QObject
 {
@@ -21,6 +22,9 @@ class Core : public QObject
   Q_PROPERTY(bool keyboard READ keyboard WRITE setKeyboard NOTIFY updateKeyboard)
   Q_PROPERTY(int fontSize READ fontSize WRITE setFontSize NOTIFY updateFontSize)
   Q_PROPERTY(bool selected READ selected WRITE setSelected NOTIFY updateSelected)
+  Q_PROPERTY(int imageWidth READ imageWidth WRITE setImageWidth NOTIFY updateImageWidth)
+  Q_PROPERTY(int imageHeight READ imageHeight WRITE setImageHeight NOTIFY updateImageHeight)
+  Q_PROPERTY(QString imageContent READ imageContent WRITE setImageContent NOTIFY updateImageContent)
 
 public:
   explicit Core(MainView *view);
@@ -30,6 +34,9 @@ public:
   bool keyboard() { return keyboard_; }
   int fontSize() { return font_size_; }
   bool selected() { return selected_; }
+  int imageWidth() { return image_width_; }
+  int imageHeight() { return image_height_; }
+  QString imageContent() { return image_content_; }
   Q_INVOKABLE QColor selectColor(QColor color);
 
 signals:
@@ -39,6 +46,9 @@ signals:
   void updateKeyboard();
   void updateFontSize();
   void updateSelected();
+  void updateImageWidth();
+  void updateImageHeight();
+  void updateImageContent();
   void undo();
   void redo();
   void del();
@@ -52,8 +62,12 @@ public slots:
   void setKeyboard(bool keyboard);
   void setFontSize(int font_size);
   void setSelected(bool selected);
+  void setImageWidth(int width);
+  void setImageHeight(int height);
+  void setImageContent(const QString &imageContent);
   void emulateKeyPress(int key, int modifiers, const QString & text = "") const;
   void saveContent(const QString &content);
+  void selectImage();
 
 private:
   MainView *view_;
@@ -63,6 +77,11 @@ private:
   bool keyboard_;
   int font_size_;
   bool selected_;
+  int image_width_;
+  int image_height_;
+  QString image_content_;
+
+  void showFileError(const QFile &file);
 };
 
 #endif // CORE_H

@@ -28,6 +28,9 @@ function canvas_onMouseDown(e) {
         case "ellipse":
             element = Ellipse.begin(start);
             break;
+        case "image":
+            element = Image.begin(start);
+            break;
     }
     if (element) {
         var content = document.getElementById("content");
@@ -57,6 +60,9 @@ function canvas_onMouseUp(e) {
             Text.begin(this);
             board.core.mode = "select";
             break;
+        case "image":
+            board.core.mode = "select";
+            break;
         default:
             break;
     }
@@ -65,9 +71,8 @@ function canvas_onMouseUp(e) {
 
 function canvas_onMouseMove(e) {
     if (!this.state) return;
-    var element = this.element;
-    var content = document.getElementById("content");
     var p = createSvgPoint(e.pageX, e.pageY);
+    var element = this.element;
     switch (board.core.mode) {
         case "select":
             Select.draw(this, p);

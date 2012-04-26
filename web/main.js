@@ -29,7 +29,7 @@ function main() {
     board.core.save.connect(save);
 
     modeChange();
-    Diff.checkpoint();
+    Diff.prepare();
 }
 
 function modeChange() {

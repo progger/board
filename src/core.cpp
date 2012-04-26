@@ -25,7 +25,13 @@ Core::Core(MainView *view) :
   thickness_(3),
   color_("#000000"),
   keyboard_(false),
-  font_size_(24)
+  font_size_(24),
+  selected_(false),
+  image_width_(0),
+  image_height_(0),
+  image_content_(""),
+  can_undo_(false),
+  can_redo_(false)
 {
 }
 
@@ -152,6 +158,18 @@ void Core::setImageContent(const QString &imageContent)
 {
   image_content_ = imageContent;
   updateImageContent();
+}
+
+void Core::setCanUndo(bool can_undo)
+{
+  can_undo_ = can_undo;
+  updateCanUndo();
+}
+
+void Core::setCanRedo(bool can_redo)
+{
+  can_redo_ = can_redo;
+  updateCanRedo();
 }
 
 void Core::setImageWidth(int width)

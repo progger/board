@@ -34,6 +34,7 @@ Rectangle {
             width: buttonSize
             height: buttonSize
             image: "qrc:/res/undo.svg"
+            enabled: Core.canUndo
             onClicked: Core.undo()
         }
 
@@ -43,6 +44,7 @@ Rectangle {
             width: buttonSize
             height: buttonSize
             image: "qrc:/res/redo.svg"
+            enabled: Core.canRedo
             onClicked: Core.redo()
         }
 

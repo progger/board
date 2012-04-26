@@ -25,6 +25,8 @@ class Core : public QObject
   Q_PROPERTY(int imageWidth READ imageWidth WRITE setImageWidth NOTIFY updateImageWidth)
   Q_PROPERTY(int imageHeight READ imageHeight WRITE setImageHeight NOTIFY updateImageHeight)
   Q_PROPERTY(QString imageContent READ imageContent WRITE setImageContent NOTIFY updateImageContent)
+  Q_PROPERTY(bool canUndo READ canUndo WRITE setCanUndo NOTIFY updateCanUndo)
+  Q_PROPERTY(bool canRedo READ canRedo WRITE setCanRedo NOTIFY updateCanRedo)
 
 public:
   explicit Core(MainView *view);
@@ -37,6 +39,8 @@ public:
   int imageWidth() { return image_width_; }
   int imageHeight() { return image_height_; }
   QString imageContent() { return image_content_; }
+  bool canUndo() { return can_undo_; }
+  bool canRedo() { return can_redo_; }
   Q_INVOKABLE QColor selectColor(QColor color);
 
 signals:
@@ -49,6 +53,8 @@ signals:
   void updateImageWidth();
   void updateImageHeight();
   void updateImageContent();
+  void updateCanUndo();
+  void updateCanRedo();
   void undo();
   void redo();
   void del();
@@ -65,6 +71,8 @@ public slots:
   void setImageWidth(int width);
   void setImageHeight(int height);
   void setImageContent(const QString &imageContent);
+  void setCanUndo(bool can_undo);
+  void setCanRedo(bool can_redo);
   void emulateKeyPress(int key, int modifiers, const QString & text = "") const;
   void saveContent(const QString &content);
   void selectImage();
@@ -80,6 +88,8 @@ private:
   int image_width_;
   int image_height_;
   QString image_content_;
+  bool can_undo_;
+  bool can_redo_;
 
   void showFileError(const QFile &file);
 };

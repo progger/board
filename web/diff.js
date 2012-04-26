@@ -29,11 +29,9 @@ var Diff = {
 
     getContent:
     function() {
-        var canvas = document.getElementById("canvas");
-        var html = canvas.innerHTML;
-        var beg = html.indexOf(this.begin_content) + this.begin_content.length;
-        var end = html.lastIndexOf(this.end_content);
-        return html.substring(beg, end);
+        var serializer = new XMLSerializer();
+        var content = document.getElementById("content");
+        return serializer.serializeToString(content);
     },
 
     setContent:
@@ -54,6 +52,17 @@ var Diff = {
                 str.substring(diff.end, str.length);
     },
 
+    setCan:
+    function() {
+        board.core.canUndo = this.undoStack.length > 0;
+        board.core.canRedo = this.redoStack.length > 0;
+    },
+
+    prepare:
+    function() {
+        this.lastContnet = this.getContent();
+    },
+
     checkpoint:
     function() {
         var content = this.getContent();
@@ -67,6 +76,7 @@ var Diff = {
         this.undoStack.push(diff);
         this.redoStack.length = 0;
         this.lastContnet = content;
+        this.setCan();
     },
 
     undoRedo:
@@ -79,6 +89,7 @@ var Diff = {
         stack2.push(diff2);
         this.setContent(newContent);
         this.lastContnet = newContent;
+        this.setCan();
     },
 
     undo:

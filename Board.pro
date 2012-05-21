@@ -8,7 +8,7 @@ QT       += core opengl declarative
 
 TARGET = Board
 TEMPLATE = app
-VERSION = 0.0.2
+VERSION = 1.0.0
 
 OBJECTS_DIR = ./build
 DESTDIR = ./bin

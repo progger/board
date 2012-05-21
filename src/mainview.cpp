@@ -10,13 +10,16 @@
 #include <QtOpenGL/QGLWidget>
 #include "mainview.h"
 #include "core.h"
+#include "pathprocessor.h"
 
 MainView::MainView(QWidget *parent) :
   QDeclarativeView(parent)
 {
   connect(engine(), SIGNAL(quit()), SLOT(close()));
   Core *core = new Core(this);
+  PathProcessor *pathProcessor = new PathProcessor(this);
   rootContext()->setContextProperty(QString("Core"), core);
+  rootContext()->setContextProperty(QString("PathProcessor"), pathProcessor);
   setResizeMode(QDeclarativeView::SizeRootObjectToView);
   setSource(QUrl("qrc:/qml/Board.qml"));
   QGLFormat format = QGLFormat(QGL::SingleBuffer | QGL::Rgba | QGL::DirectRendering | QGL::SampleBuffers);

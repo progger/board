@@ -18,12 +18,14 @@ RCC_DIR = ./build
 
 SOURCES += src/main.cpp \
     src/mainview.cpp \
-    src/core.cpp
+    src/core.cpp \
+    src/pathprocessor.cpp
 
 HEADERS += \
     src/const.h \
     src/mainview.h \
-    src/core.h
+    src/core.h \
+    src/pathprocessor.h
 
 FORMS +=
 

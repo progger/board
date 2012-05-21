@@ -17,5 +17,6 @@ WebView {
     javaScriptWindowObjects: QtObject {
         WebView.windowObjectName: "board"
         property variant core: Core
+        property variant path: PathProcessor
     }
 }

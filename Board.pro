@@ -19,13 +19,18 @@ RCC_DIR = ./build
 SOURCES += src/main.cpp \
     src/mainview.cpp \
     src/core.cpp \
-    src/pathprocessor.cpp
+    src/pathprocessor.cpp \
+    src/shapehunter.cpp
 
 HEADERS += \
     src/const.h \
     src/mainview.h \
     src/core.h \
-    src/pathprocessor.h
+    src/pathprocessor.h \
+    src/shape.h \
+    src/pointarray.h \
+    src/shapehunter.h \
+    src/paramarray.h
 
 FORMS +=
 

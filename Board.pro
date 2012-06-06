@@ -20,19 +20,20 @@ SOURCES += src/main.cpp \
     src/mainview.cpp \
     src/core.cpp \
     src/pathprocessor.cpp \
-    src/shapehunter.cpp
+    src/shape/shapehunter.cpp \
+    src/shape/utils.cpp \
+    src/shape/polygon.cpp
 
 HEADERS += \
     src/const.h \
     src/mainview.h \
     src/core.h \
     src/pathprocessor.h \
-    src/shape.h \
-    src/pointarray.h \
-    src/shapehunter.h \
-    src/paramarray.h
-
-FORMS +=
+    src/shape/pointarray.h \
+    src/shape/shapehunter.h \
+    src/shape/shape.h \
+    src/shape/utils.h \
+    src/shape/polygon.h
 
 OTHER_FILES += web/page.html \
     web/main.js \
@@ -78,7 +79,9 @@ OTHER_FILES += web/page.html \
     res/thickness.svg \
     res/font_size.svg \
     res/image.svg \
-    web/shapes/image.js
+    web/shapes/image.js \
+    res/magic_pen.svg \
+    web/shapes/magic_pen.js
 
 RESOURCES += \
     res.qrc

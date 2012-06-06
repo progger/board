@@ -22,37 +22,6 @@ var Pen = {
 
     end:
     function(element) {
-        this.prepare(element);
-        var list = element.pathSegList;
-        var count = list.numberOfItems;
-        var arx = new Array(count);
-        var ary = new Array(count);
-        var i;
-        var seg;
-        for (i = 0; i < count; i++) {
-            seg = list.getItem(i);
-            arx[i] = seg.x;
-            ary[i] = seg.y;
-        }
-        if (board.path.process(arx, ary)) {
-            arx = board.path.arx;
-            ary = board.path.ary;
-            count = Math.min(arx.length, ary.length);
-            seg = list.getItem(0);
-            seg.x = arx[0];
-            seg.y = ary[0];
-            list.initialize(seg);
-            for (i = 1; i < count; i++) {
-                seg = element.createSVGPathSegLinetoAbs(arx[i], ary[i]);
-                element.pathSegList.appendItem(seg);
-            }
-            this.prepare(element);
-        }
-        board.path.clear();
-    },
-
-    prepare:
-    function(element) {
         var rect = element.getBBox();
         var x = rect.x + rect.width / 2;
         var y = rect.y + rect.height / 2;

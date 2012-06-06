@@ -36,6 +36,7 @@ function modeChange() {
     var cursor;
     switch (board.core.mode) {
         case "pen":
+        case "magic_pen":
         case "rectangle":
         case "circle":
         case "ellipse":

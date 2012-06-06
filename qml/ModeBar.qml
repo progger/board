@@ -22,6 +22,7 @@ Rectangle {
             model: [
                 {"mode": "select", "image": "select.svg"},
                 {"mode": "pen", "image": "pen.svg"},
+                {"mode": "magic_pen", "image": "magic_pen.svg"},
                 {"mode": "rectangle", "image": "rectangle.svg"},
                 {"mode": "circle", "image": "circle.svg"},
                 {"mode": "ellipse", "image": "ellipse.svg"},

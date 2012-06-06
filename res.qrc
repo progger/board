@@ -19,6 +19,7 @@
         <file>web/tool.js</file>
         <file>web/shapes/select.js</file>
         <file>web/shapes/pen.js</file>
+        <file>web/shapes/magic_pen.js</file>
         <file>web/shapes/rectangle.js</file>
         <file>web/shapes/circle.js</file>
         <file>web/shapes/ellipse.js</file>
@@ -26,6 +27,7 @@
         <file>web/shapes/image.js</file>
         <file>res/select.svg</file>
         <file>res/pen.svg</file>
+        <file>res/magic_pen.svg</file>
         <file>res/rectangle.svg</file>
         <file>res/circle.svg</file>
         <file>res/ellipse.svg</file>

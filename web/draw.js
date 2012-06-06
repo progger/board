@@ -19,6 +19,9 @@ function canvas_onMouseDown(e) {
         case "pen":
             element = Pen.begin(start);
             break;
+        case "magic_pen":
+            element = MagicPen.begin(start);
+            break;
         case "rectangle":
             element = Rectangle.begin(start);
             break;
@@ -50,6 +53,9 @@ function canvas_onMouseUp(e) {
         case "pen":
             Pen.end(element);
             break;
+        case "magic_pen":
+            MagicPen.end(element);
+            break;
         case "rectangle":
             Rectangle.end(element);
             break;
@@ -79,6 +85,9 @@ function canvas_onMouseMove(e) {
             break;
         case "pen":
             Pen.draw(element, this.last, p);
+            break;
+        case "magic_pen":
+            MagicPen.draw(element, this.last, p);
             break;
         case "rectangle":
             Rectangle.draw(element, this.start, p);

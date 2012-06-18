@@ -20,7 +20,10 @@ Polygon::Polygon(int num_points) :
 void Polygon::init(PointArray *point_array, QRectF *rect)
 {
   for (int i = 0; i < num_points_; i++)
-    points_[i] = QVector2D();
+  {
+    qreal fi = 2 * M_PI * i / num_points_;
+    points_[i] = QVector2D(trunc(sin(fi) * 4), trunc(cos(fi) * 4));
+  }
 }
 
 qreal Polygon::getDeviation(PointArray *point_array)

@@ -22,7 +22,8 @@ SOURCES += src/main.cpp \
     src/pathprocessor.cpp \
     src/shape/shapehunter.cpp \
     src/shape/utils.cpp \
-    src/shape/polygon.cpp
+    src/shape/polygon.cpp \
+    src/shape/ellipse.cpp
 
 HEADERS += \
     src/const.h \
@@ -33,7 +34,8 @@ HEADERS += \
     src/shape/shapehunter.h \
     src/shape/shape.h \
     src/shape/utils.h \
-    src/shape/polygon.h
+    src/shape/polygon.h \
+    src/shape/ellipse.h
 
 OTHER_FILES += web/page.html \
     web/main.js \

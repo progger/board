@@ -54,7 +54,7 @@ Item {
                         anchors.bottom: parent.bottom
                         anchors.bottomMargin: 2
                         text: modelData.button[keyboard.layout][keyboard.shift]
-                        image: modelData.image ? "qrc:/res/" + modelData.image : ""
+                        image: modelData.image ? "qrc:/core/res/" + modelData.image : ""
                         onClicked: Script.click(button, modelData)
                     }
                 }

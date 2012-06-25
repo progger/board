@@ -46,4 +46,4 @@ OTHER_FILES += qml/Board.qml \
     res/save.svg \
 
 RESOURCES += \
-    res.qrc
+    core.qrc

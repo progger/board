@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/">
+    <qresource prefix="/core/">
         <file>qml/Board.qml</file>
         <file>qml/Style.qml</file>
         <file>qml/Draw.qml</file>

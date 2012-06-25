@@ -36,7 +36,7 @@ Rectangle {
             style: board.style.closeButton
             width: buttonSize
             height: buttonSize
-            image: "qrc:/res/close.svg"
+            image: "qrc:/core/res/close.svg"
             onClicked: Qt.quit()
         }
     }

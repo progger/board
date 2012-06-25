@@ -18,7 +18,7 @@ MainView::MainView(QWidget *parent) :
   Core *core = new Core(this);
   rootContext()->setContextProperty(QString("Core"), core);
   setResizeMode(QDeclarativeView::SizeRootObjectToView);
-  setSource(QUrl("qrc:/qml/Board.qml"));
+  setSource(QUrl("qrc:/core/qml/Board.qml"));
   QGLFormat format = QGLFormat(QGL::SingleBuffer | QGL::Rgba | QGL::DirectRendering | QGL::SampleBuffers);
   QGLWidget *widget = new QGLWidget(format);
   widget->setAutoFillBackground(false);

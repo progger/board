@@ -9,7 +9,7 @@ import QtWebKit 1.0
 
 WebView {
     id: webView
-    url: "qrc:/web/page.html"
+    //url: "qrc:/web/page.html"
     pressGrabTime: 0
     onAlert: console.log("Web error: " + message)
     focus: true

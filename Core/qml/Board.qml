@@ -22,28 +22,38 @@ Rectangle {
         color: style.panelColor
     }
 
-    ToolBar {
-        z: 1
-        id: toolBar
+    Rectangle {
+        id: toolBarRect
         anchors.left: menu.right
         anchors.right: parent.right
-        style: board.style
         height: style.panelSize
+        color: style.panelColor
+
+        Button {
+            property int buttonSize: parent.height - 6
+            x: parent.width - buttonSize - 4
+            anchors.verticalCenter: parent.verticalCenter
+            style: board.style.closeButton
+            width: buttonSize
+            height: buttonSize
+            image: "qrc:/res/close.svg"
+            onClicked: Qt.quit()
+        }
     }
 
-    ModeBar {
-        id: modeBar
+    Rectangle {
+        id: modeBarRect
         anchors.top: menu.bottom
         anchors.bottom: parent.bottom
         anchors.left: parent.left
-        width: 44
-        style: board.style
+        width: style.panelSize
+        color: style.panelColor
     }
 
     Draw {
-        anchors.top: toolBar.bottom
+        anchors.top: toolBarRect.bottom
         anchors.bottom: parent.bottom
-        anchors.left: modeBar.right
+        anchors.left: modeBarRect.right
         anchors.right: parent.right
     }
 

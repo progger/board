@@ -122,6 +122,20 @@ Rectangle {
             maxValue: 60
             Component.onCompleted: value = Core.fontSize
         }
+
+        Item {
+            width: 8
+            height: parent.height
+        }
+
+        Button {
+            anchors.verticalCenter: parent.verticalCenter
+            style: toolBar.style.normalButton
+            width: buttonSize
+            height: buttonSize
+            image: "qrc:/res/save.svg"
+            onClicked: Core.save()
+        }
     }
 
     Button {

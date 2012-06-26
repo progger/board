@@ -8,22 +8,23 @@ QT       += core opengl declarative
 
 TARGET = Board
 TEMPLATE = app
-VERSION = 1.0.0
+VERSION = 1.1.0
 
-OBJECTS_DIR = ./build
 DESTDIR = ../bin
+OBJECTS_DIR = ./build
 MOC_DIR = ./build
-UI_DIR = ./build
 RCC_DIR = ./build
+
+INCLUDEPATH += ../Shared
 
 SOURCES += src/main.cpp \
     src/mainview.cpp \
     src/core.cpp
 
-HEADERS += \
-    src/const.h \
-    src/mainview.h \
-    src/core.h
+HEADERS += src/mainview.h \
+    src/core.h \
+    iplugin.h \
+    iplugininfo.h
 
 OTHER_FILES += qml/Board.qml \
     qml/Button.qml \

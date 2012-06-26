@@ -1,4 +1,6 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    Core
+    Core \
+    Plugins \
+    Libs

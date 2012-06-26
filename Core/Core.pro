@@ -32,6 +32,7 @@ OTHER_FILES += qml/Board.qml \
     qml/keyboard.js \
     qml/SpinBox.qml \
     qml/Style.qml \
+    qml/Menu.qml \
     res/select.svg \
     res/backspace.svg \
     res/enter.svg \
@@ -44,6 +45,7 @@ OTHER_FILES += qml/Board.qml \
     res/redo.svg \
     res/delete.svg \
     res/save.svg \
+    res/menu.svg
 
 RESOURCES += \
     core.qrc

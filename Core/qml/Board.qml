@@ -14,17 +14,42 @@ Rectangle {
     height: 300
 
     Rectangle {
-        id: menu
+        id: menuButton
         anchors.left: parent.left
         anchors.top: parent.top
         width: style.panelSize
         height: style.panelSize
         color: style.panelColor
+
+        Image {
+            anchors.fill: parent
+            anchors.margins: 3
+            source: "qrc:/core/res/menu.svg"
+            smooth: true
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: Core.menuVisible = !Core.menuVisible
+        }
+    }
+
+    Menu {
+        id: menu
+        z: 1
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: menuButton.bottom
+        anchors.bottom: parent.bottom
+        opacity: Core.menuVisible ? 0.7 : 0
+        Behavior on opacity {
+            NumberAnimation { duration: 500 }
+        }
     }
 
     Rectangle {
         id: toolBarRect
-        anchors.left: menu.right
+        anchors.left: menuButton.right
         anchors.right: parent.right
         height: style.panelSize
         color: style.panelColor
@@ -43,7 +68,7 @@ Rectangle {
 
     Rectangle {
         id: modeBarRect
-        anchors.top: menu.bottom
+        anchors.top: menuButton.bottom
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         width: style.panelSize

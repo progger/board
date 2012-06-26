@@ -14,6 +14,7 @@ using namespace Qt;
 Core::Core(MainView *view) :
   QObject(view),
   view_(view),
+  menu_visible_(false),
   keyboard_(false)
 {
 }
@@ -29,4 +30,10 @@ void Core::setKeyboard(bool keyboard)
 {
   keyboard_ = keyboard;
   emit updateKeyboard();
+}
+
+void Core::setMenuVisible(bool menu_visible)
+{
+  menu_visible_ = menu_visible;
+  emit updateMenuVisible();
 }

@@ -2,6 +2,7 @@
     <qresource prefix="/core/">
         <file>qml/Board.qml</file>
         <file>qml/Style.qml</file>
+        <file>qml/Menu.qml</file>
         <file>qml/Draw.qml</file>
         <file>qml/Button.qml</file>
         <file>qml/Keyboard.qml</file>
@@ -19,5 +20,6 @@
         <file>res/redo.svg</file>
         <file>res/delete.svg</file>
         <file>res/save.svg</file>
+        <file>res/menu.svg</file>
     </qresource>
 </RCC>

@@ -19,12 +19,14 @@ INCLUDEPATH += ../Shared
 
 SOURCES += src/main.cpp \
     src/mainview.cpp \
-    src/core.cpp
+    src/core.cpp \
+    src/plugininfo.cpp
 
 HEADERS += src/mainview.h \
     src/core.h \
     iplugin.h \
-    iplugininfo.h
+    iplugininfo.h \
+    src/plugininfo.h
 
 OTHER_FILES += qml/Board.qml \
     qml/Button.qml \

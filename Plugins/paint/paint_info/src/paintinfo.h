@@ -16,6 +16,8 @@ class PaintInfo : public QObject, public IPluginInfo
   Q_INTERFACES(IPluginInfo)
 public:
   virtual ~PaintInfo() {}
+  virtual QString name();
+  virtual QString image();
 };
 
 #endif // PAINTINFO_H

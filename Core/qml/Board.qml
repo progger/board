@@ -41,7 +41,7 @@ Rectangle {
         anchors.right: parent.right
         anchors.top: menuButton.bottom
         anchors.bottom: parent.bottom
-        opacity: Core.menuVisible ? 0.7 : 0
+        opacity: Core.menuVisible
         Behavior on opacity {
             NumberAnimation { duration: 500 }
         }

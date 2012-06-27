@@ -16,7 +16,9 @@ MainView::MainView(QWidget *parent) :
 {
   connect(engine(), SIGNAL(quit()), SLOT(close()));
   Core *core = new Core(this);
-  rootContext()->setContextProperty(QString("Core"), core);
+  QDeclarativeContext *context = rootContext();
+  context->setContextProperty(QString("Core"), core);
+  context->setContextProperty(QString("PluginInfoList"), QVariant::fromValue(core->pluginInfoList()));
   setResizeMode(QDeclarativeView::SizeRootObjectToView);
   setSource(QUrl("qrc:/core/qml/Board.qml"));
   QGLFormat format = QGLFormat(QGL::SingleBuffer | QGL::Rgba | QGL::DirectRendering | QGL::SampleBuffers);

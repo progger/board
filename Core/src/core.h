@@ -8,7 +8,8 @@
 #define CORE_H
 
 #include <QObject>
-#include "mainview.h"
+#include <QList>
+#include "plugininfo.h"
 
 class Core : public QObject
 {
@@ -17,7 +18,8 @@ class Core : public QObject
   Q_PROPERTY(bool keyboard READ keyboard WRITE setKeyboard NOTIFY updateKeyboard)
 
 public:
-  explicit Core(MainView *view);
+  explicit Core(QObject *parent = 0);
+  QObjectList pluginInfoList() { return plugin_info_list_; }
   bool menuVisible() { return menu_visible_; }
   bool keyboard() { return keyboard_; }
 
@@ -31,9 +33,11 @@ public slots:
   void emulateKeyPress(int key, int modifiers, const QString & text = "") const;
 
 private:
-  MainView *view_;
   bool menu_visible_;
   bool keyboard_;
+  QObjectList plugin_info_list_;
+
+  void loadPluginInfo();
 };
 
 #endif // CORE_H

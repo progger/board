@@ -4,7 +4,17 @@
  * See the LICENSE file for terms of use.
  */
 
-#include <QtCore>
+#include <QtPlugin>
 #include "paintinfo.h"
+
+QString PaintInfo::name()
+{
+  return "Paint";
+}
+
+QString PaintInfo::image()
+{
+  return "qrc:/plugin_info/paint/res/logo.svg";
+}
 
 Q_EXPORT_PLUGIN2(IPluginInfo, PaintInfo)

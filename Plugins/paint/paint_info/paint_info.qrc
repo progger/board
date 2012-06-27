@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/plugin_info/paint/">
+        <file>res/logo.svg</file>
+    </qresource>
+</RCC>

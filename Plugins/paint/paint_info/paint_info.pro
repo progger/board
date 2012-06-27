@@ -22,3 +22,6 @@ SOURCES += src/paintinfo.cpp
 
 HEADERS += src/paintinfo.h \
     iplugininfo.h
+
+RESOURCES += \
+    paint_info.qrc

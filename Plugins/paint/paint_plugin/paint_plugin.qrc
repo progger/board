@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/plugin/">
+        <file>qml/ToolBar.qml</file>
+        <file>qml/ModeBar.qml</file>
+        <file>qml/ColorSelector.qml</file>
+        <file>qml/colorSelector.js</file>
+        <file>res/pen.svg</file>
+        <file>res/rectangle.svg</file>
+        <file>res/circle.svg</file>
+        <file>res/ellipse.svg</file>
+        <file>res/text.svg</file>
+        <file>res/image.svg</file>
+        <file>res/move.svg</file>
+        <file>res/duplicate.svg</file>
+        <file>res/thickness.svg</file>
+        <file>res/font_size.svg</file>
+    </qresource>
+</RCC>

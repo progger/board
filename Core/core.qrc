@@ -1,9 +1,11 @@
 <RCC>
     <qresource prefix="/core/">
         <file>qml/Board.qml</file>
+        <file>qml/board.js</file>
         <file>qml/Style.qml</file>
         <file>qml/Menu.qml</file>
         <file>qml/Draw.qml</file>
+        <file>qml/draw.js</file>
         <file>qml/Button.qml</file>
         <file>qml/Keyboard.qml</file>
         <file>qml/keyboard.js</file>

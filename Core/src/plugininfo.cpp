@@ -6,9 +6,10 @@
 
 #include "plugininfo.h"
 
-PluginInfo::PluginInfo(IPluginInfo *plugin_info, QObject *parent) :
+PluginInfo::PluginInfo(IPluginInfo *plugin_info, QString &lib_name, QObject *parent) :
   QObject(parent),
-  plugin_info_(plugin_info)
+  plugin_info_(plugin_info),
+  lib_name_(lib_name)
 {
 }
 

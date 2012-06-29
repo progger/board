@@ -6,10 +6,10 @@
 
 import QtQuick 1.1
 import QtWebKit 1.0
+import "draw.js" as Script
 
 WebView {
     id: webView
-    //url: "qrc:/web/page.html"
     pressGrabTime: 0
     onAlert: console.log("Web error: " + message)
     focus: true

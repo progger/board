@@ -5,11 +5,13 @@
  */
 
 import QtQuick 1.1
+import "qrc:/core/qml"
 
 Rectangle {
     id: toolBar
-    property variant style
+    property variant style: board.style
     property int buttonSize: height - 6
+    height: parent.height
     color: style.panelColor
 
     Row {
@@ -33,9 +35,9 @@ Rectangle {
             style: toolBar.style.normalButton
             width: buttonSize
             height: buttonSize
-            image: "qrc:/res/undo.svg"
-            enabled: Core.canUndo
-            onClicked: Core.undo()
+            image: "qrc:/core/res/undo.svg"
+            enabled: Paint.canUndo
+            onClicked: Paint.undo()
         }
 
         Button {
@@ -43,9 +45,9 @@ Rectangle {
             style: toolBar.style.normalButton
             width: buttonSize
             height: buttonSize
-            image: "qrc:/res/redo.svg"
-            enabled: Core.canRedo
-            onClicked: Core.redo()
+            image: "qrc:/core/res/redo.svg"
+            enabled: Paint.canRedo
+            onClicked: Paint.redo()
         }
 
         Item {
@@ -56,21 +58,21 @@ Rectangle {
         Button {
             anchors.verticalCenter: parent.verticalCenter
             style: toolBar.style.normalButton
-            enabled: Core.selected;
+            enabled: Paint.selected;
             width: buttonSize
             height: buttonSize
-            image: "qrc:/res/delete.svg"
-            onClicked: Core.del()
+            image: "qrc:/core/res/delete.svg"
+            onClicked: Paint.del()
         }
 
         Button {
             anchors.verticalCenter: parent.verticalCenter
             style: toolBar.style.normalButton
-            enabled: Core.selected;
+            enabled: Paint.selected;
             width: buttonSize
             height: buttonSize
-            image: "qrc:/res/duplicate.svg"
-            onClicked: Core.duplicate()
+            image: "qrc:/plugin/res/duplicate.svg"
+            onClicked: Paint.duplicate()
         }
 
         Item {
@@ -82,7 +84,7 @@ Rectangle {
             anchors.verticalCenter: parent.verticalCenter
             height: buttonSize
             width: buttonSize
-            source: "qrc:/res/thickness.svg"
+            source: "qrc:/plugin/res/thickness.svg"
             smooth: true
         }
 
@@ -91,11 +93,11 @@ Rectangle {
             anchors.verticalCenter: parent.verticalCenter
             width: 60
             height: buttonSize
-            onValueChanged: Core.thickness = value
+            onValueChanged: Paint.thickness = value
             step: 0.5
             minValue: 0.5
             maxValue: 10
-            Component.onCompleted: value = Core.thickness
+            Component.onCompleted: value = Paint.thickness
         }
 
         Item {
@@ -107,7 +109,7 @@ Rectangle {
             anchors.verticalCenter: parent.verticalCenter
             height: buttonSize
             width: buttonSize
-            source: "qrc:/res/font_size.svg"
+            source: "qrc:/plugin/res/font_size.svg"
             smooth: true
         }
 
@@ -116,11 +118,11 @@ Rectangle {
             width: 60
             anchors.verticalCenter: parent.verticalCenter
             height: buttonSize
-            onValueChanged: Core.fontSize = value
+            onValueChanged: Paint.fontSize = value
             step: 2
             minValue: 10
             maxValue: 60
-            Component.onCompleted: value = Core.fontSize
+            Component.onCompleted: value = Paint.fontSize
         }
 
         Item {
@@ -133,18 +135,8 @@ Rectangle {
             style: toolBar.style.normalButton
             width: buttonSize
             height: buttonSize
-            image: "qrc:/res/save.svg"
-            onClicked: Core.save()
+            image: "qrc:/core/res/save.svg"
+            onClicked: Paint.save()
         }
-    }
-
-    Button {
-        x: parent.width - buttonSize - 4
-        anchors.verticalCenter: parent.verticalCenter
-        style: toolBar.style.closeButton
-        width: buttonSize
-        height: buttonSize
-        image: "qrc:/res/close.svg"
-        onClicked: Qt.quit()
     }
 }

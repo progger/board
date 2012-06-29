@@ -5,6 +5,7 @@
  */
 
 import QtQuick 1.1
+import "qrc:/core/qml"
 import "colorSelector.js" as Script
 
 Item {
@@ -57,7 +58,7 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             width: 24
             height: parent.height - 6
-            image: "qrc:/res/down_arrow.svg"
+            image: "qrc:/core/res/down_arrow.svg"
             toggled: colorGridRect.opacity
             onClicked: Script.moreClick()
         }

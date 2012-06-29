@@ -4,22 +4,20 @@
  * See the LICENSE file for terms of use.
  */
 
-#ifndef CORE_H
-#define CORE_H
+#ifndef PAINT_H
+#define PAINT_H
 
+#include <QWidget>
 #include <QObject>
 #include <QColor>
+#include <QFile>
 
-class MainView;
-class QFile;
-
-class Core : public QObject
+class Paint : public QObject
 {
   Q_OBJECT
   Q_PROPERTY(QString mode READ mode WRITE setMode NOTIFY updateMode)
   Q_PROPERTY(float thickness READ thickness WRITE setThickness NOTIFY updateThickness)
   Q_PROPERTY(QString color READ color WRITE setColor NOTIFY updateColor)
-  Q_PROPERTY(bool keyboard READ keyboard WRITE setKeyboard NOTIFY updateKeyboard)
   Q_PROPERTY(int fontSize READ fontSize WRITE setFontSize NOTIFY updateFontSize)
   Q_PROPERTY(bool selected READ selected WRITE setSelected NOTIFY updateSelected)
   Q_PROPERTY(int imageWidth READ imageWidth WRITE setImageWidth NOTIFY updateImageWidth)
@@ -29,11 +27,10 @@ class Core : public QObject
   Q_PROPERTY(bool canRedo READ canRedo WRITE setCanRedo NOTIFY updateCanRedo)
 
 public:
-  explicit Core(MainView *view);
+  explicit Paint(QWidget *view, QObject *parent = 0);
   QString mode() const { return mode_; }
   float thickness() { return thickness_; }
   QString color() const { return color_; }
-  bool keyboard() { return keyboard_; }
   int fontSize() { return font_size_; }
   bool selected() { return selected_; }
   int imageWidth() { return image_width_; }
@@ -47,7 +44,6 @@ signals:
   void updateMode();
   void updateThickness();
   void updateColor();
-  void updateKeyboard();
   void updateFontSize();
   void updateSelected();
   void updateImageWidth();
@@ -65,7 +61,6 @@ public slots:
   void setMode(const QString &mode);
   void setThickness(float thickness);
   void setColor(const QString &color);
-  void setKeyboard(bool keyboard);
   void setFontSize(int font_size);
   void setSelected(bool selected);
   void setImageWidth(int width);
@@ -73,16 +68,14 @@ public slots:
   void setImageContent(const QString &imageContent);
   void setCanUndo(bool can_undo);
   void setCanRedo(bool can_redo);
-  void emulateKeyPress(int key, int modifiers, const QString & text = "") const;
   void saveContent(const QString &content);
   void selectImage();
 
 private:
-  MainView *view_;
+  QWidget *view_;
   QString mode_;
   float thickness_;
   QString color_;
-  bool keyboard_;
   int font_size_;
   bool selected_;
   int image_width_;
@@ -94,4 +87,4 @@ private:
   void showFileError(const QFile &file);
 };
 
-#endif // CORE_H
+#endif // PAINT_H

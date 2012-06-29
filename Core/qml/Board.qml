@@ -5,6 +5,7 @@
  */
 
 import QtQuick 1.1
+import "board.js" as Script
 
 Rectangle {
     id: board
@@ -36,7 +37,7 @@ Rectangle {
 
     Menu {
         id: menu
-        z: 1
+        z: 3
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: menuButton.bottom
@@ -49,6 +50,7 @@ Rectangle {
 
     Rectangle {
         id: toolBarRect
+        z: 2
         anchors.left: menuButton.right
         anchors.right: parent.right
         height: style.panelSize
@@ -68,6 +70,7 @@ Rectangle {
 
     Rectangle {
         id: modeBarRect
+        z: 1
         anchors.top: menuButton.bottom
         anchors.bottom: parent.bottom
         anchors.left: parent.left

@@ -7,9 +7,12 @@
 #ifndef IPLUGIN_H
 #define IPLUGIN_H
 
+#include "icore.h"
+
 class IPlugin {
 public:
   virtual ~IPlugin() {}
+  virtual void init(ICore *core) = 0;
 };
 
 Q_DECLARE_INTERFACE(IPlugin, "Board.IPlugin/1.0")

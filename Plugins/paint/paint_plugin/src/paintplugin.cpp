@@ -7,4 +7,12 @@
 #include <QtPlugin>
 #include "paintplugin.h"
 
+void PaintPlugin::init(ICore *core)
+{
+  QWidget *view = qobject_cast<QWidget*>(core->mainView());
+  paint_ = new Paint(view, this);
+  core->addObject("Paint", paint_);
+  core->addWebObject("paint", paint_);
+}
+
 Q_EXPORT_PLUGIN2(IPlugin, PaintPlugin)

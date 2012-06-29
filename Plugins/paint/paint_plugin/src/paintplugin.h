@@ -9,6 +9,7 @@
 
 #include <QObject>
 #include "iplugin.h"
+#include "paint.h"
 
 class PaintPlugin : public QObject, public IPlugin
 {
@@ -16,6 +17,10 @@ class PaintPlugin : public QObject, public IPlugin
   Q_INTERFACES(IPlugin)
 public:
   virtual ~PaintPlugin() {}
+  virtual void init(ICore *core);
+
+private:
+  Paint *paint_;
 };
 
 #endif // PAINTPLUGIN_H

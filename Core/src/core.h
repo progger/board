@@ -8,34 +8,47 @@
 #define CORE_H
 
 #include <QObject>
+#include <QDeclarativeView>
 #include <QList>
+#include <QPluginLoader>
+#include "icore.h"
 #include "plugininfo.h"
 
-class Core : public QObject
+class Core : public QObject, public ICore
 {
   Q_OBJECT
+  Q_INTERFACES(ICore)
   Q_PROPERTY(bool menuVisible READ menuVisible WRITE setMenuVisible NOTIFY updateMenuVisible)
   Q_PROPERTY(bool keyboard READ keyboard WRITE setKeyboard NOTIFY updateKeyboard)
 
 public:
-  explicit Core(QObject *parent = 0);
-  QObjectList pluginInfoList() { return plugin_info_list_; }
+  explicit Core(QDeclarativeView *parent = 0);
+  virtual void addObject(const QString &name, QObject *obj);
+  virtual void addWebObject(const QString &name, QObject *obj);
+  virtual QObject *mainView();
   bool menuVisible() { return menu_visible_; }
   bool keyboard() { return keyboard_; }
 
 signals:
   void updateMenuVisible();
   void updateKeyboard();
+  void loadPlugin(QObject *plugin);
+  void unloadPlugin(QObject *plugin);
+  void addWebViewObject(QString name, QObject *obj);
+  void loadPage(QString page);
 
 public slots:
   void setMenuVisible(bool menu_visible);
   void setKeyboard(bool keyboard);
   void emulateKeyPress(int key, int modifiers, const QString & text = "") const;
+  void selectPlugin(QObject *obj);
 
 private:
   bool menu_visible_;
   bool keyboard_;
   QObjectList plugin_info_list_;
+  PluginInfo *plugin_info_;
+  QPluginLoader *loader_;
 
   void loadPluginInfo();
 };

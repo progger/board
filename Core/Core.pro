@@ -24,13 +24,16 @@ SOURCES += src/main.cpp \
 
 HEADERS += src/mainview.h \
     src/core.h \
+    src/plugininfo.h \
+    icore.h \
     iplugin.h \
-    iplugininfo.h \
-    src/plugininfo.h
+    iplugininfo.h
 
 OTHER_FILES += qml/Board.qml \
+    qml/board.js \
     qml/Button.qml \
     qml/Draw.qml \
+    qml/draw.js \
     qml/Keyboard.qml \
     qml/keyboard.js \
     qml/SpinBox.qml \

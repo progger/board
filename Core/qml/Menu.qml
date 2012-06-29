@@ -21,6 +21,7 @@ Item {
         cellHeight: buttonHeight + 8
         model: PluginInfoList
         delegate: Item {
+            id: gridDelegate
             width: pluginInfoGrid.buttonWidth
             height: pluginInfoGrid.buttonHeight
 
@@ -28,6 +29,7 @@ Item {
                 id: mouseArea
                 anchors.fill: parent
                 hoverEnabled: true
+                onClicked: Core.selectPlugin(modelData)
             }
 
             Rectangle {

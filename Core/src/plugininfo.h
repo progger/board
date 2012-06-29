@@ -17,9 +17,10 @@ class PluginInfo : public QObject
   Q_PROPERTY(QString image READ image NOTIFY updateImage)
 
 public:
-  explicit PluginInfo(IPluginInfo *plugin_info, QObject *parent = 0);
+  explicit PluginInfo(IPluginInfo *plugin_info, QString &lib_name, QObject *parent = 0);
   QString name();
   QString image();
+  QString libName() { return lib_name_; }
 
 signals:
   void updateName();
@@ -27,6 +28,7 @@ signals:
 
 private:
   IPluginInfo *plugin_info_;
+  QString lib_name_;
 
 };
 

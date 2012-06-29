@@ -35,7 +35,7 @@ function clickColor(index) {
 function changeColor(index) {
     selected = index;
     var item = repeater.itemAt(index);
-    Core.color = item.color;
+    Paint.color = item.color;
 
     for (var i = 0; i < numButtons; i++) {
         item = repeater.itemAt(i);
@@ -110,7 +110,7 @@ function getMinBar() {
 
 function selectCustomColor(index) {
     var item = repeater.itemAt(index);
-    var color = Core.selectColor(item.color);
+    var color = Paint.selectColor(item.color);
     if (!colorExsits(color)) {
         colors.push({color: color, freq: 1});
     }

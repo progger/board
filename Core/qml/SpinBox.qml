@@ -54,7 +54,7 @@ Rectangle {
             anchors.bottom: parent.verticalCenter
             width: height
             radius: 4
-            image: "qrc:/res/up_arrow.svg"
+            image: "qrc:/core/res/up_arrow.svg"
             onClicked: value = Math.min(value + step, maxValue)
         }
 
@@ -65,7 +65,7 @@ Rectangle {
             anchors.bottom: parent.bottom
             width: height
             radius: 4
-            image: "qrc:/res/down_arrow.svg"
+            image: "qrc:/core/res/down_arrow.svg"
             onClicked: value = Math.max(value - step, minValue)
         }
     }

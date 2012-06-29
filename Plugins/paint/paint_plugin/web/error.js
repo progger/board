@@ -6,18 +6,14 @@
 
 window.onerror = function(message, source, lineno)
         {
-            var total = "";
-            if (message)
-            {
-                total += "Ошибка: " + message + "\n";
-            }
+            var total = message;
             if (source && (source !== "undefined"))
             {
-                total += "Файл: " + source + "\n";
+                total += "\nFile: " + source;
             }
             if (lineno)
             {
-                total += "Строка: " + lineno;
+                total += "\nRow: " + lineno;
             }
             alert(total);
         }

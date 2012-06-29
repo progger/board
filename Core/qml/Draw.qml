@@ -10,12 +10,16 @@ import "draw.js" as Script
 
 WebView {
     id: webView
+    preferredWidth: width
+    preferredHeight: height
     pressGrabTime: 0
     onAlert: console.log("Web error: " + message)
     focus: true
 
     javaScriptWindowObjects: QtObject {
+        id: webObject
         WebView.windowObjectName: "board"
         property variant core: Core
+        property variant plugin: null
     }
 }

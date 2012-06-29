@@ -144,7 +144,7 @@ var Select = {
 
         var canvas = document.getElementById("canvas");
         canvas.select = { list: list };
-        board.core.selected = true;
+        paint.selected = true;
     },
 
     hide:
@@ -155,7 +155,7 @@ var Select = {
         group.setAttribute("visibility", "hidden");
         var canvas = document.getElementById("canvas");
         canvas.select = undefined;
-        board.core.selected = false;
+        paint.selected = false;
     },
 
     del:

@@ -12,8 +12,9 @@
 class ICore {
 public:
   virtual ~ICore() {}
-  virtual void addObject(const QString &name, QObject *obj) = 0;
-  virtual void addWebObject(const QString &name, QObject *obj) = 0;
+  virtual void addPluginObject(const QString &name, QObject *obj) = 0;
+  virtual void addPluginWebObject(const QString &name, QObject *obj) = 0;
+  virtual void loadWebPage(const QString &url) = 0;
   virtual QObject *mainView() = 0;
 };
 

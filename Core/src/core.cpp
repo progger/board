@@ -28,15 +28,20 @@ Core::Core(QDeclarativeView *parent) :
                               QVariant::fromValue(plugin_info_list_));
 }
 
-void Core::addObject(const QString &name, QObject *obj)
+void Core::addPluginObject(const QString &name, QObject *obj)
 {
   QDeclarativeView *view = qobject_cast<QDeclarativeView*>(parent());
   view->rootContext()->setContextProperty(name, obj);
 }
 
-void Core::addWebObject(const QString &name, QObject *obj)
+void Core::addPluginWebObject(const QString &name, QObject *obj)
 {
-  emit addWebViewObject(name, obj);
+  emit addWebViewPluginObject(name, obj);
+}
+
+void Core::loadWebPage(const QString &url)
+{
+  emit loadWebViewPage(url);
 }
 
 QObject *Core::mainView()

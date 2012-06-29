@@ -15,7 +15,7 @@ MainView::MainView(QWidget *parent) :
   QDeclarativeView(parent)
 {
   connect(engine(), SIGNAL(quit()), SLOT(close()));
-  Core *core = new Core(this);
+  new Core(this);
   setResizeMode(QDeclarativeView::SizeRootObjectToView);
   setSource(QUrl("qrc:/core/qml/Board.qml"));
   QGLFormat format = QGLFormat(QGL::SingleBuffer | QGL::Rgba | QGL::DirectRendering | QGL::SampleBuffers);

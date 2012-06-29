@@ -42,4 +42,17 @@ OTHER_FILES += \
     res/move.svg \
     res/duplicate.svg \
     res/thickness.svg \
-    res/font_size.svg
+    res/font_size.svg \
+    web/page.html \
+    web/error.js \
+    web/main.js \
+    web/tool.js \
+    web/draw.js \
+    web/diff.js \
+    web/shapes/select.js \
+    web/shapes/pen.js \
+    web/shapes/rectangle.js \
+    web/shapes/circle.js \
+    web/shapes/ellipse.js \
+    web/shapes/text.js \
+    web/shapes/image.js

@@ -1,10 +1,18 @@
-function onAddWebViewObject(name, obj) {
-    //TODO
+function onUnloadPlugin(obj) {
+    webView.html = "";
+    webObject.plugin = null;
 }
 
-function onLoadPage(page) {
-    webView.url = page;
+function onAddWebViewPluginObject(name, obj) {
+    var p = {};
+    p[name] = obj;
+    webObject.plugin = p;
 }
 
-Core.addWebViewObject.connect(onAddWebViewObject);
-Core.loadPage(onLoadPage);
+function onLoadWebViewPage(url, obj) {
+    webView.url = url;
+}
+
+Core.unloadPlugin.connect(onUnloadPlugin);
+Core.addWebViewPluginObject.connect(onAddWebViewPluginObject);
+Core.loadWebViewPage.connect(onLoadWebViewPage);

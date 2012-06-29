@@ -12,7 +12,7 @@ function canvas_onMouseDown(e) {
     this.start = start;
     this.last = start;
     var element;
-    switch (board.core.mode) {
+    switch (paint.mode) {
         case "select":
             Select.begin(this, e.target, start);
             break;
@@ -43,7 +43,7 @@ function canvas_onMouseUp(e) {
     if (e.which !== 1) return;
     this.state = false;
     var element = this.element;
-    switch (board.core.mode) {
+    switch (paint.mode) {
         case "select":
             Select.end(this);
             break;
@@ -58,10 +58,10 @@ function canvas_onMouseUp(e) {
             break;
         case "text":
             Text.begin(this);
-            board.core.mode = "select";
+            paint.mode = "select";
             break;
         case "image":
-            board.core.mode = "select";
+            paint.mode = "select";
             break;
         default:
             break;
@@ -73,7 +73,7 @@ function canvas_onMouseMove(e) {
     if (!this.state) return;
     var p = createSvgPoint(e.pageX, e.pageY);
     var element = this.element;
-    switch (board.core.mode) {
+    switch (paint.mode) {
         case "select":
             Select.draw(this, p);
             break;

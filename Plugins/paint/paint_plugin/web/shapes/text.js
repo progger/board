@@ -8,8 +8,8 @@ var Text = {
     begin:
     function(canvas) {
         var element = createSvgElement("text");
-        element.style.setProperty("fill", board.core.color);
-        element.style.setProperty("font-size", board.core.fontSize);
+        element.style.setProperty("fill", paint.color);
+        element.style.setProperty("font-size", paint.fontSize);
         element.style.setProperty("font-family", "sans");
         element.x.baseVal.initialize(createSvgLength(canvas.last.x));
         element.y.baseVal.initialize(createSvgLength(canvas.last.y));
@@ -20,7 +20,7 @@ var Text = {
         canvas.textElement = element;
         canvas.textCursor = 0;
         this.draw(canvas);
-        board.core.keyboard = true;
+        core.keyboard = true;
     },
 
     draw:
@@ -29,7 +29,7 @@ var Text = {
         var p = createSvgPoint(element.x.baseVal.getItem(0).value - 4,
                                element.y.baseVal.getItem(0).value + 6);
         var w = element.getComputedTextLength() + 8;
-        var h = board.core.fontSize + 6;
+        var h = paint.fontSize + 6;
 
         var textBar = document.getElementById("text_bar");
         textBar.x.baseVal.value = p.x;
@@ -63,7 +63,7 @@ var Text = {
         textBar.setAttribute("visibility", "hidden");
         var textCursor = document.getElementById("text_cursor");
         textCursor.setAttribute("visibility", "hidden");
-        board.core.keyboard = false;
+        core.keyboard = false;
         Diff.checkpoint();
     }
 }

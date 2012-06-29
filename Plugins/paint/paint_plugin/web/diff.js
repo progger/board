@@ -54,8 +54,8 @@ var Diff = {
 
     setCan:
     function() {
-        board.core.canUndo = this.undoStack.length > 0;
-        board.core.canRedo = this.redoStack.length > 0;
+        paint.canUndo = this.undoStack.length > 0;
+        paint.canRedo = this.redoStack.length > 0;
     },
 
     prepare:

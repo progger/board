@@ -46,8 +46,8 @@ function isOutside(e, parent) {
 function setStyle(element) {
     var style = element.style;
     style.setProperty("fill", "none");
-    style.setProperty("stroke", board.core.color);
-    style.setProperty("stroke-width", board.core.thickness);
+    style.setProperty("stroke", paint.color);
+    style.setProperty("stroke-width", paint.thickness);
 }
 
 function createTransform() {

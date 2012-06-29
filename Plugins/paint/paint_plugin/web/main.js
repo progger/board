@@ -4,6 +4,9 @@
  * See the LICENSE file for terms of use.
  */
 
+var core = board.core;
+var paint = board.plugin.paint;
+
 function main() {
     var canvas = document.getElementById("canvas");
     canvas.state = false;
@@ -21,12 +24,12 @@ function main() {
     }
     setInterval(blink, 500);
 
-    board.core.updateMode.connect(modeChange)
-    board.core.undo.connect(undo);
-    board.core.redo.connect(redo);
-    board.core.del.connect(del);
-    board.core.duplicate.connect(duplicate);
-    board.core.save.connect(save);
+    paint.updateMode.connect(modeChange)
+    paint.undo.connect(undo);
+    paint.redo.connect(redo);
+    paint.del.connect(del);
+    paint.duplicate.connect(duplicate);
+    paint.save.connect(save);
 
     modeChange();
     Diff.prepare();
@@ -34,7 +37,7 @@ function main() {
 
 function modeChange() {
     var cursor;
-    switch (board.core.mode) {
+    switch (paint.mode) {
         case "pen":
         case "rectangle":
         case "circle":
@@ -51,14 +54,14 @@ function modeChange() {
     var canvas = document.getElementById("canvas");
     canvas.style.setProperty("cursor", cursor);
 
-    if (board.core.mode != "select") {
+    if (paint.mode != "select") {
         Select.hide();
     }
 
-    if (board.core.mode == "image") {
-        board.core.selectImage();
-        if (!board.core.imageContent) {
-            board.core.mode = "select";
+    if (paint.mode == "image") {
+        paint.selectImage();
+        if (!paint.imageContent) {
+            paint.mode = "select";
         }
     }
 }
@@ -71,7 +74,7 @@ function save() {
     var content = Diff.getContent();
     var i = content.indexOf(">");
     content = svg + content.substr(i + 1);
-    board.core.saveContent(content);
+    paint.saveContent(content);
 }
 
 window.onload = main;

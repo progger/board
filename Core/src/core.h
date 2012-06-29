@@ -23,8 +23,9 @@ class Core : public QObject, public ICore
 
 public:
   explicit Core(QDeclarativeView *parent = 0);
-  virtual void addObject(const QString &name, QObject *obj);
-  virtual void addWebObject(const QString &name, QObject *obj);
+  virtual void addPluginObject(const QString &name, QObject *obj);
+  virtual void addPluginWebObject(const QString &name, QObject *obj);
+  virtual void loadWebPage(const QString &url);
   virtual QObject *mainView();
   bool menuVisible() { return menu_visible_; }
   bool keyboard() { return keyboard_; }
@@ -34,8 +35,8 @@ signals:
   void updateKeyboard();
   void loadPlugin(QObject *plugin);
   void unloadPlugin(QObject *plugin);
-  void addWebViewObject(QString name, QObject *obj);
-  void loadPage(QString page);
+  void addWebViewPluginObject(QString name, QObject *obj);
+  void loadWebViewPage(QString url);
 
 public slots:
   void setMenuVisible(bool menu_visible);

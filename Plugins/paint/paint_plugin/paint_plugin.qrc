@@ -14,5 +14,18 @@
         <file>res/duplicate.svg</file>
         <file>res/thickness.svg</file>
         <file>res/font_size.svg</file>
+        <file>web/page.html</file>
+        <file>web/error.js</file>
+        <file>web/main.js</file>
+        <file>web/tool.js</file>
+        <file>web/draw.js</file>
+        <file>web/diff.js</file>
+        <file>web/shapes/select.js</file>
+        <file>web/shapes/pen.js</file>
+        <file>web/shapes/rectangle.js</file>
+        <file>web/shapes/circle.js</file>
+        <file>web/shapes/ellipse.js</file>
+        <file>web/shapes/text.js</file>
+        <file>web/shapes/image.js</file>
     </qresource>
 </RCC>

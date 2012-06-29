@@ -11,8 +11,9 @@ void PaintPlugin::init(ICore *core)
 {
   QWidget *view = qobject_cast<QWidget*>(core->mainView());
   paint_ = new Paint(view, this);
-  core->addObject("Paint", paint_);
-  core->addWebObject("paint", paint_);
+  core->addPluginObject("Paint", paint_);
+  core->addPluginWebObject("paint", paint_);
+  core->loadWebPage("qrc:/plugin/web/page.html");
 }
 
 Q_EXPORT_PLUGIN2(IPlugin, PaintPlugin)

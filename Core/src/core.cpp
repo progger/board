@@ -79,7 +79,7 @@ void Core::loadPluginInfo()
 {
   QDir dir = QDir(QApplication::applicationDirPath());
   if (!dir.cd("plugins")) return;
-  QStringList filter("*_info.*");
+  QStringList filter("*.info");
   QFileInfoList files = dir.entryInfoList(filter, QDir::Files);
   foreach (QFileInfo file_info, files)
   {
@@ -88,7 +88,7 @@ void Core::loadPluginInfo()
     if (!obj) continue;
     IPluginInfo *iplugin_info = qobject_cast<IPluginInfo*>(obj);
     if (!iplugin_info) continue;
-    QString lib_name = dir.filePath(file_info.fileName().replace("_info", ""));
+    QString lib_name = dir.filePath(file_info.completeBaseName().append(".plugin"));
     PluginInfo *plugin_info = new PluginInfo(iplugin_info, lib_name, this);
     plugin_info_list_.append(plugin_info);
   }

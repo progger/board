@@ -9,7 +9,7 @@ TEMPLATE = lib
 CONFIG += plugin
 VERSION = 1.0.0
 
-DESTDIR = ../../../bin/plugins
+DESTDIR = ./build
 OBJECTS_DIR = ./build
 MOC_DIR = ./build
 RCC_DIR = ./build
@@ -56,3 +56,9 @@ OTHER_FILES += \
     web/shapes/ellipse.js \
     web/shapes/text.js \
     web/shapes/image.js
+
+win32 {
+  QMAKE_POST_LINK = cmd /c $(MOVE) .\\build\\$(TARGET) ..\\..\\..\\bin\\plugins\\paint.plugin
+} else {
+  QMAKE_POST_LINK = $(MOVE) ./build/$(TARGET) ../../../bin/plugins/paint.plugin
+}

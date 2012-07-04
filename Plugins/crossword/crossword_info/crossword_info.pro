@@ -1,12 +1,12 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2012-06-26T22:08:24
+# Project created by QtCreator 2012-07-01T19:11:46
 #
 #-------------------------------------------------
 
 QT       -= gui
 
-TARGET = paint_info
+TARGET = crossword_info
 TARGET_EXT = test
 TEMPLATE = lib
 CONFIG += plugin
@@ -19,16 +19,13 @@ RCC_DIR = ./build
 
 INCLUDEPATH += ../../../Shared
 
-SOURCES += src/paintinfo.cpp
+SOURCES += src/crosswordinfo.cpp
 
 HEADERS += iexternal.h \
-    src/paintinfo.h
-
-RESOURCES += \
-    paint_info.qrc
+    src/crosswordinfo.h
 
 win32 {
-  QMAKE_POST_LINK = cmd /c $(MOVE) .\\build\\$(TARGET) ..\\..\\..\\bin\\plugins\\paint.info
+  QMAKE_POST_LINK = cmd /c $(MOVE) .\\build\\$(TARGET) ..\\..\\..\\bin\\plugins\\crossword.info
 } else {
-  QMAKE_POST_LINK = $(MOVE) ./build/$(TARGET) ../../../bin/plugins/paint.info
+  QMAKE_POST_LINK = $(MOVE) ./build/$(TARGET) ../../../bin/plugins/crossword.info
 }

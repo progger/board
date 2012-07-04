@@ -22,12 +22,12 @@ SOURCES += src/main.cpp \
     src/core.cpp \
     src/plugininfo.cpp
 
-HEADERS += src/mainview.h \
-    src/core.h \
-    src/plugininfo.h \
-    icore.h \
+HEADERS += icore.h \
+    iexternal.h \
     iplugin.h \
-    iplugininfo.h
+    src/mainview.h \
+    src/core.h \
+    src/plugininfo.h
 
 OTHER_FILES += qml/Board.qml \
     qml/board.js \

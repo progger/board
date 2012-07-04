@@ -8,28 +8,35 @@
 #define PLUGININFO_H
 
 #include <QObject>
-#include "iplugininfo.h"
+#include <QStringList>
 
 class PluginInfo : public QObject
 {
   Q_OBJECT
-  Q_PROPERTY(QString name READ name NOTIFY updateName)
   Q_PROPERTY(QString image READ image NOTIFY updateImage)
+  Q_PROPERTY(QObjectList children READ children NOTIFY updateChildren)
+  Q_PROPERTY(bool isDir READ isDir)
 
 public:
-  explicit PluginInfo(IPluginInfo *plugin_info, QString &lib_name, QObject *parent = 0);
-  QString name();
-  QString image();
-  QString libName() { return lib_name_; }
+  explicit PluginInfo(QObject *parent, const QString &name);
+  QString image() { return image_; }
+  QString pluginName() { return plugin_name_; }
+  QStringList pluginParam() { return plugin_param_; }
+  bool isDir();
 
 signals:
-  void updateName();
   void updateImage();
+  void updateChildren();
+
+public slots:
+  void setImage(const QString &image);
+  void setPluginName(const QString &plugin_name);
+  void setPluginParam(const QStringList &plugin_param);
 
 private:
-  IPluginInfo *plugin_info_;
-  QString lib_name_;
-
+  QString image_;
+  QString plugin_name_;
+  QStringList plugin_param_;
 };
 
 #endif // PLUGININFO_H

@@ -19,9 +19,9 @@ INCLUDEPATH += ../../../Shared
 SOURCES += src/paintplugin.cpp \
     src/paint.cpp
 
-HEADERS += src/paintplugin.h \
-    icore.h \
+HEADERS += icore.h \
     iplugin.h \
+    src/paintplugin.h \
     src/const.h \
     src/paint.h
 

@@ -19,7 +19,7 @@ Item {
         anchors.margins: 8
         cellWidth: buttonWidth + 8
         cellHeight: buttonHeight + 8
-        model: PluginInfoList
+        model: RootPluginInfo.children
         delegate: Item {
             id: gridDelegate
             width: pluginInfoGrid.buttonWidth
@@ -29,7 +29,14 @@ Item {
                 id: mouseArea
                 anchors.fill: parent
                 hoverEnabled: true
-                onClicked: Core.selectPlugin(modelData)
+                onClicked: onClick(modelData)
+
+                function onClick(modelData) {
+                    if (modelData.isDir)
+                        pluginInfoGrid.model = modelData.children;
+                    else
+                        Core.selectPlugin(modelData);
+                }
             }
 
             Rectangle {
@@ -46,7 +53,7 @@ Item {
                 anchors.right: parent.right
                 anchors.top: parent.top
                 height: pluginInfoGrid.imageHeigth
-                source: image
+                source: modelData.image
                 smooth: true
             }
 
@@ -60,7 +67,7 @@ Item {
                 Text {
                     anchors.centerIn: parent
                     font.pixelSize: parent.height * 0.7
-                    text: name
+                    text: modelData.objectName
                     smooth: true
                 }
             }

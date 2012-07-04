@@ -7,11 +7,11 @@
 #include <QtPlugin>
 #include "paintplugin.h"
 
-void PaintPlugin::init(ICore *core)
+void PaintPlugin::init(ICore *core, const QStringList &param)
 {
   QWidget *view = qobject_cast<QWidget*>(core->mainView());
   paint_ = new Paint(view, this);
-  core->addPluginObject("Paint", paint_);
+  core->addObject("Paint", paint_);
   core->addPluginWebObject("paint", paint_);
   core->loadWebPage("qrc:/plugin/web/page.html");
 }

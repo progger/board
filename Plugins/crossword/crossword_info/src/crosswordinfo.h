@@ -4,18 +4,18 @@
  * See the LICENSE file for terms of use.
  */
 
-#ifndef PAINTINFO_H
-#define PAINTINFO_H
+#ifndef CROSSWORDINFO_H
+#define CROSSWORDINFO_H
 
 #include "iexternal.h"
 
-class PaintInfo : public QObject, IExternal
+class CrosswordInfo : public QObject, IExternal
 {
   Q_OBJECT
   Q_INTERFACES(IExternal)
 public:
-  virtual ~PaintInfo() {}
+  virtual ~CrosswordInfo() {}
   virtual void init(ICore *core);
 };
 
-#endif // PAINTINFO_H
+#endif // CROSSWORDINFO_H

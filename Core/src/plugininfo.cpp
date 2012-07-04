@@ -6,19 +6,32 @@
 
 #include "plugininfo.h"
 
-PluginInfo::PluginInfo(IPluginInfo *plugin_info, QString &lib_name, QObject *parent) :
+PluginInfo::PluginInfo(QObject *parent, const QString &name) :
   QObject(parent),
-  plugin_info_(plugin_info),
-  lib_name_(lib_name)
+  image_(),
+  plugin_name_(),
+  plugin_param_()
 {
+  setObjectName(name);
 }
 
-QString PluginInfo::name()
+bool PluginInfo::isDir()
 {
-  return plugin_info_->name();
+  return plugin_name_.isEmpty();
 }
 
-QString PluginInfo::image()
+void PluginInfo::setImage(const QString &image)
 {
-  return plugin_info_->image();
+  image_ = image;
+  emit updateImage();
+}
+
+void PluginInfo::setPluginName(const QString &plugin_name)
+{
+  plugin_name_ = plugin_name;
+}
+
+void PluginInfo::setPluginParam(const QStringList &plugin_param)
+{
+  plugin_param_ = plugin_param;
 }

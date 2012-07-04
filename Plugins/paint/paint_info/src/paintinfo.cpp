@@ -7,14 +7,9 @@
 #include <QtPlugin>
 #include "paintinfo.h"
 
-QString PaintInfo::name()
+void PaintInfo::init(ICore *core)
 {
-  return "Paint";
-}
-
-QString PaintInfo::image()
-{
-  return "qrc:/plugin_info/paint/res/logo.svg";
+  core->addPlugin("Paint", "qrc:/plugin_info/paint/res/logo.svg", "paint");
 }
 
 Q_EXPORT_PLUGIN2(IPluginInfo, PaintInfo)

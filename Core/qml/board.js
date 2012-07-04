@@ -23,7 +23,7 @@ function onLoadPlugin(obj) {
 
     component = Qt.createComponent("qrc:/plugin/qml/ModeBar.qml");
     if (component.status == Component.Ready) {
-        toolBar = component.createObject(modeBarRect);
+        modeBar = component.createObject(modeBarRect);
     }
     else {
         console.log(component.errorString());

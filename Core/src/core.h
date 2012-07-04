@@ -23,7 +23,10 @@ class Core : public QObject, public ICore
 
 public:
   explicit Core(QDeclarativeView *parent = 0);
-  virtual void addPluginObject(const QString &name, QObject *obj);
+  virtual void addPlugin(const QString &full_name, const QString &image,
+                         const QString &plugin_name = QString(),
+                         const QStringList &plugin_param = QStringList());
+  virtual void addObject(const QString &name, QObject *obj);
   virtual void addPluginWebObject(const QString &name, QObject *obj);
   virtual void loadWebPage(const QString &url);
   virtual QObject *mainView();
@@ -47,7 +50,7 @@ public slots:
 private:
   bool menu_visible_;
   bool keyboard_;
-  QObjectList plugin_info_list_;
+  PluginInfo *root_plugin_info_;
   PluginInfo *plugin_info_;
   QPluginLoader *loader_;
 

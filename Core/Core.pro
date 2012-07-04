@@ -51,7 +51,8 @@ OTHER_FILES += qml/Board.qml \
     res/redo.svg \
     res/delete.svg \
     res/save.svg \
-    res/menu.svg
+    res/menu.svg \
+    res/back.svg
 
 RESOURCES += \
     core.qrc

@@ -2,6 +2,12 @@
 import QtQuick 1.1
 
 Item {
+    property real buttonWidth: 128
+    property real imageHeigth: 128
+    property real textHeight: 32
+    property real buttonHeight: imageHeigth + textHeight
+    property real buttonMargin: 8
+    property variant currenPluginInfo: RootPluginInfo
 
     Rectangle {
         anchors.fill: parent
@@ -9,21 +15,45 @@ Item {
         opacity: 0.5
     }
 
+   Rectangle  {
+        id: backButton
+        x: buttonMargin
+        y: buttonMargin
+        width: buttonWidth
+        height: imageHeigth
+        color: backButtonMouseArea.containsMouse ? "#E0E0E0" : "#808080"
+        radius: 8
+        smooth: true
+        opacity: 0.5
+        visible: currenPluginInfo != RootPluginInfo
+
+        Image {
+            anchors.fill: parent
+            source: "qrc:/core/res/back.svg"
+        }
+
+        MouseArea {
+            id: backButtonMouseArea
+            anchors.fill: parent
+            hoverEnabled: true
+            onClicked: currenPluginInfo = currenPluginInfo.parent
+        }
+    }
+
     GridView {
         id: pluginInfoGrid
-        property real buttonWidth: 128
-        property real imageHeigth: 128
-        property real textHeight: 32
-        property real buttonHeight: imageHeigth + textHeight
-        anchors.fill: parent
-        anchors.margins: 8
-        cellWidth: buttonWidth + 8
-        cellHeight: buttonHeight + 8
-        model: RootPluginInfo.children
+        anchors.left: backButton.right
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.margins: buttonMargin
+        cellWidth: buttonWidth + buttonMargin
+        cellHeight: buttonHeight + buttonMargin
+        model: currenPluginInfo.children
         delegate: Item {
             id: gridDelegate
-            width: pluginInfoGrid.buttonWidth
-            height: pluginInfoGrid.buttonHeight
+            width: buttonWidth
+            height: buttonHeight
 
             MouseArea {
                 id: mouseArea
@@ -33,7 +63,7 @@ Item {
 
                 function onClick(modelData) {
                     if (modelData.isDir)
-                        pluginInfoGrid.model = modelData.children;
+                        currenPluginInfo = modelData;
                     else
                         Core.selectPlugin(modelData);
                 }
@@ -52,7 +82,7 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.top: parent.top
-                height: pluginInfoGrid.imageHeigth
+                height: imageHeigth
                 source: modelData.image
                 smooth: true
             }

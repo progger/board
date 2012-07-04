@@ -15,6 +15,7 @@ class PluginInfo : public QObject
   Q_OBJECT
   Q_PROPERTY(QString image READ image NOTIFY updateImage)
   Q_PROPERTY(QObjectList children READ children NOTIFY updateChildren)
+  Q_PROPERTY(QObject *parent READ parent)
   Q_PROPERTY(bool isDir READ isDir)
 
 public:

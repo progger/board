@@ -28,56 +28,6 @@ Rectangle {
             height: parent.height
         }
 
-        Button {
-            anchors.verticalCenter: parent.verticalCenter
-            style: toolBar.style.normalButton
-            width: buttonSize
-            height: buttonSize
-            image: "qrc:/res/undo.svg"
-            enabled: Core.canUndo
-            onClicked: Core.undo()
-        }
-
-        Button {
-            anchors.verticalCenter: parent.verticalCenter
-            style: toolBar.style.normalButton
-            width: buttonSize
-            height: buttonSize
-            image: "qrc:/res/redo.svg"
-            enabled: Core.canRedo
-            onClicked: Core.redo()
-        }
-
-        Item {
-            width: 16
-            height: parent.height
-        }
-
-        Button {
-            anchors.verticalCenter: parent.verticalCenter
-            style: toolBar.style.normalButton
-            enabled: Core.selected;
-            width: buttonSize
-            height: buttonSize
-            image: "qrc:/res/delete.svg"
-            onClicked: Core.del()
-        }
-
-        Button {
-            anchors.verticalCenter: parent.verticalCenter
-            style: toolBar.style.normalButton
-            enabled: Core.selected;
-            width: buttonSize
-            height: buttonSize
-            image: "qrc:/res/duplicate.svg"
-            onClicked: Core.duplicate()
-        }
-
-        Item {
-            width: 16
-            height: parent.height
-        }
-
         Image {
             anchors.verticalCenter: parent.verticalCenter
             height: buttonSize

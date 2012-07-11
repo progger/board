@@ -13,46 +13,27 @@ Rectangle {
     width: 400
     height: 300
 
-    Rectangle {
-        id: menu
-        anchors.left: parent.left
-        anchors.top: parent.top
-        width: style.panelSize
-        height: style.panelSize
-        color: style.panelColor
-
-        Button {
-            style: board.style.normalButton
-            anchors.fill: parent
-            anchors.margins: 2
-            image: "qrc:/res/save.svg"
-            onClicked: Core.save()
-        }
-    }
-
     ToolBar {
         z: 1
         id: toolBar
-        anchors.left: menu.right
+        width: 500
+        //anchors.left: parent.left
         anchors.right: parent.right
         style: board.style
         height: style.panelSize
     }
 
     ModeBar {
+        x: parent.width - width - 20
+        y: 50
+        z: 2
         id: modeBar
-        anchors.top: menu.bottom
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        width: 44
         style: board.style
     }
 
     Draw {
-        anchors.top: toolBar.bottom
-        anchors.bottom: parent.bottom
-        anchors.left: modeBar.right
-        anchors.right: parent.right
+        id: draw
+        anchors.fill: parent
     }
 
     Keyboard {

@@ -127,12 +127,73 @@ Rectangle {
             height: buttonSize
 
             Button {
+                id: colorButton
                 x: parent.width * 0.25 - buttonSize / 2
+                style: modeBar.style.normalButton
+                width: buttonSize
+                height: buttonSize
+                image: "qrc:/res/color.svg"
+                toggled: colorGridRect.opacity
+                onClicked: colorGridRect.opacity = !colorGridRect.opacity
+            }
+
+            Button {
+                x: parent.width * 0.75 - buttonSize / 2
                 style: modeBar.style.normalButton
                 width: buttonSize
                 height: buttonSize
                 image: "qrc:/res/save.svg"
                 onClicked: Core.save()
+            }
+        }
+    }
+
+    Rectangle {
+        id: colorGridRect
+        z: 1
+        x: -width
+        y: colorButton.parent.y + column.y
+        border.color: "#404040"
+        border.width: 2
+        width: colorGrid.width + 4
+        height: colorGrid.height + 4
+        color: "#E0E0E0"
+        opacity: 0
+        Behavior on opacity {
+            NumberAnimation { duration: 500 }
+        }
+
+        GridView {
+            id: colorGrid
+            x: 4
+            y: 4
+            cellWidth: buttonSize + 4
+            cellHeight: buttonSize + 4
+            model: [
+                "#000000", "#ff0000", "#00ff00", "#0000ff",
+                "#ffff00", "#ff00ff", "#00ffff", "#800000",
+                "#008000", "#000080", "#808000", "#800080",
+                "#008080", "#808080"
+            ]
+            width: cellWidth * 4
+            height: cellHeight * 4
+            delegate: colorGridDelegate
+
+            Component {
+                id: colorGridDelegate
+                Rectangle {
+                    height: buttonSize
+                    width: buttonSize
+                    color: modelData
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            Core.color = modelData;
+                            colorGridRect.opacity = 0;
+                        }
+                    }
+                }
             }
         }
     }

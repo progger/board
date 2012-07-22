@@ -83,7 +83,8 @@ OTHER_FILES += web/page.html \
     res/image.svg \
     web/shapes/image.js \
     res/magic_pen.svg \
-    web/shapes/magic_pen.js
+    web/shapes/magic_pen.js \
+    res/color.svg
 
 RESOURCES += \
     res.qrc

@@ -17,17 +17,6 @@ Rectangle {
         anchors.bottom: parent.bottom
         spacing: 4
 
-        ColorSelector {
-            style: toolBar.style
-            anchors.verticalCenter: parent.verticalCenter
-            height: parent.height
-        }
-
-        Item {
-            width: 16
-            height: parent.height
-        }
-
         Image {
             anchors.verticalCenter: parent.verticalCenter
             height: buttonSize

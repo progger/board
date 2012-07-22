@@ -16,8 +16,7 @@ Rectangle {
     ToolBar {
         z: 1
         id: toolBar
-        width: 500
-        //anchors.left: parent.left
+        width: 280
         anchors.right: parent.right
         style: board.style
         height: style.panelSize

@@ -48,5 +48,6 @@
         <file>res/save.svg</file>
         <file>res/thickness.svg</file>
         <file>res/font_size.svg</file>
+        <file>res/color.svg</file>
     </qresource>
 </RCC>

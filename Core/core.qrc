@@ -22,7 +22,6 @@
         <file>res/redo.svg</file>
         <file>res/delete.svg</file>
         <file>res/save.svg</file>
-        <file>res/menu.svg</file>
         <file>res/back.svg</file>
     </qresource>
 </RCC>

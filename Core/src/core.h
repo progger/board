@@ -27,7 +27,8 @@ public:
                          const QString &plugin_name = QString(),
                          const QStringList &plugin_param = QStringList());
   virtual void addObject(const QString &name, QObject *obj);
-  virtual void addPluginWebObject(const QString &name, QObject *obj);
+  virtual void addQml(const QString &path);
+  virtual void addWebObject(const QString &name, QObject *obj);
   virtual void loadWebPage(const QString &url);
   virtual QObject *mainView();
   bool menuVisible() { return menu_visible_; }
@@ -38,7 +39,8 @@ signals:
   void updateKeyboard();
   void loadPlugin(QObject *plugin);
   void unloadPlugin(QObject *plugin);
-  void addWebViewPluginObject(QString name, QObject *obj);
+  void addPluginQml(QString path);
+  void addPluginWebObject(QString name, QObject *obj);
   void loadWebViewPage(QString url);
 
 public slots:

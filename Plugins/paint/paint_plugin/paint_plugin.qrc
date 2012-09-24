@@ -5,6 +5,7 @@
         <file>qml/ColorSelector.qml</file>
         <file>qml/colorSelector.js</file>
         <file>res/pen.svg</file>
+        <file>res/magic_pen.svg</file>
         <file>res/rectangle.svg</file>
         <file>res/circle.svg</file>
         <file>res/ellipse.svg</file>
@@ -14,6 +15,7 @@
         <file>res/duplicate.svg</file>
         <file>res/thickness.svg</file>
         <file>res/font_size.svg</file>
+        <file>res/color.svg</file>
         <file>web/page.html</file>
         <file>web/error.js</file>
         <file>web/main.js</file>
@@ -22,6 +24,7 @@
         <file>web/diff.js</file>
         <file>web/shapes/select.js</file>
         <file>web/shapes/pen.js</file>
+        <file>web/shapes/magic_pen.js</file>
         <file>web/shapes/rectangle.js</file>
         <file>web/shapes/circle.js</file>
         <file>web/shapes/ellipse.js</file>

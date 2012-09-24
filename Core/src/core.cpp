@@ -59,9 +59,14 @@ void Core::addObject(const QString &name, QObject *obj)
   view->rootContext()->setContextProperty(name, obj);
 }
 
-void Core::addPluginWebObject(const QString &name, QObject *obj)
+void Core::addQml(const QString &path)
 {
-  emit addWebViewPluginObject(name, obj);
+  emit addPluginQml(path);
+}
+
+void Core::addWebObject(const QString &name, QObject *obj)
+{
+  emit addPluginWebObject(name, obj);
 }
 
 void Core::loadWebPage(const QString &url)

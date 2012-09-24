@@ -18,9 +18,6 @@ class PaintPlugin : public QObject, public IPlugin
 public:
   virtual ~PaintPlugin() {}
   virtual void init(ICore *core, const QStringList &param);
-
-private:
-  Paint *paint_;
 };
 
 #endif // PAINTPLUGIN_H

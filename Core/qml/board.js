@@ -1,29 +1,20 @@
-var toolBar = null;
-var modeBar = null;
+var qmlObjects = [];
 
 function onUnloadPlugin(obj) {
-    if (toolBar) {
-        toolBar.destroy();
-        toolBar = null;
+    for (i in qmlObjects)
+    {
+        obj = qmlObjects[i];
+        console.log("destroy: " + obj);
+        obj.destroy();
     }
-    if (modeBar) {
-        modeBar.destroy();
-        modeBar = null;
-    }
+    qmlObjects.length = 0;
 }
 
-function onLoadPlugin(obj) {
-    var component = Qt.createComponent("qrc:/plugin/qml/ToolBar.qml");
+function onAddPluginQml(path) {
+    var component = Qt.createComponent(path);
     if (component.status == Component.Ready) {
-        toolBar = component.createObject(toolBarRect);
-    }
-    else {
-        console.log(component.errorString());
-    }
-
-    component = Qt.createComponent("qrc:/plugin/qml/ModeBar.qml");
-    if (component.status == Component.Ready) {
-        modeBar = component.createObject(modeBarRect);
+        var obj = component.createObject(board);
+        qmlObjects.push(obj);
     }
     else {
         console.log(component.errorString());
@@ -31,4 +22,4 @@ function onLoadPlugin(obj) {
 }
 
 Core.unloadPlugin.connect(onUnloadPlugin);
-Core.loadPlugin.connect(onLoadPlugin);
+Core.addPluginQml.connect(onAddPluginQml);

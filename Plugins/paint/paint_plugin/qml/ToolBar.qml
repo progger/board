@@ -19,67 +19,6 @@ Rectangle {
         anchors.bottom: parent.bottom
         spacing: 4
 
-        ColorSelector {
-            style: toolBar.style
-            anchors.verticalCenter: parent.verticalCenter
-            height: parent.height
-        }
-
-        Item {
-            width: 16
-            height: parent.height
-        }
-
-        Button {
-            anchors.verticalCenter: parent.verticalCenter
-            style: toolBar.style.normalButton
-            width: buttonSize
-            height: buttonSize
-            image: "qrc:/core/res/undo.svg"
-            enabled: Paint.canUndo
-            onClicked: Paint.undo()
-        }
-
-        Button {
-            anchors.verticalCenter: parent.verticalCenter
-            style: toolBar.style.normalButton
-            width: buttonSize
-            height: buttonSize
-            image: "qrc:/core/res/redo.svg"
-            enabled: Paint.canRedo
-            onClicked: Paint.redo()
-        }
-
-        Item {
-            width: 16
-            height: parent.height
-        }
-
-        Button {
-            anchors.verticalCenter: parent.verticalCenter
-            style: toolBar.style.normalButton
-            enabled: Paint.selected;
-            width: buttonSize
-            height: buttonSize
-            image: "qrc:/core/res/delete.svg"
-            onClicked: Paint.del()
-        }
-
-        Button {
-            anchors.verticalCenter: parent.verticalCenter
-            style: toolBar.style.normalButton
-            enabled: Paint.selected;
-            width: buttonSize
-            height: buttonSize
-            image: "qrc:/plugin/res/duplicate.svg"
-            onClicked: Paint.duplicate()
-        }
-
-        Item {
-            width: 16
-            height: parent.height
-        }
-
         Image {
             anchors.verticalCenter: parent.verticalCenter
             height: buttonSize

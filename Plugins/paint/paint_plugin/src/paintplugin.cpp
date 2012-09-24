@@ -6,13 +6,17 @@
 
 #include <QtPlugin>
 #include "paintplugin.h"
+#include "pathprocessor.h"
 
-void PaintPlugin::init(ICore *core, const QStringList &param)
+void PaintPlugin::init(ICore *core, const QStringList &param __attribute__((__unused__)))
 {
   QWidget *view = qobject_cast<QWidget*>(core->mainView());
-  paint_ = new Paint(view, this);
-  core->addObject("Paint", paint_);
-  core->addPluginWebObject("paint", paint_);
+  Paint *paint = new Paint(view, this);
+  PathProcessor *path_processor = new PathProcessor(this);
+  core->addObject("Paint", paint);
+  core->addWebObject("paint", paint);
+  core->addWebObject("path", path_processor);
+  core->addQml("qrc:/plugin/qml/ModeBar.qml");
   core->loadWebPage("qrc:/plugin/web/page.html");
 }
 

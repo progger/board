@@ -1,12 +1,14 @@
+var webObjects = {};
+
 function onUnloadPlugin(obj) {
     webView.html = "";
     webObject.plugin = null;
+    webObjects = {};
 }
 
-function onAddWebViewPluginObject(name, obj) {
-    var p = {};
-    p[name] = obj;
-    webObject.plugin = p;
+function onaddPluginWebObject(name, obj) {
+    webObjects[name] = obj;
+    webObject.plugin = webObjects;
 }
 
 function onLoadWebViewPage(url, obj) {
@@ -14,5 +16,5 @@ function onLoadWebViewPage(url, obj) {
 }
 
 Core.unloadPlugin.connect(onUnloadPlugin);
-Core.addWebViewPluginObject.connect(onAddWebViewPluginObject);
+Core.addPluginWebObject.connect(onaddPluginWebObject);
 Core.loadWebViewPage.connect(onLoadWebViewPage);

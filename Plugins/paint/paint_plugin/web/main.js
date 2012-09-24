@@ -6,6 +6,7 @@
 
 var core = board.core;
 var paint = board.plugin.paint;
+var path_prc = board.plugin.path;
 
 function main() {
     var canvas = document.getElementById("canvas");
@@ -39,6 +40,7 @@ function modeChange() {
     var cursor;
     switch (paint.mode) {
         case "pen":
+        case "magic_pen":
         case "rectangle":
         case "circle":
         case "ellipse":

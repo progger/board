@@ -17,6 +17,7 @@ void PaintPlugin::init(ICore *core, const QStringList &param __attribute__((__un
   core->addWebObject("paint", paint);
   core->addWebObject("path", path_processor);
   core->addQml("qrc:/plugin/qml/ModeBar.qml");
+  core->addQml("qrc:/plugin/qml/ToolBar.qml");
   core->loadWebPage("qrc:/plugin/web/page.html");
 }
 

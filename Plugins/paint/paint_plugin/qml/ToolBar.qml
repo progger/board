@@ -11,7 +11,10 @@ Rectangle {
     id: toolBar
     property variant style: board.style
     property int buttonSize: height - 6
-    height: parent.height
+    anchors.top: parent.top
+    anchors.right: parent.right
+    width: 280
+    height: style.panelSize
     color: style.panelColor
 
     Row {

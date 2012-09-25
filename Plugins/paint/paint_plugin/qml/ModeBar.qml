@@ -206,8 +206,8 @@ Rectangle {
         anchors.fill: parent
         drag.target: modeBar
         drag.minimumX: 0
-        drag.maximumX: parent.width - width
+        drag.maximumX: board.width - width
         drag.minimumY: 0
-        drag.maximumY: parent.height - height
+        drag.maximumY: board.height - height
     }
 }

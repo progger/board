@@ -1,10 +1,9 @@
 var qmlObjects = [];
 
-function onUnloadPlugin(obj) {
-    for (i in qmlObjects)
+function onUnloadPlugin(plugin) {
+    for (var i in qmlObjects)
     {
-        obj = qmlObjects[i];
-        console.log("destroy: " + obj);
+        var obj = qmlObjects[i];
         obj.destroy();
     }
     qmlObjects.length = 0;

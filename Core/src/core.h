@@ -18,6 +18,7 @@ class Core : public QObject, public ICore
 {
   Q_OBJECT
   Q_INTERFACES(ICore)
+  Q_PROPERTY(bool pluginMode READ pluginMode)
   Q_PROPERTY(bool menuVisible READ menuVisible WRITE setMenuVisible NOTIFY updateMenuVisible)
   Q_PROPERTY(bool keyboard READ keyboard WRITE setKeyboard NOTIFY updateKeyboard)
 
@@ -31,14 +32,17 @@ public:
   virtual void addWebObject(const QString &name, QObject *obj);
   virtual void loadWebPage(const QString &url);
   virtual QObject *mainView();
+  void init();
+  bool pluginMode() { return plugin_mode_; }
   bool menuVisible() { return menu_visible_; }
   bool keyboard() { return keyboard_; }
 
 signals:
+  void updatePluginInfo();
   void updateMenuVisible();
   void updateKeyboard();
-  void loadPlugin(QObject *plugin);
-  void unloadPlugin(QObject *plugin);
+  void loadPlugin();
+  void unloadPlugin();
   void addPluginQml(QString path);
   void addPluginWebObject(QString name, QObject *obj);
   void loadWebViewPage(QString url);
@@ -50,6 +54,7 @@ public slots:
   void selectPlugin(QObject *obj);
 
 private:
+  bool plugin_mode_;
   bool menu_visible_;
   bool keyboard_;
   PluginInfo *root_plugin_info_;
@@ -57,6 +62,7 @@ private:
   QPluginLoader *loader_;
 
   void loadPluginInfo();
+  bool loadPluginInternal(const QString &plugin_name, const QStringList &param);
 };
 
 #endif // CORE_H

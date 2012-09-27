@@ -1,4 +1,3 @@
-// import QtQuick 1.0 // to target S60 5th Edition or Maemo 5
 import QtQuick 1.1
 
 Item {
@@ -7,7 +6,7 @@ Item {
     property real textHeight: 32
     property real buttonHeight: imageHeigth + textHeight
     property real buttonMargin: 8
-    property variant currenPluginInfo: RootPluginInfo
+    property variant currentPluginInfo: ({})
 
     Rectangle {
         anchors.fill: parent
@@ -25,7 +24,7 @@ Item {
         radius: 8
         smooth: true
         opacity: 0.5
-        visible: currenPluginInfo != RootPluginInfo
+        visible: currentPluginInfo != RootPluginInfo
 
         Image {
             anchors.fill: parent
@@ -36,7 +35,7 @@ Item {
             id: backButtonMouseArea
             anchors.fill: parent
             hoverEnabled: true
-            onClicked: currenPluginInfo = currenPluginInfo.parent
+            onClicked: currentPluginInfo = currentPluginInfo.parent
         }
     }
 
@@ -49,7 +48,7 @@ Item {
         anchors.margins: buttonMargin
         cellWidth: buttonWidth + buttonMargin
         cellHeight: buttonHeight + buttonMargin
-        model: currenPluginInfo.children
+        model: currentPluginInfo.children
         delegate: Item {
             id: gridDelegate
             width: buttonWidth
@@ -63,7 +62,7 @@ Item {
 
                 function onClick(modelData) {
                     if (modelData.isDir)
-                        currenPluginInfo = modelData;
+                        currentPluginInfo = modelData;
                     else
                         Core.selectPlugin(modelData);
                 }
@@ -102,5 +101,6 @@ Item {
                 }
             }
         }
+        Component.onCompleted: Core.updatePluginInfo.connect(function() {currentPluginInfo = RootPluginInfo})
     }
 }

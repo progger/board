@@ -22,7 +22,7 @@ Rectangle {
         width: board.style.panelSize
         height: board.style.panelSize
         image: "qrc:/core/res/close.svg"
-        onClicked: if (Core.menuVisible) Qt.quit(); else Core.menuVisible = true;
+        onClicked: if (Core.pluginMode || Core.menuVisible) Qt.quit(); else Core.menuVisible = true;
     }
 
     Menu {

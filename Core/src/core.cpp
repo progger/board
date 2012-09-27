@@ -17,12 +17,12 @@ using namespace Qt;
 
 Core::Core(QDeclarativeView *parent) :
   QObject(parent),
-  menu_visible_(true),
+  plugin_mode_(false),
+  menu_visible_(false),
   keyboard_(false),
   plugin_info_(NULL)
 {
   root_plugin_info_ = new PluginInfo(this, QString());
-  loadPluginInfo();
   QDeclarativeContext *context = parent->rootContext();
   context->setContextProperty("Core", this);
   context->setContextProperty("RootPluginInfo", root_plugin_info_);
@@ -79,6 +79,20 @@ QObject *Core::mainView()
   return parent();
 }
 
+void Core::init()
+{
+  auto args = QCoreApplication::arguments();
+  if (args.length() > 1 && loadPluginInternal(args.at(1), args.mid(2)))
+  {
+    plugin_mode_ = true;
+  }
+  else
+  {
+    loadPluginInfo();
+    setMenuVisible(true);
+  }
+}
+
 void Core::emulateKeyPress(int key, int modifiers, const QString &text) const
 {
   KeyboardModifiers md = KeyboardModifiers(modifiers);
@@ -88,41 +102,50 @@ void Core::emulateKeyPress(int key, int modifiers, const QString &text) const
 
 void Core::selectPlugin(QObject *obj)
 {
-  PluginInfo *plugin_info = qobject_cast<PluginInfo*>(obj);
+  auto *plugin_info = qobject_cast<PluginInfo*>(obj);
   if (!plugin_info) return;
-  emit unloadPlugin(plugin_info_);
-  delete loader_;
-  QDir dir = QDir(QApplication::applicationDirPath());
-  if (!dir.cd("plugins")) return;
-  QString file_name = plugin_info->pluginName() + ".plugin";
-  if (!dir.exists(file_name)) return;
-  file_name = dir.filePath(file_name);
-  loader_ = new QPluginLoader(file_name, this);
-  QObject *plugin_obj = loader_->instance();
-  if (!plugin_obj) return;
-  IPlugin *plugin = qobject_cast<IPlugin*>(plugin_obj);
-  if (!plugin) return;
-  plugin->init(this, plugin_info->pluginParam());
-  plugin_info_ = plugin_info;
-  emit loadPlugin(plugin_info);
-  setMenuVisible(false);
+  if (loadPluginInternal(plugin_info->pluginName(), plugin_info->pluginParam()))
+  {
+    plugin_info_ = plugin_info;
+    setMenuVisible(false);
+  }
 }
 
 void Core::loadPluginInfo()
 {
-  QDir dir = QDir(QApplication::applicationDirPath());
+  auto dir = QDir(QApplication::applicationDirPath());
   if (!dir.cd("plugins")) return;
   QStringList filter("*.info");
-  QFileInfoList files = dir.entryInfoList(filter, QDir::Files);
-  foreach (QFileInfo file_info, files)
+  auto files = dir.entryInfoList(filter, QDir::Files);
+  foreach (auto file_info, files)
   {
-    QPluginLoader *loader = new QPluginLoader(file_info.filePath(), this);
+    auto *loader = new QPluginLoader(file_info.filePath(), this);
     QObject* obj = loader->instance();
     if (!obj) continue;
     IExternal *iplugin_info = qobject_cast<IExternal *>(obj);
     if (!iplugin_info) continue;
     iplugin_info->init(this);
   }
+  emit updatePluginInfo();
+}
+
+bool Core::loadPluginInternal(const QString &plugin_name, const QStringList &param)
+{
+  emit unloadPlugin();
+  delete loader_;
+  QDir dir = QDir(QApplication::applicationDirPath());
+  if (!dir.cd("plugins")) return false;
+  QString file_name = plugin_name + ".plugin";
+  if (!dir.exists(file_name)) return false;
+  file_name = dir.filePath(file_name);
+  loader_ = new QPluginLoader(file_name, this);
+  QObject *plugin_obj = loader_->instance();
+  if (!plugin_obj) return false;
+  IPlugin *plugin = qobject_cast<IPlugin*>(plugin_obj);
+  if (!plugin) return false;
+  plugin->init(this, param);
+  emit loadPlugin();
+  return true;
 }
 
 void Core::setKeyboard(bool keyboard)

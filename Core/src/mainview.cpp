@@ -15,9 +15,10 @@ MainView::MainView(QWidget *parent) :
   QDeclarativeView(parent)
 {
   connect(engine(), SIGNAL(quit()), SLOT(close()));
-  new Core(this);
+  auto core = new Core(this);
   setResizeMode(QDeclarativeView::SizeRootObjectToView);
   setSource(QUrl("qrc:/core/qml/Board.qml"));
+  core->init();
   QGLFormat format = QGLFormat(QGL::SingleBuffer | QGL::Rgba | QGL::DirectRendering | QGL::SampleBuffers);
   QGLWidget *widget = new QGLWidget(format);
   widget->setAutoFillBackground(false);

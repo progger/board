@@ -1,6 +1,6 @@
 var webObjects = {};
 
-function onUnloadPlugin(obj) {
+function onUnloadPlugin() {
     webView.html = "";
     webObject.plugin = null;
     webObjects = {};

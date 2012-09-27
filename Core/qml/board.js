@@ -1,6 +1,6 @@
 var qmlObjects = [];
 
-function onUnloadPlugin(plugin) {
+function onUnloadPlugin() {
     for (var i in qmlObjects)
     {
         var obj = qmlObjects[i];

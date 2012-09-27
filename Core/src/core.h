@@ -31,6 +31,8 @@ public:
   virtual void addQml(const QString &path);
   virtual void addWebObject(const QString &name, QObject *obj);
   virtual void loadWebPage(const QString &url);
+  virtual void loadLib(const QString &lib_name);
+  virtual void loadLibs(const QStringList &libs);
   virtual QObject *mainView();
   void init();
   bool pluginMode() { return plugin_mode_; }
@@ -44,6 +46,7 @@ signals:
   void loadPlugin();
   void unloadPlugin();
   void addPluginQml(QString path);
+  void addLibWebObject(QString name, QObject *obj);
   void addPluginWebObject(QString name, QObject *obj);
   void loadWebViewPage(QString url);
 
@@ -57,6 +60,8 @@ private:
   bool plugin_mode_;
   bool menu_visible_;
   bool keyboard_;
+  bool load_plugin_;
+  QStringList libs_;
   PluginInfo *root_plugin_info_;
   PluginInfo *plugin_info_;
   QPluginLoader *loader_;

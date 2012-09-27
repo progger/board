@@ -20,6 +20,8 @@ public:
   virtual void addQml(const QString &path) = 0;
   virtual void addWebObject(const QString &name, QObject *obj) = 0;
   virtual void loadWebPage(const QString &url) = 0;
+  virtual void loadLib(const QString &lib_name) = 0;
+  virtual void loadLibs(const QStringList &libs) = 0;
   virtual QObject *mainView() = 0;
 };
 

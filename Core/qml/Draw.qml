@@ -20,6 +20,7 @@ WebView {
         id: webObject
         WebView.windowObjectName: "board"
         property variant core: Core
+        property variant lib: []
         property variant plugin: []
     }
 }

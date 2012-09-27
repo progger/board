@@ -56,3 +56,10 @@ OTHER_FILES += qml/Board.qml \
 
 RESOURCES += \
     core.qrc
+
+win32 {
+  QMAKE_PRE_LINK += cmd /c mkdir ..\\bin\\libs
+  QMAKE_PRE_LINK += cmd /c mkdir ..\\bin\\plugins
+} else {
+  QMAKE_PRE_LINK = mkdir -p ../bin/libs ../bin/plugins
+}

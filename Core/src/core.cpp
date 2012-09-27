@@ -66,12 +66,41 @@ void Core::addQml(const QString &path)
 
 void Core::addWebObject(const QString &name, QObject *obj)
 {
-  emit addPluginWebObject(name, obj);
+  if (load_plugin_)
+    emit addPluginWebObject(name, obj);
+  else
+    emit addLibWebObject(name, obj);
 }
 
 void Core::loadWebPage(const QString &url)
 {
   emit loadWebViewPage(url);
+}
+
+void Core::loadLib(const QString &lib_name)
+{
+  if (libs_.contains(lib_name)) return;
+  auto dir = QDir(QApplication::applicationDirPath());
+  if (!dir.cd("libs")) return;
+  auto file_name = lib_name + ".lib";
+  if (!dir.exists(file_name)) return;
+  file_name = dir.filePath(file_name);
+  auto loader = new QPluginLoader(file_name, this);
+  QObject *lib_obj = loader->instance();
+  if (!lib_obj) return;
+  IExternal *lib = qobject_cast<IExternal*>(lib_obj);
+  if (!lib) return;
+  load_plugin_ = false;
+  lib->init(this);
+  libs_.push_back(lib_name);
+}
+
+void Core::loadLibs(const QStringList &libs)
+{
+  foreach (auto lib_name, libs)
+  {
+    loadLib(lib_name);
+  }
 }
 
 QObject *Core::mainView()
@@ -143,6 +172,7 @@ bool Core::loadPluginInternal(const QString &plugin_name, const QStringList &par
   if (!plugin_obj) return false;
   IPlugin *plugin = qobject_cast<IPlugin*>(plugin_obj);
   if (!plugin) return false;
+  load_plugin_ = true;
   plugin->init(this, param);
   emit loadPlugin();
   return true;

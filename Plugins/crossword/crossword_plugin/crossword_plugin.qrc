@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/plugin/">
+        <file>web/page.html</file>
+    </qresource>
+</RCC>

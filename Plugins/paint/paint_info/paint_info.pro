@@ -7,7 +7,6 @@
 QT       -= gui
 
 TARGET = paint_info
-TARGET_EXT = test
 TEMPLATE = lib
 CONFIG += plugin
 VERSION = 1.0.0

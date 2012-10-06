@@ -58,7 +58,6 @@ OTHER_FILES += \
     res/font_size.svg \
     res/color.svg \
     web/page.html \
-    web/error.js \
     web/main.js \
     web/tool.js \
     web/draw.js \

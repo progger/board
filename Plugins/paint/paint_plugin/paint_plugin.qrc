@@ -17,7 +17,6 @@
         <file>res/font_size.svg</file>
         <file>res/color.svg</file>
         <file>web/page.html</file>
-        <file>web/error.js</file>
         <file>web/main.js</file>
         <file>web/tool.js</file>
         <file>web/draw.js</file>

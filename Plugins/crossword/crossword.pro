@@ -1,4 +1,5 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    crossword_info
+    crossword_info \
+    crossword_plugin

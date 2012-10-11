@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/plugin/">
         <file>web/page.html</file>
+        <file>web/main.js</file>
     </qresource>
 </RCC>

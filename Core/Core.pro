@@ -9,7 +9,7 @@ QT       += core opengl declarative
 TARGET = Board
 TEMPLATE = app
 VERSION = 1.1.0
-QMAKE_CXXFLAGS += -std=gnu++11
+QMAKE_CXXFLAGS += -std=c++11
 
 DESTDIR = ../bin
 OBJECTS_DIR = ./build

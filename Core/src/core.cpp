@@ -20,9 +20,12 @@ Core::Core(QDeclarativeView *parent) :
   plugin_mode_(false),
   menu_visible_(false),
   keyboard_(false),
-  plugin_info_(NULL)
+  load_plugin_(false),
+  libs_(),
+  root_plugin_info_(new PluginInfo(this, QString())),
+  plugin_info_(nullptr),
+  loader_(nullptr)
 {
-  root_plugin_info_ = new PluginInfo(this, QString());
   QDeclarativeContext *context = parent->rootContext();
   context->setContextProperty("Core", this);
   context->setContextProperty("RootPluginInfo", root_plugin_info_);

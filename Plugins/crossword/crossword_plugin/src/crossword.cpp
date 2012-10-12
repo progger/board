@@ -1,5 +1,6 @@
 #include <QFile>
 #include "parser.h"
+#include "cell.h"
 #include "crossword.h"
 
 Crossword::Crossword(QObject *parent) :
@@ -7,7 +8,7 @@ Crossword::Crossword(QObject *parent) :
   width_(0),
   height_(0),
   grid_(nullptr),
-  view_grid_(nullptr),
+  rows_(),
   across_(),
   down_()
 {
@@ -16,7 +17,6 @@ Crossword::Crossword(QObject *parent) :
 Crossword::~Crossword()
 {
   delete[] grid_;
-  delete[] view_grid_;
 }
 
 bool Crossword::init(const QString &file_name)
@@ -102,10 +102,38 @@ bool Crossword::init(const QString &file_name)
       }
     }
   }
-  view_grid_ = new QString[width_ * height_];
-  for (int i = 0; i < grid_size; i++)
+
+  bool change;
+  do
   {
-    view_grid_[i] = grid_[i] == '.' ? "" : " ";
+    change = false;
+    for (int y = 0; y < height_; y++)
+    {
+      for (int x = 0; x < width_; x++)
+      {
+        if (grid(x, y) == '.' && (
+              x == 0 || x == width_ - 1 || y == 0 || y == width_ -1 ||
+              grid(x - 1, y) == ' ' || grid(x + 1, y) == ' ' ||
+              grid(x, y - 1) == ' ' || grid(x, y + 1) == ' '))
+        {
+          grid_[y * width_ + x] = ' ';
+          change = true;
+        }
+      }
+    }
+  }
+  while (change);
+
+  for (int y = 0; y < height_; y++)
+  {
+    auto row = new Row(this);
+    for (int x = 0; x < width_; x++)
+    {
+      QChar chr = grid(x, y);
+      auto cell = new Cell(chr == ' ' ? 0 : chr == '.' ? 1 : 2);
+      row->addCell(cell);
+    }
+    rows_.append(row);
   }
   return true;
 }

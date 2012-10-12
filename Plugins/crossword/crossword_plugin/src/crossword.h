@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "word.h"
+#include "row.h"
 
 class Crossword : public QObject
 {
@@ -16,7 +17,7 @@ public:
   int width() { return width_; }
   int height() { return height_; }
   QChar grid(int x, int y) { return grid_[y * width_ + x]; }
-  Q_INVOKABLE QString viewGrid(int x, int y) { return view_grid_[y * width_ + x]; }
+  Q_INVOKABLE QList<QObject*> rows() { return rows_; }
   Q_INVOKABLE QList<QObject*> across() { return across_; }
   Q_INVOKABLE QList<QObject*> down() { return down_; }
 signals:
@@ -26,7 +27,7 @@ private:
   int width_;
   int height_;
   QChar *grid_;
-  QString *view_grid_;
+  QList<QObject*> rows_;
   QList<QObject*> across_;
   QList<QObject*> down_;
 };

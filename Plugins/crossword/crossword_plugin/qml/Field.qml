@@ -18,27 +18,25 @@ Rectangle {
         y: parent.height * 0.05
 
         Repeater {
-            model: Crossword.height
+            model: Crossword.rows()
 
             Row {
-                property int rowNum: index
 
                 Repeater {
-                    model: Crossword.width
+                    model: modelData.cells()
 
                     Rectangle {
-                        property int colNum: index
                         width: cellSize
                         height: cellSize
-                        color: Crossword.viewGrid(colNum, rowNum) ? "white" : "black"
-                        border.width: 1
+                        color: modelData.type() == 1 ? "black" : "transparent"
+                        border.width: modelData.type() > 0
                         border.color: "black"
 
                         Text {
                             color: "black"
                             anchors.centerIn: parent
                             font.pixelSize: parent.height / 2
-                            text: Crossword.viewGrid(colNum, rowNum)
+                            text: modelData.letter
                             smooth: true
                         }
                     }

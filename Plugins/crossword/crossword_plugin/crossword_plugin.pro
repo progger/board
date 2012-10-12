@@ -23,14 +23,18 @@ SOURCES += \
     src/crosswordplugin.cpp \
     src/crossword.cpp \
     src/parser.cpp \
-    src/word.cpp
+    src/word.cpp \
+    src/cell.cpp \
+    src/row.cpp
 
 HEADERS += icore.h \
     iplugin.h \
     src/crosswordplugin.h \
     src/crossword.h \
     src/parser.h \
-    src/word.h
+    src/word.h \
+    src/cell.h \
+    src/row.h
 
 win32 {
   QMAKE_POST_LINK = cmd /c $(MOVE) .\\build\\$(TARGET) ..\\..\\..\\bin\\plugins\\crossword.plugin

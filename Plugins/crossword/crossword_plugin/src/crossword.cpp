@@ -7,6 +7,7 @@ Crossword::Crossword(QObject *parent) :
   width_(0),
   height_(0),
   grid_(nullptr),
+  view_grid_(nullptr),
   across_(),
   down_()
 {
@@ -15,6 +16,7 @@ Crossword::Crossword(QObject *parent) :
 Crossword::~Crossword()
 {
   delete[] grid_;
+  delete[] view_grid_;
 }
 
 bool Crossword::init(const QString &file_name)
@@ -34,11 +36,12 @@ bool Crossword::init(const QString &file_name)
   height_ = size_parts[1].toInt(&ok);
   if (!ok) return false;
   if (!parser.readTo("<GRID>")) return false;
-  grid_ = new QChar[width_ * height_];
-  for (int i = 0; i < height_; i++)
+  int grid_size = width_ * height_;
+  grid_ = new QChar[grid_size];
+  for (int y = 0; y < height_; y++)
   {
     if (!parser.read(str) || str.length() != width_) return false;
-    memcpy(grid_ + i * width_, str.data(), width_ * sizeof(QChar));
+    memcpy(grid_ + y * width_, str.data(), width_ * sizeof(QChar));
   }
   if (!parser.readTo("<ACROSS>")) return false;
   for (int y = 0; y < height_; y++)
@@ -98,6 +101,11 @@ bool Crossword::init(const QString &file_name)
         }
       }
     }
+  }
+  view_grid_ = new QString[width_ * height_];
+  for (int i = 0; i < grid_size; i++)
+  {
+    view_grid_[i] = grid_[i] == '.' ? "" : " ";
   }
   return true;
 }

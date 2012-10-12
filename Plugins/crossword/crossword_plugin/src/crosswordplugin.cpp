@@ -5,10 +5,9 @@
 void CrosswordPlugin::init(ICore *core, const QStringList &param)
 {
   auto crossword = new Crossword(this);
-  crossword->init(param[0]);
-  core->loadWebPage("qrc:/plugin/web/page.html");
+  if (!crossword->init(param[0])) return;
   core->addObject("Crossword", crossword);
-  core->addWebObject("crossword", crossword);
+  core->addQml("qrc:/plugin/qml/Field.qml");
 }
 
 Q_EXPORT_PLUGIN2(IPlugin, CrosswordPlugin)

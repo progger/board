@@ -7,27 +7,28 @@
 class Crossword : public QObject
 {
   Q_OBJECT
-  Q_PROPERTY(int width READ width)
-  Q_PROPERTY(int height READ height)
-  Q_PROPERTY(int acrossCount READ acrossCount)
-  Q_PROPERTY(int downCount READ downCount)
+  Q_PROPERTY(int width READ width NOTIFY updateWidth)
+  Q_PROPERTY(int height READ height NOTIFY updateHeight)
 public:
   explicit Crossword(QObject *parent = 0);
   virtual ~Crossword();
   bool init(const QString &file_name);
   int width() { return width_; }
   int height() { return height_; }
-  int acrossCount() { return across_.length(); }
-  int downCount() { return down_.length(); }
-  Q_INVOKABLE QChar grid(int x, int y) { return grid_[y * width_ + x]; }
-  Q_INVOKABLE QObject * across(int index) { return across_.at(index); }
-  Q_INVOKABLE QObject * down(int index) { return down_.at(index); }
+  QChar grid(int x, int y) { return grid_[y * width_ + x]; }
+  Q_INVOKABLE QString viewGrid(int x, int y) { return view_grid_[y * width_ + x]; }
+  Q_INVOKABLE QList<QObject*> across() { return across_; }
+  Q_INVOKABLE QList<QObject*> down() { return down_; }
+signals:
+  void updateWidth();
+  void updateHeight();
 private:
   int width_;
   int height_;
   QChar *grid_;
-  QList<Word*> across_;
-  QList<Word*> down_;
+  QString *view_grid_;
+  QList<QObject*> across_;
+  QList<QObject*> down_;
 };
 
 #endif // CROSSWORD_H

@@ -6,20 +6,17 @@
 class Word : public QObject
 {
   Q_OBJECT
-  Q_PROPERTY(int x READ x)
-  Q_PROPERTY(int y READ y)
-  Q_PROPERTY(int length READ length)
-  Q_PROPERTY(QString word READ word)
-  Q_PROPERTY(QString question READ question)
-  Q_PROPERTY(bool state READ state)
+  Q_PROPERTY(bool state READ state NOTIFY updateState)
 public:
   explicit Word(int x, int y, const QString &word, const QString &question, QObject *parent = 0);
-  int x() { return x_; }
-  int y() { return y_; }
-  int length() { return length_; }
-  QString word() { return word_; }
-  QString question() { return question_; }
+  Q_INVOKABLE int x() { return x_; }
+  Q_INVOKABLE int y() { return y_; }
+  Q_INVOKABLE int length() { return length_; }
+  Q_INVOKABLE QString word() { return word_; }
+  Q_INVOKABLE QString question() { return question_; }
   bool state() { return state_; }
+signals:
+  void updateState();
 private:
   int x_;
   int y_;

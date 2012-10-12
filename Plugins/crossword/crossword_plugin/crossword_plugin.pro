@@ -39,8 +39,7 @@ win32 {
 }
 
 OTHER_FILES += \
-    web/page.html \
-    web/main.js
+    qml/Field.qml
 
 RESOURCES += \
     crossword_plugin.qrc

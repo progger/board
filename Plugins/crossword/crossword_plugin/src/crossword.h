@@ -18,18 +18,20 @@ public:
   int height() { return height_; }
   QChar grid(int x, int y) { return grid_[y * width_ + x]; }
   Q_INVOKABLE QList<QObject*> rows() { return rows_; }
-  Q_INVOKABLE QList<QObject*> across() { return across_; }
-  Q_INVOKABLE QList<QObject*> down() { return down_; }
+  Q_INVOKABLE QList<QObject*> words() { return words_; }
 signals:
   void updateWidth();
   void updateHeight();
+public slots:
+  void hideHighlight();
+  void highlightWord(QObject *wordObj);
+  void highlightCell(QObject *cellObj);
 private:
   int width_;
   int height_;
   QChar *grid_;
   QList<QObject*> rows_;
-  QList<QObject*> across_;
-  QList<QObject*> down_;
+  QList<QObject*> words_;
 };
 
 #endif // CROSSWORD_H

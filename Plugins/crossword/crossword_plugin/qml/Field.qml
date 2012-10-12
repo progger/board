@@ -8,7 +8,7 @@ import QtQuick 1.1
 
 Rectangle {
     property real cellSize: Math.min(width * 0.4 / Crossword.width, height * 0.65 / Crossword.height)
-    property real questionHeight: height * 0.65 / (Crossword.across().length + Crossword.down().length)
+    property real questionHeight: height * 0.65 / Crossword.words().length
     z: 1
     anchors.fill: parent
     color: "white"
@@ -28,7 +28,7 @@ Rectangle {
                     Rectangle {
                         width: cellSize
                         height: cellSize
-                        color: modelData.type() == 1 ? "black" : "transparent"
+                        color: getColor(modelData)
                         border.width: modelData.type() > 0
                         border.color: "black"
 
@@ -38,6 +38,23 @@ Rectangle {
                             font.pixelSize: parent.height / 2
                             text: modelData.letter
                             smooth: true
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: Crossword.highlightCell(modelData)
+                        }
+
+                        function getColor(cell) {
+                            switch (cell.type())
+                            {
+                            case 0:
+                                return "transparent";
+                            case 1:
+                                return "black";
+                            case 2:
+                                return cell.highlight ? "#A0A0FF" : "white";
+                            }
                         }
                     }
                 }
@@ -51,7 +68,7 @@ Rectangle {
         width: parent.width * 0.45
 
         Repeater {
-            model: Crossword.across()
+            model: Crossword.words()
 
             Item {
                 width: parent.width
@@ -60,7 +77,7 @@ Rectangle {
                 Rectangle {
                     anchors.fill: parent
                     anchors.margins: 4
-                    color: "#E0E0E0"
+                    color: modelData.highlight ? "#A0A0FF" : "#E0E0E0"
 
                     Text {
                         color: "black"
@@ -72,31 +89,10 @@ Rectangle {
                         text: modelData.question()
                         smooth: true
                     }
-                }
-            }
-        }
 
-        Repeater {
-            model: Crossword.down()
-
-            Item {
-                width: parent.width
-                height: questionHeight
-
-                Rectangle {
-                    anchors.fill: parent
-                    anchors.margins: 4
-                    color: "#E0E0E0"
-
-                    Text {
-                        color: "black"
+                    MouseArea {
                         anchors.fill: parent
-                        anchors.margins: 4
-                        font.pixelSize: parent.height * 0.4
-                        horizontalAlignment: Text.AlignJustify
-                        wrapMode: Text.Wrap
-                        text: modelData.question()
-                        smooth: true
+                        onClicked: Crossword.highlightWord(modelData)
                     }
                 }
             }

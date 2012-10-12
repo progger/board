@@ -9,8 +9,7 @@ Crossword::Crossword(QObject *parent) :
   height_(0),
   grid_(nullptr),
   rows_(),
-  across_(),
-  down_()
+  words_()
 {
 }
 
@@ -55,7 +54,7 @@ bool Crossword::init(const QString &file_name)
         if (wrd.length() > 1)
         {
           if (!parser.read(str)) return false;
-          across_.append(new Word(x - wrd.length(), y, wrd, str, this));
+          words_.append(new Word(x - wrd.length(), y, false, wrd, str, this));
           wrd = "";
         }
       }
@@ -67,7 +66,7 @@ bool Crossword::init(const QString &file_name)
     if (wrd.length() > 1)
     {
       if (!parser.read(str)) return false;
-      across_.append(new Word(width_ - wrd.length(), y, wrd, str, this));
+      words_.append(new Word(width_ - wrd.length(), y, false, wrd, str, this));
     }
   }
   if (!parser.readTo("<DOWN>")) return false;
@@ -96,7 +95,7 @@ bool Crossword::init(const QString &file_name)
           if (wrd.length() > 1)
           {
             if (!parser.read(str)) return false;
-            down_.append(new Word(x, y, wrd, str, this));
+            words_.append(new Word(x, y, true, wrd, str, this));
           }
         }
       }
@@ -130,10 +129,72 @@ bool Crossword::init(const QString &file_name)
     for (int x = 0; x < width_; x++)
     {
       QChar chr = grid(x, y);
-      auto cell = new Cell(chr == ' ' ? 0 : chr == '.' ? 1 : 2);
+      auto cell = new Cell(x, y, chr == ' ' ? 0 : chr == '.' ? 1 : 2);
       row->addCell(cell);
     }
     rows_.append(row);
   }
   return true;
+}
+
+
+void Crossword::hideHighlight()
+{
+  foreach (QObject *rowObj, rows_)
+  {
+    Row *row = static_cast<Row*>(rowObj);
+    foreach (QObject *cellObj, row->cells())
+    {
+      Cell *cell = static_cast<Cell*>(cellObj);
+      cell->setHighlight(false);
+    }
+  }
+  foreach (QObject *wordObj, words_)
+  {
+    Word *word = static_cast<Word*>(wordObj);
+    word->setHighlight(false);
+  }
+}
+
+void Crossword::highlightWord(QObject *wordObj)
+{
+  Word *word = qobject_cast<Word*>(wordObj);
+  if (!word) return;
+  hideHighlight();
+  word->setHighlight(true);
+  if (word->directon())
+  {
+    for (int i = 0; i < word->length(); i++)
+    {
+      Row *row = static_cast<Row*>(rows_.at(word->y() + i));
+      Cell *cell = static_cast<Cell*>(row->cells().at(word->x()));
+      cell->setHighlight(true);
+    }
+  }
+  else
+  {
+    Row *row = static_cast<Row*>(rows_.at(word->y()));
+    for (int i = 0; i < word->length(); i++)
+    {
+      Cell *cell = static_cast<Cell*>(row->cells().at(word->x() + i));
+      cell->setHighlight(true);
+    }
+  }
+}
+
+void Crossword::highlightCell(QObject *cellObj)
+{
+  Cell *cell = qobject_cast<Cell*>(cellObj);
+  if (!cell || cell->type() != 2) return;
+  foreach (QObject *wordObj, words_)
+  {
+    Word *word = static_cast<Word*>(wordObj);
+    if (word->directon()
+        ? cell->x() == word->x() && cell->y() >= word->y() && cell->y() < word->y() + word->length()
+        : cell->y() == word->y() && cell->x() >= word->x() && cell->x() < word->x() + word->length())
+    {
+      highlightWord(word);
+      break;
+    }
+  }
 }

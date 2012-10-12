@@ -12,7 +12,7 @@ public:
   explicit Word(int x, int y, bool direction, const QString &word, const QString &question, QObject *parent = 0);
   int x() { return x_; }
   int y() { return y_; }
-  bool directon() { return direction_; }
+  bool direction() { return direction_; }
   int length() { return length_; }
   QString word() { return word_; }
   Q_INVOKABLE QString question() { return question_; }

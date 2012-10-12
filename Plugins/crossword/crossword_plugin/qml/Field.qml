@@ -12,6 +12,7 @@ Rectangle {
     z: 1
     anchors.fill: parent
     color: "white"
+    Keys.onPressed: Crossword.edit(event.text)
 
     Column {
         x: (parent.width * 0.5 - width) / 2
@@ -53,7 +54,7 @@ Rectangle {
                             case 1:
                                 return "black";
                             case 2:
-                                return cell.highlight ? "#A0A0FF" : "white";
+                                return cell.editing ? "#A0FFA0" : cell.highlight ? "#A0A0FF" : "white";
                             }
                         }
                     }

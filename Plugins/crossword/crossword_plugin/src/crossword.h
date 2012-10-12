@@ -4,6 +4,7 @@
 #include <QObject>
 #include "word.h"
 #include "row.h"
+#include "cell.h"
 
 class Crossword : public QObject
 {
@@ -19,6 +20,7 @@ public:
   QChar grid(int x, int y) { return grid_[y * width_ + x]; }
   Q_INVOKABLE QList<QObject*> rows() { return rows_; }
   Q_INVOKABLE QList<QObject*> words() { return words_; }
+  Cell * getCell(int x, int y);
 signals:
   void updateWidth();
   void updateHeight();
@@ -26,12 +28,15 @@ public slots:
   void hideHighlight();
   void highlightWord(QObject *wordObj);
   void highlightCell(QObject *cellObj);
+  void edit(QString key);
 private:
   int width_;
   int height_;
   QChar *grid_;
   QList<QObject*> rows_;
   QList<QObject*> words_;
+  Word* editing_word_;
+  int editing_pos_;
 };
 
 #endif // CROSSWORD_H

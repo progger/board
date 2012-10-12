@@ -9,7 +9,9 @@ Crossword::Crossword(QObject *parent) :
   height_(0),
   grid_(nullptr),
   rows_(),
-  words_()
+  words_(),
+  editing_word_(nullptr),
+  editing_pos_(0)
 {
 }
 
@@ -137,6 +139,11 @@ bool Crossword::init(const QString &file_name)
   return true;
 }
 
+Cell *Crossword::getCell(int x, int y)
+{
+  Row *row = static_cast<Row*>(rows_.at(y));
+  return static_cast<Cell*>(row->cells().at(x));
+}
 
 void Crossword::hideHighlight()
 {
@@ -147,6 +154,7 @@ void Crossword::hideHighlight()
     {
       Cell *cell = static_cast<Cell*>(cellObj);
       cell->setHighlight(false);
+      cell->setEditing(false);
     }
   }
   foreach (QObject *wordObj, words_)
@@ -154,6 +162,8 @@ void Crossword::hideHighlight()
     Word *word = static_cast<Word*>(wordObj);
     word->setHighlight(false);
   }
+  editing_word_ = nullptr;
+  editing_pos_ = 0;
 }
 
 void Crossword::highlightWord(QObject *wordObj)
@@ -162,24 +172,17 @@ void Crossword::highlightWord(QObject *wordObj)
   if (!word) return;
   hideHighlight();
   word->setHighlight(true);
-  if (word->directon())
+  for (int i = 0; i < word->length(); i++)
   {
-    for (int i = 0; i < word->length(); i++)
-    {
-      Row *row = static_cast<Row*>(rows_.at(word->y() + i));
-      Cell *cell = static_cast<Cell*>(row->cells().at(word->x()));
-      cell->setHighlight(true);
-    }
+    int x = word->x() + (word->direction() ? 0 : i);
+    int y = word->y() + (word->direction() ? i : 0);
+    auto cell = getCell(x, y);
+    cell->setHighlight(true);
   }
-  else
-  {
-    Row *row = static_cast<Row*>(rows_.at(word->y()));
-    for (int i = 0; i < word->length(); i++)
-    {
-      Cell *cell = static_cast<Cell*>(row->cells().at(word->x() + i));
-      cell->setHighlight(true);
-    }
-  }
+  editing_word_ = word;
+  editing_pos_ = 0;
+  auto cell = getCell(word->x(), word->y());
+  cell->setEditing(true);
 }
 
 void Crossword::highlightCell(QObject *cellObj)
@@ -189,12 +192,36 @@ void Crossword::highlightCell(QObject *cellObj)
   foreach (QObject *wordObj, words_)
   {
     Word *word = static_cast<Word*>(wordObj);
-    if (word->directon()
+    if (word->direction()
         ? cell->x() == word->x() && cell->y() >= word->y() && cell->y() < word->y() + word->length()
         : cell->y() == word->y() && cell->x() >= word->x() && cell->x() < word->x() + word->length())
     {
       highlightWord(word);
       break;
     }
+  }
+}
+
+void Crossword::edit(QString key)
+{
+  if (key.isEmpty() || !editing_word_) return;
+  int x = editing_word_->x() + (editing_word_->direction() ? 0 : editing_pos_);
+  int y = editing_word_->y() + (editing_word_->direction() ? editing_pos_ : 0);
+  auto cell = getCell(x, y);
+  cell->setLetter(key);
+  cell->setEditing(false);
+  editing_pos_++;
+  if (editing_pos_ >= editing_word_->length())
+  {
+    hideHighlight();
+  }
+  else
+  {
+    if (editing_word_->direction())
+      y++;
+    else
+      x++;
+    cell = getCell(x, y);
+    cell->setEditing(true);
   }
 }

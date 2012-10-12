@@ -6,7 +6,8 @@ Cell::Cell(int x, int y, int type, QObject *parent) :
   y_(y),
   type_(type),
   letter_(),
-  highlight_(false)
+  highlight_(false),
+  editing_(false)
 {
 }
 
@@ -20,4 +21,10 @@ void Cell::setHighlight(bool highlight)
 {
   highlight_ = highlight;
   emit updateHighlight();
+}
+
+void Cell::setEditing(bool editing)
+{
+  editing_ = editing;
+  emit updateEditing();
 }

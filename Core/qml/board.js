@@ -7,6 +7,7 @@ function onUnloadPlugin() {
         obj.destroy();
     }
     qmlObjects.length = 0;
+    board.Keys.forwardTo = qmlObjects;
 }
 
 function onAddPluginQml(path) {
@@ -14,6 +15,7 @@ function onAddPluginQml(path) {
     if (component.status == Component.Ready) {
         var obj = component.createObject(board);
         qmlObjects.push(obj);
+        board.Keys.forwardTo = qmlObjects;
     }
     else {
         console.log(component.errorString());

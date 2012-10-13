@@ -9,6 +9,7 @@ class Cell : public QObject
   Q_PROPERTY(QString letter READ letter WRITE setLetter NOTIFY updateLetter)
   Q_PROPERTY(bool highlight READ highlight WRITE setHighlight NOTIFY updateHighlight)
   Q_PROPERTY(bool editing READ editint WRITE setEditing NOTIFY updateEditing)
+  Q_PROPERTY(bool accepted READ accepted WRITE setAccepted NOTIFY updateAccepted)
 public:
   explicit Cell(int x, int y, int type, QObject *parent = 0);
   int x() { return x_; }
@@ -17,14 +18,17 @@ public:
   QString letter() { return letter_; }
   bool highlight() { return highlight_; }
   bool editint() { return editing_; }
+  bool accepted() { return accepted_; }
 signals:
   void updateLetter();
   void updateHighlight();
   void updateEditing();
+  void updateAccepted();
 public slots:
   void setLetter(const QString &letter);
   void setHighlight(bool highlight);
   void setEditing(bool editing);
+  void setAccepted(bool accepted);
 private:
   int x_;
   int y_;
@@ -32,6 +36,7 @@ private:
   QString letter_;
   bool highlight_;
   bool editing_;
+  bool accepted_;
 };
 
 #endif // CELL_H

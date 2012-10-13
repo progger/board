@@ -42,6 +42,7 @@ bool Crossword::init(const QString &file_name)
   for (int y = 0; y < height_; y++)
   {
     if (!parser.read(str) || str.length() != width_) return false;
+    str = str.toUpper();
     memcpy(grid_ + y * width_, str.data(), width_ * sizeof(QChar));
   }
   if (!parser.readTo("<ACROSS>")) return false;
@@ -169,7 +170,7 @@ void Crossword::hideHighlight()
 void Crossword::highlightWord(QObject *wordObj)
 {
   Word *word = qobject_cast<Word*>(wordObj);
-  if (!word) return;
+  if (!word || word->accepted()) return;
   hideHighlight();
   word->setHighlight(true);
   for (int i = 0; i < word->length(); i++)
@@ -205,23 +206,52 @@ void Crossword::highlightCell(QObject *cellObj)
 void Crossword::edit(QString key)
 {
   if (key.isEmpty() || !editing_word_) return;
-  int x = editing_word_->x() + (editing_word_->direction() ? 0 : editing_pos_);
-  int y = editing_word_->y() + (editing_word_->direction() ? editing_pos_ : 0);
+  key = key.toUpper();
+  bool direction = editing_word_->direction();
+  int length = editing_word_->length();
+  int x = editing_word_->x() + (direction ? 0 : editing_pos_);
+  int y = editing_word_->y() + (direction ? editing_pos_ : 0);
   auto cell = getCell(x, y);
   cell->setLetter(key);
   cell->setEditing(false);
   editing_pos_++;
-  if (editing_pos_ >= editing_word_->length())
+  while (editing_pos_ < length)
   {
-    hideHighlight();
-  }
-  else
-  {
-    if (editing_word_->direction())
+    if (direction)
       y++;
     else
       x++;
     cell = getCell(x, y);
+    if (!cell->accepted()) break;
+    editing_pos_++;
+  }
+  if (editing_pos_ >= length)
+  {
+    checkWord();
+    hideHighlight();
+  }
+  else
+  {
     cell->setEditing(true);
+  }
+}
+
+void Crossword::checkWord()
+{
+  int count = editing_word_->length();
+  for (int i = 0; i < count; i++)
+  {
+    int x = editing_word_->x() + (editing_word_->direction() ? 0 : i);
+    int y = editing_word_->y() + (editing_word_->direction() ? i : 0);
+    auto cell = getCell(x, y);
+    if (cell->letter().length() != 1 || cell->letter().at(0) != editing_word_->word().at(i)) return;
+  }
+  editing_word_->setAccepted(true);
+  for (int i = 0; i < count; i++)
+  {
+    int x = editing_word_->x() + (editing_word_->direction() ? 0 : i);
+    int y = editing_word_->y() + (editing_word_->direction() ? i : 0);
+    auto cell = getCell(x, y);
+    cell->setAccepted(true);
   }
 }

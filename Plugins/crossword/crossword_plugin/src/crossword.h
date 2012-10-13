@@ -37,6 +37,7 @@ private:
   QList<QObject*> words_;
   Word* editing_word_;
   int editing_pos_;
+  void checkWord();
 };
 
 #endif // CROSSWORD_H

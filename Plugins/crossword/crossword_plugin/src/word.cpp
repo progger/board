@@ -9,7 +9,8 @@ Word::Word(int x, int y, bool direction, const QString &word, const QString &que
   word_(word),
   question_(question),
   state_(false),
-  highlight_(false)
+  highlight_(false),
+  accepted_(false)
 {
 }
 
@@ -25,4 +26,11 @@ void Word::setHighlight(bool highlight)
   if (highlight_ == highlight) return;
   highlight_ = highlight;
   emit updateHighlight();
+}
+
+void Word::setAccepted(bool accepted)
+{
+  if (accepted_ == accepted) return;
+  accepted_ = accepted;
+  emit updateAccepted();
 }

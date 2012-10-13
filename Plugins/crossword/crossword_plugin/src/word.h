@@ -8,6 +8,7 @@ class Word : public QObject
   Q_OBJECT
   Q_PROPERTY(bool state READ state WRITE setState NOTIFY updateState)
   Q_PROPERTY(bool highlight READ highlight WRITE setHighlight NOTIFY updateHighlight)
+  Q_PROPERTY(bool accepted READ accepted WRITE setAccepted NOTIFY updateAccepted)
 public:
   explicit Word(int x, int y, bool direction, const QString &word, const QString &question, QObject *parent = 0);
   int x() { return x_; }
@@ -18,12 +19,15 @@ public:
   Q_INVOKABLE QString question() { return question_; }
   bool state() { return state_; }
   bool highlight() { return highlight_; }
+  bool accepted() { return accepted_; }
 signals:
   void updateState();
   void updateHighlight();
+  void updateAccepted();
 public slots:
   void setState(bool state);
   void setHighlight(bool highlight);
+  void setAccepted(bool accepted);
 private:
   int x_;
   int y_;
@@ -33,6 +37,7 @@ private:
   QString question_;
   bool state_;
   bool highlight_;
+  bool accepted_;
 };
 
 #endif // WORD_H

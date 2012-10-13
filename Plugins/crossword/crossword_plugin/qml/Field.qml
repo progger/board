@@ -29,7 +29,7 @@ Rectangle {
                     Rectangle {
                         width: cellSize
                         height: cellSize
-                        color: getColor(modelData)
+                        color: getCellColor(modelData)
                         border.width: modelData.type() > 0
                         border.color: "black"
 
@@ -46,7 +46,7 @@ Rectangle {
                             onClicked: Crossword.highlightCell(modelData)
                         }
 
-                        function getColor(cell) {
+                        function getCellColor(cell) {
                             switch (cell.type())
                             {
                             case 0:
@@ -54,7 +54,13 @@ Rectangle {
                             case 1:
                                 return "black";
                             case 2:
-                                return cell.editing ? "#A0FFA0" : cell.highlight ? "#A0A0FF" : "white";
+                                return cell.accepted
+                                        ? "#C0FFC0"
+                                        : cell.editing
+                                          ? "#FFA0A0"
+                                          : cell.highlight
+                                            ? "#A0A0FF"
+                                            : "white";
                             }
                         }
                     }
@@ -78,7 +84,7 @@ Rectangle {
                 Rectangle {
                     anchors.fill: parent
                     anchors.margins: 4
-                    color: modelData.highlight ? "#A0A0FF" : "#E0E0E0"
+                    color: getQuestionColor(modelData)
 
                     Text {
                         color: "black"
@@ -94,6 +100,14 @@ Rectangle {
                     MouseArea {
                         anchors.fill: parent
                         onClicked: Crossword.highlightWord(modelData)
+                    }
+
+                    function getQuestionColor(word) {
+                        return word.accepted
+                                ? "#C0FFC0"
+                                : word.highlight
+                                  ? "#A0A0FF"
+                                  : "#E0E0E0";
                     }
                 }
             }

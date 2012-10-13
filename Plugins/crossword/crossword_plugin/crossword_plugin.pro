@@ -43,7 +43,8 @@ win32 {
 }
 
 OTHER_FILES += \
-    qml/Field.qml
+    qml/Field.qml \
+    res/winter.txt
 
 RESOURCES += \
     crossword_plugin.qrc

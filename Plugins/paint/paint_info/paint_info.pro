@@ -31,3 +31,6 @@ win32 {
 } else {
   QMAKE_POST_LINK = $(MOVE) ./build/$(TARGET) ../../../bin/plugins/paint.info
 }
+
+OTHER_FILES += \
+    res/logo.svg

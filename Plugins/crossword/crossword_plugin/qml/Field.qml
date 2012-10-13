@@ -8,6 +8,7 @@ import QtQuick 1.1
 
 Rectangle {
     property real cellSize: Math.min(width * 0.4 / Crossword.width, height * 0.65 / Crossword.height)
+    property real questionWidth: width * 0.45
     property real questionHeight: height * 0.65 / Crossword.words().length
     z: 1
     anchors.fill: parent
@@ -72,13 +73,12 @@ Rectangle {
     Column {
         x: parent.width * 0.5
         y: parent.height * 0.05
-        width: parent.width * 0.45
 
         Repeater {
             model: Crossword.words()
 
             Item {
-                width: parent.width
+                width: questionWidth
                 height: questionHeight
 
                 Rectangle {

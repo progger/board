@@ -28,3 +28,9 @@ win32 {
 } else {
   QMAKE_POST_LINK = $(MOVE) ./build/$(TARGET) ../../../bin/plugins/crossword.info
 }
+
+OTHER_FILES += \
+    res/logo.svg
+
+RESOURCES += \
+    crossword_info.qrc

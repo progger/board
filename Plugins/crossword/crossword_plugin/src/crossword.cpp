@@ -7,17 +7,11 @@ Crossword::Crossword(QObject *parent) :
   QObject(parent),
   width_(0),
   height_(0),
-  grid_(nullptr),
   rows_(),
   words_(),
   editing_word_(nullptr),
   editing_pos_(0)
 {
-}
-
-Crossword::~Crossword()
-{
-  delete[] grid_;
 }
 
 bool Crossword::init(const QString &file_name)
@@ -37,13 +31,12 @@ bool Crossword::init(const QString &file_name)
   height_ = size_parts[1].toInt(&ok);
   if (!ok) return false;
   if (!parser.readTo("<GRID>")) return false;
-  int grid_size = width_ * height_;
-  grid_ = new QChar[grid_size];
+  QChar grid[height_][width_];
   for (int y = 0; y < height_; y++)
   {
     if (!parser.read(str) || str.length() != width_) return false;
     str = str.toUpper();
-    memcpy(grid_ + y * width_, str.data(), width_ * sizeof(QChar));
+    memcpy(grid[y], str.data(), width_ * sizeof(QChar));
   }
   if (!parser.readTo("<ACROSS>")) return false;
   for (int y = 0; y < height_; y++)
@@ -51,7 +44,7 @@ bool Crossword::init(const QString &file_name)
     QString wrd = "";
     for (int x = 0; x < width_; x++)
     {
-      QChar chr = grid(x, y);
+      QChar chr = grid[y][x];
       if (chr == '.')
       {
         if (wrd.length() > 1)
@@ -77,15 +70,15 @@ bool Crossword::init(const QString &file_name)
   {
     for (int x = 0; x < width_; x++)
     {
-      QChar chr = grid(x, y);
+      QChar chr = grid[y][x];
       if (chr != '.')
       {
-        if (y == 0 || grid(x, y - 1) == '.')
+        if (y == 0 || grid[y-1][x] == '.')
         {
           QString wrd = chr;
           for (int i = y + 1; i < height_; i++)
           {
-            chr = grid(x, i);
+            chr = grid[i][x];
             if (chr != '.')
             {
               wrd.append(chr);
@@ -113,12 +106,12 @@ bool Crossword::init(const QString &file_name)
     {
       for (int x = 0; x < width_; x++)
       {
-        if (grid(x, y) == '.' && (
+        if (grid[y][x] == '.' && (
               x == 0 || x == width_ - 1 || y == 0 || y == width_ -1 ||
-              grid(x - 1, y) == ' ' || grid(x + 1, y) == ' ' ||
-              grid(x, y - 1) == ' ' || grid(x, y + 1) == ' '))
+              grid[y][x - 1] == ' ' || grid[y][x + 1] == ' ' ||
+              grid[y - 1][x] == ' ' || grid[y + 1][x] == ' '))
         {
-          grid_[y * width_ + x] = ' ';
+          grid[y][x] = ' ';
           change = true;
         }
       }
@@ -131,7 +124,7 @@ bool Crossword::init(const QString &file_name)
     auto row = new Row(this);
     for (int x = 0; x < width_; x++)
     {
-      QChar chr = grid(x, y);
+      QChar chr = grid[y][x];
       auto cell = new Cell(x, y, chr == ' ' ? 0 : chr == '.' ? 1 : 2);
       row->addCell(cell);
     }

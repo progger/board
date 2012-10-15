@@ -23,14 +23,14 @@ SOURCES += src/crosswordinfo.cpp
 HEADERS += iexternal.h \
     src/crosswordinfo.h
 
-win32 {
-  QMAKE_POST_LINK = cmd /c $(MOVE) .\\build\\$(TARGET) ..\\..\\..\\bin\\plugins\\crossword.info
-} else {
-  QMAKE_POST_LINK = $(MOVE) ./build/$(TARGET) ../../../bin/plugins/crossword.info
-}
-
 OTHER_FILES += \
     res/logo.svg
 
 RESOURCES += \
     crossword_info.qrc
+
+win32 {
+  QMAKE_POST_LINK = cmd /c $(MOVE) .\\build\\$(TARGET) ..\\..\\..\\bin\\plugins\\crossword.info
+} else {
+  QMAKE_POST_LINK = $(MOVE) ./build/$(TARGET) ../../../bin/plugins/crossword.info
+}

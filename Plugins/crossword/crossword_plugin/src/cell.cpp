@@ -1,3 +1,9 @@
+/*
+ * Copyright (C) 2012 Kulabuhov Michael, Kemerovo, Russia.
+ *
+ * See the LICENSE file for terms of use.
+ */
+
 #include "cell.h"
 
 Cell::Cell(int x, int y, int type, QObject *parent) :

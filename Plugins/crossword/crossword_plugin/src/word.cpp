@@ -1,3 +1,9 @@
+/*
+ * Copyright (C) 2012 Kulabuhov Michael, Kemerovo, Russia.
+ *
+ * See the LICENSE file for terms of use.
+ */
+
 #include "word.h"
 
 Word::Word(int x, int y, bool direction, const QString &word, const QString &question, QObject *parent) :

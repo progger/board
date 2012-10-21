@@ -10,7 +10,6 @@ Rectangle {
     property real cellSize: Math.min(width * 0.4 / Crossword.width, height * 0.65 / Crossword.height)
     property real questionWidth: width * 0.45
     property real questionHeight: height * 0.65 / Crossword.words().length
-    z: 1
     anchors.fill: parent
     color: "white"
     Keys.onPressed: Crossword.edit(event.text)

@@ -5,7 +5,7 @@
  */
 
 import QtQuick 1.1
-import "qrc:/core/qml"
+import ":/core/qml"
 
 Rectangle {
     id: toolBar

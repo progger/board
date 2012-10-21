@@ -5,8 +5,8 @@
  */
 
 var core = board.core;
-var paint = board.plugin.paint;
-var path_prc = board.plugin.path;
+var paint = board.objects.paint;
+var path_prc = board.objects.path;
 
 function main() {
     var canvas = document.getElementById("canvas");

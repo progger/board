@@ -8,6 +8,7 @@ TARGET = paint
 TEMPLATE = lib
 CONFIG += plugin
 VERSION = 1.0.0
+QMAKE_CXXFLAGS += -std=c++11
 
 DESTDIR = ./build
 OBJECTS_DIR = ./build
@@ -26,6 +27,8 @@ SOURCES += src/paintplugin.cpp \
 
 HEADERS += icore.h \
     iplugin.h \
+    iwebviewobject.h \
+    iwebview.h \
     src/paintplugin.h \
     src/const.h \
     src/paint.h \
@@ -41,6 +44,7 @@ RESOURCES += \
     paint_plugin.qrc
 
 OTHER_FILES += \
+    qml/Draw.qml \
     qml/ToolBar.qml \
     qml/ModeBar.qml \
     qml/ColorSelector.qml \

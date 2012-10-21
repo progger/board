@@ -33,8 +33,6 @@ HEADERS += icore.h \
 OTHER_FILES += qml/Board.qml \
     qml/board.js \
     qml/Button.qml \
-    qml/Draw.qml \
-    qml/draw.js \
     qml/Keyboard.qml \
     qml/keyboard.js \
     qml/SpinBox.qml \
@@ -55,8 +53,7 @@ OTHER_FILES += qml/Board.qml \
     res/back.svg \
     web/error.js
 
-RESOURCES += \
-    core.qrc
+RESOURCES += core.qrc
 
 win32 {
   QMAKE_PRE_LINK += cmd /c mkdir ..\\bin\\libs

@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/plugin/">
+        <file>qml/Draw.qml</file>
         <file>qml/ToolBar.qml</file>
         <file>qml/ModeBar.qml</file>
         <file>qml/ColorSelector.qml</file>

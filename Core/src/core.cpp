@@ -20,7 +20,6 @@ Core::Core(QDeclarativeView *parent) :
   plugin_mode_(false),
   menu_visible_(false),
   keyboard_(false),
-  load_plugin_(false),
   libs_(),
   root_plugin_info_(new PluginInfo(this, QString())),
   plugin_info_(nullptr),
@@ -67,22 +66,12 @@ void Core::addQml(const QString &path)
   emit addPluginQml(path);
 }
 
-void Core::addWebObject(const QString &name, QObject *obj)
-{
-  if (load_plugin_)
-    emit addPluginWebObject(name, obj);
-  else
-    emit addLibWebObject(name, obj);
-}
-
-void Core::loadWebPage(const QString &url)
-{
-  emit loadWebViewPage(url);
-}
-
 void Core::loadLib(const QString &lib_name)
 {
-  if (libs_.contains(lib_name)) return;
+  for (QObject *obj : libs_)
+  {
+    if (obj->objectName() == lib_name) return;
+  }
   auto dir = QDir(QApplication::applicationDirPath());
   if (!dir.cd("libs")) return;
   auto file_name = lib_name + ".lib";
@@ -91,11 +80,11 @@ void Core::loadLib(const QString &lib_name)
   auto loader = new QPluginLoader(file_name, this);
   QObject *lib_obj = loader->instance();
   if (!lib_obj) return;
+  lib_obj->setObjectName(lib_name);
   IExternal *lib = qobject_cast<IExternal*>(lib_obj);
   if (!lib) return;
-  load_plugin_ = false;
   lib->init(this);
-  libs_.push_back(lib_name);
+  libs_.append(lib_obj);
 }
 
 void Core::loadLibs(const QStringList &libs)
@@ -104,6 +93,20 @@ void Core::loadLibs(const QStringList &libs)
   {
     loadLib(lib_name);
   }
+}
+
+QObjectList Core::libs()
+{
+  return libs_;
+}
+
+QObject *Core::getLib(const QString &name)
+{
+  for (QObject *obj : libs_)
+  {
+    if (obj->objectName() == name) return obj;
+  }
+  return nullptr;
 }
 
 QObject *Core::mainView()
@@ -163,8 +166,13 @@ void Core::loadPluginInfo()
 
 bool Core::loadPluginInternal(const QString &plugin_name, const QStringList &param)
 {
-  emit unloadPlugin();
-  delete loader_;
+  if (loader_)
+  {
+    emit unloadPlugin();
+    //TODO: loader_->unload();
+    delete loader_;
+    loader_ = nullptr;
+  }
   QDir dir = QDir(QApplication::applicationDirPath());
   if (!dir.cd("plugins")) return false;
   QString file_name = plugin_name + ".plugin";
@@ -175,9 +183,8 @@ bool Core::loadPluginInternal(const QString &plugin_name, const QStringList &par
   if (!plugin_obj) return false;
   IPlugin *plugin = qobject_cast<IPlugin*>(plugin_obj);
   if (!plugin) return false;
-  load_plugin_ = true;
-  plugin->init(this, param);
   emit loadPlugin();
+  plugin->init(this, param);
   return true;
 }
 
@@ -189,6 +196,7 @@ void Core::setKeyboard(bool keyboard)
 
 void Core::setMenuVisible(bool menu_visible)
 {
+  if (menu_visible_ == menu_visible) return;
   menu_visible_ = menu_visible;
   emit updateMenuVisible();
 }

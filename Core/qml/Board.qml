@@ -10,6 +10,7 @@ import "board.js" as Script
 Rectangle {
     id: board
     property Style style: Style {}
+    focus: true
 
     width: 400
     height: 300
@@ -36,13 +37,6 @@ Rectangle {
         Behavior on opacity {
             NumberAnimation { duration: 500 }
         }
-    }
-
-    Draw {
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
     }
 
     Keyboard {

@@ -1,18 +1,12 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2012-10-06T21:12:06
-#
-#-------------------------------------------------
-
 QT       -= gui
 
-TARGET = crossword_plugin
+TARGET = crossword
 TEMPLATE = lib
 CONFIG += plugin
 VERSION = 1.0.0
 QMAKE_CXXFLAGS += -std=c++11
 
-DESTDIR = ./build
+DESTDIR = ../../../bin/plugins
 OBJECTS_DIR = ./build
 MOC_DIR = ./build
 RCC_DIR = ./build
@@ -27,7 +21,8 @@ SOURCES += \
     src/cell.cpp \
     src/row.cpp
 
-HEADERS += icore.h \
+HEADERS += \
+    icore.h \
     iplugin.h \
     src/crosswordplugin.h \
     src/crossword.h \
@@ -36,15 +31,8 @@ HEADERS += icore.h \
     src/cell.h \
     src/row.h
 
-win32 {
-  QMAKE_POST_LINK = cmd /c $(MOVE) .\\build\\$(TARGET) ..\\..\\..\\bin\\plugins\\crossword.plugin
-} else {
-  QMAKE_POST_LINK = $(MOVE) ./build/$(TARGET) ../../../bin/plugins/crossword.plugin
-}
-
 OTHER_FILES += \
     qml/Field.qml \
     res/winter.txt
 
-RESOURCES += \
-    crossword_plugin.qrc
+RESOURCES += crossword_plugin.qrc

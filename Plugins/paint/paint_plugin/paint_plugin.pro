@@ -1,23 +1,18 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2012-06-26T23:06:05
-#
-#-------------------------------------------------
-
 TARGET = paint
 TEMPLATE = lib
 CONFIG += plugin
 VERSION = 1.0.0
 QMAKE_CXXFLAGS += -std=c++11
 
-DESTDIR = ./build
+DESTDIR = ../../../bin/plugins
 OBJECTS_DIR = ./build
 MOC_DIR = ./build
 RCC_DIR = ./build
 
 INCLUDEPATH += ../../../Shared
 
-SOURCES += src/paintplugin.cpp \
+SOURCES += \
+    src/paintplugin.cpp \
     src/paint.cpp \
     src/pathprocessor.cpp \
     src/shape/utils.cpp \
@@ -25,7 +20,8 @@ SOURCES += src/paintplugin.cpp \
     src/shape/polygon.cpp \
     src/shape/ellipse.cpp
 
-HEADERS += icore.h \
+HEADERS += \
+    icore.h \
     iplugin.h \
     iwebviewobject.h \
     iwebview.h \
@@ -39,9 +35,6 @@ HEADERS += icore.h \
     src/shape/polygon.h \
     src/shape/pointarray.h \
     src/shape/ellipse.h
-
-RESOURCES += \
-    paint_plugin.qrc
 
 OTHER_FILES += \
     qml/Draw.qml \
@@ -75,8 +68,4 @@ OTHER_FILES += \
     web/shapes/image.js \
     web/shapes/magic_pen.js
 
-win32 {
-  QMAKE_POST_LINK = cmd /c $(MOVE) .\\build\\$(TARGET) ..\\..\\..\\bin\\plugins\\paint.plugin
-} else {
-  QMAKE_POST_LINK = $(MOVE) ./build/$(TARGET) ../../../bin/plugins/paint.plugin
-}
+RESOURCES += paint_plugin.qrc

@@ -7,7 +7,6 @@
 #include <QtPlugin>
 #include "paintplugin.h"
 #include "pathprocessor.h"
-#include "commonutils.h"
 #include "iwebview.h"
 
 void PaintPlugin::init(ICore *core, const QStringList &param __attribute__((__unused__)))

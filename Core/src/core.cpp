@@ -12,6 +12,7 @@
 #include "iexternal.h"
 #include "iplugin.h"
 #include "core.h"
+#include "macro.h"
 
 using namespace Qt;
 
@@ -74,7 +75,7 @@ void Core::loadLib(const QString &lib_name)
   }
   auto dir = QDir(QApplication::applicationDirPath());
   if (!dir.cd("libs")) return;
-  auto file_name = lib_name + ".lib";
+  auto file_name = GET_LIB_NAME(lib_name);
   if (!dir.exists(file_name)) return;
   file_name = dir.filePath(file_name);
   auto loader = new QPluginLoader(file_name, this);
@@ -149,9 +150,8 @@ void Core::selectPlugin(QObject *obj)
 void Core::loadPluginInfo()
 {
   auto dir = QDir(QApplication::applicationDirPath());
-  if (!dir.cd("plugins")) return;
-  QStringList filter("*.info");
-  auto files = dir.entryInfoList(filter, QDir::Files);
+  if (!dir.cd("info")) return;
+  auto files = dir.entryInfoList(QDir::Files);
   foreach (auto file_info, files)
   {
     auto *loader = new QPluginLoader(file_info.filePath(), this);
@@ -175,7 +175,7 @@ bool Core::loadPluginInternal(const QString &plugin_name, const QStringList &par
   }
   QDir dir = QDir(QApplication::applicationDirPath());
   if (!dir.cd("plugins")) return false;
-  QString file_name = plugin_name + ".plugin";
+  QString file_name = GET_LIB_NAME(plugin_name);
   if (!dir.exists(file_name)) return false;
   file_name = dir.filePath(file_name);
   loader_ = new QPluginLoader(file_name, this);

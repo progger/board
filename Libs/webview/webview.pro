@@ -1,9 +1,3 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2012-10-15T14:05:22
-#
-#-------------------------------------------------
-
 QT       -= gui
 
 TARGET = webview
@@ -12,7 +6,7 @@ CONFIG += plugin
 VERSION = 1.0.0
 QMAKE_CXXFLAGS += -std=c++11
 
-DESTDIR = ./build
+DESTDIR = ../../bin/libs
 OBJECTS_DIR = ./build
 MOC_DIR = ./build
 RCC_DIR = ./build
@@ -35,9 +29,3 @@ OTHER_FILES += qml/webPage.js \
     web/error.js
 
 RESOURCES += webview.qrc
-
-win32 {
-  QMAKE_POST_LINK = cmd /c $(MOVE) .\\build\\$(TARGET) ..\\..\\bin\\libs\\webview.lib
-} else {
-  QMAKE_POST_LINK = $(MOVE) ./build/$(TARGET) ../../bin/libs/webview.lib
-}

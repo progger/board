@@ -1,9 +1,3 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2012-02-28T19:51:28
-#
-#-------------------------------------------------
-
 QT       += core opengl declarative
 
 TARGET = Board
@@ -18,19 +12,23 @@ RCC_DIR = ./build
 
 INCLUDEPATH += ../Shared
 
-SOURCES += src/main.cpp \
+SOURCES += \
+    src/main.cpp \
     src/mainview.cpp \
     src/core.cpp \
     src/plugininfo.cpp
 
-HEADERS += icore.h \
+HEADERS += \
+    icore.h \
     iexternal.h \
     iplugin.h \
     src/mainview.h \
     src/core.h \
-    src/plugininfo.h
+    src/plugininfo.h \
+    src/macro.h
 
-OTHER_FILES += qml/Board.qml \
+OTHER_FILES += \
+    qml/Board.qml \
     qml/board.js \
     qml/Button.qml \
     qml/Keyboard.qml \
@@ -54,10 +52,3 @@ OTHER_FILES += qml/Board.qml \
     web/error.js
 
 RESOURCES += core.qrc
-
-win32 {
-  QMAKE_PRE_LINK += cmd /c mkdir ..\\bin\\libs
-  QMAKE_PRE_LINK += cmd /c mkdir ..\\bin\\plugins
-} else {
-  QMAKE_PRE_LINK = mkdir -p ../bin/libs ../bin/plugins
-}

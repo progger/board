@@ -11,6 +11,8 @@
 #include <QDeclarativeView>
 #include <QList>
 #include <QPluginLoader>
+#include <QDir>
+#include <QSettings>
 #include "icore.h"
 #include "plugininfo.h"
 
@@ -31,9 +33,11 @@ public:
   virtual void addQml(const QString &path);
   virtual void loadLib(const QString &lib_name);
   virtual void loadLibs(const QStringList &libs);
-  virtual QObjectList libs();
+  virtual QObjectList libs() { return libs_; }
   virtual QObject *getLib(const QString &name);
-  virtual QObject *mainView();
+  virtual QObject *mainView() { return parent(); }
+  virtual QDir rootDir() { return root_dir_; }
+  virtual QSettings *settings() { return settings_; }
   void init();
   bool pluginMode() { return plugin_mode_; }
   bool menuVisible() { return menu_visible_; }
@@ -61,6 +65,8 @@ private:
   PluginInfo *root_plugin_info_;
   PluginInfo *plugin_info_;
   QPluginLoader *loader_;
+  QDir root_dir_;
+  QSettings *settings_;
 
   void loadPluginInfo();
   void unloadPluginInternal();

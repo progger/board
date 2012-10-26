@@ -9,6 +9,8 @@
 
 #include <QObject>
 #include <QStringList>
+#include <QDir>
+#include <QSettings>
 
 class ICore {
 public:
@@ -23,6 +25,8 @@ public:
   virtual QObjectList libs() = 0;
   virtual QObject *getLib(const QString &name) = 0;
   virtual QObject *mainView() = 0;
+  virtual QDir rootDir() = 0;
+  virtual QSettings *settings() = 0;
 };
 
 Q_DECLARE_INTERFACE(ICore, "Board.ICore/1.0")

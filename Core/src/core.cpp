@@ -22,10 +22,15 @@ Core::Core(QDeclarativeView *parent) :
   menu_visible_(false),
   keyboard_(false),
   libs_(),
-  root_plugin_info_(new PluginInfo(this, QString())),
   plugin_info_(nullptr),
   loader_(nullptr)
 {
+  root_plugin_info_ = new PluginInfo(this, QString());
+  root_dir_ = QDir::home();
+  root_dir_.mkdir("board");
+  root_dir_.cd("board");
+  settings_ = new QSettings(root_dir_.filePath("settings.ini"), QSettings::IniFormat, this);
+
   QDeclarativeContext *context = parent->rootContext();
   context->setContextProperty("Core", this);
   context->setContextProperty("RootPluginInfo", root_plugin_info_);
@@ -96,11 +101,6 @@ void Core::loadLibs(const QStringList &libs)
   }
 }
 
-QObjectList Core::libs()
-{
-  return libs_;
-}
-
 QObject *Core::getLib(const QString &name)
 {
   for (QObject *obj : libs_)
@@ -108,11 +108,6 @@ QObject *Core::getLib(const QString &name)
     if (obj->objectName() == name) return obj;
   }
   return nullptr;
-}
-
-QObject *Core::mainView()
-{
-  return parent();
 }
 
 void Core::init()

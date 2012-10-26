@@ -11,6 +11,7 @@
 #include <QWidget>
 #include "iexternal.h"
 #include "iplugin.h"
+#include "global.h"
 #include "core.h"
 #include "macro.h"
 
@@ -112,8 +113,7 @@ QObject *Core::getLib(const QString &name)
 
 void Core::init()
 {
-  auto args = QCoreApplication::arguments();
-  if (args.length() > 1 && loadPluginInternal(args.at(1), args.mid(2)))
+  if (!global_plugin.isEmpty() && loadPluginInternal(global_plugin, global_plugin_params))
   {
     plugin_mode_ = true;
   }

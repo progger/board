@@ -25,7 +25,8 @@ HEADERS += \
     src/mainview.h \
     src/core.h \
     src/plugininfo.h \
-    src/macro.h
+    src/macro.h \
+    src/global.h
 
 OTHER_FILES += \
     qml/Board.qml \
@@ -36,6 +37,7 @@ OTHER_FILES += \
     qml/SpinBox.qml \
     qml/Style.qml \
     qml/Menu.qml \
+    res/help \
     res/select.svg \
     res/backspace.svg \
     res/enter.svg \

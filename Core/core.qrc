@@ -8,6 +8,7 @@
         <file>qml/Keyboard.qml</file>
         <file>qml/keyboard.js</file>
         <file>qml/SpinBox.qml</file>
+        <file>res/help</file>
         <file>res/select.svg</file>
         <file>res/backspace.svg</file>
         <file>res/enter.svg</file>

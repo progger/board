@@ -8,6 +8,7 @@
 #include <QDeclarativeContext>
 #include <QtOpenGL/QGLFormat>
 #include <QtOpenGL/QGLWidget>
+#include "global.h"
 #include "mainview.h"
 #include "core.h"
 
@@ -19,8 +20,11 @@ MainView::MainView(QWidget *parent) :
   setResizeMode(QDeclarativeView::SizeRootObjectToView);
   setSource(QUrl("qrc:/core/qml/Board.qml"));
   core->init();
-  QGLFormat format = QGLFormat(QGL::SingleBuffer | QGL::Rgba | QGL::DirectRendering | QGL::SampleBuffers);
-  QGLWidget *widget = new QGLWidget(format);
-  widget->setAutoFillBackground(false);
-  setViewport(widget);
+  if (global_mode_opengl)
+  {
+    QGLFormat format = QGLFormat(QGL::SingleBuffer | QGL::Rgba | QGL::DirectRendering | QGL::SampleBuffers);
+    QGLWidget *widget = new QGLWidget(format);
+    widget->setAutoFillBackground(false);
+    setViewport(widget);
+  }
 }

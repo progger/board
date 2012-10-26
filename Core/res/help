@@ -1,0 +1,5 @@
+Usage: board [options] [plugin [params]]
+Options:
+  --help      Print this help
+  --opengl    Start with OpenGL
+

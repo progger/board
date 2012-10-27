@@ -7,15 +7,30 @@
 #include <QtPlugin>
 #include "crosswordinfo.h"
 
+const QString CrosswordPlugin = "crossword";
+const QString CrosswordName = "Кроссворд";
+const QString LogoSvg = ":/plugin_info/crossword/res/logo.svg";
+
 void CrosswordInfo::init(ICore *core, QString menu_path)
 {
   if (menu_path.isEmpty())
   {
-    core->addPlugin("Кроссворд", ":/plugin_info/crossword/res/logo.svg");
+    core->addPlugin(CrosswordName, LogoSvg);
   }
-  else if (menu_path == "Кроссворд")
+  else if (menu_path == CrosswordName)
   {
-    core->addPlugin("Зима", ":/plugin_info/crossword/res/logo.svg", "crossword", QStringList(":/plugin/res/winter.txt"));
+    core->addPlugin("Зима", LogoSvg, CrosswordPlugin, QStringList(":/plugin/res/winter.txt"));
+    QDir dir = core->rootDir();
+    dir.cd(CrosswordPlugin);
+    if (!dir.exists()) return;
+    auto files = dir.entryInfoList(QStringList("*.txt"), QDir::Files);
+    for (QFileInfo file : files)
+    {
+      auto name = file.completeBaseName();
+      QFileInfo svg_file(dir, name + ".svg");
+      auto image = svg_file.exists() ? svg_file.filePath() : LogoSvg;
+      core->addPlugin(name, image, CrosswordPlugin, QStringList(file.filePath()));
+    }
   }
 }
 

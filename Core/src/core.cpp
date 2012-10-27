@@ -150,9 +150,9 @@ void Core::loadPluginInfo()
   auto dir = QDir(QApplication::applicationDirPath());
   if (!dir.cd("info")) return;
   auto files = dir.entryInfoList(QDir::Files);
-  foreach (auto file_info, files)
+  for (QFileInfo file : files)
   {
-    auto loader = new QPluginLoader(file_info.filePath(), this);
+    auto loader = new QPluginLoader(file.filePath(), this);
     auto obj = loader->instance();
     if (!obj) continue;
     IPluginInfo *plugin_info = qobject_cast<IPluginInfo *>(obj);

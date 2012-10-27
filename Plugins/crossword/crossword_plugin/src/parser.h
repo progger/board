@@ -7,19 +7,22 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include <QStringList>
+#include <QObject>
+#include <QTextStream>
 
-class Parser
+class Parser : public QObject
 {
+  Q_OBJECT
 public:
-  Parser(QString data);
-  bool checkEnd() { return iter_ != end_; }
-  bool read(QString &str);
-  bool readTo(QString str);
+  explicit Parser(QObject *parent, QObjectList *words);
+  bool parse(QTextStream *stream);
+  void save(QTextStream *stream);
+  int width() { return width_; }
+  int height() { return height_; }
 private:
-  QStringList lines_;
-  QStringList::const_iterator iter_;
-  QStringList::const_iterator end_;
+  QObjectList *words_;
+  int width_;
+  int height_;
 };
 
 #endif // PARSER_H

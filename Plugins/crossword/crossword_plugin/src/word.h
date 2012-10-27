@@ -20,7 +20,7 @@ class Word : public QObject
   Q_PROPERTY(bool highlight READ highlight WRITE setHighlight NOTIFY updateHighlight FINAL)
   Q_PROPERTY(bool accepted READ accepted WRITE setAccepted NOTIFY updateAccepted FINAL)
 public:
-  explicit Word(int x, int y, bool direction, const QString &word, const QString &question, QObject *parent = 0);
+  explicit Word(QObject *parent = 0);
   int x() { return x_; }
   int y() { return y_; }
   bool direction() { return direction_; }

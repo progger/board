@@ -6,13 +6,13 @@
 
 #include "word.h"
 
-Word::Word(int x, int y, bool direction, const QString &word, const QString &question, QObject *parent) :
+Word::Word(QObject *parent) :
   QObject(parent),
-  x_(x),
-  y_(y),
-  direction_(direction),
-  word_(word),
-  question_(question),
+  x_(0),
+  y_(0),
+  direction_(false),
+  word_(QString::null),
+  question_(QString::null),
   state_(false),
   highlight_(false),
   accepted_(false)

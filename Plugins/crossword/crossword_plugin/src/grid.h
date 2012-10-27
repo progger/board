@@ -26,6 +26,7 @@ signals:
   void updateGrid();
 public slots:
   void hideHighlight();
+  void paintGrid();
 private:
   QObjectList rows_;
   int width_;

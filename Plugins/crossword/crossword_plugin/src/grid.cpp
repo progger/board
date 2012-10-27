@@ -17,7 +17,7 @@ Grid::Grid(QObject *parent) :
 
 void Grid::fill(int width, int height)
 {
-  rows_.clear();
+  while (!rows_.empty()) delete rows_.takeFirst();
   for (int y = 0; y < height; y++)
   {
     auto row = new Row(this);
@@ -42,5 +42,44 @@ void Grid::hideHighlight()
   {
     Row *row = qobject_cast<Row*>(row_obj);
     row->hideHighlight();
+  }
+}
+
+void Grid::paintGrid()
+{
+  qint8 grid[height_ + 2][width_ + 2];
+  memset(grid, sizeof(grid), 0);
+  for (int y = 0; y < height_; y++)
+  {
+    for (int x = 0; x < width_; x++)
+    {
+      auto cell = getCell(x, y);
+      grid[y + 1][x + 1] = cell->type() == 2 ? 2 : 1;
+    }
+  }
+  while (true)
+  {
+    bool change = false;
+    for (int y = 1; y <= height_; y++)
+    {
+      for (int x = 1; x <= width_; x++)
+      {
+        if (grid[y][x] == 1 && (grid[y - 1][x] == 0 || grid[y + 1][x] == 0 ||
+                                grid[y][x - 1] == 0 || grid[y][x + 1] == 0))
+        {
+          grid[y][x] = 0;
+          change = true;
+        }
+      }
+    }
+    if (!change) break;
+  }
+  for (int y = 0; y < height_; y++)
+  {
+    for (int x = 0; x < width_; x++)
+    {
+      auto cell = getCell(x, y);
+      cell->setType(grid[y + 1][x + 1]);
+    }
   }
 }

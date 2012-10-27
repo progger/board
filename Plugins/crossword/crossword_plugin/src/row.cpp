@@ -15,7 +15,7 @@ Row::Row(QObject *parent) :
 
 void Row::fill(int y, int width)
 {
-  cells_.clear();
+  while (!cells_.empty()) delete cells_.takeFirst();
   for (int x = 0; x < width; x++)
   {
     auto cell = new Cell(x, y, this);

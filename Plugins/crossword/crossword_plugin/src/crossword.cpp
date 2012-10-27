@@ -24,117 +24,26 @@ bool Crossword::init(const QString &file_name)
 {
   QFile file(file_name);
   if (!file.open(QIODevice::ReadOnly)) return false;
-  QString data(file.readAll());
-  Parser parser(data);
-  QString str;
-  if (!parser.read(str) || str !="<ACROSS PUZZLE>") return false;
-  if (!parser.readTo("<SIZE>")) return false;
-  if (!parser.read(str)) return false;
-  auto size_parts = str.split('x');
-  bool ok;
-  width_ = size_parts[0].toInt(&ok);
-  if (!ok) return false;
-  height_ = size_parts[1].toInt(&ok);
-  if (!ok) return false;
-  if (!parser.readTo("<GRID>")) return false;
-  QChar grid[height_][width_];
-  for (int y = 0; y < height_; y++)
+  QTextStream stream(&file);
+  Parser parser(this, &words_);
+  if (!parser.parse(&stream)) return false;
+  grid_->fill(parser.width(), parser.height());
+  for (auto word_obj : words_)
   {
-    if (!parser.read(str) || str.length() != width_) return false;
-    str = str.toUpper();
-    memcpy(grid[y], str.data(), width_ * sizeof(QChar));
-  }
-  if (!parser.readTo("<ACROSS>")) return false;
-  for (int y = 0; y < height_; y++)
-  {
-    QString wrd = "";
-    for (int x = 0; x < width_; x++)
+    Word *word = qobject_cast<Word*>(word_obj);
+    int x = word->x();
+    int y = word->y();
+    bool direction = word->direction();
+    int length = word->length();
+    for (int i = 0; i < length; i++)
     {
-      QChar chr = grid[y][x];
-      if (chr == '.')
-      {
-        if (wrd.length() > 1)
-        {
-          if (!parser.read(str)) return false;
-          words_.append(new Word(x - wrd.length(), y, false, wrd, str, this));
-          wrd = "";
-        }
-      }
-      else
-      {
-        wrd.append(chr);
-      }
-    }
-    if (wrd.length() > 1)
-    {
-      if (!parser.read(str)) return false;
-      words_.append(new Word(width_ - wrd.length(), y, false, wrd, str, this));
-    }
-  }
-  if (!parser.readTo("<DOWN>")) return false;
-  for (int y = 0; y < height_ - 1; y++)
-  {
-    for (int x = 0; x < width_; x++)
-    {
-      QChar chr = grid[y][x];
-      if (chr != '.')
-      {
-        if (y == 0 || grid[y-1][x] == '.')
-        {
-          QString wrd = chr;
-          for (int i = y + 1; i < height_; i++)
-          {
-            chr = grid[i][x];
-            if (chr != '.')
-            {
-              wrd.append(chr);
-            }
-            else
-            {
-              break;
-            }
-          }
-          if (wrd.length() > 1)
-          {
-            if (!parser.read(str)) return false;
-            words_.append(new Word(x, y, true, wrd, str, this));
-          }
-        }
-      }
-    }
-  }
-
-  bool change;
-  do
-  {
-    change = false;
-    for (int y = 0; y < height_; y++)
-    {
-      for (int x = 0; x < width_; x++)
-      {
-        if (grid[y][x] == '.' && (
-              x == 0 || x == width_ - 1 || y == 0 || y == width_ -1 ||
-              grid[y][x - 1] == ' ' || grid[y][x + 1] == ' ' ||
-              grid[y - 1][x] == ' ' || grid[y + 1][x] == ' '))
-        {
-          grid[y][x] = ' ';
-          change = true;
-        }
-      }
-    }
-  }
-  while (change);
-
-  grid_->fill(width_, height_);
-  for (int y = 0; y < height_; y++)
-  {
-    for (int x = 0; x < width_; x++)
-    {
-      QChar chr = grid[y][x];
       auto cell = grid_->getCell(x, y);
-      cell->setType(chr == ' ' ? 0 : chr == '.' ? 1 : 2);
+      cell->setType(2);
+      if (direction) y++;
+      else x++;
     }
   }
+  grid_->paintGrid();
   return true;
 }
 

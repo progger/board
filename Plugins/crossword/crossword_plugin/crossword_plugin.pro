@@ -19,7 +19,8 @@ SOURCES += \
     src/parser.cpp \
     src/word.cpp \
     src/cell.cpp \
-    src/row.cpp
+    src/row.cpp \
+    src/grid.cpp
 
 HEADERS += \
     icore.h \
@@ -29,10 +30,12 @@ HEADERS += \
     src/parser.h \
     src/word.h \
     src/cell.h \
-    src/row.h
+    src/row.h \
+    src/grid.h
 
 OTHER_FILES += \
     qml/Field.qml \
-    res/winter.txt
+    res/winter.txt \
+    qml/CrossGrid.qml
 
 RESOURCES += crossword_plugin.qrc

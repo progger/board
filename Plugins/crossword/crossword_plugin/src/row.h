@@ -12,12 +12,15 @@
 class Row : public QObject
 {
   Q_OBJECT
+  Q_PROPERTY(QObjectList cells READ cells CONSTANT FINAL)
 public:
   explicit Row(QObject *parent = 0);
-  void addCell(QObject *cell);
-  Q_INVOKABLE QList<QObject*> cells() { return cells_; }
+  void fill(int y, int width);
+  QObjectList cells() { return cells_; }
+public slots:
+  void hideHighlight();
 private:
-  QList<QObject*> cells_;
+  QObjectList cells_;
 };
 
 #endif // ROW_H

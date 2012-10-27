@@ -13,11 +13,11 @@ Crossword::Crossword(QObject *parent) :
   QObject(parent),
   width_(0),
   height_(0),
-  rows_(),
   words_(),
   editing_word_(nullptr),
   editing_pos_(0)
 {
+  grid_ = new Grid(this);
 }
 
 bool Crossword::init(const QString &file_name)
@@ -125,50 +125,34 @@ bool Crossword::init(const QString &file_name)
   }
   while (change);
 
+  grid_->fill(width_, height_);
   for (int y = 0; y < height_; y++)
   {
-    auto row = new Row(this);
     for (int x = 0; x < width_; x++)
     {
       QChar chr = grid[y][x];
-      auto cell = new Cell(x, y, chr == ' ' ? 0 : chr == '.' ? 1 : 2);
-      row->addCell(cell);
+      auto cell = grid_->getCell(x, y);
+      cell->setType(chr == ' ' ? 0 : chr == '.' ? 1 : 2);
     }
-    rows_.append(row);
   }
   return true;
 }
 
-Cell *Crossword::getCell(int x, int y)
-{
-  Row *row = static_cast<Row*>(rows_.at(y));
-  return static_cast<Cell*>(row->cells().at(x));
-}
-
 void Crossword::hideHighlight()
 {
-  foreach (QObject *rowObj, rows_)
+  grid_->hideHighlight();
+  for (auto word_obj : words_)
   {
-    Row *row = static_cast<Row*>(rowObj);
-    foreach (QObject *cellObj, row->cells())
-    {
-      Cell *cell = static_cast<Cell*>(cellObj);
-      cell->setHighlight(false);
-      cell->setEditing(false);
-    }
-  }
-  foreach (QObject *wordObj, words_)
-  {
-    Word *word = static_cast<Word*>(wordObj);
+    Word *word = qobject_cast<Word*>(word_obj);
     word->setHighlight(false);
   }
   editing_word_ = nullptr;
   editing_pos_ = 0;
 }
 
-void Crossword::highlightWord(QObject *wordObj)
+void Crossword::highlightWord(QObject *word_obj)
 {
-  Word *word = qobject_cast<Word*>(wordObj);
+  Word *word = qobject_cast<Word*>(word_obj);
   if (!word || word->accepted()) return;
   hideHighlight();
   word->setHighlight(true);
@@ -176,22 +160,22 @@ void Crossword::highlightWord(QObject *wordObj)
   {
     int x = word->x() + (word->direction() ? 0 : i);
     int y = word->y() + (word->direction() ? i : 0);
-    auto cell = getCell(x, y);
+    auto cell = grid_->getCell(x, y);
     cell->setHighlight(true);
   }
   editing_word_ = word;
   editing_pos_ = 0;
-  auto cell = getCell(word->x(), word->y());
+  auto cell = grid_->getCell(word->x(), word->y());
   cell->setEditing(true);
 }
 
-void Crossword::highlightCell(QObject *cellObj)
+void Crossword::highlightCell(QObject *cell_obj)
 {
-  Cell *cell = qobject_cast<Cell*>(cellObj);
+  Cell *cell = qobject_cast<Cell*>(cell_obj);
   if (!cell || cell->type() != 2) return;
-  foreach (QObject *wordObj, words_)
+  for (auto word_obj : words_)
   {
-    Word *word = static_cast<Word*>(wordObj);
+    Word *word = static_cast<Word*>(word_obj);
     if (word->direction()
         ? cell->x() == word->x() && cell->y() >= word->y() && cell->y() < word->y() + word->length()
         : cell->y() == word->y() && cell->x() >= word->x() && cell->x() < word->x() + word->length())
@@ -210,7 +194,7 @@ void Crossword::edit(QString key)
   int length = editing_word_->length();
   int x = editing_word_->x() + (direction ? 0 : editing_pos_);
   int y = editing_word_->y() + (direction ? editing_pos_ : 0);
-  auto cell = getCell(x, y);
+  auto cell = grid_->getCell(x, y);
   cell->setLetter(key);
   cell->setEditing(false);
   editing_pos_++;
@@ -220,7 +204,7 @@ void Crossword::edit(QString key)
       y++;
     else
       x++;
-    cell = getCell(x, y);
+    cell = grid_->getCell(x, y);
     if (!cell->accepted()) break;
     editing_pos_++;
   }
@@ -242,7 +226,7 @@ void Crossword::checkWord()
   {
     int x = editing_word_->x() + (editing_word_->direction() ? 0 : i);
     int y = editing_word_->y() + (editing_word_->direction() ? i : 0);
-    auto cell = getCell(x, y);
+    auto cell = grid_->getCell(x, y);
     if (cell->letter().length() != 1 || cell->letter().at(0) != editing_word_->word().at(i)) return;
   }
   editing_word_->setAccepted(true);
@@ -250,7 +234,7 @@ void Crossword::checkWord()
   {
     int x = editing_word_->x() + (editing_word_->direction() ? 0 : i);
     int y = editing_word_->y() + (editing_word_->direction() ? i : 0);
-    auto cell = getCell(x, y);
+    auto cell = grid_->getCell(x, y);
     cell->setAccepted(true);
   }
 }

@@ -9,35 +9,35 @@
 
 #include <QObject>
 #include "word.h"
-#include "row.h"
-#include "cell.h"
+#include "grid.h"
 
 class Crossword : public QObject
 {
   Q_OBJECT
-  Q_PROPERTY(int width READ width NOTIFY updateWidth)
-  Q_PROPERTY(int height READ height NOTIFY updateHeight)
+  Q_PROPERTY(int width READ width NOTIFY updateWidth FINAL)
+  Q_PROPERTY(int height READ height NOTIFY updateHeight FINAL)
+  Q_PROPERTY(QObject *grid READ grid CONSTANT FINAL)
+  Q_PROPERTY(QObjectList words READ words CONSTANT FINAL)
 public:
   explicit Crossword(QObject *parent = 0);
   bool init(const QString &file_name);
   int width() { return width_; }
   int height() { return height_; }
-  Q_INVOKABLE QList<QObject*> rows() { return rows_; }
-  Q_INVOKABLE QList<QObject*> words() { return words_; }
-  Cell * getCell(int x, int y);
+  QObject *grid() { return grid_; }
+  QObjectList words() { return words_; }
 signals:
   void updateWidth();
   void updateHeight();
 public slots:
   void hideHighlight();
-  void highlightWord(QObject *wordObj);
-  void highlightCell(QObject *cellObj);
+  void highlightWord(QObject *word_obj);
+  void highlightCell(QObject *cell_obj);
   void edit(QString key);
 private:
   int width_;
   int height_;
-  QList<QObject*> rows_;
-  QList<QObject*> words_;
+  Grid *grid_;
+  QObjectList words_;
   Word* editing_word_;
   int editing_pos_;
   void checkWord();

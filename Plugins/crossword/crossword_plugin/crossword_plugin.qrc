@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/plugin/">
         <file>qml/Field.qml</file>
+        <file>qml/CrossGrid.qml</file>
         <file>res/winter.txt</file>
     </qresource>
 </RCC>

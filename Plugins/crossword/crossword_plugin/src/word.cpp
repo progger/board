@@ -11,7 +11,6 @@ Word::Word(int x, int y, bool direction, const QString &word, const QString &que
   x_(x),
   y_(y),
   direction_(direction),
-  length_(word.length()),
   word_(word),
   question_(question),
   state_(false),
@@ -20,11 +19,39 @@ Word::Word(int x, int y, bool direction, const QString &word, const QString &que
 {
 }
 
-void Word::setState(bool state)
+void Word::setX(int x)
 {
-  if (state_ == state) return;
-  state_ = state;
-  emit updateState();
+  if (x_ == x) return;
+  x_ = x;
+  emit updateX();
+}
+
+void Word::setY(int y)
+{
+  if (y_ == y) return;
+  y_ = y;
+  emit updateY();
+}
+
+void Word::setDirection(bool direction)
+{
+  if (direction_ == direction) return;
+  direction_ = direction;
+  emit updateDirection();
+}
+
+void Word::setWord(QString word)
+{
+  if (word_ == word) return;
+  word_ = word;
+  emit updateWord();
+}
+
+void Word::setQuestion(QString question)
+{
+  if (question_ == question) return;
+  question_ = question;
+  emit updateQuestion();
 }
 
 void Word::setHighlight(bool highlight)

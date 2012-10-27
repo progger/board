@@ -12,25 +12,28 @@
 class Cell : public QObject
 {
   Q_OBJECT
-  Q_PROPERTY(QString letter READ letter WRITE setLetter NOTIFY updateLetter)
-  Q_PROPERTY(bool highlight READ highlight WRITE setHighlight NOTIFY updateHighlight)
-  Q_PROPERTY(bool editing READ editint WRITE setEditing NOTIFY updateEditing)
-  Q_PROPERTY(bool accepted READ accepted WRITE setAccepted NOTIFY updateAccepted)
+  Q_PROPERTY(int type READ type NOTIFY updateType FINAL)
+  Q_PROPERTY(QString letter READ letter WRITE setLetter NOTIFY updateLetter FINAL)
+  Q_PROPERTY(bool highlight READ highlight WRITE setHighlight NOTIFY updateHighlight FINAL)
+  Q_PROPERTY(bool editing READ editint WRITE setEditing NOTIFY updateEditing FINAL)
+  Q_PROPERTY(bool accepted READ accepted WRITE setAccepted NOTIFY updateAccepted FINAL)
 public:
-  explicit Cell(int x, int y, int type, QObject *parent = 0);
+  explicit Cell(int x, int y, QObject *parent = 0);
   int x() { return x_; }
   int y() { return y_; }
-  Q_INVOKABLE int type() { return type_; }
+  int type() { return type_; }
   QString letter() { return letter_; }
   bool highlight() { return highlight_; }
   bool editint() { return editing_; }
   bool accepted() { return accepted_; }
 signals:
+  void updateType();
   void updateLetter();
   void updateHighlight();
   void updateEditing();
   void updateAccepted();
 public slots:
+  void setType(int type);
   void setLetter(const QString &letter);
   void setHighlight(bool highlight);
   void setEditing(bool editing);

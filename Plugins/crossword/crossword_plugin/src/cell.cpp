@@ -6,11 +6,11 @@
 
 #include "cell.h"
 
-Cell::Cell(int x, int y, int type, QObject *parent) :
+Cell::Cell(int x, int y, QObject *parent) :
   QObject(parent),
   x_(x),
   y_(y),
-  type_(type),
+  type_(0),
   letter_(),
   highlight_(false),
   editing_(false),
@@ -44,4 +44,11 @@ void Cell::setAccepted(bool accepted)
   if (accepted_ == accepted) return;
   accepted_ = accepted;
   emit updateAccepted();
+}
+
+void Cell::setType(int type)
+{
+  if (type_ == type) return;
+  type_ = type;
+  emit updateType();
 }

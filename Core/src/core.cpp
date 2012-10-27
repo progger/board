@@ -176,6 +176,7 @@ bool Core::loadPluginInternal(const QString &plugin_name, const QStringList &par
   if (loader_)
   {
     emit unloadPlugin();
+    setKeyboard(false);
     //TODO: loader_->unload();
     delete loader_;
     loader_ = nullptr;

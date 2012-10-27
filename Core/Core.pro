@@ -16,17 +16,18 @@ SOURCES += \
     src/main.cpp \
     src/mainview.cpp \
     src/core.cpp \
-    src/plugininfo.cpp
+    src/menuitem.cpp
 
 HEADERS += \
     icore.h \
     iexternal.h \
+    iplugininfo.h \
     iplugin.h \
     src/mainview.h \
     src/core.h \
-    src/plugininfo.h \
     src/macro.h \
-    src/global.h
+    src/global.h \
+    src/menuitem.h
 
 OTHER_FILES += \
     qml/Board.qml \

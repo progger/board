@@ -15,8 +15,8 @@
 class ICore {
 public:
   virtual ~ICore() {}
-  virtual void addPlugin(const QString &full_name, const QString &image,
-                         const QString &plugin_name = QString(),
+  virtual void addPlugin(const QString &name, const QString &image,
+                         const QString &plugin_name = QString::null,
                          const QStringList &plugin_param = QStringList()) = 0;
   virtual void addObject(const QString &name, QObject *obj) = 0;
   virtual void addQml(const QString &path) = 0;

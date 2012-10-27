@@ -1,3 +1,9 @@
+/*
+ * Copyright (C) 2012 Kulabuhov Michael, Kemerovo, Russia.
+ *
+ * See the LICENSE file for terms of use.
+ */
+
 #ifndef GLOBAL_H
 #define GLOBAL_H
 

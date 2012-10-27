@@ -11,9 +11,10 @@
 #include <QWidget>
 #include "iexternal.h"
 #include "iplugin.h"
+#include "menuitem.h"
 #include "global.h"
-#include "core.h"
 #include "macro.h"
+#include "core.h"
 
 using namespace Qt;
 
@@ -22,11 +23,12 @@ Core::Core(QDeclarativeView *parent) :
   plugin_mode_(false),
   menu_visible_(false),
   keyboard_(false),
+  plugin_info_list_(),
   libs_(),
-  plugin_info_(nullptr),
+  menu_path_(),
+  menu_item_list_(),
   loader_(nullptr)
 {
-  root_plugin_info_ = new PluginInfo(this, QString());
   root_dir_ = QDir::home();
   root_dir_.mkdir("board");
   root_dir_.cd("board");
@@ -34,31 +36,13 @@ Core::Core(QDeclarativeView *parent) :
 
   QDeclarativeContext *context = parent->rootContext();
   context->setContextProperty("Core", this);
-  context->setContextProperty("RootPluginInfo", root_plugin_info_);
 }
 
-void Core::addPlugin(const QString &full_name, const QString &image,
+void Core::addPlugin(const QString &name, const QString &image,
                      const QString &plugin_name, const QStringList &plugin_param)
 {
-  QStringList path = full_name.split('/');
-  PluginInfo *parent = root_plugin_info_;
-  PluginInfo *plugin_info = NULL;
-  foreach (QString name, path)
-  {
-    plugin_info = parent->findChild<PluginInfo *>(name);
-    if (!plugin_info)
-    {
-      plugin_info = new PluginInfo(parent, name);
-    }
-    parent = plugin_info;
-  }
-  if (!plugin_info) return;
-  if (!image.isEmpty())
-    plugin_info->setImage(image);
-  if (!plugin_name.isEmpty())
-    plugin_info->setPluginName(plugin_name);
-  if (!plugin_param.isEmpty())
-    plugin_info->setPluginParam(plugin_param);
+  auto menu_item = new MenuItem(this, name, image, plugin_name, plugin_param);
+  menu_item_list_.append(menu_item);
 }
 
 void Core::addObject(const QString &name, QObject *obj)
@@ -120,6 +104,7 @@ void Core::init()
   else
   {
     loadPluginInfo();
+    updateMenu();
     setMenuVisible(true);
   }
 }
@@ -131,15 +116,33 @@ void Core::emulateKeyPress(int key, int modifiers, const QString &text) const
   QApplication::postEvent(QApplication::focusWidget(), event);
 }
 
-void Core::selectPlugin(QObject *obj)
+void Core::selectMenuItem(QObject *obj)
 {
-  auto *plugin_info = qobject_cast<PluginInfo*>(obj);
-  if (!plugin_info) return;
-  if (loadPluginInternal(plugin_info->pluginName(), plugin_info->pluginParam()))
+  MenuItem *menu_item = qobject_cast<MenuItem*>(obj);
+  if (!menu_item) return;
+  if (menu_item->isDir())
   {
-    plugin_info_ = plugin_info;
+    menu_path_ += menu_path_.isEmpty() ? menu_item->name() : "|" + menu_item->name();
+    updateMenu();
+  }
+  else if (loadPluginInternal(menu_item->pluginName(), menu_item->pluginParam()))
+  {
     setMenuVisible(false);
   }
+}
+
+void Core::upMenu()
+{
+  int i = menu_path_.lastIndexOf("|");
+  if (i >= 0)
+  {
+    menu_path_.truncate(i);
+  }
+  else
+  {
+    menu_path_.clear();
+  }
+  updateMenu();
 }
 
 void Core::loadPluginInfo()
@@ -149,14 +152,23 @@ void Core::loadPluginInfo()
   auto files = dir.entryInfoList(QDir::Files);
   foreach (auto file_info, files)
   {
-    auto *loader = new QPluginLoader(file_info.filePath(), this);
-    QObject* obj = loader->instance();
+    auto loader = new QPluginLoader(file_info.filePath(), this);
+    auto obj = loader->instance();
     if (!obj) continue;
-    IExternal *iplugin_info = qobject_cast<IExternal *>(obj);
-    if (!iplugin_info) continue;
-    iplugin_info->init(this);
+    IPluginInfo *plugin_info = qobject_cast<IPluginInfo *>(obj);
+    if (!plugin_info) continue;
+    plugin_info_list_.append(plugin_info);
   }
-  emit updatePluginInfo();
+}
+
+void Core::updateMenu()
+{
+  menu_item_list_.clear();
+  for (IPluginInfo *plugin_info : plugin_info_list_)
+  {
+    plugin_info->init(this, menu_path_);
+  }
+  emit updateMenuItemList();
 }
 
 bool Core::loadPluginInternal(const QString &plugin_name, const QStringList &param)

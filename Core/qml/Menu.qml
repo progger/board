@@ -12,7 +12,6 @@ Item {
     property real textHeight: 32
     property real buttonHeight: imageHeigth + textHeight
     property real buttonMargin: 8
-    property variant currentPluginInfo: ({})
 
     Rectangle {
         anchors.fill: parent
@@ -30,7 +29,7 @@ Item {
         radius: 8
         smooth: true
         opacity: 0.5
-        visible: currentPluginInfo != RootPluginInfo
+        visible: !Core.isRootMenu
 
         Image {
             anchors.fill: parent
@@ -41,7 +40,7 @@ Item {
             id: backButtonMouseArea
             anchors.fill: parent
             hoverEnabled: true
-            onClicked: currentPluginInfo = currentPluginInfo.parent
+            onClicked: Core.upMenu()
         }
     }
 
@@ -54,7 +53,7 @@ Item {
         anchors.margins: buttonMargin
         cellWidth: buttonWidth + buttonMargin
         cellHeight: buttonHeight + buttonMargin
-        model: currentPluginInfo.children
+        model: Core.menuItemList
         delegate: Item {
             id: gridDelegate
             width: buttonWidth
@@ -64,14 +63,7 @@ Item {
                 id: mouseArea
                 anchors.fill: parent
                 hoverEnabled: true
-                onClicked: onClick(modelData)
-
-                function onClick(modelData) {
-                    if (modelData.isDir)
-                        currentPluginInfo = modelData;
-                    else
-                        Core.selectPlugin(modelData);
-                }
+                onClicked: Core.selectMenuItem(modelData);
             }
 
             Rectangle {
@@ -102,11 +94,10 @@ Item {
                 Text {
                     anchors.centerIn: parent
                     font.pixelSize: parent.height * 0.7
-                    text: modelData.objectName
+                    text: modelData.name
                     smooth: true
                 }
             }
         }
-        Component.onCompleted: Core.updatePluginInfo.connect(function() {currentPluginInfo = RootPluginInfo})
     }
 }

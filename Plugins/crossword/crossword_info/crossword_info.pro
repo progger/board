@@ -16,7 +16,7 @@ SOURCES += \
     src/crosswordinfo.cpp
 
 HEADERS += \
-    iexternal.h \
+    iplugininfo.h \
     src/crosswordinfo.h
 
 OTHER_FILES += \

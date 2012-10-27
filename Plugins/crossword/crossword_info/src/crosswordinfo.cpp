@@ -7,10 +7,16 @@
 #include <QtPlugin>
 #include "crosswordinfo.h"
 
-void CrosswordInfo::init(ICore *core)
+void CrosswordInfo::init(ICore *core, QString menu_path)
 {
-  core->addPlugin("Кроссворд", ":/plugin_info/crossword/res/logo.svg");
-  core->addPlugin("Кроссворд/Зима", ":/plugin_info/crossword/res/logo.svg", "crossword", QStringList(":/plugin/res/winter.txt"));
+  if (menu_path.isEmpty())
+  {
+    core->addPlugin("Кроссворд", ":/plugin_info/crossword/res/logo.svg");
+  }
+  else if (menu_path == "Кроссворд")
+  {
+    core->addPlugin("Зима", ":/plugin_info/crossword/res/logo.svg", "crossword", QStringList(":/plugin/res/winter.txt"));
+  }
 }
 
 Q_EXPORT_PLUGIN2(IPluginInfo, CrosswordInfo)

@@ -7,15 +7,15 @@
 #ifndef CROSSWORDINFO_H
 #define CROSSWORDINFO_H
 
-#include "iexternal.h"
+#include "iplugininfo.h"
 
-class CrosswordInfo : public QObject, IExternal
+class CrosswordInfo : public QObject, IPluginInfo
 {
   Q_OBJECT
-  Q_INTERFACES(IExternal)
+  Q_INTERFACES(IPluginInfo)
 public:
   virtual ~CrosswordInfo() {}
-  virtual void init(ICore *core);
+  virtual void init(ICore *core, QString menu_path);
 };
 
 #endif // CROSSWORDINFO_H

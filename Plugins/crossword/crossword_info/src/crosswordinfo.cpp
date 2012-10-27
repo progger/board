@@ -9,17 +9,20 @@
 
 const QString CrosswordPlugin = "crossword";
 const QString CrosswordName = "Кроссворд";
-const QString LogoSvg = ":/plugin_info/crossword/res/logo.svg";
+const QString CrosswordLogo = ":/plugin_info/crossword/res/logo.svg";
+const QString CrosseditPlugin = "crossedit";
+const QString CrosseditName = "Редактор";
+const QString CrosseditLogo = ":/plugin_info/crossword/res/edit_logo.svg";
 
 void CrosswordInfo::init(ICore *core, QString menu_path)
 {
   if (menu_path.isEmpty())
   {
-    core->addPlugin(CrosswordName, LogoSvg);
+    core->addPlugin(CrosswordName, CrosswordLogo);
   }
   else if (menu_path == CrosswordName)
   {
-    core->addPlugin("Зима", LogoSvg, CrosswordPlugin, QStringList(":/plugin/res/winter.txt"));
+    core->addPlugin("Зима", CrosswordLogo, CrosswordPlugin, QStringList(":/plugin/res/winter.txt"));
     QDir dir = core->rootDir();
     dir.cd(CrosswordPlugin);
     if (!dir.exists()) return;
@@ -28,9 +31,10 @@ void CrosswordInfo::init(ICore *core, QString menu_path)
     {
       auto name = file.completeBaseName();
       QFileInfo svg_file(dir, name + ".svg");
-      auto image = svg_file.exists() ? svg_file.filePath() : LogoSvg;
+      auto image = svg_file.exists() ? svg_file.filePath() : CrosswordLogo;
       core->addPlugin(name, image, CrosswordPlugin, QStringList(file.filePath()));
     }
+    core->addPlugin(CrosseditName, CrosseditLogo, CrosseditPlugin);
   }
 }
 

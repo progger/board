@@ -21,6 +21,7 @@ HEADERS += \
     src/crosswordinfo.h
 
 OTHER_FILES += \
-    res/logo.svg
+    res/logo.svg \
+    res/edit_logo.svg
 
 RESOURCES += crossword_info.qrc

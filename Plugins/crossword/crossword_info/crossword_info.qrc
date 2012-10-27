@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/plugin_info/crossword/">
         <file>res/logo.svg</file>
+        <file>res/edit_logo.svg</file>
     </qresource>
 </RCC>

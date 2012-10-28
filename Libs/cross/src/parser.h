@@ -7,12 +7,12 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include <QObject>
-#include <QTextStream>
+#include "iparser.h"
 
-class Parser : public QObject
+class Parser : public QObject, public IParser
 {
   Q_OBJECT
+  Q_INTERFACES(IParser)
 public:
   explicit Parser(QObject *parent, QObjectList *words);
   bool parse(QTextStream *stream);

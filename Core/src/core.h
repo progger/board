@@ -28,18 +28,18 @@ class Core : public QObject, public ICore
 
 public:
   explicit Core(QDeclarativeView *parent = 0);
-  virtual void addPlugin(const QString &name, const QString &image,
+  void addPlugin(const QString &name, const QString &image,
                          const QString &plugin_name = QString::null,
                          const QStringList &plugin_param = QStringList());
-  virtual void addObject(const QString &name, QObject *obj);
-  virtual void addQml(const QString &path);
-  virtual void loadLib(const QString &lib_name);
-  virtual void loadLibs(const QStringList &libs);
-  virtual QObjectList libs() { return libs_; }
-  virtual QObject *getLib(const QString &name);
-  virtual QObject *mainView() { return parent(); }
-  virtual QDir rootDir() { return root_dir_; }
-  virtual QSettings *settings() { return settings_; }
+  void addObject(const QString &name, QObject *obj);
+  void addQml(const QString &path);
+  QObject *loadLib(const QString &lib_name);
+  void loadLibs(const QStringList &libs);
+  QObjectList libs() { return libs_; }
+  QObject *getLib(const QString &name);
+  QObject *mainView() { return parent(); }
+  QDir rootDir() { return root_dir_; }
+  QSettings *settings() { return settings_; }
   void init();
   bool pluginMode() { return plugin_mode_; }
   bool menuVisible() { return menu_visible_; }

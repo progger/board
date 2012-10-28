@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/lib/cross/">
+        <file>qml/CrossGrid.qml</file>
+    </qresource>
+</RCC>

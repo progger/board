@@ -13,7 +13,6 @@ Word::Word(QObject *parent) :
   direction_(false),
   word_(QString::null),
   question_(QString::null),
-  state_(false),
   highlight_(false),
   accepted_(false)
 {

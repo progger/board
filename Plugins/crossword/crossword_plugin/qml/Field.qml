@@ -5,6 +5,7 @@
  */
 
 import QtQuick 1.1
+import ":/lib/cross/qml"
 
 Rectangle {
     property real questionWidth: width * 0.45

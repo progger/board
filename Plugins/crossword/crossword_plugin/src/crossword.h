@@ -8,8 +8,9 @@
 #define CROSSWORD_H
 
 #include <QObject>
-#include "word.h"
-#include "grid.h"
+#include "icross.h"
+#include "igrid.h"
+#include "iword.h"
 
 class Crossword : public QObject
 {
@@ -19,11 +20,11 @@ class Crossword : public QObject
   Q_PROPERTY(QObject *grid READ grid CONSTANT FINAL)
   Q_PROPERTY(QObjectList words READ words CONSTANT FINAL)
 public:
-  explicit Crossword(QObject *parent = 0);
+  explicit Crossword(QObject *parent, ICross *cross);
   bool init(const QString &file_name);
   int width() { return width_; }
   int height() { return height_; }
-  QObject *grid() { return grid_; }
+  QObject *grid() { return grid_->toQObject(); }
   QObjectList words() { return words_; }
 signals:
   void updateWidth();
@@ -34,11 +35,12 @@ public slots:
   void highlightCell(QObject *cell_obj);
   void edit(QString key);
 private:
+  ICross *cross_;
   int width_;
   int height_;
-  Grid *grid_;
+  IGrid *grid_;
   QObjectList words_;
-  Word* editing_word_;
+  IWord* editing_word_;
   int editing_pos_;
   void checkWord();
 };

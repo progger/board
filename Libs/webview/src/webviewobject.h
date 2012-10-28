@@ -15,9 +15,7 @@ class WebViewObject : public QObject, public IWebViewObject
   Q_INTERFACES(IWebViewObject)
 public:
   explicit WebViewObject(QObject *parent = 0);
-  virtual ~WebViewObject() {}
-  virtual void addWebObject(const QString &name, QObject *obj);
-  virtual void addWebLib(QObject *libObj);
+  void addWebObject(const QString &name, QObject *obj);
 signals:
   void addObject(QString name, QObject *obj);
 };

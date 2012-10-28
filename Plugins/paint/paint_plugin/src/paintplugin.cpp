@@ -11,8 +11,8 @@
 
 void PaintPlugin::init(ICore *core, const QStringList &param __attribute__((__unused__)))
 {
-  core->loadLib("webview");
-  IWebView *webView = qobject_cast<IWebView*>(core->getLib("webview"));
+  QObject *obj = core->loadLib("webview");
+  IWebView *webView = qobject_cast<IWebView*>(obj);
   if (!webView) return;
   auto webViewObject = webView->createWebViewObject("WebViewObject", this);
   QWidget *view = qobject_cast<QWidget*>(core->mainView());

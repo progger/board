@@ -57,25 +57,30 @@ void Core::addQml(const QString &path)
   emit addPluginQml(path);
 }
 
-void Core::loadLib(const QString &lib_name)
+QObject * Core::loadLib(const QString &lib_name)
 {
   for (QObject *obj : libs_)
   {
-    if (obj->objectName() == lib_name) return;
+    if (obj->objectName() == lib_name) return obj;
   }
-  auto dir = QDir(QApplication::applicationDirPath());
-  if (!dir.cd("libs")) return;
-  auto file_name = GET_LIB_NAME(lib_name);
-  if (!dir.exists(file_name)) return;
-  file_name = dir.filePath(file_name);
-  auto loader = new QPluginLoader(file_name, this);
-  QObject *lib_obj = loader->instance();
-  if (!lib_obj) return;
-  lib_obj->setObjectName(lib_name);
-  IExternal *lib = qobject_cast<IExternal*>(lib_obj);
-  if (!lib) return;
-  lib->init(this);
-  libs_.append(lib_obj);
+  {
+    auto dir = QDir(QApplication::applicationDirPath());
+    if (!dir.cd("libs")) goto error;
+    auto file_name = GET_LIB_NAME(lib_name);
+    if (!dir.exists(file_name)) goto error;
+    file_name = dir.filePath(file_name);
+    auto loader = new QPluginLoader(file_name, this);
+    QObject *lib_obj = loader->instance();
+    if (!lib_obj) goto error;
+    lib_obj->setObjectName(lib_name);
+    IExternal *lib = qobject_cast<IExternal*>(lib_obj);
+    if (!lib) goto error;
+    lib->init(this);
+    libs_.append(lib_obj);
+    return lib_obj;
+  }
+error:
+  return nullptr;
 }
 
 void Core::loadLibs(const QStringList &libs)

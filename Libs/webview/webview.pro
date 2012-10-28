@@ -12,19 +12,22 @@ MOC_DIR = ./build
 RCC_DIR = ./build
 
 INCLUDEPATH += ../../Shared
+INCLUDEPATH += ../../Shared/webview
 
-SOURCES += src/webview.cpp \
+SOURCES += \
+    src/webview.cpp \
     src/webviewobject.cpp
 
-HEADERS += icore.h \
+HEADERS += \
+    icore.h \
     iexternal.h \
     iwebview.h \
-    iweblib.h \
     iwebviewobject.h \
     src/webview.h \
     src/webviewobject.h
 
-OTHER_FILES += qml/webPage.js \
+OTHER_FILES += \
+    qml/webPage.js \
     qml/WebPage.qml \
     web/error.js
 

@@ -12,30 +12,25 @@ MOC_DIR = ./build
 RCC_DIR = ./build
 
 INCLUDEPATH += ../../../Shared
+INCLUDEPATH += ../../../Shared/cross
 
 SOURCES += \
     src/crosswordplugin.cpp \
-    src/crossword.cpp \
-    src/parser.cpp \
-    src/word.cpp \
-    src/cell.cpp \
-    src/row.cpp \
-    src/grid.cpp
+    src/crossword.cpp
 
 HEADERS += \
     icore.h \
     iplugin.h \
+    icross.h \
+    iparser.h \
+    iword.h \
+    icell.h \
+    igrid.h \
     src/crosswordplugin.h \
-    src/crossword.h \
-    src/parser.h \
-    src/word.h \
-    src/cell.h \
-    src/row.h \
-    src/grid.h
+    src/crossword.h
 
 OTHER_FILES += \
     qml/Field.qml \
-    res/winter.txt \
-    qml/CrossGrid.qml
+    res/winter.txt
 
 RESOURCES += crossword_plugin.qrc

@@ -7,11 +7,12 @@
 #ifndef WORD_H
 #define WORD_H
 
-#include <QObject>
+#include "iword.h"
 
-class Word : public QObject
+class Word : public QObject, public IWord
 {
   Q_OBJECT
+  Q_INTERFACES(IWord)
   Q_PROPERTY(int x READ x WRITE setX NOTIFY updateX)
   Q_PROPERTY(int y READ y WRITE setY NOTIFY updateY)
   Q_PROPERTY(bool direction READ direction WRITE setDirection NOTIFY updateDirection)
@@ -27,7 +28,6 @@ public:
   int length() { return word_.length(); }
   QString word() { return word_; }
   QString question() { return question_; }
-  bool state() { return state_; }
   bool highlight() { return highlight_; }
   bool accepted() { return accepted_; }
 signals:
@@ -52,7 +52,6 @@ private:
   bool direction_;
   QString word_;
   QString question_;
-  bool state_;
   bool highlight_;
   bool accepted_;
 };

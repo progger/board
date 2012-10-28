@@ -7,11 +7,13 @@
 #ifndef GRID_H
 #define GRID_H
 
+#include "igrid.h"
 #include "cell.h"
 
-class Grid : public QObject
+class Grid : public QObject, public IGrid
 {
   Q_OBJECT
+  Q_INTERFACES(IGrid)
   Q_PROPERTY(QObjectList rows READ rows CONSTANT FINAL)
   Q_PROPERTY(int width READ width NOTIFY updateGrid FINAL)
   Q_PROPERTY(int height READ height NOTIFY updateGrid FINAL)
@@ -22,6 +24,7 @@ public:
   int width() { return width_; }
   int height() { return height_; }
   Cell *getCell(int x, int y);
+  QObject *toQObject();
 signals:
   void updateGrid();
 public slots:

@@ -5,13 +5,20 @@
  */
 
 #include <QtPlugin>
+#include "icross.h"
 #include "crossword.h"
 #include "crosswordplugin.h"
 
 void CrosswordPlugin::init(ICore *core, const QStringList &param)
 {
-  auto crossword = new Crossword(this);
-  if (!crossword->init(param[0])) return;
+  ICross *cross = qobject_cast<ICross*>(core->loadLib("cross"));
+  if (!cross) return;
+  auto crossword = new Crossword(this, cross);
+  if (!crossword->init(param[0]))
+  {
+    delete crossword;
+    return;
+  }
   core->addObject("Crossword", crossword);
   core->addQml(":/plugin/qml/Field.qml");
 }

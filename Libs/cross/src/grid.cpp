@@ -36,6 +36,11 @@ Cell *Grid::getCell(int x, int y)
   return qobject_cast<Cell*>(row->cells().at(x));
 }
 
+QObject *Grid::toQObject()
+{
+  return this;
+}
+
 void Grid::hideHighlight()
 {
   for (auto row_obj : rows_)

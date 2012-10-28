@@ -13,8 +13,7 @@
 class Webview : public QObject, public IExternal, public IWebView
 {
   Q_OBJECT
-  Q_INTERFACES(IExternal)
-  Q_INTERFACES(IWebView)
+  Q_INTERFACES(IExternal IWebView)
 public:
   explicit Webview(QObject *parent = 0);
   virtual ~Webview() {}

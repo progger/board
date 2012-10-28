@@ -7,15 +7,16 @@
 #ifndef CELL_H
 #define CELL_H
 
-#include <QObject>
+#include "icell.h"
 
-class Cell : public QObject
+class Cell : public QObject, public ICell
 {
   Q_OBJECT
+  Q_INTERFACES(ICell)
   Q_PROPERTY(int type READ type NOTIFY updateType FINAL)
   Q_PROPERTY(QString letter READ letter WRITE setLetter NOTIFY updateLetter FINAL)
   Q_PROPERTY(bool highlight READ highlight WRITE setHighlight NOTIFY updateHighlight FINAL)
-  Q_PROPERTY(bool editing READ editint WRITE setEditing NOTIFY updateEditing FINAL)
+  Q_PROPERTY(bool editing READ editing WRITE setEditing NOTIFY updateEditing FINAL)
   Q_PROPERTY(bool accepted READ accepted WRITE setAccepted NOTIFY updateAccepted FINAL)
 public:
   explicit Cell(int x, int y, QObject *parent = 0);
@@ -24,7 +25,7 @@ public:
   int type() { return type_; }
   QString letter() { return letter_; }
   bool highlight() { return highlight_; }
-  bool editint() { return editing_; }
+  bool editing() { return editing_; }
   bool accepted() { return accepted_; }
 signals:
   void updateType();

@@ -16,6 +16,6 @@ public:
   virtual IWebViewObject * createWebViewObject(const QString &name, QObject *parent) = 0;
 };
 
-Q_DECLARE_INTERFACE(IWebView, "Board.IWebView/1.0")
+Q_DECLARE_INTERFACE(IWebView, "Board.webview.IWebView/1.0")
 
 #endif // IWEBVIEW_H

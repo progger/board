@@ -5,46 +5,54 @@
  */
 
 #include <QFile>
-#include "parser.h"
-#include "cell.h"
+#include "iparser.h"
+#include "icell.h"
 #include "crossword.h"
 
-Crossword::Crossword(QObject *parent) :
+Crossword::Crossword(QObject *parent, ICross *cross) :
   QObject(parent),
+  cross_(cross),
   width_(0),
   height_(0),
   words_(),
   editing_word_(nullptr),
   editing_pos_(0)
 {
-  grid_ = new Grid(this);
+  grid_ = cross_->createGrid(this);
 }
 
 bool Crossword::init(const QString &file_name)
 {
-  QFile file(file_name);
-  if (!file.open(QIODevice::ReadOnly)) return false;
-  QTextStream stream(&file);
-  Parser parser(this, &words_);
-  if (!parser.parse(&stream)) return false;
-  grid_->fill(parser.width(), parser.height());
-  for (auto word_obj : words_)
+  auto parser = cross_->createParser(this, &words_);
   {
-    Word *word = qobject_cast<Word*>(word_obj);
-    int x = word->x();
-    int y = word->y();
-    bool direction = word->direction();
-    int length = word->length();
-    for (int i = 0; i < length; i++)
+    QFile file(file_name);
+    if (!file.open(QIODevice::ReadOnly)) goto error;
+    QTextStream stream(&file);
+    if (!parser->parse(&stream)) goto error;
+    grid_->fill(parser->width(), parser->height());
+    for (auto word_obj : words_)
     {
-      auto cell = grid_->getCell(x, y);
-      cell->setType(2);
-      if (direction) y++;
-      else x++;
+      IWord *word = qobject_cast<IWord*>(word_obj);
+      if (!word) goto error;
+      int x = word->x();
+      int y = word->y();
+      bool direction = word->direction();
+      int length = word->length();
+      for (int i = 0; i < length; i++)
+      {
+        auto cell = grid_->getCell(x, y);
+        cell->setType(2);
+        if (direction) y++;
+        else x++;
+      }
     }
+    delete parser;
+    grid_->paintGrid();
+    return true;
   }
-  grid_->paintGrid();
-  return true;
+error:
+  delete parser;
+  return false;
 }
 
 void Crossword::hideHighlight()
@@ -52,7 +60,8 @@ void Crossword::hideHighlight()
   grid_->hideHighlight();
   for (auto word_obj : words_)
   {
-    Word *word = qobject_cast<Word*>(word_obj);
+    IWord *word = qobject_cast<IWord*>(word_obj);
+    if (!word) continue;
     word->setHighlight(false);
   }
   editing_word_ = nullptr;
@@ -61,7 +70,7 @@ void Crossword::hideHighlight()
 
 void Crossword::highlightWord(QObject *word_obj)
 {
-  Word *word = qobject_cast<Word*>(word_obj);
+  IWord *word = qobject_cast<IWord*>(word_obj);
   if (!word || word->accepted()) return;
   hideHighlight();
   word->setHighlight(true);
@@ -80,16 +89,17 @@ void Crossword::highlightWord(QObject *word_obj)
 
 void Crossword::highlightCell(QObject *cell_obj)
 {
-  Cell *cell = qobject_cast<Cell*>(cell_obj);
+  ICell *cell = qobject_cast<ICell*>(cell_obj);
   if (!cell || cell->type() != 2) return;
   for (auto word_obj : words_)
   {
-    Word *word = static_cast<Word*>(word_obj);
+    IWord *word = qobject_cast<IWord*>(word_obj);
+    if (!word) continue;
     if (word->direction()
         ? cell->x() == word->x() && cell->y() >= word->y() && cell->y() < word->y() + word->length()
         : cell->y() == word->y() && cell->x() >= word->x() && cell->x() < word->x() + word->length())
     {
-      highlightWord(word);
+      highlightWord(word_obj);
       break;
     }
   }

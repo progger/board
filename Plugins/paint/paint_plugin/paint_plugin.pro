@@ -10,6 +10,7 @@ MOC_DIR = ./build
 RCC_DIR = ./build
 
 INCLUDEPATH += ../../../Shared
+INCLUDEPATH += ../../../Shared/webview
 
 SOURCES += \
     src/paintplugin.cpp \

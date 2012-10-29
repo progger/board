@@ -19,6 +19,7 @@ class Crossword : public QObject
   Q_PROPERTY(int height READ height NOTIFY updateHeight FINAL)
   Q_PROPERTY(QObject *grid READ grid CONSTANT FINAL)
   Q_PROPERTY(QObjectList words READ words CONSTANT FINAL)
+  Q_PROPERTY(int editingWordIndex READ editingWordIndex NOTIFY updateEditingWord FINAL)
 public:
   explicit Crossword(QObject *parent, ICross *cross);
   bool init(const QString &file_name);
@@ -26,9 +27,11 @@ public:
   int height() { return height_; }
   QObject *grid() { return grid_->toQObject(); }
   QObjectList words() { return words_; }
+  int editingWordIndex() { return editing_word_index_; }
 signals:
   void updateWidth();
   void updateHeight();
+  void updateEditingWord();
 public slots:
   void hideHighlight();
   void highlightWord(QObject *word_obj);
@@ -41,6 +44,7 @@ private:
   IGrid *grid_;
   QObjectList words_;
   IWord* editing_word_;
+  int editing_word_index_;
   int editing_pos_;
   void checkWord();
 };

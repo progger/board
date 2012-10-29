@@ -16,6 +16,7 @@ Crossword::Crossword(QObject *parent, ICross *cross) :
   height_(0),
   words_(),
   editing_word_(nullptr),
+  editing_word_index_(-1),
   editing_pos_(0)
 {
   grid_ = cross_->createGrid(this);
@@ -65,7 +66,9 @@ void Crossword::hideHighlight()
     word->setHighlight(false);
   }
   editing_word_ = nullptr;
+  editing_word_index_ = -1;
   editing_pos_ = 0;
+  emit updateEditingWord();
 }
 
 void Crossword::highlightWord(QObject *word_obj)
@@ -82,7 +85,9 @@ void Crossword::highlightWord(QObject *word_obj)
     cell->setHighlight(true);
   }
   editing_word_ = word;
+  editing_word_index_ = words_.indexOf(word_obj);
   editing_pos_ = 0;
+  emit updateEditingWord();
   auto cell = grid_->getCell(word->x(), word->y());
   cell->setEditing(true);
 }

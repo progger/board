@@ -10,6 +10,7 @@ Item {
     property variant grid
     property real cellSize: Math.min(width / grid.width, height / grid.height)
     property color gridColor: "transparent"
+    signal cellClicked(variant cell)
 
     Column {
         x: (parent.width - width) / 2
@@ -40,7 +41,7 @@ Item {
 
                         MouseArea {
                             anchors.fill: parent
-                            onClicked: Crossword.highlightCell(modelData)
+                            onClicked: cellClicked(modelData)
                         }
 
                         function getCellColor(cell) {

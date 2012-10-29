@@ -15,8 +15,7 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        color: "#404040"
-        opacity: 0.5
+        color: "#80A080"
     }
 
    Rectangle  {
@@ -25,7 +24,7 @@ Item {
         y: buttonMargin
         width: buttonWidth
         height: imageHeigth
-        color: backButtonMouseArea.containsMouse ? "#E0E0E0" : "#808080"
+        color: backButtonMouseArea.containsMouse ? "#E0E0E0" : "#404080"
         radius: 8
         smooth: true
         opacity: 0.5
@@ -68,7 +67,7 @@ Item {
 
             Rectangle {
                 anchors.fill: parent
-                color: mouseArea.containsMouse ? "#E0E0E0" : "#808080"
+                color: mouseArea.containsMouse ? "#E0E0E0" : "#404080"
                 radius: 8
                 smooth: true
                 opacity: 0.5

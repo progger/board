@@ -12,11 +12,24 @@ MOC_DIR = ./build
 RCC_DIR = ./build
 
 INCLUDEPATH += ../../../Shared
+INCLUDEPATH += ../../../Shared/cross
 
 SOURCES += \
-    src/crosseditplugin.cpp
+    src/crosseditplugin.cpp \
+    src/crossedit.cpp
 
 HEADERS += \
     icore.h \
     iplugin.h \
-    src/crosseditplugin.h
+    icross.h \
+    iparser.h \
+    iword.h \
+    icell.h \
+    igrid.h \
+    src/crosseditplugin.h \
+    src/crossedit.h
+
+OTHER_FILES += \
+    qml/Field.qml
+
+RESOURCES += crossedit_plugin.qrc

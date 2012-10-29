@@ -16,6 +16,9 @@
 #include "macro.h"
 #include "core.h"
 
+#include <QDebug>
+#include <QGraphicsObject>
+
 using namespace Qt;
 
 Core::Core(QDeclarativeView *parent) :
@@ -150,6 +153,20 @@ void Core::upMenu()
   updateMenu();
 }
 
+void Core::quitButton()
+{
+  if (plugin_mode_ || menu_visible_)
+  {
+    QApplication::quit();
+  }
+  else
+  {
+    setMenuVisible(true);
+    setKeyboard(false);
+    emit unloadPlugin();
+  }
+}
+
 void Core::loadPluginInfo()
 {
   auto dir = QDir(QApplication::applicationDirPath());
@@ -180,9 +197,7 @@ bool Core::loadPluginInternal(const QString &plugin_name, const QStringList &par
 {
   if (loader_)
   {
-    emit unloadPlugin();
-    setKeyboard(false);
-    //TODO: loader_->unload();
+    loader_->unload();
     delete loader_;
     loader_ = nullptr;
   }

@@ -9,6 +9,7 @@ import QtQuick 1.1
 Item {
     property variant grid
     property real cellSize: Math.min(width / grid.width, height / grid.height)
+    property color gridColor: "transparent"
 
     Column {
         x: (parent.width - width) / 2
@@ -26,8 +27,8 @@ Item {
                         width: cellSize
                         height: cellSize
                         color: getCellColor(modelData)
-                        border.width: modelData.type > 0
-                        border.color: "black"
+                        border.width: 1
+                        border.color: modelData.type ? "black" : gridColor
 
                         Text {
                             color: "black"

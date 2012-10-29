@@ -21,9 +21,9 @@ void PaintPlugin::init(ICore *core, const QStringList &param __attribute__((__un
   core->addObject("Paint", paint);
   auto path_processor = new PathProcessor(this);
 
-  core->addQml(":/plugin/qml/Draw.qml");
-  core->addQml(":/plugin/qml/ModeBar.qml");
-  core->addQml(":/plugin/qml/ToolBar.qml");
+  core->addQml(":/plugin/paint/qml/Draw.qml");
+  core->addQml(":/plugin/paint/qml/ModeBar.qml");
+  core->addQml(":/plugin/paint/qml/ToolBar.qml");
 
   webViewObject->addWebObject("paint", paint);
   webViewObject->addWebObject("path", path_processor);

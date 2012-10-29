@@ -22,7 +22,7 @@ void CrosswordInfo::init(ICore *core, QString menu_path)
   }
   else if (menu_path == CrosswordName)
   {
-    core->addPlugin("Зима", CrosswordLogo, CrosswordPlugin, QStringList(":/plugin/res/winter.txt"));
+    core->addPlugin("Зима", CrosswordLogo, CrosswordPlugin, QStringList(":/plugin/crossword/res/winter.txt"));
     QDir dir = core->rootDir();
     dir.cd(CrosswordPlugin);
     if (!dir.exists()) return;

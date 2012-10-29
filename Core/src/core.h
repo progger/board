@@ -62,6 +62,7 @@ public slots:
   void emulateKeyPress(int key, int modifiers, const QString & text = "") const;
   void selectMenuItem(QObject *obj);
   void upMenu();
+  void quitButton();
 
 private:
   bool plugin_mode_;

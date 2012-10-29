@@ -26,7 +26,7 @@ Rectangle {
             anchors.verticalCenter: parent.verticalCenter
             height: buttonSize
             width: buttonSize
-            source: "qrc:/plugin/res/thickness.svg"
+            source: "qrc:/plugin/paint/res/thickness.svg"
             smooth: true
         }
 
@@ -51,7 +51,7 @@ Rectangle {
             anchors.verticalCenter: parent.verticalCenter
             height: buttonSize
             width: buttonSize
-            source: "qrc:/plugin/res/font_size.svg"
+            source: "qrc:/plugin/paint/res/font_size.svg"
             smooth: true
         }
 

@@ -20,7 +20,7 @@ void CrosswordPlugin::init(ICore *core, const QStringList &param)
     return;
   }
   core->addObject("Crossword", crossword);
-  core->addQml(":/plugin/qml/Field.qml");
+  core->addQml(":/plugin/crossword/qml/Field.qml");
 }
 
 Q_EXPORT_PLUGIN2(IPlugin, CrosswordPlugin)

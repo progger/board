@@ -41,13 +41,13 @@ Rectangle {
         Repeater {
             model: [
                 [{"mode": "select", "image": "qrc:/core/res/select.svg"},
-                {"mode": "pen", "image": "qrc:/plugin/res/pen.svg"}],
-                [{"mode": "rectangle", "image": "qrc:/plugin/res/rectangle.svg"},
-                {"mode": "magic_pen", "image": "qrc:/plugin/res/magic_pen.svg"}],
-                [{"mode": "circle", "image": "qrc:/plugin/res/circle.svg"},
-                {"mode": "ellipse", "image": "qrc:/plugin/res/ellipse.svg"}],
-                [{"mode": "text", "image": "qrc:/plugin/res/text.svg"},
-                {"mode": "image", "image": "qrc:/plugin/res/image.svg"}]
+                {"mode": "pen", "image": "qrc:/plugin/paint/res/pen.svg"}],
+                [{"mode": "rectangle", "image": "qrc:/plugin/paint/res/rectangle.svg"},
+                {"mode": "magic_pen", "image": "qrc:/plugin/paint/res/magic_pen.svg"}],
+                [{"mode": "circle", "image": "qrc:/plugin/paint/res/circle.svg"},
+                {"mode": "ellipse", "image": "qrc:/plugin/paint/res/ellipse.svg"}],
+                [{"mode": "text", "image": "qrc:/plugin/paint/res/text.svg"},
+                {"mode": "image", "image": "qrc:/plugin/paint/res/image.svg"}]
             ]
 
             Item {
@@ -121,7 +121,7 @@ Rectangle {
                 enabled: Paint.selected;
                 width: buttonSize
                 height: buttonSize
-                image: "qrc:/plugin/res/duplicate.svg"
+                image: "qrc:/plugin/paint/res/duplicate.svg"
                 onClicked: Paint.duplicate()
             }
         }
@@ -136,7 +136,7 @@ Rectangle {
                 style: modeBar.style.normalButton
                 width: buttonSize
                 height: buttonSize
-                image: "qrc:/plugin/res/color.svg"
+                image: "qrc:/plugin/paint/res/color.svg"
                 toggled: colorGridRect.opacity
                 onClicked: colorGridRect.opacity = !colorGridRect.opacity
             }

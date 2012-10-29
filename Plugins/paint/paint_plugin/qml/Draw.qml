@@ -12,6 +12,6 @@ Item {
     WebPage {
         anchors.fill: parent
         webViewObject: WebViewObject
-        url: ":/plugin/web/page.html"
+        url: ":/plugin/paint/web/page.html"
     }
 }

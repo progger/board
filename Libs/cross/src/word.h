@@ -30,6 +30,7 @@ public:
   QString question() { return question_; }
   bool highlight() { return highlight_; }
   bool accepted() { return accepted_; }
+  QObject *toObject() { return this; }
 signals:
   void updateX();
   void updateY();

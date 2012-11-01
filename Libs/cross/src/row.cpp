@@ -13,14 +13,39 @@ Row::Row(QObject *parent) :
 {
 }
 
+Row::~Row()
+{
+  for (QObject *cell : cells_)
+  {
+    cell->deleteLater();
+  }
+}
+
 void Row::fill(int y, int width)
 {
-  while (!cells_.empty()) delete cells_.takeFirst();
-  for (int x = 0; x < width; x++)
+  int x = cells_.length();
+  int delta = width - x;
+  while (delta > 0)
   {
-    auto cell = new Cell(x, y, this);
+    auto cell = new Cell(x++, y, this);
     cells_.append(cell);
+    delta--;
   }
+  while (delta < 0)
+  {
+    cells_.takeLast()->deleteLater();
+    delta++;
+  }
+  for (auto cell_obj : cells_)
+  {
+    Cell *cell = qobject_cast<Cell*>(cell_obj);
+    cell->setType(0);
+    cell->setLetter(QString::null);
+    cell->setHighlight(false);
+    cell->setEditing(false);
+    cell->setAccepted(false);
+  }
+  emit updateCells();
 }
 
 void Row::hideHighlight()

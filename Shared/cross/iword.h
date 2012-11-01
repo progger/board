@@ -27,6 +27,7 @@ public:
   virtual void setQuestion(QString question) = 0;
   virtual void setHighlight(bool highlight) = 0;
   virtual void setAccepted(bool accepted) = 0;
+  virtual QObject *toObject() = 0;
 };
 
 Q_DECLARE_INTERFACE(IWord, "Board.cross.IWord/1.0")

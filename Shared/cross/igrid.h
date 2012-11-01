@@ -18,7 +18,7 @@ public:
   virtual int height() = 0;
   virtual ICell *getCell(int x, int y) = 0;
   virtual void hideHighlight() = 0;
-  virtual void paintGrid() = 0;
+  virtual void paintGrid(const QObjectList &words) = 0;
   virtual QObject *toQObject() = 0;
 };
 

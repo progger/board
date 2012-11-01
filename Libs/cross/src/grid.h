@@ -14,7 +14,7 @@ class Grid : public QObject, public IGrid
 {
   Q_OBJECT
   Q_INTERFACES(IGrid)
-  Q_PROPERTY(QObjectList rows READ rows CONSTANT FINAL)
+  Q_PROPERTY(QObjectList rows READ rows NOTIFY updateGrid FINAL)
   Q_PROPERTY(int width READ width NOTIFY updateGrid FINAL)
   Q_PROPERTY(int height READ height NOTIFY updateGrid FINAL)
 public:
@@ -29,7 +29,7 @@ signals:
   void updateGrid();
 public slots:
   void hideHighlight();
-  void paintGrid();
+  void paintGrid(const QObjectList &words);
 private:
   QObjectList rows_;
   int width_;

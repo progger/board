@@ -31,24 +31,8 @@ bool Crossword::init(const QString &file_name)
     QTextStream stream(&file);
     if (!parser->parse(&stream)) goto error;
     grid_->fill(parser->width(), parser->height());
-    for (auto word_obj : words_)
-    {
-      IWord *word = qobject_cast<IWord*>(word_obj);
-      if (!word) goto error;
-      int x = word->x();
-      int y = word->y();
-      bool direction = word->direction();
-      int length = word->length();
-      for (int i = 0; i < length; i++)
-      {
-        auto cell = grid_->getCell(x, y);
-        cell->setType(2);
-        if (direction) y++;
-        else x++;
-      }
-    }
+    grid_->paintGrid(words_);
     delete parser;
-    grid_->paintGrid();
     return true;
   }
 error:

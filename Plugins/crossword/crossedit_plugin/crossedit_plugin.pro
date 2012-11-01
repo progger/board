@@ -21,6 +21,7 @@ SOURCES += \
 HEADERS += \
     icore.h \
     iplugin.h \
+    ilibobject.h \
     icross.h \
     iparser.h \
     iword.h \

@@ -5,6 +5,7 @@
  */
 
 #include "row.h"
+#include "word.h"
 #include "grid.h"
 
 Grid::Grid(QObject *parent) :
@@ -17,12 +18,24 @@ Grid::Grid(QObject *parent) :
 
 void Grid::fill(int width, int height)
 {
-  while (!rows_.empty()) delete rows_.takeFirst();
-  for (int y = 0; y < height; y++)
+  int delta = height - rows_.length();
+  while (delta > 0)
   {
     auto row = new Row(this);
-    row->fill(y, width);
     rows_.append(row);
+    delta--;
+  }
+  while (delta < 0)
+  {
+    rows_.takeLast()->deleteLater();
+    delta++;
+  }
+  int y = 0;
+  for (auto row_obj : rows_)
+  {
+    Row *row = qobject_cast<Row*>(row_obj);
+    if (!row) continue;
+    row->fill(y++, width);
   }
   width_ = width;
   height_ = height;
@@ -50,24 +63,39 @@ void Grid::hideHighlight()
   }
 }
 
-void Grid::paintGrid()
+void Grid::paintGrid(const QObjectList &words)
 {
-  qint8 grid[height_ + 2][width_ + 2];
-  memset(grid, sizeof(grid), 0);
+  qint8 grid[height_][width_];
   for (int y = 0; y < height_; y++)
   {
     for (int x = 0; x < width_; x++)
     {
-      auto cell = getCell(x, y);
-      grid[y + 1][x + 1] = cell->type() == 2 ? 2 : 1;
+      grid[y][x] = x > 0 && x < width_ - 1 && y > 0 && y < height_ - 1;
     }
   }
+
+  for(auto word_obj : words)
+  {
+    Word *word = qobject_cast<Word*>(word_obj);
+    int x = word->x();
+    int y = word->y();
+    bool direction = word->direction();
+    int length = word->length();
+    if (!length) length = 1;
+    for (int i = 0; i < length; i++)
+    {
+      grid[y][x] = 2;
+      if (direction) y++;
+      else x++;
+    }
+  }
+
   while (true)
   {
     bool change = false;
-    for (int y = 1; y <= height_; y++)
+    for (int y = 1; y < height_ - 1; y++)
     {
-      for (int x = 1; x <= width_; x++)
+      for (int x = 1; x < width_ - 1; x++)
       {
         if (grid[y][x] == 1 && (grid[y - 1][x] == 0 || grid[y + 1][x] == 0 ||
                                 grid[y][x - 1] == 0 || grid[y][x + 1] == 0))
@@ -84,7 +112,7 @@ void Grid::paintGrid()
     for (int x = 0; x < width_; x++)
     {
       auto cell = getCell(x, y);
-      cell->setType(grid[y + 1][x + 1]);
+      cell->setType(grid[y][x]);
     }
   }
 }

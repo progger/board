@@ -12,11 +12,14 @@
 class Row : public QObject
 {
   Q_OBJECT
-  Q_PROPERTY(QObjectList cells READ cells CONSTANT FINAL)
+  Q_PROPERTY(QObjectList cells READ cells NOTIFY updateCells FINAL)
 public:
   explicit Row(QObject *parent = 0);
+  ~Row();
   void fill(int y, int width);
   QObjectList cells() { return cells_; }
+signals:
+  void updateCells();
 public slots:
   void hideHighlight();
 private:

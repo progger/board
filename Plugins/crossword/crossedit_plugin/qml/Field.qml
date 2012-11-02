@@ -9,6 +9,7 @@ import ":/core/qml"
 import ":/lib/cross/qml"
 
 Rectangle {
+    id: rootRect
     property real textSize: height * 0.04
     property real buttonSize: height * 0.06
     anchors.fill: parent
@@ -24,13 +25,59 @@ Rectangle {
         onCellClicked: Crossedit.highlightCell(cell)
     }
 
-    Button {
-        style: board.style.normalButton
+    Row {
         x: parent.width * 0.5
         y: parent.height * 0.02
-        width: buttonSize
-        height: buttonSize
-        onClicked: Crossedit.rotateWord()
+        spacing: 6
+
+        Button {
+            style: board.style.normalButton
+            width: buttonSize
+            height: buttonSize
+            image: ":/plugin/crossedit/res/rotate.svg"
+            enabled: Crossedit.editingWordIndex >= 0
+            onClicked: Crossedit.rotateWord()
+        }
+
+        Rectangle {
+            width: rootRect.width * 0.3
+            height: buttonSize
+            color: "#E0E0E0"
+            border.width: 2
+            border.color: "black"
+            radius: 8
+            smooth: true
+
+            TextInput {
+                id: nameInput
+                color: "black"
+                anchors.fill: parent
+                anchors.margins: 6
+                font.pixelSize: parent.height * 0.7
+                text: Crossedit.crossName
+                smooth: true
+                onTextChanged: Crossedit.editCrossName(text)
+            }
+
+            Text {
+                color: "#404040"
+                anchors.centerIn: parent
+                font.pixelSize: parent.height * 0.5
+                font.italic: true
+                text: "Название"
+                smooth: true
+                visible: !Crossedit.crossName && !nameInput.cursorVisible
+            }
+        }
+
+        Button {
+            style: board.style.normalButton
+            width: buttonSize
+            height: buttonSize
+            enabled: Crossedit.crossName
+            image: ":/core/res/save.svg"
+            onClicked: Crossedit.save()
+        }
     }
 
     Rectangle {
@@ -81,6 +128,16 @@ Rectangle {
                         onTextChanged: Crossedit.editWord(modelData, text)
                         smooth: true
                     }
+
+                    Text {
+                        color: "#404040"
+                        anchors.centerIn: parent
+                        font.pixelSize: textSize * 0.8
+                        font.italic: true
+                        text: "Слово"
+                        smooth: true
+                        visible: !modelData.word && !wordInput.cursorVisible
+                    }
                 }
 
                 Rectangle {
@@ -107,6 +164,16 @@ Rectangle {
                         onTextChanged: modelData.question = text
                         smooth: true
                         wrapMode: TextEdit.WordWrap
+                    }
+
+                    Text {
+                        color: "#404040"
+                        anchors.centerIn: parent
+                        font.pixelSize: textSize * 0.8
+                        font.italic: true
+                        text: "Вопрос"
+                        smooth: true
+                        visible: !modelData.question && !questionEdit.cursorVisible
                     }
                 }
 

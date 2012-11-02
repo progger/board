@@ -31,6 +31,7 @@ HEADERS += \
     src/crossedit.h
 
 OTHER_FILES += \
-    qml/Field.qml
+    qml/Field.qml \
+    res/rotate.svg
 
 RESOURCES += crossedit_plugin.qrc

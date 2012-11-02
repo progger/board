@@ -58,7 +58,9 @@ Item {
                                           ? "#FFA0A0"
                                           : cell.highlight
                                             ? "#A0A0FF"
-                                            : "white";
+                                            : cell.error
+                                              ? "#FF8080"
+                                              : "white";
                             }
                         }
                     }

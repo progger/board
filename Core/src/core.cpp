@@ -9,6 +9,7 @@
 #include <QKeyEvent>
 #include <QDir>
 #include <QWidget>
+#include <QMessageBox>
 #include "iexternal.h"
 #include "iplugin.h"
 #include "menuitem.h"
@@ -50,7 +51,7 @@ void Core::addPlugin(const QString &name, const QString &image,
 
 void Core::addObject(const QString &name, QObject *obj)
 {
-  QDeclarativeView *view = qobject_cast<QDeclarativeView*>(parent());
+  QDeclarativeView *view = qobject_cast<QDeclarativeView*>(mainView());
   if (!view) return;
   view->rootContext()->setContextProperty(name, obj);
 }
@@ -101,6 +102,11 @@ QObject *Core::getLib(const QString &name)
     if (obj->objectName() == name) return obj;
   }
   return nullptr;
+}
+
+void Core::showError(const QString &error)
+{
+  QMessageBox::critical(qobject_cast<QWidget*>(mainView()), "Error", error);
 }
 
 void Core::init()

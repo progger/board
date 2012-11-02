@@ -14,7 +14,8 @@ Cell::Cell(int x, int y, QObject *parent) :
   letter_(),
   highlight_(false),
   editing_(false),
-  accepted_(false)
+  accepted_(false),
+  error_(false)
 {
 }
 
@@ -44,6 +45,13 @@ void Cell::setAccepted(bool accepted)
   if (accepted_ == accepted) return;
   accepted_ = accepted;
   emit updateAccepted();
+}
+
+void Cell::setError(bool error)
+{
+  if (error_ == error) return;
+  error_ = error;
+  emit updateError();
 }
 
 void Cell::setType(int type)

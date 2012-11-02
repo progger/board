@@ -40,6 +40,7 @@ public:
   QObject *mainView() { return parent(); }
   QDir rootDir() { return root_dir_; }
   QSettings *settings() { return settings_; }
+  void showError(const QString &error);
   void init();
   bool pluginMode() { return plugin_mode_; }
   bool menuVisible() { return menu_visible_; }

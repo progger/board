@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/plugin/crossedit">
         <file>qml/Field.qml</file>
+        <file>res/rotate.svg</file>
     </qresource>
 </RCC>

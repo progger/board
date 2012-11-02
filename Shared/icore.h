@@ -27,6 +27,7 @@ public:
   virtual QObject *mainView() = 0;
   virtual QDir rootDir() = 0;
   virtual QSettings *settings() = 0;
+  virtual void showError(const QString &error) = 0;
 };
 
 Q_DECLARE_INTERFACE(ICore, "Board.ICore/1.0")

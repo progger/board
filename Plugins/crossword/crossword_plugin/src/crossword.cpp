@@ -71,9 +71,8 @@ void Crossword::highlightWord(QObject *word_obj)
   editing_word_ = word;
   editing_word_index_ = words_.indexOf(word_obj);
   editing_pos_ = 0;
+  setEditing();
   emit updateEditingWord();
-  auto cell = grid_->getCell(word->x(), word->y());
-  cell->setEditing(true);
 }
 
 void Crossword::highlightCell(QObject *cell_obj)
@@ -99,22 +98,30 @@ void Crossword::edit(QString key)
   if (key.isEmpty() || !editing_word_) return;
   key = key.toUpper();
   bool direction = editing_word_->direction();
-  int length = editing_word_->length();
   int x = editing_word_->x() + (direction ? 0 : editing_pos_);
   int y = editing_word_->y() + (direction ? editing_pos_ : 0);
   auto cell = grid_->getCell(x, y);
   cell->setLetter(key);
   cell->setEditing(false);
   editing_pos_++;
-  while (editing_pos_ < length)
+  setEditing();
+}
+
+void Crossword::setEditing()
+{
+  bool direction = editing_word_->direction();
+  int length = editing_word_->length();
+  int x = editing_word_->x() + (direction ? 0 : editing_pos_);
+  int y = editing_word_->y() + (direction ? editing_pos_ : 0);
+  auto cell = grid_->getCell(x, y);
+  while (cell->accepted() && editing_pos_ < length)
   {
+    editing_pos_++;
     if (direction)
       y++;
     else
       x++;
     cell = grid_->getCell(x, y);
-    if (!cell->accepted()) break;
-    editing_pos_++;
   }
   if (editing_pos_ >= length)
   {

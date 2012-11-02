@@ -46,6 +46,7 @@ private:
   IWord* editing_word_;
   int editing_word_index_;
   int editing_pos_;
+  void setEditing();
   void checkWord();
 };
 

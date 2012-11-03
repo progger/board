@@ -31,7 +31,7 @@ void CrosswordInfo::init(ICore *core, QString menu_path)
     {
       auto name = file.completeBaseName();
       QFileInfo svg_file(dir, name + ".svg");
-      auto image = svg_file.exists() ? svg_file.filePath() : CrosswordLogo;
+      auto image = svg_file.exists() ? "file:" + svg_file.filePath() : CrosswordLogo;
       core->addPlugin(name, image, CrosswordPlugin, QStringList(file.filePath()));
     }
     core->addPlugin(CrosseditName, CrosseditLogo, CrosseditPlugin);

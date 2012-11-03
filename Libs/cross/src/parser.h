@@ -15,8 +15,8 @@ class Parser : public QObject, public IParser
   Q_INTERFACES(IParser)
 public:
   explicit Parser(QObject *parent, QObjectList *words);
-  bool parse(QTextStream *stream);
-  void save(QTextStream *stream);
+  bool parse(QIODevice *device);
+  void save(QIODevice *device, QIODevice *svg_device);
   int width() { return width_; }
   int height() { return height_; }
 private:

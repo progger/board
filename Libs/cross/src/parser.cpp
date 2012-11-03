@@ -4,6 +4,8 @@
  * See the LICENSE file for terms of use.
  */
 
+#include <QTextStream>
+#include <QXmlStreamWriter>
 #include <QStringList>
 #include "word.h"
 #include "parser.h"
@@ -16,13 +18,14 @@ Parser::Parser(QObject *parent, QObjectList *words) :
 {
 }
 
-bool Parser::parse(QTextStream *stream)
+bool Parser::parse(QIODevice *device)
 {
+  QTextStream stream(device);
   width_ = 0;
   height_ = 0;
-  while (!stream->atEnd())
+  while (!stream.atEnd())
   {
-    auto line = stream->readLine();
+    auto line = stream.readLine();
     if (line.isEmpty() || line.startsWith("#")) continue;
     auto parts = line.split("\t");
     if (parts.length() != 5) return false;
@@ -45,12 +48,72 @@ bool Parser::parse(QTextStream *stream)
   return true;
 }
 
-void Parser::save(QTextStream *stream)
+void Parser::save(QIODevice *device, QIODevice *svg_device)
 {
+  width_ = 0;
+  height_ = 0;
+  QTextStream stream(device);
   for (auto word_obj : *words_)
   {
     Word *word = qobject_cast<Word*>(word_obj);
-    *stream << word->x() << "\t" << word->y() << "\t" << word->direction() << "\t"
-            << word->word() << "\t" << word->question() << endl;
+    int x = word->x();
+    int y = word->y();
+    bool direction = word->direction();
+    int length = word->length();
+    stream << x << "\t" << y << "\t" << direction << "\t"
+           << word->word() << "\t" << word->question() << endl;
+    if (direction)
+      y += length;
+    else
+      x += length;
+    if (x > width_) width_ = x;
+    if (y > height_) height_ = y;
   }
+
+  bool grid[height_][width_];
+  bzero(grid, width_ * height_);
+  for (auto word_obj : *words_)
+  {
+    Word *word = qobject_cast<Word*>(word_obj);
+    int x = word->x();
+    int y = word->y();
+    bool direction = word->direction();
+    int length = word->length();
+    for (int i = 0; i < length; i++)
+    {
+      grid[y][x] = true;
+      if (direction)
+        y++;
+      else
+        x++;
+    }
+  }
+
+  int size = (qMax(width_, height_) + 2) * 16;
+  int dx = (size - width_ * 16) / 2;
+  int dy = (size - height_ * 16) / 2;
+  QXmlStreamWriter writer(svg_device);
+  writer.setAutoFormatting(true);
+  writer.writeStartDocument();
+  writer.writeDTD("<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">");
+  writer.writeStartElement("svg");
+  writer.writeAttribute("version", "1.1");
+  writer.writeDefaultNamespace("http://www.w3.org/2000/svg");
+  writer.writeNamespace("http://www.w3.org/1999/xlink", "xlink");
+  writer.writeAttribute("width", QString::number(size));
+  writer.writeAttribute("height", QString::number(size));
+  for (int y = 0; y < height_; y++)
+    for (int x = 0; x < width_; x++)
+    {
+      if (!grid[y][x]) continue;
+      writer.writeStartElement("rect");
+      writer.writeAttribute("x", QString::number(x * 16 + dx));
+      writer.writeAttribute("y", QString::number(y * 16 + dy));
+      writer.writeAttribute("width", "16");
+      writer.writeAttribute("height", "16");
+      writer.writeAttribute("style", "fill:white;stroke:black;stroke-width:3px");
+      writer.writeEndElement();
+    }
+  writer.writeEndElement();
+  writer.writeEndDocument();
 }

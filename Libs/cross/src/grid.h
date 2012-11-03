@@ -24,7 +24,7 @@ public:
   int width() { return width_; }
   int height() { return height_; }
   Cell *getCell(int x, int y);
-  QObject *toQObject();
+  QObject *toQObject() { return this; }
 signals:
   void updateGrid();
 public slots:

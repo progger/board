@@ -28,8 +28,7 @@ bool Crossword::init(const QString &file_name)
   {
     QFile file(file_name);
     if (!file.open(QIODevice::ReadOnly)) goto error;
-    QTextStream stream(&file);
-    if (!parser->parse(&stream)) goto error;
+    if (!parser->parse(&file)) goto error;
     grid_->fill(parser->width(), parser->height());
     grid_->paintGrid(words_);
     delete parser;

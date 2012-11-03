@@ -49,11 +49,6 @@ Cell *Grid::getCell(int x, int y)
   return qobject_cast<Cell*>(row->cells().at(x));
 }
 
-QObject *Grid::toQObject()
-{
-  return this;
-}
-
 void Grid::hideHighlight()
 {
   for (auto row_obj : rows_)
@@ -67,12 +62,8 @@ void Grid::paintGrid(const QObjectList &words)
 {
   qint8 grid[height_][width_];
   for (int y = 0; y < height_; y++)
-  {
     for (int x = 0; x < width_; x++)
-    {
       grid[y][x] = x > 0 && x < width_ - 1 && y > 0 && y < height_ - 1;
-    }
-  }
 
   for(auto word_obj : words)
   {

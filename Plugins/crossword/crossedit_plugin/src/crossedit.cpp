@@ -147,14 +147,19 @@ void Crossedit::save()
   auto dir = core_->rootDir();
   dir.cd("crossword");
   QString base_file_name = dir.filePath(cross_name_);
-  QFile file(base_file_name + ".txt");
-  if (!file.open(QIODevice::WriteOnly))
+  QFile file_txt(base_file_name + ".txt");
+  QFile file_svg(base_file_name + ".svg");
+  if (!file_txt.open(QIODevice::WriteOnly))
   {
-    core_->showError(file.errorString());
+    core_->showError(file_txt.errorString());
     return;
   }
-  QTextStream stream(&file);
-  parser_->save(&stream);
+  if (!file_svg.open(QIODevice::WriteOnly))
+  {
+    core_->showError(file_svg.errorString());
+    return;
+  }
+  parser_->save(&file_txt, &file_svg);
 }
 
 void Crossedit::removeEmptyWords()

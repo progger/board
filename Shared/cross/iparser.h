@@ -8,13 +8,13 @@
 #define ICROSSPARSER_H
 
 #include <QObject>
-#include <QTextStream>
+#include <QIODevice>
 
 class IParser {
 public:
   virtual ~IParser() {}
-  virtual bool parse(QTextStream *stream) = 0;
-  virtual void save(QTextStream *stream) = 0;
+  virtual bool parse(QIODevice *device) = 0;
+  virtual void save(QIODevice *device, QIODevice *svg_device) = 0;
   virtual int width() = 0;
   virtual int height() = 0;
 };

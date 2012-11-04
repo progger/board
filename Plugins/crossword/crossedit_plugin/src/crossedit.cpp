@@ -18,8 +18,12 @@ Crossedit::Crossedit(QObject *parent, ICore *core, ICross *cross) :
   words_(),
   editing_word_(nullptr),
   editing_word_index_(-1),
-  cross_name_()
+  cross_name_(),
+  file_list_(),
+  file_list_visible_(false)
 {
+  cross_dir_ = core_->rootDir();
+  cross_dir_.cd("crossword");
   parser_ = cross->createParser(this, &words_);
   grid_ = cross->createGrid(this);
   grid_->fill(width_, height_);
@@ -144,9 +148,7 @@ void Crossedit::rotateWord()
 void Crossedit::save()
 {
   normalize();
-  auto dir = core_->rootDir();
-  dir.cd("crossword");
-  QString base_file_name = dir.filePath(cross_name_);
+  QString base_file_name = cross_dir_.filePath(cross_name_);
   QFile file_txt(base_file_name + ".txt");
   QFile file_svg(base_file_name + ".svg");
   if (!file_txt.open(QIODevice::WriteOnly))
@@ -160,6 +162,45 @@ void Crossedit::save()
     return;
   }
   parser_->save(&file_txt, &file_svg);
+}
+
+void Crossedit::open()
+{
+  if (file_list_visible_)
+  {
+    file_list_visible_ = false;
+  }
+  else
+  {
+    file_list_.clear();
+    QStringList filter("*.txt");
+    auto files = cross_dir_.entryInfoList(filter, QDir::Files);
+    for (QFileInfo file : files)
+    {
+      file_list_.append(file.completeBaseName());
+    }
+    file_list_visible_ = true;
+  }
+  emit updateFileList();
+}
+
+void Crossedit::openFile(QString name)
+{
+  QString file_name = cross_dir_.filePath(name + ".txt");
+  QFile file(file_name);
+  if (!file.open(QIODevice::ReadOnly))
+  {
+    core_->showError(file.errorString());
+    return;
+  }
+  while (!words_.empty()) words_.takeFirst()->deleteLater();
+  parser_->parse(&file);
+  fillGrid();
+  file_list_visible_ = false;
+  cross_name_ = name;
+  emit updateFileList();
+  emit updateWords();
+  emit updateCrossName();
 }
 
 void Crossedit::removeEmptyWords()

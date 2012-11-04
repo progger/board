@@ -78,6 +78,15 @@ Rectangle {
             image: ":/core/res/save.svg"
             onClicked: Crossedit.save()
         }
+
+        Button {
+            style: board.style.normalButton
+            width: buttonSize
+            height: buttonSize
+            image: ":/core/res/open.svg"
+            toggled: Crossedit.fileListVisible
+            onClicked: Crossedit.open()
+        }
     }
 
     Rectangle {
@@ -183,6 +192,50 @@ Rectangle {
                             : word.highlight
                               ? "#A0A0FF"
                               : "#D0D0D0";
+                }
+            }
+        }
+    }
+
+    Rectangle {
+        z: 1
+        x: parent.width * 0.5
+        y: parent.height * 0.1
+        width: parent.width * 0.45
+        height: parent.height * (Core.keyboard ? 0.60 : 0.85)
+        color: "#F0F0F0"
+        radius: 12
+        smooth: true
+        opacity: Crossedit.fileListVisible
+
+        Behavior on opacity {
+            NumberAnimation { duration: 500 }
+        }
+
+        ListView {
+            anchors.fill: parent
+            anchors.margins: 12
+            model: Crossedit.fileList
+            spacing: 5
+            clip: true
+            delegate: Rectangle {
+                width: parent.width
+                height: textSize * 1.5
+                color: "#C0C0C0"
+                radius: 6
+                smooth: true
+
+                Text {
+                    anchors.fill: parent
+                    anchors.margins: 4
+                    font.pixelSize: textSize
+                    text: modelData
+                    smooth: true
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: Crossedit.openFile(modelData)
                 }
             }
         }

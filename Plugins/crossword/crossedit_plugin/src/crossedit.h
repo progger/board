@@ -19,6 +19,8 @@ class Crossedit : public QObject
   Q_PROPERTY(QObjectList words READ words NOTIFY updateWords FINAL)
   Q_PROPERTY(int editingWordIndex READ editingWordIndex NOTIFY updateEditingWord FINAL)
   Q_PROPERTY(QString crossName READ crossName NOTIFY updateCrossName FINAL)
+  Q_PROPERTY(QStringList fileList READ fileList NOTIFY updateFileList FINAL)
+  Q_PROPERTY(bool fileListVisible READ fileListVisible NOTIFY updateFileList FINAL)
 public:
   explicit Crossedit(QObject *parent, ICore *core, ICross *cross);
   int width() { return width_; }
@@ -27,12 +29,15 @@ public:
   QObjectList words() { return words_; }
   int editingWordIndex() { return editing_word_index_; }
   QString crossName() { return cross_name_; }
+  QStringList fileList() { return file_list_; }
+  bool fileListVisible() { return file_list_visible_; }
 signals:
   void updateWidth();
   void updateHeight();
   void updateWords();
   void updateEditingWord();
   void updateCrossName();
+  void updateFileList();
 public slots:
   void hideHighlight();
   void highlightWord(QObject *word_obj);
@@ -41,6 +46,8 @@ public slots:
   void editCrossName(QString text);
   void rotateWord();
   void save();
+  void open();
+  void openFile(QString name);
 private:
   ICore *core_;
   ICross *cross_;
@@ -52,6 +59,9 @@ private:
   IWord* editing_word_;
   int editing_word_index_;
   QString cross_name_;
+  QDir cross_dir_;
+  QStringList file_list_;
+  bool file_list_visible_;
   void removeEmptyWords();
   void fillGrid();
   void normalize();

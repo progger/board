@@ -50,8 +50,8 @@ OTHER_FILES += \
     res/undo.svg \
     res/redo.svg \
     res/delete.svg \
+    res/open.svg \
     res/save.svg \
-    res/back.svg \
-    web/error.js
+    res/back.svg
 
 RESOURCES += core.qrc

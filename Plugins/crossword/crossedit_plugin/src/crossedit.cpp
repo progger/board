@@ -76,9 +76,11 @@ void Crossedit::highlightCell(QObject *cell_obj)
   {
     IWord *word = qobject_cast<IWord*>(word_obj);
     if (!word) continue;
+    int length = word->length();
+    if (!length) length = 1;
     if (word->direction()
-        ? cell->x() == word->x() && cell->y() >= word->y() && cell->y() < word->y() + word->length()
-        : cell->y() == word->y() && cell->x() >= word->x() && cell->x() < word->x() + word->length())
+        ? cell->x() == word->x() && cell->y() >= word->y() && cell->y() < word->y() + length
+        : cell->y() == word->y() && cell->x() >= word->x() && cell->x() < word->x() + length)
     {
       if (word->direction())
       {
@@ -127,11 +129,11 @@ void Crossedit::editWord(QObject *word_obj, QString text)
   if (!word) return;
   word->setWord(text.toUpper());
   fillGrid();
-  highlightWord(word_obj);
 }
 
 void Crossedit::editCrossName(QString text)
 {
+  if (cross_name_ == text) return;
   //TODO: Проверка на спецсимволы
   cross_name_ = text;
   emit updateCrossName();

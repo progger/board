@@ -12,7 +12,7 @@ Rectangle {
     property variant style: board.style
     property int buttonSize: height - 6
     anchors.top: parent.top
-    anchors.right: parent.right
+    anchors.right: parent.Left
     width: 280
     height: style.panelSize
     color: style.panelColor
@@ -65,20 +65,6 @@ Rectangle {
             minValue: 10
             maxValue: 60
             Component.onCompleted: value = Paint.fontSize
-        }
-
-        Item {
-            width: 8
-            height: parent.height
-        }
-
-        Button {
-            anchors.verticalCenter: parent.verticalCenter
-            style: toolBar.style.normalButton
-            width: buttonSize
-            height: buttonSize
-            image: "qrc:/core/res/save.svg"
-            onClicked: Paint.save()
         }
     }
 }

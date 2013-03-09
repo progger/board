@@ -12,42 +12,34 @@ Rectangle {
     z: 7
     property variant style: board.style
     property int buttonSize: style.panelSize - 6
-    x: parent.width - width * 1.5;
-    y: parent.height / 3 - height / 2;
-    width:  style.panelSize * 2
-    height: column.y + column.height + 4
+    x: 10
+    y: (parent.height - height) / 2
+    width:  style.panelSize
+    height: column.height + 20
     color: style.panelColor
-    border.color: "black"
+    radius: 10
+    border.color: "silver"
     border.width: 2
-
-    Rectangle {
-        anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.margins: 2
-        height: 16
-        color: "blue"
-    }
 
     Column {
         id: column
-        y: 20
+        y: 10
         z: 1
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.margins: 2
+        anchors.margins: 1
         spacing: 4
 
         Repeater {
             model: [
-                [{"mode": "select", "image": "qrc:/core/res/select.svg"},
-                {"mode": "pen", "image": "qrc:/plugin/paint/res/pen.svg"}],
-                [{"mode": "rectangle", "image": "qrc:/plugin/paint/res/rectangle.svg"},
-                {"mode": "magic_pen", "image": "qrc:/plugin/paint/res/magic_pen.svg"}],
-                [{"mode": "circle", "image": "qrc:/plugin/paint/res/circle.svg"},
-                {"mode": "ellipse", "image": "qrc:/plugin/paint/res/ellipse.svg"}],
-                [{"mode": "text", "image": "qrc:/plugin/paint/res/text.svg"},
-                {"mode": "image", "image": "qrc:/plugin/paint/res/image.svg"}]
+                {"mode": "select", "image": "qrc:/core/res/select.svg"},
+                {"mode": "pen", "image": "qrc:/plugin/paint/res/pen.svg"},
+                {"mode": "rectangle", "image": "qrc:/plugin/paint/res/rectangle.svg"},
+                {"mode": "magic_pen", "image": "qrc:/plugin/paint/res/magic_pen.svg"},
+                {"mode": "circle", "image": "qrc:/plugin/paint/res/circle.svg"},
+                {"mode": "ellipse", "image": "qrc:/plugin/paint/res/ellipse.svg"},
+                {"mode": "text", "image": "qrc:/plugin/paint/res/text.svg"},
+                {"mode": "image", "image": "qrc:/plugin/paint/res/image.svg"}
             ]
 
             Item {
@@ -55,108 +47,97 @@ Rectangle {
                 height: buttonSize
 
                 Button {
+                    anchors.horizontalCenter: parent.horizontalCenter
                     style: modeBar.style.normalButton
-                    x: parent.width * 0.25 - buttonSize / 2
+                    border.color: "silver"
+                    border.width: 2
                     width: buttonSize
                     height: buttonSize
-                    image: modelData[0].image
-                    toggled: Paint.mode == modelData[0].mode
-                    onClicked: Paint.mode = modelData[0].mode
-                }
-
-                Button {
-                    style: modeBar.style.normalButton
-                    x: parent.width * 0.75 - buttonSize / 2
-                    width: buttonSize
-                    height: buttonSize
-                    image: modelData[1].image
-                    toggled: Paint.mode == modelData[1].mode
-                    onClicked: Paint.mode = modelData[1].mode
+                    image: modelData.image
+                    toggled: Paint.mode == modelData.mode
+                    onClicked: Paint.mode = modelData.mode
                 }
             }
         }
 
-        Item {
-            width: parent.width
+        Button {
+            anchors.horizontalCenter: parent.horizontalCenter
+            style: modeBar.style.normalButton
+            border.color: "silver"
+            border.width: 2
+            width: buttonSize
             height: buttonSize
-
-            Button {
-                x: parent.width * 0.25 - buttonSize / 2
-                style: modeBar.style.normalButton
-                width: buttonSize
-                height: buttonSize
-                image: "qrc:/core/res/undo.svg"
-                enabled: Paint.canUndo
-                onClicked: Paint.undo()
-            }
-
-            Button {
-                x: parent.width * 0.75 - buttonSize / 2
-                style: modeBar.style.normalButton
-                width: buttonSize
-                height: buttonSize
-                image: "qrc:/core/res/redo.svg"
-                enabled: Paint.canRedo
-                onClicked: Paint.redo()
-            }
+            image: "qrc:/core/res/undo.svg"
+            enabled: Paint.canUndo
+            onClicked: Paint.undo()
         }
 
-        Item {
-            width: parent.width
+        Button {
+            anchors.horizontalCenter: parent.horizontalCenter
+            style: modeBar.style.normalButton
+            border.color: "silver"
+            border.width: 2
+            width: buttonSize
             height: buttonSize
-
-            Button {
-                x: parent.width * 0.25 - buttonSize / 2
-                style: modeBar.style.normalButton
-                enabled: Paint.selected;
-                width: buttonSize
-                height: buttonSize
-                image: "qrc:/core/res/delete.svg"
-                onClicked: Paint.del()
-            }
-
-            Button {
-                x: parent.width * 0.75 - buttonSize / 2
-                style: modeBar.style.normalButton
-                enabled: Paint.selected;
-                width: buttonSize
-                height: buttonSize
-                image: "qrc:/plugin/paint/res/duplicate.svg"
-                onClicked: Paint.duplicate()
-            }
+            image: "qrc:/core/res/redo.svg"
+            enabled: Paint.canRedo
+            onClicked: Paint.redo()
         }
 
-        Item {
-            width: parent.width
+        Button {
+            anchors.horizontalCenter: parent.horizontalCenter
+            style: modeBar.style.normalButton
+            border.color: "silver"
+            border.width: 2
+            enabled: Paint.selected;
+            width: buttonSize
             height: buttonSize
+            image: "qrc:/core/res/delete.svg"
+            onClicked: Paint.del()
+        }
 
-            Button {
-                id: colorButton
-                x: parent.width * 0.25 - buttonSize / 2
-                style: modeBar.style.normalButton
-                width: buttonSize
-                height: buttonSize
-                image: "qrc:/plugin/paint/res/color.svg"
-                toggled: colorGridRect.opacity
-                onClicked: colorGridRect.opacity = !colorGridRect.opacity
-            }
+        Button {
+            anchors.horizontalCenter: parent.horizontalCenter
+            style: modeBar.style.normalButton
+            border.color: "silver"
+            border.width: 2
+            enabled: Paint.selected;
+            width: buttonSize
+            height: buttonSize
+            image: "qrc:/plugin/paint/res/duplicate.svg"
+            onClicked: Paint.duplicate()
+        }
 
-            Button {
-                x: parent.width * 0.75 - buttonSize / 2
-                style: modeBar.style.normalButton
-                width: buttonSize
-                height: buttonSize
-                image: "qrc:/core/res/save.svg"
-                onClicked: Paint.save()
-            }
+        Button {
+            id: colorButton
+            anchors.horizontalCenter: parent.horizontalCenter
+            style: modeBar.style.normalButton
+            border.color: "silver"
+            border.width: 2
+            width: buttonSize
+            height: buttonSize
+            image: "qrc:/plugin/paint/res/color.svg"
+            toggled: colorGridRect.opacity
+            onClicked: colorGridRect.opacity = !colorGridRect.opacity
+        }
+
+        Button {
+            anchors.horizontalCenter: parent.horizontalCenter
+            style: modeBar.style.normalButton
+            border.color: "silver"
+            border.width: 2
+            width: buttonSize
+            height: buttonSize
+            image: "qrc:/core/res/save.svg"
+            onClicked: Paint.save()
         }
     }
 
     Rectangle {
         id: colorGridRect
         z: 1
-        x: -width
-        y: colorButton.parent.y + column.y
+        x: parent.width
+        y: colorButton.y + colorButton.height + column.y - height
         border.color: "#404040"
         border.width: 2
         width: colorGrid.width + 4

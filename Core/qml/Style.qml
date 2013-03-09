@@ -7,8 +7,8 @@
 import QtQuick 1.1
 
 Item {
-    property color panelColor: "#C0C0C0"
-    property int panelSize: 44
+    property color panelColor: "white"
+    property int panelSize: 40
     property variant normalButton: normalButton
     property variant closeButton: closeButton
 

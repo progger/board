@@ -7,6 +7,7 @@
 #include <QTextStream>
 #include <QXmlStreamWriter>
 #include <QStringList>
+#include <QVector>
 #include "word.h"
 #include "parser.h"
 
@@ -70,8 +71,7 @@ void Parser::save(QIODevice *device, QIODevice *svg_device)
     if (y > height_) height_ = y;
   }
 
-  bool grid[height_][width_];
-  bzero(grid, width_ * height_);
+  QVector<QVector<bool>> grid(height_, QVector<bool>(width_, false));
   for (auto word_obj : *words_)
   {
     Word *word = qobject_cast<Word*>(word_obj);

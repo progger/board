@@ -4,6 +4,7 @@
  * See the LICENSE file for terms of use.
  */
 
+#include <QVector>
 #include "row.h"
 #include "word.h"
 #include "grid.h"
@@ -60,10 +61,17 @@ void Grid::hideHighlight()
 
 void Grid::paintGrid(const QObjectList &words)
 {
-  qint8 grid[height_][width_];
-  for (int y = 0; y < height_; y++)
-    for (int x = 0; x < width_; x++)
-      grid[y][x] = x > 0 && x < width_ - 1 && y > 0 && y < height_ - 1;
+  QVector<QVector<qint8>> grid(height_, QVector<qint8>(width_, 1));
+  for (int x = 0; x < width_; x++)
+  {
+    grid[0][x] = 0;
+    grid[height_ - 1][x] = 0;
+  }
+  for (int y = 1; y < height_ - 1; y++)
+  {
+    grid[y][0] = 0;
+    grid[y][width_ - 1] = 0;
+  }
 
   for(auto word_obj : words)
   {

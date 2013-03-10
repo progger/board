@@ -13,6 +13,7 @@
 class Webview : public QObject, public IExternal, public IWebView
 {
   Q_OBJECT
+  Q_PLUGIN_METADATA(IID "Board.IExternal/1.0")
   Q_INTERFACES(IExternal IWebView)
 public:
   explicit Webview(QObject *parent = 0);

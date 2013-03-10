@@ -4,7 +4,7 @@
  * See the LICENSE file for terms of use.
  */
 
-import QtQuick 1.1
+import QtQuick 2.0
 import "keyboard.js" as Script
 
 Item {

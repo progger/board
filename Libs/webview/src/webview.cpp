@@ -4,7 +4,6 @@
  * See the LICENSE file for terms of use.
  */
 
-#include <QtPlugin>
 #include "webviewobject.h"
 #include "webview.h"
 
@@ -24,5 +23,3 @@ IWebViewObject *Webview::createWebViewObject(const QString &name, QObject *paren
   core_->addObject(name, obj);
   return obj;
 }
-
-Q_EXPORT_PLUGIN2(IExternal, Webview)

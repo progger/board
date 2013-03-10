@@ -4,7 +4,6 @@
  * See the LICENSE file for terms of use.
  */
 
-#include <QtPlugin>
 #include "icross.h"
 #include "crossword.h"
 #include "crosswordplugin.h"
@@ -20,7 +19,5 @@ void CrosswordPlugin::init(ICore *core, const QStringList &param)
     return;
   }
   core->addObject("Crossword", crossword);
-  core->addQml(":/plugin/crossword/qml/Field.qml");
+  core->addQml("qrc:/plugin/crossword/qml/Field.qml");
 }
-
-Q_EXPORT_PLUGIN2(IPlugin, CrosswordPlugin)

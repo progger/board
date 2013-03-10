@@ -4,8 +4,8 @@
  * See the LICENSE file for terms of use.
  */
 
-import QtQuick 1.1
-import ":/lib/webview/qml"
+import QtQuick 2.0
+import "qrc:/lib/webview/qml"
 
 Item {
     anchors.fill: parent

@@ -7,13 +7,13 @@
 #ifndef MAINVIEW_H
 #define MAINVIEW_H
 
-#include <QDeclarativeView>
+#include <QQuickView>
 
-class MainView : public QDeclarativeView
+class MainView : public QQuickView
 {
   Q_OBJECT
 public:
-  explicit MainView(QWidget *parent = 0);
+  explicit MainView(QWindow *parent = 0);
 };
 
 #endif // MAINVIEW_H

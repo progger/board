@@ -12,6 +12,7 @@
 class PaintInfo : public QObject, IPluginInfo
 {
   Q_OBJECT
+  Q_PLUGIN_METADATA(IID "Board.IPluginInfo/1.0")
   Q_INTERFACES(IPluginInfo)
 public:
   virtual ~PaintInfo() {}

@@ -4,25 +4,19 @@
  * See the LICENSE file for terms of use.
  */
 
-#include <QDeclarativeContext>
 #include <QApplication>
 #include <QKeyEvent>
 #include <QDir>
-#include <QWidget>
-#include <QMessageBox>
+#include <QtQml>
 #include "iexternal.h"
 #include "iplugin.h"
-#include "menuitem.h"
 #include "global.h"
 #include "macro.h"
 #include "core.h"
 
-#include <QDebug>
-#include <QGraphicsObject>
-
 using namespace Qt;
 
-Core::Core(QDeclarativeView *parent) :
+Core::Core(QQuickView *parent) :
   QObject(parent),
   plugin_mode_(false),
   menu_visible_(false),
@@ -38,7 +32,9 @@ Core::Core(QDeclarativeView *parent) :
   root_dir_.cd("board");
   settings_ = new QSettings(root_dir_.filePath("settings.ini"), QSettings::IniFormat, this);
 
-  QDeclarativeContext *context = parent->rootContext();
+  qmlRegisterType<MenuItem>();
+
+  auto *context = parent->rootContext();
   context->setContextProperty("Core", this);
 }
 
@@ -51,7 +47,7 @@ void Core::addPlugin(const QString &name, const QString &image,
 
 void Core::addObject(const QString &name, QObject *obj)
 {
-  QDeclarativeView *view = qobject_cast<QDeclarativeView*>(mainView());
+  QQuickView *view = qobject_cast<QQuickView*>(mainView());
   if (!view) return;
   view->rootContext()->setContextProperty(name, obj);
 }
@@ -106,7 +102,8 @@ QObject *Core::getLib(const QString &name)
 
 void Core::showError(const QString &error)
 {
-  QMessageBox::critical(qobject_cast<QWidget*>(mainView()), "Error", error);
+  //TODO
+  //QMessageBox::critical(qobject_cast<QWidget*>(mainView()), "Error", error);
 }
 
 void Core::init()
@@ -123,11 +120,19 @@ void Core::init()
   }
 }
 
+QQmlListProperty<MenuItem> Core::menuItemList()
+{
+  return QQmlListProperty<MenuItem>(this, menu_item_list_);
+}
+
 void Core::emulateKeyPress(int key, int modifiers, const QString &text) const
 {
+  //TODO
+  /*
   KeyboardModifiers md = KeyboardModifiers(modifiers);
   QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, key, md, text);
   QApplication::postEvent(QApplication::focusWidget(), event);
+  */
 }
 
 void Core::selectMenuItem(QObject *obj)

@@ -4,7 +4,6 @@
  * See the LICENSE file for terms of use.
  */
 
-#include <QtPlugin>
 #include "parser.h"
 #include "word.h"
 #include "grid.h"
@@ -33,5 +32,3 @@ IGrid *Cross::createGrid(QObject *parent)
 {
   return new Grid(parent);
 }
-
-Q_EXPORT_PLUGIN2(IExternal, Cross)

@@ -4,9 +4,9 @@
  * See the LICENSE file for terms of use.
  */
 
-import QtQuick 1.1
-import ":/core/qml"
-import ":/lib/cross/qml"
+import QtQuick 2.0
+import "qrc:/core/qml"
+import "qrc:/lib/cross/qml"
 
 Rectangle {
     id: rootRect

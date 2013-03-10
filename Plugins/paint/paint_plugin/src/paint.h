@@ -7,7 +7,6 @@
 #ifndef PAINT_H
 #define PAINT_H
 
-#include <QWidget>
 #include <QObject>
 #include <QColor>
 #include <QFile>
@@ -27,7 +26,7 @@ class Paint : public QObject
   Q_PROPERTY(bool canRedo READ canRedo WRITE setCanRedo NOTIFY updateCanRedo)
 
 public:
-  explicit Paint(QWidget *view, QObject *parent = 0);
+  explicit Paint(QObject *parent = 0);
   QString mode() const { return mode_; }
   float thickness() { return thickness_; }
   QString color() const { return color_; }
@@ -72,7 +71,6 @@ public slots:
   void selectImage();
 
 private:
-  QWidget *view_;
   QString mode_;
   float thickness_;
   QString color_;

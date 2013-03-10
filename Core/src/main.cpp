@@ -4,7 +4,7 @@
  * See the LICENSE file for terms of use.
  */
 
-#include <QtGui/QApplication>
+#include <QApplication>
 #include <QTextCodec>
 #include <QTextStream>
 #include <QFile>
@@ -64,13 +64,13 @@ void setupApplication(QApplication &app)
 {
   if (global_mode_opengl)
   {
-    app.setGraphicsSystem("opengl");
+    //app.setGraphicsSystem("opengl");
   }
 }
 
 int main(int argc, char *argv[])
 {
-  QTextCodec::setCodecForCStrings(QTextCodec::codecForName("utf8"));
+  //QTextCodec::setCodecForCStrings(QTextCodec::codecForName("utf8"));
   QApplication app(argc, argv);
   parseCmd();
   setupApplication(app);

@@ -1,4 +1,4 @@
-QT       += core opengl declarative
+QT       += core widgets qml quick opengl
 
 TARGET = Board
 TEMPLATE = app

@@ -8,11 +8,13 @@
 #define CORE_H
 
 #include <QObject>
-#include <QDeclarativeView>
 #include <QList>
+#include <QQuickView>
 #include <QPluginLoader>
 #include <QDir>
 #include <QSettings>
+#include <QtQml>
+#include "menuitem.h"
 #include "icore.h"
 #include "iplugininfo.h"
 
@@ -22,12 +24,11 @@ class Core : public QObject, public ICore
   Q_INTERFACES(ICore)
   Q_PROPERTY(bool pluginMode READ pluginMode CONSTANT FINAL)
   Q_PROPERTY(bool menuVisible READ menuVisible WRITE setMenuVisible NOTIFY updateMenuVisible FINAL)
-  Q_PROPERTY(QObjectList menuItemList READ menuItemList NOTIFY updateMenuItemList FINAL)
+  Q_PROPERTY(QQmlListProperty<MenuItem> menuItemList READ menuItemList NOTIFY updateMenuItemList FINAL)
   Q_PROPERTY(bool isRootMenu READ isRootMenu NOTIFY updateMenuItemList FINAL)
   Q_PROPERTY(bool keyboard READ keyboard WRITE setKeyboard NOTIFY updateKeyboard FINAL)
-
 public:
-  explicit Core(QDeclarativeView *parent = 0);
+  explicit Core(QQuickView *parent = 0);
   void addPlugin(const QString &name, const QString &image,
                          const QString &plugin_name = QString::null,
                          const QStringList &plugin_param = QStringList());
@@ -44,7 +45,7 @@ public:
   void init();
   bool pluginMode() { return plugin_mode_; }
   bool menuVisible() { return menu_visible_; }
-  QObjectList menuItemList() { return menu_item_list_; }
+  QQmlListProperty<MenuItem> menuItemList();
   bool isRootMenu() { return menu_path_.isEmpty(); }
   bool keyboard() { return keyboard_; }
 
@@ -72,7 +73,7 @@ private:
   QList<IPluginInfo*> plugin_info_list_;
   QObjectList libs_;
   QString menu_path_;
-  QObjectList menu_item_list_;
+  QList<MenuItem*> menu_item_list_;
   QPluginLoader *loader_;
   QDir root_dir_;
   QSettings *settings_;

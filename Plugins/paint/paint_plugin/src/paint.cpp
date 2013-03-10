@@ -4,19 +4,14 @@
  * See the LICENSE file for terms of use.
  */
 
-#include <QColorDialog>
-#include <QFileDialog>
-#include <QMessageBox>
-#include <QFileInfo>
 #include <QImage>
 #include "const.h"
 #include "paint.h"
 
 using namespace Qt;
 
-Paint::Paint(QWidget *view, QObject *parent) :
+Paint::Paint(QObject *parent) :
   QObject(parent),
-  view_(view),
   mode_("pen"),
   thickness_(3),
   color_("#000000"),
@@ -32,11 +27,15 @@ Paint::Paint(QWidget *view, QObject *parent) :
 
 QColor Paint::selectColor(QColor color)
 {
-  return QColorDialog::getColor(color);
+  //TODO
+  //return QColorDialog::getColor(color);
+  return QColor();
 }
 
 void Paint::selectImage()
 {
+  //TODO
+  /*
   image_width_ = 0;
   image_height_ = 0;
   image_content_.clear();
@@ -74,10 +73,13 @@ void Paint::selectImage()
   image_width_ = image.width();
   image_height_ = image.height();
   image_content_ = "data:image/" + mime_type + ";base64," + data.toBase64();
+  */
 }
 
 void Paint::saveContent(const QString &content)
 {
+  //TODO
+  /*
   QFileDialog dialog(view_);
   dialog.setAcceptMode(QFileDialog::AcceptSave);
   dialog.setNameFilter("*.svg");
@@ -99,11 +101,13 @@ void Paint::saveContent(const QString &content)
     }
     file.close();
   }
+  */
 }
 
 void Paint::showFileError(const QFile &file)
 {
-  QMessageBox::critical(view_, ERROR_CAPTION, file.errorString());
+  //TODO
+  //QMessageBox::critical(view_, ERROR_CAPTION, file.errorString());
 }
 
 void Paint::setMode(const QString &mode)

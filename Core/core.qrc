@@ -17,6 +17,7 @@
         <file>res/up_arrow.svg</file>
         <file>res/down_arrow.svg</file>
         <file>res/close.svg</file>
+        <file>res/minimize.svg</file>
         <file>res/undo.svg</file>
         <file>res/redo.svg</file>
         <file>res/delete.svg</file>

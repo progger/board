@@ -64,6 +64,7 @@ public slots:
   void selectMenuItem(QObject *obj);
   void upMenu();
   void quitButton();
+  void minimizeButton();
 
 private:
   bool plugin_mode_;

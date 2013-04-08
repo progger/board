@@ -11,6 +11,7 @@ Item {
     property int panelSize: 40
     property variant normalButton: normalButton
     property variant closeButton: closeButton
+    property variant minimizeButton: minimizeButton
 
     Item {
         id: normalButton
@@ -64,6 +65,31 @@ Item {
             GradientStop { position: 0.25; color: "#E07070" }
             GradientStop { position: 0.75; color: "#D06868" }
             GradientStop { position: 1; color: "#B05858" }
+        }
+    }
+
+    Item {
+        id: minimizeButton
+
+        property Gradient normal: Gradient {
+            GradientStop { position: 0; color: "#0000FF" }
+            GradientStop { position: 0.25; color: "#0000E0" }
+            GradientStop { position: 0.75; color: "#0000D0" }
+            GradientStop { position: 1; color: "#0000B0" }
+        }
+
+        property Gradient pressed: Gradient {
+            GradientStop { position: 0; color: "#0000B0" }
+            GradientStop { position: 0.25; color: "#0000D0" }
+            GradientStop { position: 0.75; color: "#0000E0" }
+            GradientStop { position: 1; color: "#0000FF" }
+        }
+
+        property Gradient hovered: Gradient {
+            GradientStop { position: 0; color: "#8080FF" }
+            GradientStop { position: 0.25; color: "#7070E0" }
+            GradientStop { position: 0.75; color: "#6868D0" }
+            GradientStop { position: 1; color: "#5858B0" }
         }
     }
 }

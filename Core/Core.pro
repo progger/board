@@ -47,6 +47,7 @@ OTHER_FILES += \
     res/up_arrow.svg \
     res/down_arrow.svg \
     res/close.svg \
+    res/minimize.svg \
     res/undo.svg \
     res/redo.svg \
     res/delete.svg \

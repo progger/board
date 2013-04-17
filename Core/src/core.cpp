@@ -178,6 +178,15 @@ void Core::quitButton()
   }
 }
 
+void Core::minimizeButton()
+{
+  QDeclarativeView *view = qobject_cast<QDeclarativeView*>(mainView());
+  if (view)
+  {
+    view->showMinimized();
+  }
+}
+
 void Core::loadPluginInfo()
 {
   auto dir = QDir(QApplication::applicationDirPath());

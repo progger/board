@@ -13,18 +13,19 @@
 MainView::MainView(QWindow *parent) :
   QQuickView(parent)
 {
-  //connect(engine(), SIGNAL(quit()), SLOT(close()));
+  //connect(this, SIGNAL(windowStateChanged(Qt::WindowState)), SLOT(onWindowStateChanged(Qt::WindowState)));
   auto core = new Core(this);
   setResizeMode(QQuickView::SizeRootObjectToView);
   setSource(QUrl("qrc:/core/qml/Board.qml"));
   core->init();
-  /*
-  if (global_mode_opengl)
-  {
-    QGLFormat format = QGLFormat(QGL::SingleBuffer | QGL::Rgba | QGL::DirectRendering | QGL::SampleBuffers);
-    QGLWidget *widget = new QGLWidget(format);
-    widget->setAutoFillBackground(false);
-    setViewport(widget);
-  }
-  */
 }
+/*
+void MainView::onWindowStateChanged(Qt::WindowState windowState)
+{
+  windowState = Qt::WindowNoState;
+  if (windowState == Qt::WindowNoState)
+  {
+    //showFullScreen();
+  }
+}
+*/

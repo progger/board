@@ -16,7 +16,7 @@ class Paint : public QObject
   Q_OBJECT
   Q_PROPERTY(QString mode READ mode WRITE setMode NOTIFY updateMode)
   Q_PROPERTY(float thickness READ thickness WRITE setThickness NOTIFY updateThickness)
-  Q_PROPERTY(QString color READ color WRITE setColor NOTIFY updateColor)
+  Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY updateColor)
   Q_PROPERTY(int fontSize READ fontSize WRITE setFontSize NOTIFY updateFontSize)
   Q_PROPERTY(bool selected READ selected WRITE setSelected NOTIFY updateSelected)
   Q_PROPERTY(int imageWidth READ imageWidth WRITE setImageWidth NOTIFY updateImageWidth)
@@ -29,14 +29,15 @@ public:
   explicit Paint(QObject *parent = 0);
   QString mode() const { return mode_; }
   float thickness() { return thickness_; }
-  QString color() const { return color_; }
-  int fontSize() { return font_size_; }
-  bool selected() { return selected_; }
-  int imageWidth() { return image_width_; }
-  int imageHeight() { return image_height_; }
-  QString imageContent() { return image_content_; }
-  bool canUndo() { return can_undo_; }
-  bool canRedo() { return can_redo_; }
+  QColor color() const { return color_; }
+  Q_INVOKABLE QColor getColor() const { return color_; }
+  int fontSize() const { return font_size_; }
+  bool selected() const { return selected_; }
+  int imageWidth() const { return image_width_; }
+  int imageHeight() const { return image_height_; }
+  QString imageContent() const { return image_content_; }
+  bool canUndo() const { return can_undo_; }
+  bool canRedo() const { return can_redo_; }
   Q_INVOKABLE QColor selectColor(QColor color);
 
 signals:
@@ -59,7 +60,7 @@ signals:
 public slots:
   void setMode(const QString &mode);
   void setThickness(float thickness);
-  void setColor(const QString &color);
+  void setColor(const QColor &color);
   void setFontSize(int font_size);
   void setSelected(bool selected);
   void setImageWidth(int width);
@@ -73,7 +74,7 @@ public slots:
 private:
   QString mode_;
   float thickness_;
-  QString color_;
+  QColor color_;
   int font_size_;
   bool selected_;
   int image_width_;

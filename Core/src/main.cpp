@@ -4,14 +4,13 @@
  * See the LICENSE file for terms of use.
  */
 
-#include <QApplication>
+#include <QGuiApplication>
 #include <QTextCodec>
 #include <QTextStream>
 #include <QFile>
 #include "global.h"
 #include "mainview.h"
 
-bool global_mode_opengl = false;
 QString global_plugin = QString();
 QStringList global_plugin_params = QStringList();
 
@@ -29,7 +28,7 @@ void help()
 
 void parseCmd()
 {
-  QStringList args = QApplication::arguments();
+  QStringList args = QCoreApplication::arguments();
   int count = args.count();
   for (int i = 1; i < count; i++)
   {
@@ -39,10 +38,6 @@ void parseCmd()
       if (param == "--help")
       {
         help();
-      }
-      else if (param == "--opengl")
-      {
-        global_mode_opengl = true;
       }
       else
       {
@@ -59,21 +54,16 @@ void parseCmd()
     }
   }
 }
-
-void setupApplication(QApplication &app)
+/*
+void setupApplication(QGuiApplication &app)
 {
-  if (global_mode_opengl)
-  {
-    //app.setGraphicsSystem("opengl");
-  }
 }
-
+*/
 int main(int argc, char *argv[])
 {
-  //QTextCodec::setCodecForCStrings(QTextCodec::codecForName("utf8"));
-  QApplication app(argc, argv);
+  QGuiApplication app(argc, argv);
   parseCmd();
-  setupApplication(app);
+  //setupApplication(app);
   MainView view;
   view.showFullScreen();
   return app.exec();

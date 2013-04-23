@@ -103,6 +103,7 @@ Rectangle {
 
                 MouseArea {
                     anchors.fill: parent
+                    enabled: selectBar.opacity
                     onClicked: {
                                value = minValue + step * modelData;
                                selectBar.opacity = 0;

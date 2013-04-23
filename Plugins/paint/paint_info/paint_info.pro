@@ -15,7 +15,6 @@ INCLUDEPATH += ../../../Shared
 SOURCES += src/paintinfo.cpp
 
 HEADERS += \
-    iplugininfo.h \
     src/paintinfo.h
 
 OTHER_FILES += \

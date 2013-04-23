@@ -1,8 +1,8 @@
-QT       += core widgets qml quick opengl
+QT += core gui qml quick
 
-TARGET = Board
+TARGET = board
 TEMPLATE = app
-VERSION = 1.1.0
+VERSION = 2.0.0
 QMAKE_CXXFLAGS += -std=c++11
 
 DESTDIR = ../bin
@@ -19,10 +19,6 @@ SOURCES += \
     src/menuitem.cpp
 
 HEADERS += \
-    icore.h \
-    iexternal.h \
-    iplugininfo.h \
-    iplugin.h \
     src/mainview.h \
     src/core.h \
     src/macro.h \

@@ -14,6 +14,8 @@ class MainView : public QQuickView
   Q_OBJECT
 public:
   explicit MainView(QWindow *parent = 0);
+//private slots:
+//  void onWindowStateChanged(Qt::WindowState windowState);
 };
 
 #endif // MAINVIEW_H

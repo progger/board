@@ -10,7 +10,6 @@ MOC_DIR = ./build
 RCC_DIR = ./build
 
 INCLUDEPATH += ../../../Shared
-INCLUDEPATH += ../../../Shared/webview
 
 SOURCES += \
     src/paintplugin.cpp \
@@ -22,10 +21,6 @@ SOURCES += \
     src/shape/ellipse.cpp
 
 HEADERS += \
-    icore.h \
-    iplugin.h \
-    iwebviewobject.h \
-    iwebview.h \
     src/paintplugin.h \
     src/const.h \
     src/paint.h \
@@ -38,11 +33,19 @@ HEADERS += \
     src/shape/ellipse.h
 
 OTHER_FILES += \
-    qml/Draw.qml \
+    qml/Sheet.qml \
+    qml/sheet.js \
     qml/ToolBar.qml \
     qml/ModeBar.qml \
     qml/ColorSelector.qml \
     qml/colorSelector.js \
+    js/tool.js \
+    js/shapes/rectangle.js \
+    js/shape.js \
+    js/shapes/circle.js \
+    js/shapes/ellipse.js \
+    js/shapes/pen.js \
+    js/shapes/select.js \
     res/pen.svg \
     res/magic_pen.svg \
     res/rectangle.svg \
@@ -54,19 +57,6 @@ OTHER_FILES += \
     res/duplicate.svg \
     res/thickness.svg \
     res/font_size.svg \
-    res/color.svg \
-    web/page.html \
-    web/main.js \
-    web/tool.js \
-    web/draw.js \
-    web/diff.js \
-    web/shapes/select.js \
-    web/shapes/pen.js \
-    web/shapes/rectangle.js \
-    web/shapes/circle.js \
-    web/shapes/ellipse.js \
-    web/shapes/text.js \
-    web/shapes/image.js \
-    web/shapes/magic_pen.js
+    res/color.svg
 
 RESOURCES += paint_plugin.qrc

@@ -1,7 +1,0 @@
-<RCC>
-    <qresource prefix="/lib/webview/">
-        <file>qml/WebPage.qml</file>
-        <file>qml/webPage.js</file>
-        <file>web/error.js</file>
-    </qresource>
-</RCC>

@@ -122,7 +122,7 @@ void Paint::setThickness(float thickness)
   emit updateThickness();
 }
 
-void Paint::setColor(const QString &color)
+void Paint::setColor(const QColor &color)
 {
   color_ = color;
   emit updateColor();

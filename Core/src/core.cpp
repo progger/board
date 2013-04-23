@@ -4,7 +4,7 @@
  * See the LICENSE file for terms of use.
  */
 
-#include <QApplication>
+#include <QGuiApplication>
 #include <QKeyEvent>
 #include <QDir>
 #include <QtQml>
@@ -64,7 +64,7 @@ QObject * Core::loadLib(const QString &lib_name)
     if (obj->objectName() == lib_name) return obj;
   }
   {
-    auto dir = QDir(QApplication::applicationDirPath());
+    auto dir = QDir(QGuiApplication::applicationDirPath());
     if (!dir.cd("libs")) goto error;
     auto file_name = GET_LIB_NAME(lib_name);
     if (!dir.exists(file_name)) goto error;
@@ -168,7 +168,7 @@ void Core::quitButton()
 {
   if (plugin_mode_ || menu_visible_)
   {
-    QApplication::quit();
+    QGuiApplication::quit();
   }
   else
   {
@@ -180,16 +180,17 @@ void Core::quitButton()
 
 void Core::minimizeButton()
 {
-  QDeclarativeView *view = qobject_cast<QDeclarativeView*>(mainView());
+  QQuickView *view = qobject_cast<QQuickView*>(mainView());
   if (view)
   {
-    view->showMinimized();
+    //view->showMinimized();
+    view->setWindowState(Qt::WindowMinimized);
   }
 }
 
 void Core::loadPluginInfo()
 {
-  auto dir = QDir(QApplication::applicationDirPath());
+  auto dir = QDir(QGuiApplication::applicationDirPath());
   if (!dir.cd("info")) return;
   auto files = dir.entryInfoList(QDir::Files);
   for (QFileInfo file : files)
@@ -221,7 +222,7 @@ bool Core::loadPluginInternal(const QString &plugin_name, const QStringList &par
     delete loader_;
     loader_ = nullptr;
   }
-  QDir dir = QDir(QApplication::applicationDirPath());
+  QDir dir = QDir(QGuiApplication::applicationDirPath());
   if (!dir.cd("plugins")) return false;
   QString file_name = GET_LIB_NAME(plugin_name);
   if (!dir.exists(file_name)) return false;

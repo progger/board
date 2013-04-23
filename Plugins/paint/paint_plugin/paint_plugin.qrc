@@ -1,10 +1,18 @@
 <RCC>
     <qresource prefix="/plugin/paint/">
-        <file>qml/Draw.qml</file>
+        <file>qml/Sheet.qml</file>
+        <file>qml/sheet.js</file>
         <file>qml/ToolBar.qml</file>
         <file>qml/ModeBar.qml</file>
         <file>qml/ColorSelector.qml</file>
         <file>qml/colorSelector.js</file>
+        <file>js/tool.js</file>
+        <file>js/shape.js</file>
+        <file>js/shapes/select.js</file>
+        <file>js/shapes/pen.js</file>
+        <file>js/shapes/rectangle.js</file>
+        <file>js/shapes/circle.js</file>
+        <file>js/shapes/ellipse.js</file>
         <file>res/pen.svg</file>
         <file>res/magic_pen.svg</file>
         <file>res/rectangle.svg</file>
@@ -17,18 +25,5 @@
         <file>res/thickness.svg</file>
         <file>res/font_size.svg</file>
         <file>res/color.svg</file>
-        <file>web/page.html</file>
-        <file>web/main.js</file>
-        <file>web/tool.js</file>
-        <file>web/draw.js</file>
-        <file>web/diff.js</file>
-        <file>web/shapes/select.js</file>
-        <file>web/shapes/pen.js</file>
-        <file>web/shapes/magic_pen.js</file>
-        <file>web/shapes/rectangle.js</file>
-        <file>web/shapes/circle.js</file>
-        <file>web/shapes/ellipse.js</file>
-        <file>web/shapes/text.js</file>
-        <file>web/shapes/image.js</file>
     </qresource>
 </RCC>

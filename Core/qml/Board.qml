@@ -47,6 +47,7 @@ Rectangle {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         opacity: Core.menuVisible
+        enabled: Core.menuVisible
         Behavior on opacity {
             NumberAnimation { duration: 300 }
         }
@@ -60,6 +61,7 @@ Rectangle {
         anchors.horizontalCenter: parent.horizontalCenter
         height: board.height / 4
         opacity: Core.keyboard
+        enabled: Core.keyboard
         Behavior on opacity {
             NumberAnimation { duration: 500 }
         }

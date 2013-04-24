@@ -25,9 +25,6 @@ function end(container, mouse) {
     if (p.x !== last.x || p.y !== last.y) {
         obj.points.push(p);
     }
-    if (obj.points.length > 1) {
-        obj.points.shift();
-    }
     updateRect(obj);
 }
 
@@ -67,9 +64,10 @@ function paint(ctx) {
     ctx.strokeStyle = this.color;
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
-    ctx.moveTo(0, 0)
+    var p = this.points[0];
+    ctx.moveTo(p.x, p.y)
     for (var i in this.points) {
-        var p = this.points[i];
+        p = this.points[i];
         ctx.lineTo(p.x, p.y);
     }
     ctx.stroke();

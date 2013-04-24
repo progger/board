@@ -7,6 +7,7 @@
 .import "../js/tool.js" as Tool
 .import "../js/shapes/select.js" as Select
 .import "../js/shapes/pen.js" as Pen
+.import "../js/shapes/magic_pen.js" as MagicPen
 .import "../js/shapes/rectangle.js" as Rectangle
 .import "../js/shapes/circle.js" as Circle
 .import "../js/shapes/ellipse.js" as Ellipse
@@ -14,6 +15,7 @@
 var shapes = {
     "select": Select,
     "pen": Pen,
+    "magic_pen": MagicPen,
     "rectangle": Rectangle,
     "circle": Circle,
     "ellipse": Ellipse

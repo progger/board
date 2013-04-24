@@ -22,6 +22,7 @@ bool PathProcessor::process(QVariantList arx, QVariantList ary)
 {
   clear();
   int count = qMin(arx.count(), ary.count());
+  if (!count) return false;
   PointArray point_array(count);
   for (int i = 0; i < count; i++)
   {

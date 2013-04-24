@@ -10,6 +10,7 @@
         <file>js/shape.js</file>
         <file>js/shapes/select.js</file>
         <file>js/shapes/pen.js</file>
+        <file>js/shapes/magic_pen.js</file>
         <file>js/shapes/rectangle.js</file>
         <file>js/shapes/circle.js</file>
         <file>js/shapes/ellipse.js</file>

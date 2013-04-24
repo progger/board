@@ -11,7 +11,8 @@ void PaintPlugin::init(ICore *core, const QStringList &param __attribute__((__un
 {
   auto paint = new Paint(this);
   core->addObject("Paint", paint);
-  //auto path_processor = new PathProcessor(this);
+  auto path_processor = new PathProcessor(this);
+  core->addObject("PathProcessor", path_processor);
   core->addQml("qrc:/plugin/paint/qml/Sheet.qml");
   core->addQml("qrc:/plugin/paint/qml/ModeBar.qml");
   core->addQml("qrc:/plugin/paint/qml/ToolBar.qml");

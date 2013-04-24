@@ -40,12 +40,13 @@ OTHER_FILES += \
     qml/ColorSelector.qml \
     qml/colorSelector.js \
     js/tool.js \
-    js/shapes/rectangle.js \
     js/shape.js \
+    js/shapes/select.js \
+    js/shapes/pen.js \
+    js/shapes/magic_pen.js \
+    js/shapes/rectangle.js \
     js/shapes/circle.js \
     js/shapes/ellipse.js \
-    js/shapes/pen.js \
-    js/shapes/select.js \
     res/pen.svg \
     res/magic_pen.svg \
     res/rectangle.svg \

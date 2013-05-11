@@ -1,0 +1,43 @@
+<RCC>
+    <qresource prefix="/core/">
+        <file>qml/Board.qml</file>
+        <file>qml/Button.qml</file>
+        <file>qml/keyboard.js</file>
+        <file>qml/Keyboard.qml</file>
+        <file>qml/ModeBar.qml</file>
+        <file>qml/sheet.js</file>
+        <file>qml/Sheet.qml</file>
+        <file>qml/SpinBox.qml</file>
+        <file>qml/Style.qml</file>
+        <file>qml/TextWrapper.qml</file>
+        <file>qml/ToolBar.qml</file>
+        <file>res/backspace.svg</file>
+        <file>res/back.svg</file>
+        <file>res/circle.svg</file>
+        <file>res/close.svg</file>
+        <file>res/color.svg</file>
+        <file>res/delete.svg</file>
+        <file>res/down_arrow.svg</file>
+        <file>res/duplicate.svg</file>
+        <file>res/ellipse.svg</file>
+        <file>res/enter.svg</file>
+        <file>res/font_size.svg</file>
+        <file>res/help</file>
+        <file>res/image.svg</file>
+        <file>res/left_arrow.svg</file>
+        <file>res/magic_pen.svg</file>
+        <file>res/minimize.svg</file>
+        <file>res/move.svg</file>
+        <file>res/open.svg</file>
+        <file>res/pen.svg</file>
+        <file>res/rectangle.svg</file>
+        <file>res/redo.svg</file>
+        <file>res/right_arrow.svg</file>
+        <file>res/save.svg</file>
+        <file>res/select.svg</file>
+        <file>res/text.svg</file>
+        <file>res/thickness.svg</file>
+        <file>res/undo.svg</file>
+        <file>res/up_arrow.svg</file>
+    </qresource>
+</RCC>

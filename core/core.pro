@@ -1,4 +1,4 @@
-QT += core gui qml quick
+QT += core gui widgets qml quick
 
 TARGET = board
 TEMPLATE = app
@@ -19,6 +19,8 @@ SOURCES += \
     src/paint/circlegen.cpp \
     src/paint/ellipse.cpp \
     src/paint/ellipsegen.cpp \
+    src/paint/imagegen.cpp \
+    src/paint/imagewrapper.cpp \
     src/paint/magicpengen.cpp \
     src/paint/paint.cpp \
     src/paint/paintutils.cpp \
@@ -44,6 +46,8 @@ HEADERS += \
     src/paint/circlegen.h \
     src/paint/ellipse.h \
     src/paint/ellipsegen.h \
+    src/paint/imagegen.h \
+    src/paint/imagewrapper.h \
     src/paint/magicpengen.h \
     src/paint/paint.h \
     src/paint/paintutils.h \
@@ -68,6 +72,7 @@ HEADERS += \
 OTHER_FILES += \
     qml/Board.qml \
     qml/Button.qml \
+    qml/ImageWrapper.qml \
     qml/keyboard.js \
     qml/Keyboard.qml \
     qml/ModeBar.qml \

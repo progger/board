@@ -15,6 +15,7 @@
 #include "circlegen.h"
 #include "ellipsegen.h"
 #include "textgen.h"
+#include "imagegen.h"
 #include "sheetcanvas.h"
 
 using namespace std;
@@ -35,14 +36,17 @@ void SheetCanvas::setCore(Core *core)
 void SheetCanvas::setPaint(Paint *paint)
 {
   _paint = paint;
-  connect(_paint, SIGNAL(updateMode()), SLOT(onUpdateMode()));
+  connect(_paint, SIGNAL(modeChanged()), SLOT(onModeChanged()));
 }
 
 void SheetCanvas::onEnabledChanged()
 {
   if (isEnabled())
   {
-    onUpdateMode();
+    if (_paint->mode() == "image")
+      _paint->setMode("select");
+    else
+      onModeChanged();
   }
   else
   {
@@ -50,7 +54,7 @@ void SheetCanvas::onEnabledChanged()
   }
 }
 
-void SheetCanvas::onUpdateMode()
+void SheetCanvas::onModeChanged()
 {
   if (!isEnabled()) return;
   _shape_gen = nullptr;
@@ -82,6 +86,12 @@ void SheetCanvas::onUpdateMode()
   else if (mode == "text")
   {
     _shape_gen = make_shared<TextGen>(this);
+  }
+  else if (mode == "image")
+  {
+    _shape_gen = ImageGen::openFile(this);
+    if (!_shape_gen)
+      _paint->setMode("select");
   }
 }
 
@@ -122,15 +132,6 @@ void SheetCanvas::componentComplete()
   QQmlEngine *engine = view->engine();
   _comp_text_wrapper = shared_ptr<QQmlComponent>(new QQmlComponent(engine, QUrl("qrc:/core/qml/TextWrapper.qml")));
   Q_ASSERT(_comp_text_wrapper);
-  /*
-  QObject *obj = _comp_text_wrapper->create();
-  TextWrapper *text = qobject_cast<TextWrapper*>(obj);
-  qDebug() << text;
-  text->setParentItem(_container);
-  text->setPosition(QPointF(100, 100));
-  text->setSize(QSizeF(100, 50));
-  text->setColor(Qt::red);
-  text->setFontSize(5);
-  text->setText("AbcDef");
-  */
+  _comp_image_wrapper = shared_ptr<QQmlComponent>(new QQmlComponent(engine, QUrl("qrc:/core/qml/ImageWrapper.qml")));
+  Q_ASSERT(_comp_image_wrapper);
 }

@@ -7,9 +7,11 @@
 #include <QGuiApplication>
 #include <QKeyEvent>
 #include <QtQml>
+#include <QMessageBox>
 #include "paint/paint.h"
 #include "paint/sheetcanvas.h"
 #include "paint/textwrapper.h"
+#include "paint/imagewrapper.h"
 #include "core.h"
 
 Core::Core(QQuickView *parent) :
@@ -25,15 +27,14 @@ Core::Core(QQuickView *parent) :
   qmlRegisterSingletonType<Paint>("board.core.paint", 1, 0, "Paint",
                                   [](QQmlEngine *, QJSEngine *) { return (QObject*) new Paint(); });
   qmlRegisterType<TextWrapper>("board.core.paint", 1, 0, "TextWrapper");
+  qmlRegisterType<ImageWrapper>("board.core.paint", 1, 0, "ImageWrapper");
   auto context = parent->rootContext();
   context->setContextProperty("Core", this);
 }
 
 void Core::showError(const QString &error)
 {
-  Q_UNUSED(error);
-  //TODO
-  //QMessageBox::critical(qobject_cast<QWidget*>(mainView()), "Error", error);
+  QMessageBox::critical(nullptr, "Error", error);
 }
 
 void Core::emulateKeyPress(int key, int modifiers, const QString &text) const

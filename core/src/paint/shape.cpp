@@ -32,6 +32,14 @@ qreal Shape::scaley() const
   return _inner_size.height() ? height() / _inner_size.height() : 1;
 }
 
+void Shape::setInnerSize(const QSizeF &size)
+{
+  _inner_size = size;
+  emit innerSizeChanged();
+  emit scalexChanged();
+  emit scaleyChanged();
+}
+
 void Shape::setThickness(int thickness)
 {
   _thickness = thickness;

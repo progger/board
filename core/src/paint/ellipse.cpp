@@ -29,7 +29,7 @@ QSGNode *Ellipse::updatePaintNode(QSGNode *old_node, QQuickItem::UpdatePaintNode
     g = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(), 0);
     g->setDrawingMode(GL_TRIANGLE_STRIP);
     QSGFlatColorMaterial *m = new QSGFlatColorMaterial;
-    m->setColor(_color);
+    m->setColor(color());
     node = new QSGGeometryNode();
     node->setGeometry(g);
     node->setFlag(QSGNode::OwnsGeometry);
@@ -38,8 +38,8 @@ QSGNode *Ellipse::updatePaintNode(QSGNode *old_node, QQuickItem::UpdatePaintNode
   }
   float r1 = width() / 2;
   float r2 = height() / 2;
-  qreal tx = _thickness * scalex() / 2;
-  qreal ty = _thickness * scaley() / 2;
+  qreal tx = thickness() * scalex() / 2;
+  qreal ty = thickness() * scaley() / 2;
   int seg_count = getSegCount(qMax(r1 + tx, r2 + ty));
   int vertex_count = (seg_count + 1) * 2;
   if (g->vertexCount() != vertex_count)

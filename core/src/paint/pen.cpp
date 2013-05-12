@@ -28,9 +28,8 @@ QSGNode *Pen::updatePaintNode(QSGNode *old_node, QQuickItem::UpdatePaintNodeData
   {
     g = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(), 0);
     g->setDrawingMode(GL_TRIANGLE_STRIP);
-    g->setLineWidth(_thickness);
     QSGFlatColorMaterial *m = new QSGFlatColorMaterial;
-    m->setColor(_color);
+    m->setColor(color());
     node = new QSGGeometryNode();
     node->setGeometry(g);
     node->setFlag(QSGNode::OwnsGeometry);
@@ -44,8 +43,8 @@ QSGNode *Pen::updatePaintNode(QSGNode *old_node, QQuickItem::UpdatePaintNodeData
     g->allocate(vertex_count);
   }
   auto p = g->vertexDataAsPoint2D();
-  qreal tx = _thickness * scalex() / 2;
-  qreal ty = _thickness * scaley() / 2;
+  qreal tx = thickness() * scalex() / 2;
+  qreal ty = thickness() * scaley() / 2;
   for (int i = 0; i < count - 1; ++i)
   {
     qreal x1 = _points[i].x() * scalex();

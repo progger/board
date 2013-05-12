@@ -9,19 +9,17 @@
 
 #include <QObject>
 #include <QColor>
-#include <QFile>
 
 class Paint : public QObject
 {
   Q_OBJECT
-  Q_PROPERTY(QString mode READ mode WRITE setMode NOTIFY updateMode)
-  Q_PROPERTY(float thickness READ thickness WRITE setThickness NOTIFY updateThickness)
-  Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY updateColor)
-  Q_PROPERTY(int fontSize READ fontSize WRITE setFontSize NOTIFY updateFontSize)
-  Q_PROPERTY(bool selected READ selected WRITE setSelected NOTIFY updateSelected)
-  Q_PROPERTY(bool canUndo READ canUndo WRITE setCanUndo NOTIFY updateCanUndo)
-  Q_PROPERTY(bool canRedo READ canRedo WRITE setCanRedo NOTIFY updateCanRedo)
-
+  Q_PROPERTY(QString mode READ mode WRITE setMode NOTIFY modeChanged)
+  Q_PROPERTY(float thickness READ thickness WRITE setThickness NOTIFY thicknessChanged)
+  Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
+  Q_PROPERTY(int fontSize READ fontSize WRITE setFontSize NOTIFY fontSizeChanged)
+  Q_PROPERTY(bool selected READ selected WRITE setSelected NOTIFY selectedChanged)
+  Q_PROPERTY(bool canUndo READ canUndo WRITE setCanUndo NOTIFY canUndoChanged)
+  Q_PROPERTY(bool canRedo READ canRedo WRITE setCanRedo NOTIFY canRedoChanged)
 public:
   explicit Paint(QObject *parent = 0);
   QString mode() const { return _mode; }
@@ -31,21 +29,19 @@ public:
   bool selected() const { return _selected; }
   bool canUndo() const { return _can_undo; }
   bool canRedo() const { return _can_redo; }
-
 signals:
-  void updateMode();
-  void updateThickness();
-  void updateColor();
-  void updateFontSize();
-  void updateSelected();
-  void updateCanUndo();
-  void updateCanRedo();
+  void modeChanged();
+  void thicknessChanged();
+  void colorChanged();
+  void fontSizeChanged();
+  void selectedChanged();
+  void canUndoChanged();
+  void canRedoChanged();
   void undo();
   void redo();
   void del();
   void duplicate();
   void save();
-
 public slots:
   void setMode(const QString &mode);
   void setThickness(float thickness);
@@ -54,8 +50,6 @@ public slots:
   void setSelected(bool selected);
   void setCanUndo(bool can_undo);
   void setCanRedo(bool can_redo);
-  void selectImage();
-
 private:
   QString _mode;
   float _thickness;
@@ -64,8 +58,6 @@ private:
   bool _selected;
   bool _can_undo;
   bool _can_redo;
-
-  void showFileError(const QFile &file);
 };
 
 #endif // PAINT_H

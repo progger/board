@@ -23,10 +23,8 @@ void TextWrapper::setText(const QString &text)
   _text = text;
   emit textChanged();
   QObject *item = textElement();
-  _inner_size = QSizeF(item->property("contentWidth").toReal(),
-                       item->property("contentHeight").toReal());
-  emit scalexChanged();
-  emit scaleyChanged();
+  setInnerSize(QSizeF(item->property("contentWidth").toReal(),
+                      item->property("contentHeight").toReal()));
 }
 
 void TextWrapper::setFontSize(int font_size)

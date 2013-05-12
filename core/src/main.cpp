@@ -4,7 +4,7 @@
  * See the LICENSE file for terms of use.
  */
 
-#include <QGuiApplication>
+#include <QApplication>
 #include <QTextCodec>
 #include <QTextStream>
 #include <QFile>
@@ -47,7 +47,7 @@ void parseCmd()
 
 int main(int argc, char *argv[])
 {
-  QGuiApplication app(argc, argv);
+  QApplication app(argc, argv);
   parseCmd();
   MainView view;
   view.showFullScreen();

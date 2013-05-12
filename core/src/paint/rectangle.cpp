@@ -27,7 +27,7 @@ QSGNode *Rectangle::updatePaintNode(QSGNode *old_node, QQuickItem::UpdatePaintNo
     g = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(), 10);
     g->setDrawingMode(GL_TRIANGLE_STRIP);
     QSGFlatColorMaterial *m = new QSGFlatColorMaterial;
-    m->setColor(_color);
+    m->setColor(color());
     node = new QSGGeometryNode();
     node->setGeometry(g);
     node->setFlag(QSGNode::OwnsGeometry);
@@ -35,8 +35,8 @@ QSGNode *Rectangle::updatePaintNode(QSGNode *old_node, QQuickItem::UpdatePaintNo
     node->setFlag(QSGNode::OwnsMaterial);
   }
   auto p = g->vertexDataAsPoint2D();
-  float tx = _thickness * scalex() / 2;
-  float ty = _thickness * scaley() / 2;
+  float tx = thickness() * scalex() / 2;
+  float ty = thickness() * scaley() / 2;
   p[0].set(-tx, -ty);
   p[1].set(tx, ty);
   p[2].set(width() + tx, -ty);

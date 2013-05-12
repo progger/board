@@ -56,7 +56,7 @@ Rectangle {
                 }
             }
         }
-
+/*
         Button {
             anchors.horizontalCenter: parent.horizontalCenter
             style: modeBar.style.normalButton
@@ -80,7 +80,7 @@ Rectangle {
             enabled: Paint.canRedo
             onClicked: Paint.redo()
         }
-
+*/
         Button {
             anchors.horizontalCenter: parent.horizontalCenter
             style: modeBar.style.normalButton
@@ -92,7 +92,7 @@ Rectangle {
             image: "qrc:/core/res/delete.svg"
             onClicked: Paint.del()
         }
-
+/*
         Button {
             anchors.horizontalCenter: parent.horizontalCenter
             style: modeBar.style.normalButton
@@ -104,7 +104,7 @@ Rectangle {
             image: "qrc:/core/res/duplicate.svg"
             onClicked: Paint.duplicate()
         }
-
+*/
         Button {
             id: colorButton
             anchors.horizontalCenter: parent.horizontalCenter
@@ -117,7 +117,7 @@ Rectangle {
             toggled: colorGridRect.opacity
             onClicked: colorGridRect.opacity = !colorGridRect.opacity
         }
-
+/*
         Button {
             anchors.horizontalCenter: parent.horizontalCenter
             style: modeBar.style.normalButton
@@ -128,6 +128,7 @@ Rectangle {
             image: "qrc:/core/res/save.svg"
             onClicked: Paint.save()
         }
+*/
     }
 
     Rectangle {

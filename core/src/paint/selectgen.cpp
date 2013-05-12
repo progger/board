@@ -41,7 +41,7 @@ void SelectGen::end(const QPointF &p)
 {
   move(p);
   QRectF select(_select_rect->x(), _select_rect->y(),
-                _select_rect->width(), _select_rect->height());
+                qMax(_select_rect->width(), 1.0), qMax(_select_rect->height(), 1.0));
   for (QQuickItem *item : _canvas->container()->childItems())
   {
     Shape *shape = qobject_cast<Shape*>(item);

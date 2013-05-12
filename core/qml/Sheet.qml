@@ -104,6 +104,7 @@ Rectangle {
         TextInput {
             id: textInput
             objectName: "textInput"
+            property variant textGen
             property variant textItem
             visible: false
             width: contentWidth
@@ -112,6 +113,7 @@ Rectangle {
                 id: textInputScale
             }
 
+            onAccepted: if (textGen) textGen.endEdit()
             onTextItemChanged: updateTextInput()
             function updateTextInput()
             {
@@ -127,10 +129,12 @@ Rectangle {
                     text = textItem.text;
                     cursorPosition = positionAt((mouseArea.mouseX - x) / textItem.scalex,
                                                 (mouseArea.mouseY - y) / textItem.scaley);
+                    Core.keyboard = true;
                 }
                 else
                 {
                     visible = false;
+                    Core.keyboard = false;
                 }
             }
 

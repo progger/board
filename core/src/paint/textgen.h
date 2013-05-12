@@ -9,16 +9,19 @@
 
 #include "shapegen.h"
 
-class TextGen : public ShapeGen
+class TextGen : public QObject, public ShapeGen
 {
+  Q_OBJECT
 public:
   explicit TextGen(SheetCanvas *canvas);
   virtual ~TextGen() override;
   virtual void begin(const QPointF &);
   virtual void end(const QPointF &p);
   virtual void move(const QPointF &);
-private:
+public slots:
   void endEdit();
+private:
+  QQuickItem *_text_input;
 };
 
 #endif // TEXTGEN_H

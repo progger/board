@@ -12,6 +12,8 @@
 TextGen::TextGen(SheetCanvas *canvas) :
   ShapeGen(canvas)
 {
+  _text_input = _canvas->textInput();
+  _text_input->setProperty("textGen", QVariant::fromValue<QObject*>(this));
 }
 
 TextGen::~TextGen()
@@ -50,9 +52,8 @@ void TextGen::end(const QPointF &p)
     _item = text;
   }
   _item->setVisible(false);
-  QQuickItem *text_input = _canvas->textInput();
-  text_input->setProperty("textItem", QVariant::fromValue<QObject*>(_item));
-  text_input->setFocus(true);
+  _text_input->setProperty("textItem", QVariant::fromValue<QObject*>(_item));
+  _text_input->setFocus(true);
 }
 
 void TextGen::move(const QPointF &)
@@ -61,14 +62,13 @@ void TextGen::move(const QPointF &)
 
 void TextGen::endEdit()
 {
-  QQuickItem *text_input = _canvas->textInput();
   if (_item)
   {
-    _item->setWidth(text_input->width() * _item->scalex());
-    _item->setHeight(text_input->height() * _item->scaley());
-    _item->setProperty("text", text_input->property("text"));
+    _item->setWidth(_text_input->width() * _item->scalex());
+    _item->setHeight(_text_input->height() * _item->scaley());
+    _item->setProperty("text", _text_input->property("text"));
     _item->setVisible(true);
     _item = nullptr;
   }
-  text_input->setProperty("textItem", QVariant());
+  _text_input->setProperty("textItem", QVariant());
 }

@@ -12,8 +12,6 @@
 #include "paint/textwrapper.h"
 #include "core.h"
 
-using namespace Qt;
-
 Core::Core(QQuickView *parent) :
   QObject(parent),
   _keyboard(false)
@@ -40,15 +38,9 @@ void Core::showError(const QString &error)
 
 void Core::emulateKeyPress(int key, int modifiers, const QString &text) const
 {
-  Q_UNUSED(key);
-  Q_UNUSED(modifiers);
-  Q_UNUSED(text);
-  //TODO
-  /*
-  KeyboardModifiers md = KeyboardModifiers(modifiers);
+  Qt::KeyboardModifiers md(modifiers);
   QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, key, md, text);
-  QApplication::postEvent(QApplication::focusWidget(), event);
-  */
+  QGuiApplication::postEvent(parent(), event);
 }
 
 void Core::quitButton()

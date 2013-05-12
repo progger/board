@@ -52,7 +52,6 @@ void TextGen::end(const QPointF &p)
   _item->setVisible(false);
   QQuickItem *text_input = _canvas->textInput();
   text_input->setProperty("textItem", QVariant::fromValue<QObject*>(_item));
-  text_input->setProperty("text", _item->property("text"));
   text_input->setFocus(true);
 }
 

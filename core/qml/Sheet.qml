@@ -23,6 +23,7 @@ Rectangle {
         }
 
         MouseArea {
+            id: mouseArea
             objectName: "mouseArea"
             anchors.fill: parent
             hoverEnabled: true
@@ -52,7 +53,7 @@ Rectangle {
             MouseArea {
                 anchors.fill: parent
                 hoverEnabled: true
-                cursorShape: Qt.SizeAllCursor
+                cursorShape: parent.bobberVisible ? Qt.SizeAllCursor : Qt.ArrowCursor
                 onPressed: if (selectRect.selectGen)
                                selectRect.selectGen.onMoveBegin(mouse.x, mouse.y, 1, 1, 1, 1)
                 onPositionChanged: if ((mouse.buttons & Qt.LeftButton) && selectRect.selectGen)
@@ -104,16 +105,33 @@ Rectangle {
             id: textInput
             objectName: "textInput"
             property variant textItem
-            visible: textItem ? true : false    // सामान्य हिंदू कोड
-            x: textItem ? textItem.x : 0
-            y: textItem ? textItem.y : 0
+            visible: false
             width: contentWidth
             height: contentHeight
-            font.pixelSize: textItem ? textItem.fontSize : 0
-            color: textItem ? textItem.color : "black"
             transform: Scale {
-                xScale: textInput.textItem ? textInput.textItem.scalex : 1
-                yScale: textInput.textItem ? textInput.textItem.scaley : 1
+                id: textInputScale
+            }
+
+            onTextItemChanged: updateTextInput()
+            function updateTextInput()
+            {
+                if (textItem)
+                {
+                    visible = true;
+                    x = textItem.x;
+                    y = textItem.y;
+                    font.pixelSize = textItem.fontSize;
+                    color = textItem.color;
+                    textInputScale.xScale = textItem.scalex;
+                    textInputScale.yScale = textItem.scaley;
+                    text = textItem.text;
+                    cursorPosition = positionAt((mouseArea.mouseX - x) / textItem.scalex,
+                                                (mouseArea.mouseY - y) / textItem.scaley);
+                }
+                else
+                {
+                    visible = false;
+                }
             }
 
             Rectangle {

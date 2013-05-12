@@ -15,6 +15,7 @@
 #include "circlegen.h"
 #include "ellipsegen.h"
 #include "textgen.h"
+#include "movegen.h"
 #include "imagegen.h"
 #include "sheetcanvas.h"
 
@@ -86,6 +87,10 @@ void SheetCanvas::onModeChanged()
   else if (mode == "text")
   {
     _shape_gen = make_shared<TextGen>(this);
+  }
+  else if (mode == "move")
+  {
+    _shape_gen = make_shared<MoveGen>(this);
   }
   else if (mode == "image")
   {

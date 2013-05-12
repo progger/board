@@ -36,6 +36,7 @@ Rectangle {
                 {"mode": "circle", "image": "qrc:/core/res/circle.svg"},
                 {"mode": "ellipse", "image": "qrc:/core/res/ellipse.svg"},
                 {"mode": "text", "image": "qrc:/core/res/text.svg"},
+                {"mode": "move", "image": "qrc:/core/res/move.svg"},
                 {"mode": "image", "image": "qrc:/core/res/image.svg"}
             ]
 

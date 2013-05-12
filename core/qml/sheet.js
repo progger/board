@@ -11,7 +11,8 @@ var cursors = {
     "rectangle": Qt.CrossCursor,
     "circle": Qt.CrossCursor,
     "ellipse": Qt.CrossCursor,
-    "text": Qt.IBeamCursor
+    "text": Qt.IBeamCursor,
+    "move": Qt.OpenHandCursor
 };
 
 var aaa = Qt.CrossCursor;

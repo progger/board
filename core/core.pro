@@ -22,6 +22,7 @@ SOURCES += \
     src/paint/imagegen.cpp \
     src/paint/imagewrapper.cpp \
     src/paint/magicpengen.cpp \
+    src/paint/movegen.cpp \
     src/paint/paint.cpp \
     src/paint/paintutils.cpp \
     src/paint/pathprocessor/ellipse_pp.cpp \
@@ -49,6 +50,7 @@ HEADERS += \
     src/paint/imagegen.h \
     src/paint/imagewrapper.h \
     src/paint/magicpengen.h \
+    src/paint/movegen.h \
     src/paint/paint.h \
     src/paint/paintutils.h \
     src/paint/pathprocessor/ellipse.h \

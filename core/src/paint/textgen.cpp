@@ -69,6 +69,7 @@ void TextGen::endEdit()
     _item->setProperty("text", _text_input->property("text"));
     _item->setVisible(true);
     _item = nullptr;
+    _canvas->updateSheetRect();
   }
   _text_input->setProperty("textItem", QVariant());
 }

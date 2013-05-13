@@ -46,4 +46,5 @@ void MagicPenGen::end(const QPointF &p)
   pen->setSize(size);
   pen->setInnerSize(size);
   pen->update();
+  _canvas->updateSheetRect();
 }

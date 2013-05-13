@@ -23,21 +23,54 @@ using namespace std;
 
 SheetCanvas::SheetCanvas(QQuickItem *parent) :
   QQuickItem(parent),
+  _sheet_rect(0, 0, 1, 1),
   _shape_gen(nullptr),
   _start_move(false)
 {
   connect(this, SIGNAL(enabledChanged()), SLOT(onEnabledChanged()));
 }
 
+void SheetCanvas::moveAll(qreal dx, qreal dy)
+{
+  QPointF dp(dx, dy);
+  for (QQuickItem *item : _container->childItems())
+  {
+    item->setPosition(item->position() + dp);
+  }
+  updateSheetRect();
+}
+
 void SheetCanvas::setCore(Core *core)
 {
   _core = core;
+  emit coreChanged();
 }
 
 void SheetCanvas::setPaint(Paint *paint)
 {
   _paint = paint;
   connect(_paint, SIGNAL(modeChanged()), SLOT(onModeChanged()));
+  emit paintChanged();
+}
+
+void SheetCanvas::updateSheetRect()
+{
+  if (!_container) return;
+  qreal w = width();
+  qreal h = height();
+  qreal x1 = 0;
+  qreal y1 = 0;
+  qreal x2 = w;
+  qreal y2 = h;
+  for (QQuickItem *item : _container->childItems())
+  {
+    x1 = qMin(x1, item->x() - w);
+    y1 = qMin(y1, item->y() - h);
+    x2 = qMax(x2, item->x() + item->width() + w);
+    y2 = qMax(y2, item->y() + item->height() + h);
+  }
+  _sheet_rect = QRectF(x1, y1, qMax(x2 - x1, 1.0), qMax(y2 - y1, 1.0));
+  emit sheetRectChanged();
 }
 
 void SheetCanvas::onEnabledChanged()
@@ -139,4 +172,12 @@ void SheetCanvas::componentComplete()
   Q_ASSERT(_comp_text_wrapper);
   _comp_image_wrapper = shared_ptr<QQmlComponent>(new QQmlComponent(engine, QUrl("qrc:/core/qml/ImageWrapper.qml")));
   Q_ASSERT(_comp_image_wrapper);
+
+  updateSheetRect();
+}
+
+void SheetCanvas::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry)
+{
+  QQuickItem::geometryChanged(newGeometry, oldGeometry);
+  updateSheetRect();
 }

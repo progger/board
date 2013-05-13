@@ -27,6 +27,7 @@ void PenGen::end(const QPointF &p)
   move(p);
   Pen *pen = static_cast<Pen*>(_item);
   pen->points().shrink_to_fit();
+  _canvas->updateSheetRect();
 }
 
 void PenGen::move(const QPointF &p)

@@ -78,6 +78,8 @@ OTHER_FILES += \
     qml/keyboard.js \
     qml/Keyboard.qml \
     qml/ModeBar.qml \
+    qml/ScrollBar.qml \
+    qml/ScrollButton.qml \
     qml/sheet.js \
     qml/Sheet.qml \
     qml/SpinBox.qml \

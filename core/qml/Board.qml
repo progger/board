@@ -52,4 +52,6 @@ Rectangle {
             NumberAnimation { duration: 500 }
         }
     }
+
+    Component.onCompleted: if (sheetComponent.status == Component.Error) console.log(sheetComponent.errorString())
 }

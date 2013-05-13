@@ -25,16 +25,13 @@ public:
   QSettings *settings() { return _settings; }
   void showError(const QString &error);
   bool keyboard() { return _keyboard; }
-
 signals:
   void updateKeyboard();
-
 public slots:
   void setKeyboard(bool keyboard);
   void emulateKeyPress(int key, int modifiers, const QString & text = "") const;
   void quitButton();
   void minimizeButton();
-
 private:
   bool _keyboard;
   QDir _root_dir;

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Kulabuhov Michail, Kemerovo, Russia.
+ * Copyright (C) 2013 Kulabuhov Michail, Kemerovo, Russia.
  *
  * See the LICENSE file for terms of use.
  */
@@ -13,11 +13,17 @@ Rectangle {
     enabled: visible
 
     SheetCanvas {
-        anchors.fill: parent
+        id: sheetCanvas
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.right: vscroll.left
+        anchors.bottom: hscroll.top
+        clip: true
         core: Core
         paint: Paint
 
         Item {
+            id: container
             objectName: "container"
             anchors.fill: parent
         }
@@ -56,6 +62,8 @@ Rectangle {
                 cursorShape: parent.bobberVisible ? Qt.SizeAllCursor : Qt.ArrowCursor
                 onPressed: if (selectRect.selectGen)
                                selectRect.selectGen.onMoveBegin(mouse.x, mouse.y, 1, 1, 1, 1)
+                onReleased: if (selectRect.selectGen)
+                                sheetCanvas.updateSheetRect()
                 onPositionChanged: if ((mouse.buttons & Qt.LeftButton) && selectRect.selectGen)
                                        selectRect.selectGen.onMove(mouse.x, mouse.y)
             }
@@ -94,6 +102,8 @@ Rectangle {
                                                                          modelData[1] == 0,
                                                                          modelData[0] == 1,
                                                                          modelData[1] == 1)
+                        onReleased: if (selectRect.selectGen)
+                                        sheetCanvas.updateSheetRect()
                         onPositionChanged: if (selectRect.selectGen)
                                                selectRect.selectGen.onScale(mouse.x, mouse.y)
                     }
@@ -145,6 +155,48 @@ Rectangle {
                 border.width: 2
                 anchors.margins: -5
             }
+        }
+    }
+
+    ScrollBar {
+        id: vscroll
+        property rect sheetRect: sheetCanvas.sheetRect
+        horizontal: false
+        anchors.top: parent.top
+        anchors.right: parent.right
+        anchors.bottom: hscroll.top
+        width: 20
+        onLeftButton: sheetCanvas.moveAll(0, 10)
+        onRightButton: sheetCanvas.moveAll(0, -10)
+        onLeftPage: sheetCanvas.moveAll(0, sheetCanvas.height / 2)
+        onRightPage: sheetCanvas.moveAll(0, -sheetCanvas.height / 2)
+        onSheetRectChanged: updateScroll()
+        onMove: sheetCanvas.moveAll(0, -sheetCanvas.height * step)
+
+        function updateScroll() {
+            position = -sheetCanvas.sheetRect.y / sheetCanvas.sheetRect.height;
+            length = sheetCanvas.sheetRect.height / sheetCanvas.height;
+        }
+    }
+
+    ScrollBar {
+        id: hscroll
+        property rect sheetRect: sheetCanvas.sheetRect
+        horizontal: true
+        anchors.left: parent.left
+        anchors.right: vscroll.left
+        anchors.bottom: parent.bottom
+        height: 20
+        onLeftButton: sheetCanvas.moveAll(10, 0)
+        onRightButton: sheetCanvas.moveAll(-10, 0)
+        onLeftPage: sheetCanvas.moveAll(sheetCanvas.width / 2, 0)
+        onRightPage: sheetCanvas.moveAll(-sheetCanvas.width / 2, 0)
+        onSheetRectChanged: updateScroll()
+        onMove: sheetCanvas.moveAll(-sheetCanvas.width * step, 0)
+
+        function updateScroll() {
+            position = -sheetCanvas.sheetRect.x / sheetCanvas.sheetRect.width;
+            length = sheetCanvas.sheetRect.width / sheetCanvas.width;
         }
     }
 }

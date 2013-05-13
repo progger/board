@@ -34,7 +34,7 @@ void ImageGen::begin(const QPointF &p)
 
 void ImageGen::end(const QPointF &p)
 {
-  move(p);
+  ShapeGen::end(p);
   _canvas->paint()->setMode("select");
 }
 

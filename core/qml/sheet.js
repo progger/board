@@ -14,5 +14,3 @@ var cursors = {
     "text": Qt.IBeamCursor,
     "move": Qt.OpenHandCursor
 };
-
-var aaa = Qt.CrossCursor;

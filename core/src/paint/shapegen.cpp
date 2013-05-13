@@ -28,6 +28,7 @@ void ShapeGen::end(const QPointF &p)
 {
   move(p);
   _item = nullptr;
+  _canvas->updateSheetRect();
 }
 
 void ShapeGen::move(const QPointF &p)

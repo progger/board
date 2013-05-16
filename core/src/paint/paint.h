@@ -9,6 +9,7 @@
 
 #include <QObject>
 #include <QColor>
+#include <QSize>
 
 class Paint : public QObject
 {
@@ -29,6 +30,8 @@ public:
   bool selected() const { return _selected; }
   bool canUndo() const { return _can_undo; }
   bool canRedo() const { return _can_redo; }
+  QString imageData() const { return _image_data; }
+  QSize imageSize() const { return _image_size; }
 signals:
   void modeChanged();
   void thicknessChanged();
@@ -50,6 +53,7 @@ public slots:
   void setSelected(bool selected);
   void setCanUndo(bool can_undo);
   void setCanRedo(bool can_redo);
+  void selectImage();
 private:
   QString _mode;
   float _thickness;
@@ -58,6 +62,8 @@ private:
   bool _selected;
   bool _can_undo;
   bool _can_redo;
+  QString _image_data;
+  QSize _image_size;
 };
 
 #endif // PAINT_H

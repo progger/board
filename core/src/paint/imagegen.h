@@ -13,7 +13,7 @@
 class ImageGen : public ShapeGen
 {
 public:
-  explicit ImageGen(SheetCanvas *canvas, QSizeF image_size, QString image_data);
+  explicit ImageGen(SheetCanvas *canvas);
   virtual void begin(const QPointF &p) override;
   virtual void end(const QPointF &p) override;
   virtual void move(const QPointF &p) override;

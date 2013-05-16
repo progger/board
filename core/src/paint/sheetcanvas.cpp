@@ -80,10 +80,7 @@ void SheetCanvas::onEnabledChanged()
 {
   if (isEnabled())
   {
-    if (_paint->mode() == "image")
-      _paint->setMode("select");
-    else
-      onModeChanged();
+    onModeChanged();
   }
   else
   {
@@ -130,9 +127,7 @@ void SheetCanvas::onModeChanged()
   }
   else if (mode == "image")
   {
-    _shape_gen = ImageGen::openFile(this);
-    if (!_shape_gen)
-      _paint->setMode("select");
+    _shape_gen = make_shared<ImageGen>(this);
   }
 }
 

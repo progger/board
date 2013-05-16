@@ -12,11 +12,11 @@
 
 using namespace std;
 
-ImageGen::ImageGen(SheetCanvas *canvas, QSizeF image_size, QString image_data) :
-  ShapeGen(canvas),
-  _image_size(image_size),
-  _image_data(image_data)
+ImageGen::ImageGen(SheetCanvas *canvas) :
+  ShapeGen(canvas)
 {
+  _image_data = canvas->paint()->imageData();
+  _image_size = canvas->paint()->imageSize();
 }
 
 void ImageGen::begin(const QPointF &p)
@@ -42,41 +42,4 @@ void ImageGen::move(const QPointF &p)
 {
   _item->setPosition(QPointF(p.x() - _image_size.width() / 2,
                              p.y() - _image_size.height() / 2));
-}
-
-shared_ptr<ShapeGen> ImageGen::openFile(SheetCanvas *canvas)
-{
-  QFileDialog dialog;
-  dialog.setAcceptMode(QFileDialog::AcceptOpen);
-  dialog.setNameFilter("Image files (*.png *.jpg *.jpeg *.tif *.tiff *.gif *.svg)");
-  if (!dialog.exec()) return nullptr;
-  QString file_name = dialog.selectedFiles().first();
-  QFileInfo file_info(file_name);
-  QString ext = file_info.suffix();
-
-  QString mime_type;
-  if (ext == "png" || ext == "jpeg" || ext == "tiff" ||
-      ext == "gif" || ext == "svg") {
-    mime_type = ext;
-  }
-  else if (ext == "jpg") {
-    mime_type = "jpg";
-  }
-  else if (ext == "tif") {
-    mime_type = "tiff";
-  }
-  else {
-    //TODO: error
-    return nullptr;
-  }
-
-  QImage image(file_name);
-  QFile file(file_name);
-  if (!file.open(QIODevice::ReadOnly)) {
-    //TODO: error
-    return nullptr;
-  }
-  QByteArray data = file.readAll();
-  QString image_data = "data:image/" + mime_type + ";base64," + data.toBase64();
-  return make_shared<ImageGen>(canvas, image.size(), image_data);
 }

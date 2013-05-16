@@ -36,8 +36,7 @@ Rectangle {
                 {"mode": "circle", "image": "qrc:/core/res/circle.svg"},
                 {"mode": "ellipse", "image": "qrc:/core/res/ellipse.svg"},
                 {"mode": "text", "image": "qrc:/core/res/text.svg"},
-                {"mode": "move", "image": "qrc:/core/res/move.svg"},
-                {"mode": "image", "image": "qrc:/core/res/image.svg"}
+                {"mode": "move", "image": "qrc:/core/res/move.svg"}
             ]
 
             Item {
@@ -56,6 +55,18 @@ Rectangle {
                     onClicked: Paint.mode = modelData.mode
                 }
             }
+        }
+
+        Button {
+            anchors.horizontalCenter: parent.horizontalCenter
+            style: modeBar.style.normalButton
+            border.color: "silver"
+            border.width: 2
+            width: buttonSize
+            height: buttonSize
+            image: "qrc:/core/res/image.svg"
+            toggled: Paint.mode == "image"
+            onClicked: Paint.selectImage()
         }
 /*
         Button {

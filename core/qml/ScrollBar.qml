@@ -62,8 +62,8 @@ Rectangle {
             anchors.bottom: scrollBar.horizontal ? parent.bottom : undefined
             x: scrollBar.horizontal ? scrollBar.position * parent.width : 0
             y: !scrollBar.horizontal ? scrollBar.position * parent.height : 0
-            width: scrollBar.horizontal ? parent.width / scrollBar.length  : undefined
-            height: !scrollBar.horizontal ? parent.height / scrollBar.length : undefined
+            width: scrollBar.horizontal ? scrollBar.length * parent.width : undefined
+            height: !scrollBar.horizontal ? scrollBar.length * parent.height : undefined
             color: "#E0E0E0"
             border.width: 1
 
@@ -81,8 +81,8 @@ Rectangle {
                          var step = (pos - start) / size;
                          if (scrollBar.position + step < 0)
                              step = -scrollBar.position;
-                         if (scrollBar.position + 1 / scrollBar.length + step > 1)
-                             step = 1 - scrollBar.position - 1 / scrollBar.length;
+                         if (scrollBar.position + scrollBar.length + step > 1)
+                             step = 1 - scrollBar.position - scrollBar.length;
                          scrollBar.move(step);
                      }
                 }

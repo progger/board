@@ -20,13 +20,15 @@ class SheetCanvas : public QQuickItem
   Q_OBJECT
   Q_PROPERTY(Core* core READ core WRITE setCore NOTIFY coreChanged)
   Q_PROPERTY(Paint* paint READ paint WRITE setPaint NOTIFY paintChanged)
+  Q_PROPERTY(QPointF sheetPoint READ sheetPoint NOTIFY sheetPointChanged)
   Q_PROPERTY(QRectF sheetRect READ sheetRect NOTIFY sheetRectChanged)
 public:
   explicit SheetCanvas(QQuickItem *parent = 0);
   Core *core() const { return _core; }
   Paint *paint() const { return _paint; }
+  QPointF sheetPoint() const { return _sheet_point; }
   QRectF sheetRect() const { return _sheet_rect; }
-  Q_INVOKABLE void moveAll(qreal dx, qreal dy);
+  Q_INVOKABLE void moveSheet(qreal dx, qreal dy);
   QQuickItem *container() const { return _container; }
   QQuickItem *selectRect() const { return _select_rect; }
   QQuickItem *textInput() const { return _text_input; }
@@ -44,6 +46,7 @@ public slots:
 signals:
   void coreChanged();
   void paintChanged();
+  void sheetPointChanged();
   void sheetRectChanged();
 protected:
   virtual void componentComplete() override;
@@ -51,6 +54,7 @@ protected:
 private:
   Core *_core;
   Paint *_paint;
+  QPointF _sheet_point;
   QRectF _sheet_rect;
   QQuickItem *_container;
   QQuickItem *_select_rect;

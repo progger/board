@@ -23,6 +23,7 @@ using namespace std;
 
 SheetCanvas::SheetCanvas(QQuickItem *parent) :
   QQuickItem(parent),
+  _sheet_point(),
   _sheet_rect(0, 0, 1, 1),
   _shape_gen(nullptr),
   _start_move(false)
@@ -30,14 +31,16 @@ SheetCanvas::SheetCanvas(QQuickItem *parent) :
   connect(this, SIGNAL(enabledChanged()), SLOT(onEnabledChanged()));
 }
 
-void SheetCanvas::moveAll(qreal dx, qreal dy)
+void SheetCanvas::moveSheet(qreal dx, qreal dy)
 {
   QPointF dp(dx, dy);
   for (QQuickItem *item : _container->childItems())
   {
-    item->setPosition(item->position() + dp);
+    item->setPosition(item->position() - dp);
   }
+  _sheet_point += dp;
   updateSheetRect();
+  emit sheetPointChanged();
 }
 
 void SheetCanvas::setCore(Core *core)

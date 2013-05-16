@@ -166,16 +166,16 @@ Rectangle {
         anchors.right: parent.right
         anchors.bottom: hscroll.top
         width: 20
-        onLeftButton: sheetCanvas.moveAll(0, 10)
-        onRightButton: sheetCanvas.moveAll(0, -10)
-        onLeftPage: sheetCanvas.moveAll(0, sheetCanvas.height / 2)
-        onRightPage: sheetCanvas.moveAll(0, -sheetCanvas.height / 2)
+        onLeftButton: sheetCanvas.moveSheet(0, -10)
+        onRightButton: sheetCanvas.moveSheet(0, 10)
+        onLeftPage: sheetCanvas.moveSheet(0, -sheetCanvas.height / 2)
+        onRightPage: sheetCanvas.moveSheet(0, sheetCanvas.height / 2)
         onSheetRectChanged: updateScroll()
-        onMove: sheetCanvas.moveAll(0, -sheetCanvas.height * step)
+        onMove: sheetCanvas.moveSheet(0, sheetCanvas.height * step)
 
         function updateScroll() {
             position = -sheetCanvas.sheetRect.y / sheetCanvas.sheetRect.height;
-            length = sheetCanvas.sheetRect.height / sheetCanvas.height;
+            length = sheetCanvas.height / sheetCanvas.sheetRect.height;
         }
     }
 
@@ -187,16 +187,16 @@ Rectangle {
         anchors.right: vscroll.left
         anchors.bottom: parent.bottom
         height: 20
-        onLeftButton: sheetCanvas.moveAll(10, 0)
-        onRightButton: sheetCanvas.moveAll(-10, 0)
-        onLeftPage: sheetCanvas.moveAll(sheetCanvas.width / 2, 0)
-        onRightPage: sheetCanvas.moveAll(-sheetCanvas.width / 2, 0)
+        onLeftButton: sheetCanvas.moveSheet(-10, 0)
+        onRightButton: sheetCanvas.moveSheet(10, 0)
+        onLeftPage: sheetCanvas.moveSheet(-sheetCanvas.width / 2, 0)
+        onRightPage: sheetCanvas.moveSheet(sheetCanvas.width / 2, 0)
         onSheetRectChanged: updateScroll()
-        onMove: sheetCanvas.moveAll(-sheetCanvas.width * step, 0)
+        onMove: sheetCanvas.moveSheet(sheetCanvas.width * step, 0)
 
         function updateScroll() {
             position = -sheetCanvas.sheetRect.x / sheetCanvas.sheetRect.width;
-            length = sheetCanvas.sheetRect.width / sheetCanvas.width;
+            length = sheetCanvas.width / sheetCanvas.sheetRect.width;
         }
     }
 }

@@ -14,10 +14,7 @@ MoveGen::MoveGen(SheetCanvas *canvas) :
 
 void MoveGen::move(const QPointF &p)
 {
-  QPointF dp = p - _start;
-  for (QQuickItem *item : _canvas->container()->childItems())
-  {
-    item->setPosition(item->position() + dp);
-  }
+  QPointF dp = _start - p;
+  _canvas->moveSheet(dp.x(), dp.y());
   _start = p;
 }

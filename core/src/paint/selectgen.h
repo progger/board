@@ -24,6 +24,7 @@ public slots:
   void onMove(int x, int y);
   void onScaleBegin(int x, int y, int mx1, int my1, int mx2, int my2);
   void onScale(int x, int y);
+  void onSheetPointChanged();
   void onDel();
 private:
   QQuickItem *_select_rect;

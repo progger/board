@@ -116,6 +116,8 @@ Rectangle {
             objectName: "textInput"
             property variant textGen
             property variant textItem
+            x: textItem ? textItem.x : 0
+            y: textItem ? textItem.y : 0
             visible: false
             width: contentWidth
             height: contentHeight
@@ -130,8 +132,6 @@ Rectangle {
                 if (textItem)
                 {
                     visible = true;
-                    x = textItem.x;
-                    y = textItem.y;
                     font.pixelSize = textItem.fontSize;
                     color = textItem.color;
                     textInputScale.xScale = textItem.scalex;

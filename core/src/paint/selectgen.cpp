@@ -19,6 +19,7 @@ SelectGen::SelectGen(SheetCanvas *canvas) :
 {
   _select_rect = _canvas->selectRect();
   _select_rect->setProperty("selectGen", QVariant::fromValue<QObject*>(this));
+  connect(_canvas, SIGNAL(sheetPointChanged()), SLOT(onSheetPointChanged()));
   connect(_canvas->paint(), SIGNAL(del()), SLOT(onDel()));
 }
 
@@ -130,6 +131,14 @@ void SelectGen::onScale(int x, int y)
     item->setHeight(ih + dh * ih / rh);
   }
   updateRoundRect();
+}
+
+void SelectGen::onSheetPointChanged()
+{
+  if (!_selected.empty())
+  {
+    updateRoundRect();
+  }
 }
 
 void SelectGen::onDel()

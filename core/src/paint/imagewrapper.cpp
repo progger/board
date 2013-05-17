@@ -11,8 +11,8 @@ ImageWrapper::ImageWrapper(QQuickItem *parent) :
 {
 }
 
-void ImageWrapper::setImageData(const QString &image_data)
+void ImageWrapper::setSource(const QString &source)
 {
-  _image_data = image_data;
-  emit imageDataChanged();
+  _source = source;
+  emit sourceChanged();
 }

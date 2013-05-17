@@ -11,6 +11,6 @@ ImageWrapper {
     id: imageWrapper
     Image {
         anchors.fill: parent
-        source: imageWrapper.imageData
+        source: imageWrapper.source
     }
 }

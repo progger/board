@@ -11,9 +11,12 @@
 #include <QColor>
 #include <QSize>
 
+class Core;
+
 class Paint : public QObject
 {
   Q_OBJECT
+  Q_PROPERTY(Core* core READ core CONSTANT)
   Q_PROPERTY(QString mode READ mode WRITE setMode NOTIFY modeChanged)
   Q_PROPERTY(float thickness READ thickness WRITE setThickness NOTIFY thicknessChanged)
   Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
@@ -22,7 +25,8 @@ class Paint : public QObject
   Q_PROPERTY(bool canUndo READ canUndo WRITE setCanUndo NOTIFY canUndoChanged)
   Q_PROPERTY(bool canRedo READ canRedo WRITE setCanRedo NOTIFY canRedoChanged)
 public:
-  explicit Paint(QObject *parent = 0);
+  explicit Paint(Core *parent);
+  Core *core() const;
   QString mode() const { return _mode; }
   float thickness() const { return _thickness; }
   QColor color() const { return _color; }
@@ -30,8 +34,8 @@ public:
   bool selected() const { return _selected; }
   bool canUndo() const { return _can_undo; }
   bool canRedo() const { return _can_redo; }
-  QString imageData() const { return _image_data; }
   QSize imageSize() const { return _image_size; }
+  QString imageSource() const { return _image_source; }
 signals:
   void modeChanged();
   void thicknessChanged();
@@ -62,8 +66,8 @@ private:
   bool _selected;
   bool _can_undo;
   bool _can_redo;
-  QString _image_data;
   QSize _image_size;
+  QString _image_source;
 };
 
 #endif // PAINT_H

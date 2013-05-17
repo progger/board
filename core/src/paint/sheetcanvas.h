@@ -19,7 +19,6 @@ class SheetCanvas : public QQuickItem
 {
   Q_OBJECT
   Q_PROPERTY(Core* core READ core WRITE setCore NOTIFY coreChanged)
-  Q_PROPERTY(Paint* paint READ paint WRITE setPaint NOTIFY paintChanged)
   Q_PROPERTY(QPointF sheetPoint READ sheetPoint NOTIFY sheetPointChanged)
   Q_PROPERTY(QRectF sheetRect READ sheetRect NOTIFY sheetRectChanged)
 public:
@@ -36,7 +35,6 @@ public:
   std::shared_ptr<QQmlComponent> compImageWrapper() const { return _comp_image_wrapper; }
 public slots:
   void setCore(Core *core);
-  void setPaint(Paint *paint);
   void updateSheetRect();
   void onEnabledChanged();
   void onModeChanged();
@@ -45,7 +43,6 @@ public slots:
   void onMouseMove(QObject *event);
 signals:
   void coreChanged();
-  void paintChanged();
   void sheetPointChanged();
   void sheetRectChanged();
 protected:

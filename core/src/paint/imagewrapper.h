@@ -12,16 +12,16 @@
 class ImageWrapper : public Shape
 {
   Q_OBJECT
-  Q_PROPERTY(QString imageData READ imageData WRITE setImageData NOTIFY imageDataChanged)
+  Q_PROPERTY(QString source READ source WRITE setSource NOTIFY sourceChanged)
 public:
   explicit ImageWrapper(QQuickItem *parent = 0);
-  QString imageData() const { return _image_data; }
+  QString source() const { return _source; }
 public slots:
-  void setImageData(const QString &image_data);
+  void setSource(const QString &source);
 signals:
-  void imageDataChanged();
+  void sourceChanged();
 private:
-  QString _image_data;
+  QString _source;
 };
 
 #endif // IMAGEWRAPPER_H

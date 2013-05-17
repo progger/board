@@ -19,8 +19,8 @@ public:
   virtual void move(const QPointF &p) override;
   static std::shared_ptr<ShapeGen> openFile(SheetCanvas *canvas);
 private:
-  QSizeF _image_size;
-  QString _image_data;
+  QSize _image_size;
+  QString _image_source;
 };
 
 #endif // IMAGEGEN_H

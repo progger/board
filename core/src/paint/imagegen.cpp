@@ -4,7 +4,6 @@
  * See the LICENSE file for terms of use.
  */
 
-#include <QFileDialog>
 #include "paint.h"
 #include "sheetcanvas.h"
 #include "imagewrapper.h"
@@ -15,8 +14,8 @@ using namespace std;
 ImageGen::ImageGen(SheetCanvas *canvas) :
   ShapeGen(canvas)
 {
-  _image_data = canvas->paint()->imageData();
   _image_size = canvas->paint()->imageSize();
+  _image_source = canvas->paint()->imageSource();
 }
 
 void ImageGen::begin(const QPointF &p)
@@ -27,7 +26,7 @@ void ImageGen::begin(const QPointF &p)
   image->setParentItem(_canvas->container());
   image->setSize(_image_size);
   image->setInnerSize(_image_size);
-  image->setImageData(_image_data);
+  image->setSource(_image_source);
   _item = image;
   move(p);
 }

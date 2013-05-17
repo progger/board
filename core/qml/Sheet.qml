@@ -20,7 +20,6 @@ Rectangle {
         anchors.bottom: hscroll.top
         clip: true
         core: Core
-        paint: Paint
 
         Item {
             id: container

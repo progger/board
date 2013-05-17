@@ -13,18 +13,24 @@
 #include <QSettings>
 #include "icore.h"
 
+class BrdStore;
+class Paint;
+
 class Core : public QObject, public ICore
 {
   Q_OBJECT
   Q_INTERFACES(ICore)
   Q_PROPERTY(bool keyboard READ keyboard WRITE setKeyboard NOTIFY updateKeyboard FINAL)
+  Q_PROPERTY(Paint paint READ paint CONSTANT FINAL)
 public:
   explicit Core(QQuickView *parent = 0);
   QObject *mainView() { return parent(); }
   QDir rootDir() { return _root_dir; }
   QSettings *settings() { return _settings; }
   void showError(const QString &error);
-  bool keyboard() { return _keyboard; }
+  bool keyboard() const { return _keyboard; }
+  BrdStore *brdStore() const { return _brdStore; }
+  Paint *paint() const { return _paint; }
 signals:
   void updateKeyboard();
 public slots:
@@ -36,6 +42,8 @@ private:
   bool _keyboard;
   QDir _root_dir;
   QSettings *_settings;
+  BrdStore *_brdStore;
+  Paint *_paint;
 };
 
 #endif // CORE_H

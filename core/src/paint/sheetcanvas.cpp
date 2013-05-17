@@ -46,14 +46,9 @@ void SheetCanvas::moveSheet(qreal dx, qreal dy)
 void SheetCanvas::setCore(Core *core)
 {
   _core = core;
-  emit coreChanged();
-}
-
-void SheetCanvas::setPaint(Paint *paint)
-{
-  _paint = paint;
+  _paint = core->paint();
   connect(_paint, SIGNAL(modeChanged()), SLOT(onModeChanged()));
-  emit paintChanged();
+  emit coreChanged();
 }
 
 void SheetCanvas::updateSheetRect()

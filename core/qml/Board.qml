@@ -5,7 +5,6 @@
  */
 
 import QtQuick 2.0
-import board.core.paint 1.0
 
 Rectangle {
     id: board

@@ -5,9 +5,14 @@
  */
 
 #include <QFileDialog>
+#include <QImage>
+#include "../core.h"
+#include "../brd/brdstore.h"
 #include "paint.h"
 
-Paint::Paint(QObject *parent) :
+using namespace std;
+
+Paint::Paint(Core *parent) :
   QObject(parent),
   _mode("pen"),
   _thickness(3),
@@ -16,9 +21,13 @@ Paint::Paint(QObject *parent) :
   _selected(false),
   _can_undo(false),
   _can_redo(false),
-  _image_data(),
-  _image_size()
+  _image_source()
 {
+}
+
+Core *Paint::core() const
+{
+  return static_cast<Core*>(parent());
 }
 
 void Paint::setMode(const QString &mode)
@@ -70,33 +79,13 @@ void Paint::selectImage()
   dialog.setNameFilter("Image files (*.png *.jpg *.jpeg *.tif *.tiff *.gif *.svg)");
   if (!dialog.exec()) return;
   QString file_name = dialog.selectedFiles().first();
-  QFileInfo file_info(file_name);
-  QString ext = file_info.suffix();
 
-  QString mime_type;
-  if (ext == "png" || ext == "jpeg" || ext == "tiff" ||
-      ext == "gif" || ext == "svg") {
-    mime_type = ext;
-  }
-  else if (ext == "jpg") {
-    mime_type = "jpg";
-  }
-  else if (ext == "tif") {
-    mime_type = "tiff";
-  }
-  else {
-    //TODO: error
-    return;
-  }
-
-  QFile file(file_name);
-  if (!file.open(QIODevice::ReadOnly)) {
-    //TODO: error
-    return;
-  }
-  QByteArray data = file.readAll();
-  _image_data = "data:image/" + mime_type + ";base64," + data.toBase64();
-  QImage image = QImage::fromData(data);
+  auto obj = BrdStore::fromFile(file_name);
+  if (!obj) return;
+  QImage image = QImage::fromData(obj->data());
   _image_size = image.size();
+  _image_source = obj->urlString();
+  core()->brdStore()->setObject(obj);
+
   setMode("image");
 }

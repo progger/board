@@ -13,6 +13,10 @@ RCC_DIR = ./build
 INCLUDEPATH += ../shared
 
 SOURCES += \
+    src/brd/brdnetworkaccessmanager.cpp \
+    src/brd/brdnetworkaccessmanagerfactory.cpp \
+    src/brd/brdreply.cpp \
+    src/brd/brdstore.cpp \
     src/core.cpp \
     src/main.cpp \
     src/mainview.cpp \
@@ -42,6 +46,10 @@ SOURCES += \
     src/paint/textwrapper.cpp
 
 HEADERS += \
+    src/brd/brdnetworkaccessmanager.h \
+    src/brd/brdnetworkaccessmanagerfactory.h \
+    src/brd/brdreply.h \
+    src/brd/brdstore.h \
     src/core.h \
     src/mainview.h \
     src/paint/circlegen.h \

@@ -21,6 +21,7 @@ SelectGen::SelectGen(SheetCanvas *canvas) :
   _select_rect->setProperty("selectGen", QVariant::fromValue<QObject*>(this));
   connect(_canvas, SIGNAL(sheetPointChanged()), SLOT(onSheetPointChanged()));
   connect(_canvas->paint(), SIGNAL(del()), SLOT(onDel()));
+  connect(_canvas->paint(), SIGNAL(duplicate()), SLOT(onDuplicate()));
 }
 
 SelectGen::~SelectGen()
@@ -163,6 +164,29 @@ void SelectGen::onDel()
   _selected.clear();
   _select_rect->setVisible(false);
   _canvas->paint()->setSelected(false);
+  _canvas->pushState();
+}
+
+void SelectGen::onDuplicate()
+{
+  if (_selected.empty()) return;
+  QByteArray data;
+  QXmlStreamWriter writer(&data);
+  writer.writeStartElement("dup");
+  for (Shape *shape : _selected)
+  {
+    shape->serialize(&writer, _canvas);
+  }
+  writer.writeEndElement();
+  QXmlStreamReader reader(data);
+  reader.readNextStartElement();
+  _selected.clear();
+  _canvas->deserializeShapes(&reader, &_selected);
+  for (Shape *shape : _selected)
+  {
+    shape->setPosition(QPointF(shape->x() + 20, shape->y() + 20));
+  }
+  updateRoundRect();
   _canvas->pushState();
 }
 

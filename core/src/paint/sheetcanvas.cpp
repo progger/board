@@ -60,6 +60,11 @@ void SheetCanvas::deserializeSheet(QXmlStreamReader *reader)
     delete item;
   }
   if (reader->tokenType() != QXmlStreamReader::StartElement || reader->name() != "sheet") return;
+  deserializeShapes(reader);
+}
+
+void SheetCanvas::deserializeShapes(QXmlStreamReader *reader, std::vector<Shape*> *shapes)
+{
   while (reader->readNextStartElement())
   {
     QString name = reader->name().toString();
@@ -68,6 +73,10 @@ void SheetCanvas::deserializeSheet(QXmlStreamReader *reader)
     {
       shape->setParentItem(_container);
       shape->deserialize(reader, this);
+      if (shapes)
+      {
+        shapes->push_back(shape);
+      }
     }
     else
     {

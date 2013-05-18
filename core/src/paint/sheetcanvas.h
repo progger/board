@@ -36,6 +36,7 @@ public:
   QQuickItem *textInput() const { return _text_input; }
   void serializeSheet(QXmlStreamWriter *writer);
   void deserializeSheet(QXmlStreamReader *reader);
+  void deserializeShapes(QXmlStreamReader *reader, std::vector<Shape*> *shapes = nullptr);
   void pushState();
 public slots:
   void setCore(Core *core);

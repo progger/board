@@ -28,6 +28,7 @@ public slots:
   void onScale(int x, int y);
   void onSheetPointChanged();
   void onDel();
+  void onDuplicate();
 private:
   QQuickItem *_select_rect;
   std::vector<Shape*> _selected;

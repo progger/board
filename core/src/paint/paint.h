@@ -7,11 +7,15 @@
 #ifndef PAINT_H
 #define PAINT_H
 
+#include <memory>
+#include <map>
 #include <QObject>
 #include <QColor>
 #include <QSize>
 
 class Core;
+class SheetCanvas;
+class ShapeGen;
 
 class Paint : public QObject
 {
@@ -36,6 +40,7 @@ public:
   bool canRedo() const { return _can_redo; }
   QSize imageSize() const { return _image_size; }
   QString imageSource() const { return _image_source; }
+  std::shared_ptr<ShapeGen> createShapeGen(SheetCanvas *canvas) const;
 signals:
   void modeChanged();
   void thicknessChanged();
@@ -68,6 +73,7 @@ private:
   bool _can_redo;
   QSize _image_size;
   QString _image_source;
+  std::map<QString, std::shared_ptr<ShapeGen>(*)(SheetCanvas *canvas)> _map_shape_gen;
 };
 
 #endif // PAINT_H

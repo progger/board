@@ -8,6 +8,15 @@
 #include <QImage>
 #include "../core.h"
 #include "../brd/brdstore.h"
+#include "shapegen.h"
+#include "pengen.h"
+#include "magicpengen.h"
+#include "rectanglegen.h"
+#include "circlegen.h"
+#include "ellipsegen.h"
+#include "textgen.h"
+#include "movegen.h"
+#include "imagegen.h"
 #include "paint.h"
 
 using namespace std;
@@ -21,13 +30,29 @@ Paint::Paint(Core *parent) :
   _selected(false),
   _can_undo(false),
   _can_redo(false),
-  _image_source()
+  _image_source(),
+  _map_shape_gen()
 {
+  _map_shape_gen["pen"] =       [](SheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<PenGen>(canvas); };
+  _map_shape_gen["magic_pen"] = [](SheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<MagicPenGen>(canvas); };
+  _map_shape_gen["rectangle"] = [](SheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<RectangleGen>(canvas); };
+  _map_shape_gen["circle"] =    [](SheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<CircleGen>(canvas); };
+  _map_shape_gen["ellipse"] =   [](SheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<EllipseGen>(canvas); };
+  _map_shape_gen["text"] =      [](SheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<TextGen>(canvas); };
+  _map_shape_gen["move"] =      [](SheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<MoveGen>(canvas); };
+  _map_shape_gen["image"] =     [](SheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<ImageGen>(canvas); };
 }
 
 Core *Paint::core() const
 {
   return static_cast<Core*>(parent());
+}
+
+std::shared_ptr<ShapeGen> Paint::createShapeGen(SheetCanvas *canvas) const
+{
+  auto it = _map_shape_gen.find(_mode);
+  if (it == _map_shape_gen.cend()) return nullptr;
+  return (*it).second(canvas);
 }
 
 void Paint::setMode(const QString &mode)

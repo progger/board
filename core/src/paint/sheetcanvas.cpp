@@ -8,15 +8,7 @@
 #include <QQmlEngine>
 #include "../core.h"
 #include "paint.h"
-#include "selectgen.h"
-#include "pengen.h"
-#include "magicpengen.h"
-#include "rectanglegen.h"
-#include "circlegen.h"
-#include "ellipsegen.h"
-#include "textgen.h"
-#include "movegen.h"
-#include "imagegen.h"
+#include "shapegen.h"
 #include "sheetcanvas.h"
 
 using namespace std;
@@ -74,56 +66,15 @@ void SheetCanvas::updateSheetRect()
 void SheetCanvas::onEnabledChanged()
 {
   if (isEnabled())
-  {
     onModeChanged();
-  }
   else
-  {
     _shape_gen = nullptr;
-  }
 }
 
 void SheetCanvas::onModeChanged()
 {
   if (!isEnabled()) return;
-  _shape_gen = nullptr;
-  QString mode = _paint->mode();
-  if (mode == "select")
-  {
-    _shape_gen = make_shared<SelectGen>(this);
-  }
-  else if (mode == "pen")
-  {
-    _shape_gen = make_shared<PenGen>(this);
-  }
-  else if (mode == "magic_pen")
-  {
-    _shape_gen = make_shared<MagicPenGen>(this);
-  }
-  else if (mode == "rectangle")
-  {
-    _shape_gen = make_shared<RectangleGen>(this);
-  }
-  else if (mode == "circle")
-  {
-    _shape_gen = make_shared<CircleGen>(this);
-  }
-  else if (mode == "ellipse")
-  {
-    _shape_gen = make_shared<EllipseGen>(this);
-  }
-  else if (mode == "text")
-  {
-    _shape_gen = make_shared<TextGen>(this);
-  }
-  else if (mode == "move")
-  {
-    _shape_gen = make_shared<MoveGen>(this);
-  }
-  else if (mode == "image")
-  {
-    _shape_gen = make_shared<ImageGen>(this);
-  }
+  _shape_gen = _paint->createShapeGen(this);
 }
 
 void SheetCanvas::onMousePress(QObject *event)

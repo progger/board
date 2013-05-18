@@ -26,9 +26,14 @@ public slots:
 signals:
   void textChanged();
   void fontSizeChanged();
+protected:
+  virtual QString elementName() const override;
+  virtual void innerSerialize(QXmlStreamWriter *writer, SheetCanvas *) const override;
+  virtual void innerDeserialize(QXmlStreamReader *reader, SheetCanvas *) override;
 private:
   QString _text;
   int _font_size;
+  void updateInnerSize();
 };
 
 #endif // TEXTWRAPPER_H

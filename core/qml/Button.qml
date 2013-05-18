@@ -54,6 +54,7 @@ Rectangle {
         id: mouseArea
         anchors.fill: parent
         hoverEnabled: true
+        enabled: button.enabled
         onPressedChanged: button.pressed = pressed
         onClicked: if (enabled) button.clicked()
     }

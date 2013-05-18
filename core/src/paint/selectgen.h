@@ -21,8 +21,10 @@ public:
   virtual void move(const QPointF &p) override;
 public slots:
   void onMoveBegin(int x, int y);
+  void onMoveEnd();
   void onMove(int x, int y);
   void onScaleBegin(int x, int y, int mx1, int my1, int mx2, int my2);
+  void onScaleEnd();
   void onScale(int x, int y);
   void onSheetPointChanged();
   void onDel();

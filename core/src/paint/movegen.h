@@ -14,6 +14,7 @@ class MoveGen : public ShapeGen
 public:
   explicit MoveGen(SheetCanvas *canvas);
   virtual void move(const QPointF &p) override;
+  virtual void end(const QPointF &p) override;
 };
 
 #endif // MOVEGEN_H

@@ -40,7 +40,7 @@ void TextGen::end(const QPointF &p)
   }
   if (!_item)
   {
-    QObject *obj = _canvas->compTextWrapper()->create();
+    QObject *obj = _canvas->paint()->compTextWrapper()->create();
     TextWrapper *text = qobject_cast<TextWrapper*>(obj);
     Q_ASSERT(text);
     text->setParentItem(_canvas->container());
@@ -69,6 +69,7 @@ void TextGen::endEdit()
     _item->setProperty("text", _text_input->property("text"));
     _item->setVisible(true);
     _item = nullptr;
+    _canvas->pushState();
     _canvas->updateSheetRect();
   }
   _text_input->setProperty("textItem", QVariant());

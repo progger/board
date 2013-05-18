@@ -49,3 +49,8 @@ QSGNode *Rectangle::updatePaintNode(QSGNode *old_node, QQuickItem::UpdatePaintNo
   p[9].set(tx, ty);
   return node;
 }
+
+QString Rectangle::elementName() const
+{
+  return "rectangle";
+}

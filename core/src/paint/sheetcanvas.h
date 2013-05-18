@@ -7,13 +7,16 @@
 #ifndef SHEETCANVAS_H
 #define SHEETCANVAS_H
 
-#include <QQuickItem>
 #include <memory>
+#include <QXmlStreamWriter>
+#include <QXmlStreamReader>
+#include <QQuickItem>
 
 class Core;
 class Paint;
 class Shape;
 class ShapeGen;
+class StrStack;
 
 class SheetCanvas : public QQuickItem
 {
@@ -31,8 +34,9 @@ public:
   QQuickItem *container() const { return _container; }
   QQuickItem *selectRect() const { return _select_rect; }
   QQuickItem *textInput() const { return _text_input; }
-  std::shared_ptr<QQmlComponent> compTextWrapper() const { return _comp_text_wrapper; }
-  std::shared_ptr<QQmlComponent> compImageWrapper() const { return _comp_image_wrapper; }
+  void serializeSheet(QXmlStreamWriter *writer);
+  void deserializeSheet(QXmlStreamReader *reader);
+  void pushState();
 public slots:
   void setCore(Core *core);
   void updateSheetRect();
@@ -41,6 +45,8 @@ public slots:
   void onMousePress(QObject *event);
   void onMouseRelease(QObject *event);
   void onMouseMove(QObject *event);
+  void onUndo();
+  void onRedo();
 signals:
   void coreChanged();
   void sheetPointChanged();
@@ -57,8 +63,9 @@ private:
   QQuickItem *_select_rect;
   QQuickItem *_text_input;
   std::shared_ptr<ShapeGen> _shape_gen;
-  std::shared_ptr<QQmlComponent> _comp_text_wrapper;
-  std::shared_ptr<QQmlComponent> _comp_image_wrapper;
+  std::shared_ptr<StrStack> _undo_stack;
+  std::shared_ptr<StrStack> _redo_stack;
+  QByteArray _cur_state;
   bool _start_move;
 };
 

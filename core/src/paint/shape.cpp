@@ -4,22 +4,46 @@
  * See the LICENSE file for terms of use.
  */
 
+#include "sheetcanvas.h"
 #include "shape.h"
 
-Shape::Shape(QQuickItem *parent) :
+Shape::Shape(QQuickItem *parent, float thickness, QColor color) :
   QQuickItem(parent),
-  _thickness(),
-  _color()
+  _thickness(thickness),
+  _color(color)
 {
   connect(this, SIGNAL(widthChanged()), SLOT(onWidthChanged()));
   connect(this, SIGNAL(heightChanged()), SLOT(onHeightChanged()));
 }
 
-Shape::Shape(QQuickItem *parent, float thickness, QColor color) :
-  Shape(parent)
+void Shape::serialize(QXmlStreamWriter *writer, SheetCanvas *canvas) const
 {
-  _thickness = thickness;
-  _color = color;
+  writer->writeStartElement(elementName());
+  writer->writeAttribute("x", QString::number(x() + canvas->sheetPoint().x()));
+  writer->writeAttribute("y", QString::number(y() + canvas->sheetPoint().y()));
+  writer->writeAttribute("width", QString::number(width()));
+  writer->writeAttribute("height", QString::number(height()));
+  writer->writeAttribute("innerWidth", QString::number(_inner_size.width()));
+  writer->writeAttribute("innerHeight", QString::number(_inner_size.height()));
+  writer->writeAttribute("thickness", QString::number(_thickness));
+  writer->writeAttribute("color", _color.name());
+  innerSerialize(writer, canvas);
+  writer->writeEndElement();
+}
+
+void Shape::deserialize(QXmlStreamReader *reader, SheetCanvas *canvas)
+{
+  auto attrs = reader->attributes();
+  setX(attrs.value("x").toString().toDouble() - canvas->sheetPoint().x());
+  setY(attrs.value("y").toString().toDouble() - canvas->sheetPoint().y());
+  setSize(QSizeF(attrs.value("width").toString().toDouble(),
+                 attrs.value("height").toString().toDouble()));
+  setInnerSize(QSizeF(attrs.value("innerWidth").toString().toDouble(),
+                      attrs.value("innerHeight").toString().toDouble()));
+  setThickness(attrs.value("thickness").toString().toDouble());
+  setColor(attrs.value("color").toString());
+  innerDeserialize(reader, canvas);
+  reader->readNext();
 }
 
 qreal Shape::scalex() const

@@ -17,9 +17,11 @@ PenGen::PenGen(SheetCanvas *canvas) :
 void PenGen::begin(const QPointF &p)
 {
   ShapeGen::begin(p);
-  _item = createItem<Pen>(_canvas, p);
-  Pen *pen = static_cast<Pen*>(_item);
+  Pen *pen = new Pen(_canvas->core(), _canvas->container(),
+                     _canvas->paint()->thickness(), _canvas->paint()->color());
+  pen->setPosition(p);
   pen->points().push_back(QPointF(0, 0));
+  _item = pen;
 }
 
 void PenGen::end(const QPointF &p)
@@ -27,6 +29,8 @@ void PenGen::end(const QPointF &p)
   move(p);
   Pen *pen = static_cast<Pen*>(_item);
   pen->points().shrink_to_fit();
+  pen->savePoints();
+  _canvas->pushState();
   _canvas->updateSheetRect();
 }
 

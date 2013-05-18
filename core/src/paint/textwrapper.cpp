@@ -22,13 +22,37 @@ void TextWrapper::setText(const QString &text)
 {
   _text = text;
   emit textChanged();
-  QObject *item = textElement();
-  setInnerSize(QSizeF(item->property("contentWidth").toReal(),
-                      item->property("contentHeight").toReal()));
+  updateInnerSize();
 }
 
 void TextWrapper::setFontSize(int font_size)
 {
   _font_size = font_size;
   emit fontSizeChanged();
+  updateInnerSize();
+}
+
+QString TextWrapper::elementName() const
+{
+  return "text";
+}
+
+void TextWrapper::innerSerialize(QXmlStreamWriter *writer, SheetCanvas *) const
+{
+  writer->writeAttribute("text", _text);
+  writer->writeAttribute("font_size", QString::number(_font_size));
+}
+
+void TextWrapper::innerDeserialize(QXmlStreamReader *reader, SheetCanvas *)
+{
+  QXmlStreamAttributes attrs = reader->attributes();
+  setText(attrs.value("text").toString());
+  setFontSize(attrs.value("font_size").toString().toInt());
+}
+
+void TextWrapper::updateInnerSize()
+{
+  QObject *item = textElement();
+  setInnerSize(QSizeF(item->property("contentWidth").toReal(),
+                      item->property("contentHeight").toReal()));
 }

@@ -13,9 +13,10 @@ class Ellipse : public Shape
 {
   Q_OBJECT
 public:
-  explicit Ellipse(QQuickItem *parent, float thinkness, QColor color);
+  explicit Ellipse(QQuickItem *parent = 0, float thinkness = 0, QColor color = QColor());
 protected:
   virtual QSGNode *updatePaintNode(QSGNode *old_node, UpdatePaintNodeData *) override;
+  virtual QString elementName() const override;
 };
 
 #endif // ELLIPSE_H

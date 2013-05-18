@@ -18,3 +18,8 @@ void MoveGen::move(const QPointF &p)
   _canvas->moveSheet(dp.x(), dp.y());
   _start = p;
 }
+
+void MoveGen::end(const QPointF &p)
+{
+  move(p);
+}

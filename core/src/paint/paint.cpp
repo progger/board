@@ -9,6 +9,7 @@
 #include "../core.h"
 #include "../brd/brdstore.h"
 #include "shapegen.h"
+#include "selectgen.h"
 #include "pengen.h"
 #include "magicpengen.h"
 #include "rectanglegen.h"
@@ -17,6 +18,11 @@
 #include "textgen.h"
 #include "movegen.h"
 #include "imagegen.h"
+#include "pen.h"
+#include "rectangle.h"
+#include "ellipse.h"
+#include "textwrapper.h"
+#include "imagewrapper.h"
 #include "paint.h"
 
 using namespace std;
@@ -26,13 +32,18 @@ Paint::Paint(Core *parent) :
   _mode("pen"),
   _thickness(3),
   _color("#000000"),
-  _font_size(24),
+  _font_size(42),
   _selected(false),
   _can_undo(false),
   _can_redo(false),
   _image_source(),
-  _map_shape_gen()
+  _map_shape_gen(),
+  _map_shape()
 {
+  _comp_text_wrapper = parent->getComponent("qrc:/core/qml/TextWrapper.qml");
+  _comp_image_wrapper = parent->getComponent("qrc:/core/qml/ImageWrapper.qml");
+
+  _map_shape_gen["select"] =    [](SheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<SelectGen>(canvas); };
   _map_shape_gen["pen"] =       [](SheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<PenGen>(canvas); };
   _map_shape_gen["magic_pen"] = [](SheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<MagicPenGen>(canvas); };
   _map_shape_gen["rectangle"] = [](SheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<RectangleGen>(canvas); };
@@ -41,6 +52,12 @@ Paint::Paint(Core *parent) :
   _map_shape_gen["text"] =      [](SheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<TextGen>(canvas); };
   _map_shape_gen["move"] =      [](SheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<MoveGen>(canvas); };
   _map_shape_gen["image"] =     [](SheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<ImageGen>(canvas); };
+
+  _map_shape["pen"] =       [](const Paint *paint) -> Shape* { return new Pen(paint->core()); };
+  _map_shape["rectangle"] = [](const Paint *) -> Shape* { return new Rectangle(); };
+  _map_shape["ellipse"] =   [](const Paint *) -> Shape* { return new Ellipse(); };
+  _map_shape["text"] =      [](const Paint *paint) -> Shape* { return static_cast<Shape*>(paint->compTextWrapper()->create()); };
+  _map_shape["image"] =     [](const Paint *paint) -> Shape* { return static_cast<Shape*>(paint->compImageWrapper()->create()); };
 }
 
 Core *Paint::core() const
@@ -53,6 +70,13 @@ std::shared_ptr<ShapeGen> Paint::createShapeGen(SheetCanvas *canvas) const
   auto it = _map_shape_gen.find(_mode);
   if (it == _map_shape_gen.cend()) return nullptr;
   return (*it).second(canvas);
+}
+
+Shape *Paint::createShape(const QString &name) const
+{
+  auto it = _map_shape.find(name);
+  if (it == _map_shape.cend()) return nullptr;
+  return (*it).second(this);
 }
 
 void Paint::setMode(const QString &mode)

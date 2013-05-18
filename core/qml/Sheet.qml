@@ -62,7 +62,7 @@ Rectangle {
                 onPressed: if (selectRect.selectGen)
                                selectRect.selectGen.onMoveBegin(mouse.x, mouse.y, 1, 1, 1, 1)
                 onReleased: if (selectRect.selectGen)
-                                sheetCanvas.updateSheetRect()
+                                selectRect.selectGen.onMoveEnd()
                 onPositionChanged: if ((mouse.buttons & Qt.LeftButton) && selectRect.selectGen)
                                        selectRect.selectGen.onMove(mouse.x, mouse.y)
             }
@@ -102,7 +102,7 @@ Rectangle {
                                                                          modelData[0] == 1,
                                                                          modelData[1] == 1)
                         onReleased: if (selectRect.selectGen)
-                                        sheetCanvas.updateSheetRect()
+                                        selectRect.selectGen.onScaleEnd()
                         onPositionChanged: if (selectRect.selectGen)
                                                selectRect.selectGen.onScale(mouse.x, mouse.y)
                     }

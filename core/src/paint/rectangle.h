@@ -13,9 +13,10 @@ class Rectangle : public Shape
 {
   Q_OBJECT
 public:
-  explicit Rectangle(QQuickItem *parent, float thinkness, QColor color);
+  explicit Rectangle(QQuickItem *parent = 0, float thinkness = 0, QColor color = QColor());
 protected:
   virtual QSGNode *updatePaintNode(QSGNode *old_node, UpdatePaintNodeData *) override;
+  virtual QString elementName() const override;
 };
 
 #endif // RECTANGLE_H

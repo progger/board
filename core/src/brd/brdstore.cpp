@@ -11,10 +11,10 @@
 
 using namespace std;
 
-BrdObject::BrdObject(const QString file_name, const QString &mime_type, const QByteArray &data) :
+BrdObject::BrdObject(const QByteArray &data, const QString file_name, const QString &mime_type) :
+  _data(data),
   _file_name(file_name),
-  _mime_type(mime_type),
-  _data(data)
+  _mime_type(mime_type)
 {
   QByteArray hash = QCryptographicHash::hash(data, QCryptographicHash::Md5);
   _hash = QString::fromLatin1(hash.toHex());
@@ -69,5 +69,5 @@ std::shared_ptr<BrdObject> BrdStore::fromFile(const QString &file_name)
     mime_type = "tiff";
   }
 
-  return make_shared<BrdObject>(file_info.fileName(), mime_type, data);
+  return make_shared<BrdObject>(data, file_info.fileName(), mime_type);
 }

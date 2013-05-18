@@ -18,14 +18,14 @@
 
 Core::Core(QQuickView *parent) :
   QObject(parent),
-  _keyboard(false)
+  _keyboard(false),
+  _map_componenet()
 {
   _root_dir = QDir::home();
   _root_dir.mkdir("board");
   _root_dir.cd("board");
   _settings = new QSettings(_root_dir.filePath("settings.ini"), QSettings::IniFormat, this);
   _brdStore = new BrdStore(this);
-  _paint = new Paint(this);
 
   parent->engine()->setNetworkAccessManagerFactory(new BrdNetworkAccessManagerFactory(_brdStore));
   qmlRegisterType<Core>();
@@ -34,6 +34,7 @@ Core::Core(QQuickView *parent) :
   qmlRegisterType<TextWrapper>("board.core.paint", 1, 0, "TextWrapper");
   qmlRegisterType<ImageWrapper>("board.core.paint", 1, 0, "ImageWrapper");
 
+  _paint = new Paint(this);
   auto context = parent->rootContext();
   context->setContextProperty("Core", this);
   context->setContextProperty("Paint", _paint);
@@ -42,6 +43,20 @@ Core::Core(QQuickView *parent) :
 void Core::showError(const QString &error)
 {
   QMessageBox::critical(nullptr, "Error", error);
+}
+
+QQmlComponent *Core::getComponent(const QString &urlString)
+{
+  auto it = _map_componenet.find(urlString);
+  if (it == _map_componenet.cend())
+  {
+    QQuickView *view = qobject_cast<QQuickView*>(parent());
+    Q_ASSERT(view);
+    QQmlComponent *component = new QQmlComponent(view->engine(), QUrl(urlString));
+    _map_componenet[urlString] = component;
+    return component;
+  }
+  return (*it).second;
 }
 
 void Core::emulateKeyPress(int key, int modifiers, const QString &text) const

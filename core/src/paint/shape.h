@@ -7,7 +7,11 @@
 #ifndef SHAPE_H
 #define SHAPE_H
 
+#include <QXmlStreamWriter>
+#include <QXmlStreamReader>
 #include <QQuickItem>
+
+class SheetCanvas;
 
 class Shape : public QQuickItem
 {
@@ -18,8 +22,9 @@ class Shape : public QQuickItem
   Q_PROPERTY(qreal scalex READ scalex NOTIFY scalexChanged)
   Q_PROPERTY(qreal scaley READ scaley NOTIFY scaleyChanged)
 public:
-  explicit Shape(QQuickItem *parent = 0);
-  explicit Shape(QQuickItem *parent, float thickness, QColor color);
+  explicit Shape(QQuickItem *parent = 0, float thickness = 0, QColor color = QColor());
+  void serialize(QXmlStreamWriter *writer, SheetCanvas *canvas) const;
+  void deserialize(QXmlStreamReader *reader, SheetCanvas *canvas);
   QSizeF innerSize() const { return _inner_size; }
   qreal scalex() const;
   qreal scaley() const;
@@ -37,6 +42,10 @@ signals:
   void colorChanged();
   void scalexChanged();
   void scaleyChanged();
+protected:
+  virtual QString elementName() const = 0;
+  virtual void innerSerialize(QXmlStreamWriter *, SheetCanvas *) const {}
+  virtual void innerDeserialize(QXmlStreamReader *, SheetCanvas *) {}
 private:
   QSizeF _inner_size;
   float _thickness;

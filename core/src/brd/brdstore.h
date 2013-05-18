@@ -14,17 +14,17 @@
 class BrdObject
 {
 public:
-  BrdObject(const QString file_name, const QString &mime_type, const QByteArray &data);
+  BrdObject(const QByteArray &data, const QString file_name = QString(), const QString &mime_type = QString());
+  QByteArray data() const { return _data; }
   QString hash() const { return _hash; }
   QString fileName() const { return _file_name; }
   QString mimeType() const { return _mime_type; }
-  QByteArray data() const { return _data; }
   QString urlString() const;
 private:
+  QByteArray _data;
   QString _hash;
   QString _file_name;
   QString _mime_type;
-  QByteArray _data;
 };
 
 class BrdStore : public QObject

@@ -20,7 +20,7 @@ ImageGen::ImageGen(SheetCanvas *canvas) :
 
 void ImageGen::begin(const QPointF &p)
 {
-  QObject *obj = _canvas->compImageWrapper()->create();
+  QObject *obj = _canvas->paint()->compImageWrapper()->create();
   ImageWrapper *image = qobject_cast<ImageWrapper*>(obj);
   Q_ASSERT(image);
   image->setParentItem(_canvas->container());

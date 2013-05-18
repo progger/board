@@ -12,9 +12,11 @@
 #include <QObject>
 #include <QColor>
 #include <QSize>
+#include <QQmlComponent>
 
 class Core;
 class SheetCanvas;
+class Shape;
 class ShapeGen;
 
 class Paint : public QObject
@@ -41,6 +43,9 @@ public:
   QSize imageSize() const { return _image_size; }
   QString imageSource() const { return _image_source; }
   std::shared_ptr<ShapeGen> createShapeGen(SheetCanvas *canvas) const;
+  Shape *createShape(const QString &name) const;
+  QQmlComponent *compTextWrapper() const { return _comp_text_wrapper; }
+  QQmlComponent *compImageWrapper() const { return _comp_image_wrapper; }
 signals:
   void modeChanged();
   void thicknessChanged();
@@ -73,7 +78,10 @@ private:
   bool _can_redo;
   QSize _image_size;
   QString _image_source;
-  std::map<QString, std::shared_ptr<ShapeGen>(*)(SheetCanvas *canvas)> _map_shape_gen;
+  std::map<QString, std::shared_ptr<ShapeGen>(*)(SheetCanvas *)> _map_shape_gen;
+  std::map<QString, Shape *(*)(const Paint *)> _map_shape;
+  QQmlComponent *_comp_text_wrapper;
+  QQmlComponent *_comp_image_wrapper;
 };
 
 #endif // PAINT_H

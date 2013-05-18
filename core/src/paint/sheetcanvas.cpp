@@ -5,9 +5,10 @@
  */
 
 #include <QCursor>
-#include <QQmlEngine>
 #include "../core.h"
+#include "../str_stack/strstack.h"
 #include "paint.h"
+#include "shape.h"
 #include "shapegen.h"
 #include "sheetcanvas.h"
 
@@ -18,6 +19,9 @@ SheetCanvas::SheetCanvas(QQuickItem *parent) :
   _sheet_point(),
   _sheet_rect(0, 0, 1, 1),
   _shape_gen(nullptr),
+  _undo_stack(make_shared<StrStack>()),
+  _redo_stack(make_shared<StrStack>()),
+  _cur_state(),
   _start_move(false)
 {
   connect(this, SIGNAL(enabledChanged()), SLOT(onEnabledChanged()));
@@ -35,11 +39,70 @@ void SheetCanvas::moveSheet(qreal dx, qreal dy)
   emit sheetPointChanged();
 }
 
+void SheetCanvas::serializeSheet(QXmlStreamWriter *writer)
+{
+  writer->writeStartElement("sheet");
+  for (QQuickItem *item : _container->childItems())
+  {
+    Shape *shape = qobject_cast<Shape*>(item);
+    if (shape)
+    {
+      shape->serialize(writer, this);
+    }
+  }
+  writer->writeEndElement();
+}
+
+void SheetCanvas::deserializeSheet(QXmlStreamReader *reader)
+{
+  for (QQuickItem *item : _container->childItems())
+  {
+    delete item;
+  }
+  if (reader->tokenType() != QXmlStreamReader::StartElement || reader->name() != "sheet") return;
+  while (reader->readNextStartElement())
+  {
+    QString name = reader->name().toString();
+    Shape *shape = _paint->createShape(name);
+    if (shape)
+    {
+      shape->setParentItem(_container);
+      shape->deserialize(reader, this);
+    }
+    else
+    {
+      while (true)
+      {
+        auto token = reader->readNext();
+        if (token == QXmlStreamReader::Invalid) return;
+        if (token == QXmlStreamReader::EndElement && reader->name() == name) break;
+      }
+    }
+  }
+}
+
+void SheetCanvas::pushState()
+{
+  QByteArray data;
+  QXmlStreamWriter writer(&data);
+  serializeSheet(&writer);
+  if (data != _cur_state)
+  {
+    _undo_stack->push(_cur_state);
+    _redo_stack->clear();
+    _cur_state = data;
+    _paint->setCanUndo(true);
+    _paint->setCanRedo(false);
+  }
+}
+
 void SheetCanvas::setCore(Core *core)
 {
   _core = core;
   _paint = core->paint();
   connect(_paint, SIGNAL(modeChanged()), SLOT(onModeChanged()));
+  connect(_paint, SIGNAL(undo()), SLOT(onUndo()));
+  connect(_paint, SIGNAL(redo()), SLOT(onRedo()));
   emit coreChanged();
 }
 
@@ -66,9 +129,15 @@ void SheetCanvas::updateSheetRect()
 void SheetCanvas::onEnabledChanged()
 {
   if (isEnabled())
+  {
     onModeChanged();
+    _paint->setCanUndo(!_undo_stack->empty());
+    _paint->setCanRedo(!_redo_stack->empty());
+  }
   else
+  {
     _shape_gen = nullptr;
+  }
 }
 
 void SheetCanvas::onModeChanged()
@@ -100,6 +169,34 @@ void SheetCanvas::onMouseMove(QObject *event)
   _shape_gen->move(p);
 }
 
+void SheetCanvas::onUndo()
+{
+  if (!isEnabled()) return;
+  _redo_stack->push(_cur_state);
+  _cur_state = _undo_stack->pop();
+  QXmlStreamReader reader(_cur_state);
+  reader.readNextStartElement();
+  deserializeSheet(&reader);
+  _paint->setCanUndo(!_undo_stack->empty());
+  _paint->setCanRedo(true);
+  _shape_gen = _paint->createShapeGen(this);
+  updateSheetRect();
+}
+
+void SheetCanvas::onRedo()
+{
+  if (!isEnabled()) return;
+  _undo_stack->push(_cur_state);
+  _cur_state = _redo_stack->pop();
+  QXmlStreamReader reader(_cur_state);
+  reader.readNextStartElement();
+  deserializeSheet(&reader);
+  _paint->setCanUndo(true);
+  _paint->setCanRedo(!_redo_stack->empty());
+  _shape_gen = _paint->createShapeGen(this);
+  updateSheetRect();
+}
+
 void SheetCanvas::componentComplete()
 {
   QQuickItem::componentComplete();
@@ -109,13 +206,6 @@ void SheetCanvas::componentComplete()
   Q_ASSERT(_select_rect);
   _text_input = findChild<QQuickItem*>("textInput");
   Q_ASSERT(_select_rect);
-
-  QQuickView *view = qobject_cast<QQuickView*>(_core->mainView());
-  QQmlEngine *engine = view->engine();
-  _comp_text_wrapper = shared_ptr<QQmlComponent>(new QQmlComponent(engine, QUrl("qrc:/core/qml/TextWrapper.qml")));
-  Q_ASSERT(_comp_text_wrapper);
-  _comp_image_wrapper = shared_ptr<QQmlComponent>(new QQmlComponent(engine, QUrl("qrc:/core/qml/ImageWrapper.qml")));
-  Q_ASSERT(_comp_image_wrapper);
 
   updateSheetRect();
 }

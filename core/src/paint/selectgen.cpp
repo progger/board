@@ -83,6 +83,12 @@ void SelectGen::onMoveBegin(int x, int y)
   _start = QPointF(x, y) + _select_rect->position();
 }
 
+void SelectGen::onMoveEnd()
+{
+  _canvas->pushState();
+  _canvas->updateSheetRect();
+}
+
 void SelectGen::onMove(int x, int y)
 {
   QPointF p = QPointF(x, y) + _select_rect->position();
@@ -102,6 +108,12 @@ void SelectGen::onScaleBegin(int x, int y, int mx1, int my1, int mx2, int my2)
   _my1 = my1;
   _mx2 = mx2;
   _my2 = my2;
+}
+
+void SelectGen::onScaleEnd()
+{
+  _canvas->pushState();
+  _canvas->updateSheetRect();
 }
 
 void SelectGen::onScale(int x, int y)
@@ -146,11 +158,12 @@ void SelectGen::onDel()
   if (_selected.empty()) return;
   for (Shape* shape : _selected)
   {
-    shape->deleteLater();
+    delete shape;
   }
   _selected.clear();
   _select_rect->setVisible(false);
   _canvas->paint()->setSelected(false);
+  _canvas->pushState();
 }
 
 void SelectGen::updateRoundRect()

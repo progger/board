@@ -67,7 +67,7 @@ Rectangle {
             toggled: Paint.mode == "image"
             onClicked: Paint.selectImage()
         }
-/*
+
         Button {
             anchors.horizontalCenter: parent.horizontalCenter
             style: modeBar.style.normalButton
@@ -91,7 +91,7 @@ Rectangle {
             enabled: Paint.canRedo
             onClicked: Paint.redo()
         }
-*/
+
         Button {
             anchors.horizontalCenter: parent.horizontalCenter
             style: modeBar.style.normalButton

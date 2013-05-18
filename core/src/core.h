@@ -7,6 +7,7 @@
 #ifndef CORE_H
 #define CORE_H
 
+#include <map>
 #include <QObject>
 #include <QQuickView>
 #include <QDir>
@@ -31,6 +32,7 @@ public:
   bool keyboard() const { return _keyboard; }
   BrdStore *brdStore() const { return _brdStore; }
   Paint *paint() const { return _paint; }
+  QQmlComponent *getComponent(const QString &urlString);
 signals:
   void updateKeyboard();
 public slots:
@@ -44,6 +46,7 @@ private:
   QSettings *_settings;
   BrdStore *_brdStore;
   Paint *_paint;
+  std::map<QString, QQmlComponent*> _map_componenet;
 };
 
 #endif // CORE_H

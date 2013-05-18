@@ -13,7 +13,6 @@ Ellipse::Ellipse(QQuickItem *parent, float thinkness, QColor color) :
   Shape(parent, thinkness, color)
 {
   setFlag(ItemHasContents);
-  setAntialiasing(true);
 }
 
 QSGNode *Ellipse::updatePaintNode(QSGNode *old_node, QQuickItem::UpdatePaintNodeData *)
@@ -60,4 +59,9 @@ QSGNode *Ellipse::updatePaintNode(QSGNode *old_node, QQuickItem::UpdatePaintNode
     p[i * 2 + 1].set(x, y);
   }
   return node;
+}
+
+QString Ellipse::elementName() const
+{
+  return "ellipse";
 }

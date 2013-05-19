@@ -24,7 +24,7 @@ void processPath(Points *points)
   Shape *best_shape = &line;
 
   Polygon triangle(3);
-  deviation = hunter.hunt(&triangle) /* 3*/;
+  deviation = hunter.hunt(&triangle) * 3;
   if (deviation < best_deviation)
   {
     best_deviation = deviation;
@@ -32,7 +32,7 @@ void processPath(Points *points)
   }
 
   Polygon quardangle(4);
-  deviation = hunter.hunt(&quardangle) /* 6*/;
+  deviation = hunter.hunt(&quardangle) * 6;
   if (deviation < best_deviation)
   {
     best_deviation = deviation;
@@ -40,7 +40,7 @@ void processPath(Points *points)
   }
 
   Ellipse ellipse;
-  deviation = hunter.hunt(&ellipse) /* 2*/;
+  deviation = hunter.hunt(&ellipse) * 2;
   if (deviation < best_deviation)
   {
     best_deviation = deviation;

@@ -5,16 +5,13 @@
  */
 
 #include <QFile>
-#include <QFileInfo>
 #include <QCryptographicHash>
 #include "brdstore.h"
 
 using namespace std;
 
-BrdObject::BrdObject(const QByteArray &data, const QString file_name, const QString &mime_type) :
-  _data(data),
-  _file_name(file_name),
-  _mime_type(mime_type)
+BrdObject::BrdObject(const QByteArray &data) :
+  _data(data)
 {
   QByteArray hash = QCryptographicHash::hash(data, QCryptographicHash::Md5);
   _hash = QString::fromLatin1(hash.toHex());
@@ -54,20 +51,5 @@ std::shared_ptr<BrdObject> BrdStore::fromFile(const QString &file_name)
     return nullptr;
   }
   QByteArray data = file.readAll();
-
-  QFileInfo file_info(file_name);
-  QString ext = file_info.suffix();
-  QString mime_type;
-  if (ext == "png" || ext == "jpeg" || ext == "tiff" ||
-      ext == "gif" || ext == "svg") {
-    mime_type = ext;
-  }
-  else if (ext == "jpg") {
-    mime_type = "jpg";
-  }
-  else if (ext == "tif") {
-    mime_type = "tiff";
-  }
-
-  return make_shared<BrdObject>(data, file_info.fileName(), mime_type);
+  return make_shared<BrdObject>(data);
 }

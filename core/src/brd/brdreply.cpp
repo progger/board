@@ -15,7 +15,6 @@ BrdReply::BrdReply(shared_ptr<BrdObject> object, QObject *parent) :
   _object(object),
   _offset(0)
 {
-  setHeader(QNetworkRequest::ContentTypeHeader, object->mimeType());
   open(ReadOnly | Unbuffered);
   QTimer::singleShot(0, this, SIGNAL(readyRead()));
   QTimer::singleShot(0, this, SIGNAL(finished()));

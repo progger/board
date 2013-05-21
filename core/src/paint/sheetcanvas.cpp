@@ -71,6 +71,7 @@ void SheetCanvas::deserializeShapes(QXmlStreamReader *reader, std::vector<Shape*
     Shape *shape = _paint->createShape(name);
     if (shape)
     {
+      shape->setParent(_container);
       shape->setParentItem(_container);
       shape->deserialize(reader, this);
       if (shapes)

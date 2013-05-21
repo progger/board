@@ -7,11 +7,13 @@
 #ifndef CORE_H
 #define CORE_H
 
+#include <vector>
 #include <map>
 #include <QObject>
 #include <QQuickView>
 #include <QDir>
 #include <QSettings>
+#include <QQmlListProperty>
 #include "icore.h"
 
 class BrdStore;
@@ -21,8 +23,9 @@ class Core : public QObject, public ICore
 {
   Q_OBJECT
   Q_INTERFACES(ICore)
-  Q_PROPERTY(bool keyboard READ keyboard WRITE setKeyboard NOTIFY updateKeyboard FINAL)
+  Q_PROPERTY(bool keyboard READ keyboard WRITE setKeyboard NOTIFY keyboardChanged FINAL)
   Q_PROPERTY(Paint paint READ paint CONSTANT FINAL)
+  Q_PROPERTY(QQmlListProperty<QQuickItem> sheets READ sheetsProperty NOTIFY sheetsChanged FINAL)
 public:
   explicit Core(QQuickView *parent = 0);
   QObject *mainView() { return parent(); }
@@ -33,13 +36,18 @@ public:
   BrdStore *brdStore() const { return _brdStore; }
   Paint *paint() const { return _paint; }
   QQmlComponent *getComponent(const QString &urlString);
+  std::vector<QQuickItem*> *sheets() { return &_sheets; }
+  QQmlListProperty<QQuickItem> sheetsProperty();
 signals:
-  void updateKeyboard();
+  void keyboardChanged();
+  void sheetsChanged();
 public slots:
   void setKeyboard(bool keyboard);
   void emulateKeyPress(int key, int modifiers, const QString & text = "") const;
   void quitButton();
   void minimizeButton();
+private slots:
+  void onMainViewStatusChanged(QQuickView::Status status);
 private:
   bool _keyboard;
   QDir _root_dir;
@@ -47,6 +55,9 @@ private:
   BrdStore *_brdStore;
   Paint *_paint;
   std::map<QString, QQmlComponent*> _map_componenet;
+  QQmlComponent *_comp_sheet;
+  QQuickItem *_sheet_place;
+  std::vector<QQuickItem*> _sheets;
 };
 
 #endif // CORE_H

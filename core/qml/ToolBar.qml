@@ -24,10 +24,7 @@ Rectangle {
             Item {
                 width: height
                 height: toolBar.height
-                property variant sheet
-                Component.onCompleted: sheet = sheetComponent.createObject(sheetPlace, {visible: false})
-                Component.onDestruction: sheet.destroy()
-                ListView.onIsCurrentItemChanged: sheet.visible = ListView.isCurrentItem
+                ListView.onIsCurrentItemChanged: modelData.visible = ListView.isCurrentItem
 
                 Text {
                     anchors.centerIn: parent
@@ -42,18 +39,10 @@ Rectangle {
             }
         }
 
-        ListModel {
-            id: listModel
-            Component.onCompleted: {
-                for (var i = 0; i < 5; ++i)
-                    listModel.append({});
-            }
-        }
-
         ListView {
             id: listView
             anchors.fill: parent
-            model: listModel
+            model: Core.sheets
             orientation: ListView.Horizontal
             delegate: tab
             highlight: Rectangle { color: "blue" }

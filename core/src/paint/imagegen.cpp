@@ -23,6 +23,7 @@ void ImageGen::begin(const QPointF &p)
   QObject *obj = _canvas->paint()->compImageWrapper()->create();
   ImageWrapper *image = qobject_cast<ImageWrapper*>(obj);
   Q_ASSERT(image);
+  image->setParent(_canvas->container());
   image->setParentItem(_canvas->container());
   image->setSize(_image_size);
   image->setInnerSize(_image_size);

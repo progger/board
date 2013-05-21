@@ -43,6 +43,7 @@ void TextGen::end(const QPointF &p)
     QObject *obj = _canvas->paint()->compTextWrapper()->create();
     TextWrapper *text = qobject_cast<TextWrapper*>(obj);
     Q_ASSERT(text);
+    text->setParent(_canvas->container());
     text->setParentItem(_canvas->container());
     int font_size = _canvas->paint()->fontSize();
     text->setColor(_canvas->paint()->color());

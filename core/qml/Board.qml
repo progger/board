@@ -30,8 +30,9 @@ Rectangle {
         y: (parent.height - height) / 2
     }
 
-    Rectangle {
+    Item {
         id: sheetPlace
+        objectName: "sheetPlace"
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: toolBar.bottom

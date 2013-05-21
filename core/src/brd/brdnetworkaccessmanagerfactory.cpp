@@ -7,7 +7,8 @@
 #include "brdnetworkaccessmanager.h"
 #include "brdnetworkaccessmanagerfactory.h"
 
-BrdNetworkAccessManagerFactory::BrdNetworkAccessManagerFactory(BrdStore *store) :
+BrdNetworkAccessManagerFactory::BrdNetworkAccessManagerFactory(BrdStore *store, QObject *parent) :
+  QObject(parent),
   _store(store)
 {
 }

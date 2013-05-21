@@ -11,10 +11,11 @@
 
 class BrdStore;
 
-class BrdNetworkAccessManagerFactory : public QQmlNetworkAccessManagerFactory
+class BrdNetworkAccessManagerFactory : public QObject, public QQmlNetworkAccessManagerFactory
 {
+  Q_OBJECT
 public:
-  explicit BrdNetworkAccessManagerFactory(BrdStore *store);
+  explicit BrdNetworkAccessManagerFactory(BrdStore *store, QObject *parent);
   virtual QNetworkAccessManager *create(QObject *parent) override;
 private:
   BrdStore *_store;

@@ -24,6 +24,7 @@ class Core : public QObject, public ICore
   Q_OBJECT
   Q_INTERFACES(ICore)
   Q_PROPERTY(bool keyboard READ keyboard WRITE setKeyboard NOTIFY keyboardChanged FINAL)
+  Q_PROPERTY(bool transparent READ transparent WRITE setTransparent NOTIFY transparentChanged FINAL)
   Q_PROPERTY(Paint paint READ paint CONSTANT FINAL)
   Q_PROPERTY(QQmlListProperty<QQuickItem> sheets READ sheetsProperty NOTIFY sheetsChanged FINAL)
 public:
@@ -33,6 +34,7 @@ public:
   QSettings *settings() { return _settings; }
   void showError(const QString &error);
   bool keyboard() const { return _keyboard; }
+  bool transparent() const { return _transparent; }
   BrdStore *brdStore() const { return _brdStore; }
   Paint *paint() const { return _paint; }
   QQmlComponent *getComponent(const QString &urlString);
@@ -40,9 +42,11 @@ public:
   QQmlListProperty<QQuickItem> sheetsProperty();
 signals:
   void keyboardChanged();
+  void transparentChanged();
   void sheetsChanged();
 public slots:
   void setKeyboard(bool keyboard);
+  void setTransparent(bool transparent);
   void emulateKeyPress(int key, int modifiers, const QString & text = "") const;
   void quitButton();
   void minimizeButton();
@@ -50,6 +54,7 @@ private slots:
   void onMainViewStatusChanged(QQuickView::Status status);
 private:
   bool _keyboard;
+  bool _transparent;
   QDir _root_dir;
   QSettings *_settings;
   BrdStore *_brdStore;

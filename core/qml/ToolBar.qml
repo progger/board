@@ -107,6 +107,16 @@ Rectangle {
         }
 
         Button {
+            style: board.style.normalButton
+            anchors.verticalCenter: parent.verticalCenter
+            width: buttonSize
+            height: buttonSize
+            image: "qrc:/core/res/desktop.svg"
+            toggled: Core.transparent
+            onClicked: Core.transparent = !Core.transparent
+        }
+
+        Button {
             id: minimizeButton
             style: board.style.minimizeButton
             anchors.verticalCenter: parent.verticalCenter

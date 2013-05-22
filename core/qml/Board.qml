@@ -8,8 +8,12 @@ import QtQuick 2.0
 
 Rectangle {
     id: board
-    property variant sheetComponent: Qt.createComponent("Sheet.qml")
     property Style style: Style {}
+    color: Core.transparent ? "transparent" : "white"
+    Behavior on color {
+        ColorAnimation { duration: 300 }
+    }
+
     focus: true
 
     width: 400
@@ -52,6 +56,4 @@ Rectangle {
             NumberAnimation { duration: 500 }
         }
     }
-
-    Component.onCompleted: if (sheetComponent.status == Component.Error) console.log(sheetComponent.errorString())
 }

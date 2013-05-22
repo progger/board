@@ -33,6 +33,7 @@ QQuickItem *sheetsAtFunction(QQmlListProperty<QQuickItem> *list, int index)
 Core::Core(QQuickView *parent) :
   QObject(parent),
   _keyboard(false),
+  _transparent(false),
   _map_componenet(),
   _sheets()
 {
@@ -129,4 +130,10 @@ void Core::setKeyboard(bool keyboard)
 {
   _keyboard = keyboard;
   emit keyboardChanged();
+}
+
+void Core::setTransparent(bool transparent)
+{
+  _transparent = transparent;
+  emit transparentChanged();
 }

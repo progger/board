@@ -50,6 +50,10 @@ int main(int argc, char *argv[])
   QApplication app(argc, argv);
   parseCmd();
   MainView view;
+  QSurfaceFormat format = view.format();
+  format.setAlphaBufferSize(8);
+  view.setFormat(format);
+  view.setColor(QColor(0, 0, 0, 0));
   view.showFullScreen();
   return app.exec();
 }

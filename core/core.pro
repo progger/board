@@ -102,6 +102,7 @@ OTHER_FILES += \
     res/close.svg \
     res/color.svg \
     res/delete.svg \
+    res/desktop.svg \
     res/down_arrow.svg \
     res/duplicate.svg \
     res/ellipse.svg \

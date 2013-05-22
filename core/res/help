@@ -1,3 +1,4 @@
 Usage: board [options]
 Options:
-  --help      Print this help
+  -h, --help      Показать справку и выйти
+  -w, --window    Запуск в оконном режиме

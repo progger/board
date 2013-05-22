@@ -10,6 +10,8 @@
 #include <QFile>
 #include "mainview.h"
 
+bool window_mode = false;
+
 void help()
 {
   QTextStream cout(stdout);
@@ -31,9 +33,13 @@ void parseCmd()
     QString param = args.at(i);
     if (param.startsWith('-'))
     {
-      if (param == "--help")
+      if (param == "--help" || param == "-h")
       {
         help();
+      }
+      else if (param == "--window" || param == "-w")
+      {
+        window_mode = true;
       }
       else
       {
@@ -54,6 +60,9 @@ int main(int argc, char *argv[])
   format.setAlphaBufferSize(8);
   view.setFormat(format);
   view.setColor(QColor(0, 0, 0, 0));
-  view.showFullScreen();
+  if (window_mode)
+    view.showMaximized();
+  else
+    view.showFullScreen();
   return app.exec();
 }

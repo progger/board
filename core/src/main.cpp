@@ -15,7 +15,7 @@ bool window_mode = false;
 void help()
 {
   QTextStream cout(stdout);
-  QFile help_file("qrc:/core/res/help");
+  QFile help_file(":/core/res/help");
   if (help_file.open(QIODevice::ReadOnly))
   {
     cout << help_file.readAll();

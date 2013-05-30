@@ -4,11 +4,14 @@ TARGET = board
 TEMPLATE = app
 VERSION = 2.0.0
 QMAKE_CXXFLAGS += -std=c++11
+LIBS += -lz
 
 DESTDIR = ../bin
 OBJECTS_DIR = ./build
 MOC_DIR = ./build
 RCC_DIR = ./build
+
+include(../third-party/quazip-0.5.1/quazip/quazip.pri)
 
 INCLUDEPATH += ../shared
 

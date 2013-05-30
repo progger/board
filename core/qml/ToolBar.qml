@@ -56,6 +56,20 @@ Rectangle {
         anchors.bottom: parent.bottom
         spacing: 4
 
+        Button {
+            style: board.style.normalButton
+            anchors.verticalCenter: parent.verticalCenter
+            width: buttonSize
+            height: buttonSize
+            image: "qrc:/core/res/save.svg"
+            onClicked: Core.saveBook()
+        }
+
+        Item {
+            width: 8
+            height: parent.height
+        }
+
         Image {
             anchors.verticalCenter: parent.verticalCenter
             height: buttonSize
@@ -117,23 +131,21 @@ Rectangle {
         }
 
         Button {
-            id: minimizeButton
             style: board.style.minimizeButton
             anchors.verticalCenter: parent.verticalCenter
             width: buttonSize
             height: buttonSize
             image: "qrc:/core/res/minimize.svg"
-            onClicked: Core.minimizeButton();
+            onClicked: Core.minimizeButton()
         }
 
         Button {
-            id: closeButton
             style: board.style.closeButton
             anchors.verticalCenter: parent.verticalCenter
             width: buttonSize
             height: buttonSize
             image: "qrc:/core/res/close.svg"
-            onClicked: Core.quitButton();
+            onClicked: Core.quitButton()
         }
 
         Item {

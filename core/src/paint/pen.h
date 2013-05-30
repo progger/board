@@ -24,7 +24,7 @@ public:
 protected:
   virtual QSGNode *updatePaintNode(QSGNode *old_node, UpdatePaintNodeData *) override;
   virtual QString elementName() const override;
-  virtual void innerSerialize(QXmlStreamWriter *writer, SheetCanvas *) const override;
+  virtual void innerSerialize(QXmlStreamWriter *writer, SheetCanvas *, std::set<QString> *brd_objects) const override;
   virtual void innerDeserialize(QXmlStreamReader *reader, SheetCanvas *) override;
 private:
   Core *_core;

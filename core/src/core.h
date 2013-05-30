@@ -14,6 +14,7 @@
 #include <QDir>
 #include <QSettings>
 #include <QQmlListProperty>
+#include "quazip.h"
 #include "icore.h"
 
 class BrdStore;
@@ -50,6 +51,7 @@ public slots:
   void emulateKeyPress(int key, int modifiers, const QString & text = "") const;
   void quitButton();
   void minimizeButton();
+  void saveBook();
 private slots:
   void onMainViewStatusChanged(QQuickView::Status status);
 private:
@@ -63,6 +65,7 @@ private:
   QQmlComponent *_comp_sheet;
   QQuickItem *_sheet_place;
   std::vector<QQuickItem*> _sheets;
+  void saveBookFiles(QuaZip *zip);
 };
 
 #endif // CORE_H

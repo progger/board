@@ -17,9 +17,9 @@ BrdObject::BrdObject(const QByteArray &data) :
   _hash = QString::fromLatin1(hash.toHex());
 }
 
-QString BrdObject::urlString() const
+QString BrdObject::urlString(const QString &hash)
 {
-  return "brd:" + _hash;
+  return "brd:" + hash;
 }
 
 BrdStore::BrdStore(QObject *parent) :

@@ -8,6 +8,7 @@
 #define SHEETCANVAS_H
 
 #include <memory>
+#include <set>
 #include <QXmlStreamWriter>
 #include <QXmlStreamReader>
 #include <QQuickItem>
@@ -34,7 +35,7 @@ public:
   QQuickItem *container() const { return _container; }
   QQuickItem *selectRect() const { return _select_rect; }
   QQuickItem *textInput() const { return _text_input; }
-  void serializeSheet(QXmlStreamWriter *writer);
+  void serializeSheet(QXmlStreamWriter *writer, std::set<QString> *brd_objects = nullptr);
   void deserializeSheet(QXmlStreamReader *reader);
   void deserializeShapes(QXmlStreamReader *reader, std::vector<Shape*> *shapes = nullptr);
   void pushState();

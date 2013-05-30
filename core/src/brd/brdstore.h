@@ -17,7 +17,7 @@ public:
   BrdObject(const QByteArray &data);
   QByteArray data() const { return _data; }
   QString hash() const { return _hash; }
-  QString urlString() const;
+  static QString urlString(const QString &hash);
 private:
   QByteArray _data;
   QString _hash;

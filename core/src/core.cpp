@@ -4,10 +4,13 @@
  * See the LICENSE file for terms of use.
  */
 
+#include <set>
 #include <QGuiApplication>
 #include <QKeyEvent>
 #include <QtQml>
 #include <QMessageBox>
+#include <QFileDialog>
+#include "quazipfile.h"
 #include "brd/brdstore.h"
 #include "brd/brdnetworkaccessmanagerfactory.h"
 #include "paint/paint.h"
@@ -15,6 +18,8 @@
 #include "paint/textwrapper.h"
 #include "paint/imagewrapper.h"
 #include "core.h"
+
+using namespace std;
 
 int sheetsCountFunction(QQmlListProperty<QQuickItem> *list)
 {
@@ -105,6 +110,23 @@ void Core::minimizeButton()
   }
 }
 
+void Core::saveBook()
+{
+  QFileDialog dialog;
+  dialog.setAcceptMode(QFileDialog::AcceptSave);
+  dialog.setNameFilter("Book files (*.brd)");
+  dialog.setDefaultSuffix("brd");
+  if (!dialog.exec()) return;
+  QString file_name = dialog.selectedFiles().first();
+  QuaZip zip(file_name);
+  if (!zip.open(QuaZip::mdCreate))
+  {
+    showError(QString("Не удалось открыть %1: error %2").arg(file_name).arg(zip.getZipError()));
+    return;
+  }
+  saveBookFiles(&zip);
+}
+
 void Core::onMainViewStatusChanged(QQuickView::Status status)
 {
   if (status == QQuickView::Loading) return;
@@ -124,6 +146,44 @@ void Core::onMainViewStatusChanged(QQuickView::Status status)
     _sheets.push_back(sheet);
   }
   emit sheetsChanged();
+}
+
+void Core::saveBookFiles(QuaZip *zip)
+{
+  QuaZipFile zip_file(zip);
+  if (!zip_file.open(QIODevice::WriteOnly, QuaZipNewInfo("book.xml")))
+  {
+    showError(QString("Не удалось соханить книгу: %1").arg(zip_file.getZipError()));
+    return;
+  }
+  set<QString> brd_objects;
+  QXmlStreamWriter writer(&zip_file);
+  writer.writeStartDocument();
+  writer.writeStartElement("book");
+  writer.writeStartElement("sheets");
+  for (QQuickItem *sheet : _sheets)
+  {
+    SheetCanvas *canvas = sheet->findChild<SheetCanvas*>("sheetCanvas");
+    Q_ASSERT(canvas);
+    canvas->serializeSheet(&writer, &brd_objects);
+  }
+  writer.writeEndElement();
+  writer.writeEndElement();
+  writer.writeEndDocument();
+  zip_file.close();
+
+  for (QString hash : brd_objects)
+  {
+    auto brd_object = _brdStore->getObject(hash);
+    if (!brd_object) continue;
+    if (!zip_file.open(QIODevice::WriteOnly, QuaZipNewInfo(hash)))
+    {
+      showError(QString("Не удалось соханить книгу: %1").arg(zip_file.getZipError()));
+      return;
+    }
+    zip_file.write(brd_object->data());
+    zip_file.close();
+  }
 }
 
 void Core::setKeyboard(bool keyboard)

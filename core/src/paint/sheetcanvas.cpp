@@ -39,7 +39,7 @@ void SheetCanvas::moveSheet(qreal dx, qreal dy)
   emit sheetPointChanged();
 }
 
-void SheetCanvas::serializeSheet(QXmlStreamWriter *writer)
+void SheetCanvas::serializeSheet(QXmlStreamWriter *writer, set<QString> *brd_objects)
 {
   writer->writeStartElement("sheet");
   for (QQuickItem *item : _container->childItems())
@@ -47,7 +47,7 @@ void SheetCanvas::serializeSheet(QXmlStreamWriter *writer)
     Shape *shape = qobject_cast<Shape*>(item);
     if (shape)
     {
-      shape->serialize(writer, this);
+      shape->serialize(writer, this, brd_objects);
     }
   }
   writer->writeEndElement();

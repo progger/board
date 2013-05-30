@@ -37,7 +37,7 @@ QString TextWrapper::elementName() const
   return "text";
 }
 
-void TextWrapper::innerSerialize(QXmlStreamWriter *writer, SheetCanvas *) const
+void TextWrapper::innerSerialize(QXmlStreamWriter *writer, SheetCanvas *, std::set<QString> *) const
 {
   writer->writeAttribute("text", _text);
   writer->writeAttribute("font_size", QString::number(_font_size));

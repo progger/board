@@ -28,7 +28,7 @@ signals:
   void fontSizeChanged();
 protected:
   virtual QString elementName() const override;
-  virtual void innerSerialize(QXmlStreamWriter *writer, SheetCanvas *) const override;
+  virtual void innerSerialize(QXmlStreamWriter *writer, SheetCanvas *, std::set<QString> *) const override;
   virtual void innerDeserialize(QXmlStreamReader *reader, SheetCanvas *) override;
 private:
   QString _text;

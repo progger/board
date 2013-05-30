@@ -15,7 +15,7 @@ ImageGen::ImageGen(SheetCanvas *canvas) :
   ShapeGen(canvas)
 {
   _image_size = canvas->paint()->imageSize();
-  _image_source = canvas->paint()->imageSource();
+  _image_hash = canvas->paint()->imageHash();
 }
 
 void ImageGen::begin(const QPointF &p)
@@ -27,7 +27,7 @@ void ImageGen::begin(const QPointF &p)
   image->setParentItem(_canvas->container());
   image->setSize(_image_size);
   image->setInnerSize(_image_size);
-  image->setSource(_image_source);
+  image->setHash(_image_hash);
   _item = image;
   move(p);
 }

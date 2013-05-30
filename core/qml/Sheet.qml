@@ -14,6 +14,7 @@ Item {
 
     SheetCanvas {
         id: sheetCanvas
+        objectName: "sheetCanvas"
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.right: vscroll.left

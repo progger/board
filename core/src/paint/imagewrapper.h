@@ -12,20 +12,20 @@
 class ImageWrapper : public Shape
 {
   Q_OBJECT
-  Q_PROPERTY(QString source READ source WRITE setSource NOTIFY sourceChanged)
+  Q_PROPERTY(QString source READ source NOTIFY sourceChanged)
 public:
   explicit ImageWrapper(QQuickItem *parent = 0);
-  QString source() const { return _source; }
+  QString source() const;
 public slots:
-  void setSource(const QString &source);
+  void setHash(const QString &hash);
 signals:
   void sourceChanged();
 protected:
   virtual QString elementName() const override;
-  virtual void innerSerialize(QXmlStreamWriter *writer, SheetCanvas *) const override;
+  virtual void innerSerialize(QXmlStreamWriter *writer, SheetCanvas *, std::set<QString> *brd_objects) const override;
   virtual void innerDeserialize(QXmlStreamReader *reader, SheetCanvas *) override;
 private:
-  QString _source;
+  QString _hash;
 };
 
 #endif // IMAGEWRAPPER_H

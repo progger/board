@@ -88,9 +88,10 @@ QString Pen::elementName() const
   return "pen";
 }
 
-void Pen::innerSerialize(QXmlStreamWriter *writer, SheetCanvas *) const
+void Pen::innerSerialize(QXmlStreamWriter *writer, SheetCanvas *, std::set<QString> *brd_objects) const
 {
   writer->writeAttribute("hash", _hash);
+  if (brd_objects) brd_objects->insert(_hash);
 }
 
 void Pen::innerDeserialize(QXmlStreamReader *reader, SheetCanvas *)

@@ -36,7 +36,7 @@ Paint::Paint(Core *parent) :
   _selected(false),
   _can_undo(false),
   _can_redo(false),
-  _image_source(),
+  _image_hash(),
   _map_shape_gen(),
   _map_shape()
 {
@@ -133,7 +133,7 @@ void Paint::selectImage()
   if (!obj) return;
   QImage image = QImage::fromData(obj->data());
   _image_size = image.size();
-  _image_source = obj->urlString();
+  _image_hash = obj->hash();
   core()->brdStore()->setObject(obj);
 
   setMode("image");

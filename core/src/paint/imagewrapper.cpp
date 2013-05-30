@@ -4,6 +4,7 @@
  * See the LICENSE file for terms of use.
  */
 
+#include "../brd/brdstore.h"
 #include "imagewrapper.h"
 
 ImageWrapper::ImageWrapper(QQuickItem *parent) :
@@ -11,9 +12,14 @@ ImageWrapper::ImageWrapper(QQuickItem *parent) :
 {
 }
 
-void ImageWrapper::setSource(const QString &source)
+QString ImageWrapper::source() const
 {
-  _source = source;
+  return BrdObject::urlString(_hash);
+}
+
+void ImageWrapper::setHash(const QString &hash)
+{
+  _hash = hash;
   emit sourceChanged();
 }
 
@@ -22,12 +28,13 @@ QString ImageWrapper::elementName() const
   return "image";
 }
 
-void ImageWrapper::innerSerialize(QXmlStreamWriter *writer, SheetCanvas *) const
+void ImageWrapper::innerSerialize(QXmlStreamWriter *writer, SheetCanvas *, std::set<QString> *brd_objects) const
 {
-  writer->writeAttribute("source", _source);
+  writer->writeAttribute("hash", _hash);
+  if (brd_objects) brd_objects->insert(_hash);
 }
 
 void ImageWrapper::innerDeserialize(QXmlStreamReader *reader, SheetCanvas *)
 {
-  setSource(reader->attributes().value("source").toString());
+  setHash(reader->attributes().value("hash").toString());
 }

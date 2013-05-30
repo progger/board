@@ -20,7 +20,7 @@ public:
   static std::shared_ptr<ShapeGen> openFile(SheetCanvas *canvas);
 private:
   QSize _image_size;
-  QString _image_source;
+  QString _image_hash;
 };
 
 #endif // IMAGEGEN_H

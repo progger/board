@@ -16,7 +16,7 @@ Shape::Shape(QQuickItem *parent, float thickness, QColor color) :
   connect(this, SIGNAL(heightChanged()), SLOT(onHeightChanged()));
 }
 
-void Shape::serialize(QXmlStreamWriter *writer, SheetCanvas *canvas) const
+void Shape::serialize(QXmlStreamWriter *writer, SheetCanvas *canvas, std::set<QString> *brd_objects) const
 {
   writer->writeStartElement(elementName());
   writer->writeAttribute("x", QString::number(x() + canvas->sheetPoint().x()));
@@ -27,7 +27,7 @@ void Shape::serialize(QXmlStreamWriter *writer, SheetCanvas *canvas) const
   writer->writeAttribute("innerHeight", QString::number(_inner_size.height()));
   writer->writeAttribute("thickness", QString::number(_thickness));
   writer->writeAttribute("color", _color.name());
-  innerSerialize(writer, canvas);
+  innerSerialize(writer, canvas, brd_objects);
   writer->writeEndElement();
 }
 

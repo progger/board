@@ -127,6 +127,30 @@ void Core::saveBook()
   saveBookFiles(&zip);
 }
 
+void Core::openBook()
+{
+  QFileDialog dialog;
+  dialog.setAcceptMode(QFileDialog::AcceptOpen);
+  dialog.setNameFilter("Book files (*.brd)");
+  dialog.setDefaultSuffix("brd");
+  if (!dialog.exec()) return;
+  QString file_name = dialog.selectedFiles().first();
+  QuaZip zip(file_name);
+  if (!zip.open(QuaZip::mdUnzip))
+  {
+    showError(QString("Не удалось открыть %1: error %2").arg(file_name).arg(zip.getZipError()));
+    return;
+  }
+  for (QQuickItem *sheet : _sheets)
+  {
+    sheet->deleteLater();
+  }
+  _sheets.clear();
+  _brdStore->clear();
+  openBookFiles(&zip);
+  emit sheetsChanged();
+}
+
 void Core::onMainViewStatusChanged(QQuickView::Status status)
 {
   if (status == QQuickView::Loading) return;
@@ -138,20 +162,26 @@ void Core::onMainViewStatusChanged(QQuickView::Status status)
   Q_ASSERT(_sheet_place);
   for (int i = 0; i < 5; ++i)
   {
-    QQuickItem *sheet = qobject_cast<QQuickItem*>(_comp_sheet->create());
-    Q_ASSERT(sheet);
-    sheet->setParent(_sheet_place);
-    sheet->setVisible(false);
-    sheet->setParentItem(_sheet_place);
-    _sheets.push_back(sheet);
+    addSheet();
   }
   emit sheetsChanged();
+}
+
+QQuickItem *Core::addSheet()
+{
+  QQuickItem *sheet = qobject_cast<QQuickItem*>(_comp_sheet->create());
+  Q_ASSERT(sheet);
+  sheet->setParent(_sheet_place);
+  sheet->setVisible(false);
+  sheet->setParentItem(_sheet_place);
+  _sheets.push_back(sheet);
+  return sheet;
 }
 
 void Core::saveBookFiles(QuaZip *zip)
 {
   QuaZipFile zip_file(zip);
-  if (!zip_file.open(QIODevice::WriteOnly, QuaZipNewInfo("book.xml")))
+  if (!zip_file.open(QIODevice::WriteOnly, QuaZipNewInfo("_book.xml")))
   {
     showError(QString("Не удалось соханить книгу: %1").arg(zip_file.getZipError()));
     return;
@@ -160,6 +190,7 @@ void Core::saveBookFiles(QuaZip *zip)
   QXmlStreamWriter writer(&zip_file);
   writer.writeStartDocument();
   writer.writeStartElement("book");
+  writer.writeAttribute("version", "1.0");
   writer.writeStartElement("sheets");
   for (QQuickItem *sheet : _sheets)
   {
@@ -184,6 +215,51 @@ void Core::saveBookFiles(QuaZip *zip)
     zip_file.write(brd_object->data());
     zip_file.close();
   }
+}
+
+void Core::openBookFiles(QuaZip *zip)
+{
+  for(bool more = zip->goToFirstFile(); more; more = zip->goToNextFile())
+  {
+    QuaZipFile zip_file(zip);
+    if (!zip_file.open(QIODevice::ReadOnly))
+    {
+      showError(QString("Не удалось открыть книгу: %1").arg(zip_file.getZipError()));
+      return;
+    }
+    if (zip->getCurrentFileName() != "_book.xml")
+    {
+      QByteArray data = zip_file.readAll();
+      _brdStore->addObject(data);
+    }
+  }
+  if (!zip->setCurrentFile("_book.xml"))
+  {
+    showError(QString("Не удалось открыть книгу: %1").arg(zip->getZipError()));
+    return;
+  }
+  QuaZipFile zip_file(zip);
+  if (!zip_file.open(QIODevice::ReadOnly))
+  {
+    showError(QString("Не удалось открыть книгу: %1").arg(zip_file.getZipError()));
+    return;
+  }
+  QXmlStreamReader reader(&zip_file);
+  reader.readNextStartElement();
+  if (reader.name() != "book" || reader.attributes().value("version") != "1.0") goto error;
+  reader.readNextStartElement();
+  if (reader.name() != "sheets") goto error;
+  while (reader.readNextStartElement())
+  {
+    if (reader.name() != "sheet") goto error;
+    QQuickItem *sheet = addSheet();
+    SheetCanvas *canvas = sheet->findChild<SheetCanvas*>("sheetCanvas");
+    Q_ASSERT(canvas);
+    canvas->deserializeSheet(&reader);
+  }
+  return;
+error:
+  showError("Книга имеет неверный формат");
 }
 
 void Core::setKeyboard(bool keyboard)

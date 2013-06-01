@@ -29,9 +29,7 @@ void Pen::savePoints()
   {
     stream << point.x() << point.y();
   }
-  auto obj = make_shared<BrdObject>(data);
-  _core->brdStore()->setObject(obj);
-  _hash = obj->hash();
+  _hash = _core->brdStore()->addObject(data);
 }
 
 QSGNode *Pen::updatePaintNode(QSGNode *old_node, QQuickItem::UpdatePaintNodeData *)

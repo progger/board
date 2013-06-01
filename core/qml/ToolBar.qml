@@ -65,6 +65,15 @@ Rectangle {
             onClicked: Core.saveBook()
         }
 
+        Button {
+            style: board.style.normalButton
+            anchors.verticalCenter: parent.verticalCenter
+            width: buttonSize
+            height: buttonSize
+            image: "qrc:/core/res/open.svg"
+            onClicked: Core.openBook()
+        }
+
         Item {
             width: 8
             height: parent.height

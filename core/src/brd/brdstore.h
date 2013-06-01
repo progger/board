@@ -30,6 +30,8 @@ public:
   explicit BrdStore(QObject *parent = 0);
   std::shared_ptr<BrdObject> getObject(const QString &hash) const;
   void setObject(std::shared_ptr<BrdObject> obj);
+  QString addObject(QByteArray data);
+  void clear();
   static std::shared_ptr<BrdObject> fromFile(const QString &file_name);
 private:
   std::map<QString, std::shared_ptr<BrdObject>> _store;

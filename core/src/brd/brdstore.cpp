@@ -43,6 +43,18 @@ void BrdStore::setObject(std::shared_ptr<BrdObject> obj)
   _store[obj->hash()] = obj;
 }
 
+QString BrdStore::addObject(QByteArray data)
+{
+  shared_ptr<BrdObject> obj = make_shared<BrdObject>(data);
+  setObject(obj);
+  return obj->hash();
+}
+
+void BrdStore::clear()
+{
+  _store.clear();
+}
+
 std::shared_ptr<BrdObject> BrdStore::fromFile(const QString &file_name)
 {
   QFile file(file_name);

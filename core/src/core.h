@@ -52,7 +52,9 @@ public slots:
   void quitButton();
   void minimizeButton();
   void saveBook();
+  void saveBook(const QString &file_name);
   void openBook();
+  void openBook(const QString &file_name);
 private slots:
   void onMainViewStatusChanged(QQuickView::Status status);
 private:

@@ -49,7 +49,8 @@ SOURCES += \
     src/paint/sheetcanvas.cpp \
     src/paint/textgen.cpp \
     src/paint/textwrapper.cpp \
-    src/str_stack/strstack.cpp
+    src/str_stack/strstack.cpp \
+    src/global.cpp
 
 HEADERS += \
     src/brd/brdnetworkaccessmanager.h \
@@ -86,7 +87,8 @@ HEADERS += \
     src/paint/sheetcanvas.h \
     src/paint/textgen.h \
     src/paint/textwrapper.h \
-    src/str_stack/strstack.h
+    src/str_stack/strstack.h \
+    src/global.h
 
 OTHER_FILES += \
     qml/Board.qml \

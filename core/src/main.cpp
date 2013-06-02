@@ -8,9 +8,8 @@
 #include <QTextCodec>
 #include <QTextStream>
 #include <QFile>
+#include "global.h"
 #include "mainview.h"
-
-bool window_mode = false;
 
 void help()
 {
@@ -39,13 +38,20 @@ void parseCmd()
       }
       else if (param == "--window" || param == "-w")
       {
-        window_mode = true;
+        g_window_mode = true;
       }
       else
       {
         QTextStream cout(stdout);
         cout << "Invalid argument: " << param << endl;
         help();
+      }
+    }
+    else
+    {
+      if (g_brd_file.isEmpty())
+      {
+        g_brd_file = param;
       }
     }
   }
@@ -60,7 +66,7 @@ int main(int argc, char *argv[])
   format.setAlphaBufferSize(8);
   view.setFormat(format);
   view.setColor(QColor(0, 0, 0, 0));
-  if (window_mode)
+  if (g_window_mode)
     view.showMaximized();
   else
     view.showFullScreen();

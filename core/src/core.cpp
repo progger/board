@@ -17,6 +17,7 @@
 #include "paint/sheetcanvas.h"
 #include "paint/textwrapper.h"
 #include "paint/imagewrapper.h"
+#include "global.h"
 #include "core.h"
 
 using namespace std;
@@ -118,6 +119,11 @@ void Core::saveBook()
   dialog.setDefaultSuffix("brd");
   if (!dialog.exec()) return;
   QString file_name = dialog.selectedFiles().first();
+  saveBook(file_name);
+}
+
+void Core::saveBook(const QString &file_name)
+{
   QuaZip zip(file_name);
   if (!zip.open(QuaZip::mdCreate))
   {
@@ -135,6 +141,11 @@ void Core::openBook()
   dialog.setDefaultSuffix("brd");
   if (!dialog.exec()) return;
   QString file_name = dialog.selectedFiles().first();
+  openBook(file_name);
+}
+
+void Core::openBook(const QString &file_name)
+{
   QuaZip zip(file_name);
   if (!zip.open(QuaZip::mdUnzip))
   {
@@ -160,9 +171,16 @@ void Core::onMainViewStatusChanged(QQuickView::Status status)
   Q_ASSERT(view->rootObject());
   _sheet_place = view->rootObject()->findChild<QQuickItem*>("sheetPlace");
   Q_ASSERT(_sheet_place);
-  for (int i = 0; i < 5; ++i)
+  if (!g_brd_file.isEmpty())
   {
-    addSheet();
+    openBook(g_brd_file);
+  }
+  else
+  {
+    for (int i = 0; i < 5; ++i)
+    {
+      addSheet();
+    }
   }
   emit sheetsChanged();
 }

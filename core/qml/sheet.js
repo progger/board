@@ -8,6 +8,7 @@ var cursors = {
     "select": Qt.ArrowCursor,
     "pen": Qt.CrossCursor,
     "magic_pen": Qt.CrossCursor,
+    "line": Qt.CrossCursor,
     "rectangle": Qt.CrossCursor,
     "circle": Qt.CrossCursor,
     "ellipse": Qt.CrossCursor,

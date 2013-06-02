@@ -28,6 +28,8 @@ SOURCES += \
     src/paint/ellipsegen.cpp \
     src/paint/imagegen.cpp \
     src/paint/imagewrapper.cpp \
+    src/paint/line.cpp \
+    src/paint/linegen.cpp \
     src/paint/magicpengen.cpp \
     src/paint/movegen.cpp \
     src/paint/paint.cpp \
@@ -61,6 +63,8 @@ HEADERS += \
     src/paint/ellipsegen.h \
     src/paint/imagegen.h \
     src/paint/imagewrapper.h \
+    src/paint/line.h \
+    src/paint/linegen.h \
     src/paint/magicpengen.h \
     src/paint/movegen.h \
     src/paint/paint.h \
@@ -114,6 +118,7 @@ OTHER_FILES += \
     res/help \
     res/image.svg \
     res/left_arrow.svg \
+    res/line.svg \
     res/magic_pen.svg \
     res/minimize.svg \
     res/move.svg \

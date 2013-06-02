@@ -30,6 +30,7 @@ Rectangle {
             model: [
                 {"mode": "select", "image": "qrc:/core/res/select.svg"},
                 {"mode": "pen", "image": "qrc:/core/res/pen.svg"},
+                {"mode": "line", "image": "qrc:/core/res/line.svg"},
                 {"mode": "rectangle", "image": "qrc:/core/res/rectangle.svg"},
                 {"mode": "magic_pen", "image": "qrc:/core/res/magic_pen.svg"},
                 {"mode": "circle", "image": "qrc:/core/res/circle.svg"},

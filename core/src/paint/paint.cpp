@@ -12,6 +12,7 @@
 #include "selectgen.h"
 #include "pengen.h"
 #include "magicpengen.h"
+#include "linegen.h"
 #include "rectanglegen.h"
 #include "circlegen.h"
 #include "ellipsegen.h"
@@ -19,6 +20,7 @@
 #include "movegen.h"
 #include "imagegen.h"
 #include "pen.h"
+#include "line.h"
 #include "rectangle.h"
 #include "ellipse.h"
 #include "textwrapper.h"
@@ -46,6 +48,7 @@ Paint::Paint(Core *parent) :
   _map_shape_gen["select"] =    [](SheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<SelectGen>(canvas); };
   _map_shape_gen["pen"] =       [](SheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<PenGen>(canvas); };
   _map_shape_gen["magic_pen"] = [](SheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<MagicPenGen>(canvas); };
+  _map_shape_gen["line"] =      [](SheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<LineGen>(canvas); };
   _map_shape_gen["rectangle"] = [](SheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<RectangleGen>(canvas); };
   _map_shape_gen["circle"] =    [](SheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<CircleGen>(canvas); };
   _map_shape_gen["ellipse"] =   [](SheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<EllipseGen>(canvas); };
@@ -54,6 +57,7 @@ Paint::Paint(Core *parent) :
   _map_shape_gen["image"] =     [](SheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<ImageGen>(canvas); };
 
   _map_shape["pen"] =       [](const Paint *paint) -> Shape* { return new Pen(paint->core()); };
+  _map_shape["line"] =      [](const Paint *) -> Shape* { return new Line(); };
   _map_shape["rectangle"] = [](const Paint *) -> Shape* { return new Rectangle(); };
   _map_shape["ellipse"] =   [](const Paint *) -> Shape* { return new Ellipse(); };
   _map_shape["text"] =      [](const Paint *paint) -> Shape* { return static_cast<Shape*>(paint->compTextWrapper()->create()); };

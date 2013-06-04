@@ -6,6 +6,7 @@
 
 #include <QSGGeometryNode>
 #include <QSGFlatColorMaterial>
+#include "defs.h"
 #include "paintutils.h"
 #include "ellipse.h"
 

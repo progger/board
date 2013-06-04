@@ -5,6 +5,7 @@
  */
 
 #include <cmath>
+#include "defs.h"
 #include "../paintutils.h"
 #include "ellipse.h"
 

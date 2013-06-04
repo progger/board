@@ -58,8 +58,8 @@ Paint::Paint(Core *parent) :
 
   _map_shape["pen"] =       [](const Paint *paint) -> Shape* { return new Pen(paint->core()); };
   _map_shape["line"] =      [](const Paint *) -> Shape* { return new Line(); };
-  _map_shape["rectangle"] = [](const Paint *) -> Shape* { return new Rectangle(); };
-  _map_shape["ellipse"] =   [](const Paint *) -> Shape* { return new Ellipse(); };
+  _map_shape["rectangle"] = [](const Paint *) -> Shape* { return new class Rectangle(); };
+  _map_shape["ellipse"] =   [](const Paint *) -> Shape* { return new class Ellipse(); };
   _map_shape["text"] =      [](const Paint *paint) -> Shape* { return static_cast<Shape*>(paint->compTextWrapper()->create()); };
   _map_shape["image"] =     [](const Paint *paint) -> Shape* { return static_cast<Shape*>(paint->compImageWrapper()->create()); };
 }

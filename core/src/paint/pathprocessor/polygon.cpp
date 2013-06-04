@@ -5,6 +5,7 @@
  */
 
 #include <cmath>
+#include "defs.h"
 #include "utils.h"
 #include "polygon.h"
 

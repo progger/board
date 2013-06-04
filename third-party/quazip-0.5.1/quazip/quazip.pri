@@ -1,5 +1,6 @@
 INCLUDEPATH += $$PWD
 DEPENDPATH += $$PWD
+DEFINES += QUAZIP_STATIC
 HEADERS += $$PWD/crypt.h \
            $$PWD/ioapi.h \
            $$PWD/JlCompress.h \

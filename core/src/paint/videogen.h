@@ -4,22 +4,20 @@
  * See the LICENSE file for terms of use.
  */
 
-#ifndef IMAGEGEN_H
-#define IMAGEGEN_H
+#ifndef VIDEOGEN_H
+#define VIDEOGEN_H
 
-#include <memory>
 #include "shapegen.h"
 
-class ImageGen : public ShapeGen
+class VideoGen : public ShapeGen
 {
 public:
-  explicit ImageGen(SheetCanvas *canvas);
+  explicit VideoGen(SheetCanvas *canvas);
   virtual void begin(const QPointF &p) override;
   virtual void end(const QPointF &p) override;
   virtual void move(const QPointF &p) override;
 private:
-  QSize _image_size;
-  QString _image_hash;
+  QString _video_source;
 };
 
-#endif // IMAGEGEN_H
+#endif // VIDEOGEN_H

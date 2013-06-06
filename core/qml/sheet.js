@@ -13,5 +13,7 @@ var cursors = {
     "circle": Qt.CrossCursor,
     "ellipse": Qt.CrossCursor,
     "text": Qt.IBeamCursor,
-    "move": Qt.OpenHandCursor
+    "move": Qt.OpenHandCursor,
+    "image": Qt.ArrowCursor,
+    "video": Qt.ArrowCursor
 };

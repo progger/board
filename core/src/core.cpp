@@ -17,6 +17,7 @@
 #include "paint/sheetcanvas.h"
 #include "paint/textwrapper.h"
 #include "paint/imagewrapper.h"
+#include "paint/videoplayer.h"
 #include "global.h"
 #include "core.h"
 
@@ -55,6 +56,7 @@ Core::Core(QQuickView *parent) :
   qmlRegisterType<SheetCanvas>("board.core.paint", 1, 0, "SheetCanvas");
   qmlRegisterType<TextWrapper>("board.core.paint", 1, 0, "TextWrapper");
   qmlRegisterType<ImageWrapper>("board.core.paint", 1, 0, "ImageWrapper");
+  qmlRegisterType<VideoPlayer>("board.core.paint", 1, 0, "VideoPlayer");
 
   _paint = new Paint(this);
   auto context = parent->rootContext();
@@ -78,6 +80,7 @@ QQmlComponent *Core::getComponent(const QString &urlString)
     QQuickView *view = qobject_cast<QQuickView*>(parent());
     Q_ASSERT(view);
     QQmlComponent *component = new QQmlComponent(view->engine(), QUrl(urlString), this);
+    Q_ASSERT(component->isReady());
     _map_componenet[urlString] = component;
     return component;
   }

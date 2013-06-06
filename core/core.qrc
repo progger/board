@@ -14,6 +14,7 @@
         <file>qml/Style.qml</file>
         <file>qml/TextWrapper.qml</file>
         <file>qml/ToolBar.qml</file>
+        <file>qml/VideoPlayer.qml</file>
         <file>res/backspace.svg</file>
         <file>res/back.svg</file>
         <file>res/circle.svg</file>
@@ -34,15 +35,19 @@
         <file>res/minimize.svg</file>
         <file>res/move.svg</file>
         <file>res/open.svg</file>
+        <file>res/pause.svg</file>
         <file>res/pen.svg</file>
+        <file>res/play.svg</file>
         <file>res/rectangle.svg</file>
         <file>res/redo.svg</file>
         <file>res/right_arrow.svg</file>
         <file>res/save.svg</file>
         <file>res/select.svg</file>
+        <file>res/stop.svg</file>
         <file>res/text.svg</file>
         <file>res/thickness.svg</file>
         <file>res/undo.svg</file>
         <file>res/up_arrow.svg</file>
+        <file>res/video.svg</file>
     </qresource>
 </RCC>

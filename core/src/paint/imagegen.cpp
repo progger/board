@@ -40,6 +40,6 @@ void ImageGen::end(const QPointF &p)
 
 void ImageGen::move(const QPointF &p)
 {
-  _item->setPosition(QPointF(p.x() - _image_size.width() / 2,
-                             p.y() - _image_size.height() / 2));
+  _item->setPosition(QPointF(p.x() - _item->width() / 2,
+                             p.y() - _item->height() / 2));
 }

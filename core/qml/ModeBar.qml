@@ -76,6 +76,18 @@ Rectangle {
             border.width: 2
             width: buttonSize
             height: buttonSize
+            image: "qrc:/core/res/video.svg"
+            toggled: Paint.mode == "video"
+            onClicked: Paint.selectVideo()
+        }
+
+        Button {
+            anchors.horizontalCenter: parent.horizontalCenter
+            style: modeBar.style.normalButton
+            border.color: "silver"
+            border.width: 2
+            width: buttonSize
+            height: buttonSize
             image: "qrc:/core/res/undo.svg"
             enabled: Paint.canUndo
             onClicked: Paint.undo()

@@ -42,10 +42,12 @@ public:
   bool canRedo() const { return _can_redo; }
   QSize imageSize() const { return _image_size; }
   QString imageHash() const { return _image_hash; }
+  QString videoSource() const { return _video_source; }
   std::shared_ptr<ShapeGen> createShapeGen(SheetCanvas *canvas) const;
   Shape *createShape(const QString &name) const;
   QQmlComponent *compTextWrapper() const { return _comp_text_wrapper; }
   QQmlComponent *compImageWrapper() const { return _comp_image_wrapper; }
+  QQmlComponent *compVideoPlayer() const { return _comp_video_player; }
 signals:
   void modeChanged();
   void thicknessChanged();
@@ -68,6 +70,7 @@ public slots:
   void setCanUndo(bool can_undo);
   void setCanRedo(bool can_redo);
   void selectImage();
+  void selectVideo();
 private:
   QString _mode;
   float _thickness;
@@ -78,10 +81,12 @@ private:
   bool _can_redo;
   QSize _image_size;
   QString _image_hash;
+  QString _video_source;
   std::map<QString, std::shared_ptr<ShapeGen>(*)(SheetCanvas *)> _map_shape_gen;
   std::map<QString, Shape *(*)(const Paint *)> _map_shape;
   QQmlComponent *_comp_text_wrapper;
   QQmlComponent *_comp_image_wrapper;
+  QQmlComponent *_comp_video_player;
 };
 
 #endif // PAINT_H

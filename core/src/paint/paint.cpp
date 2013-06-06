@@ -19,12 +19,14 @@
 #include "textgen.h"
 #include "movegen.h"
 #include "imagegen.h"
+#include "videogen.h"
 #include "pen.h"
 #include "line.h"
 #include "rectangle.h"
 #include "ellipse.h"
 #include "textwrapper.h"
 #include "imagewrapper.h"
+#include "videoplayer.h"
 #include "paint.h"
 
 using namespace std;
@@ -38,12 +40,15 @@ Paint::Paint(Core *parent) :
   _selected(false),
   _can_undo(false),
   _can_redo(false),
+  _image_size(),
   _image_hash(),
+  _video_source(),
   _map_shape_gen(),
   _map_shape()
 {
   _comp_text_wrapper = parent->getComponent("qrc:/core/qml/TextWrapper.qml");
   _comp_image_wrapper = parent->getComponent("qrc:/core/qml/ImageWrapper.qml");
+  _comp_video_player = parent->getComponent("qrc:/core/qml/VideoPlayer.qml");
 
   _map_shape_gen["select"] =    [](SheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<SelectGen>(canvas); };
   _map_shape_gen["pen"] =       [](SheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<PenGen>(canvas); };
@@ -55,6 +60,7 @@ Paint::Paint(Core *parent) :
   _map_shape_gen["text"] =      [](SheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<TextGen>(canvas); };
   _map_shape_gen["move"] =      [](SheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<MoveGen>(canvas); };
   _map_shape_gen["image"] =     [](SheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<ImageGen>(canvas); };
+  _map_shape_gen["video"] =     [](SheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<VideoGen>(canvas); };
 
   _map_shape["pen"] =       [](const Paint *paint) -> Shape* { return new Pen(paint->core()); };
   _map_shape["line"] =      [](const Paint *) -> Shape* { return new Line(); };
@@ -62,6 +68,7 @@ Paint::Paint(Core *parent) :
   _map_shape["ellipse"] =   [](const Paint *) -> Shape* { return new class Ellipse(); };
   _map_shape["text"] =      [](const Paint *paint) -> Shape* { return static_cast<Shape*>(paint->compTextWrapper()->create()); };
   _map_shape["image"] =     [](const Paint *paint) -> Shape* { return static_cast<Shape*>(paint->compImageWrapper()->create()); };
+  _map_shape["video"] =     [](const Paint *paint) -> Shape* { return static_cast<Shape*>(paint->compVideoPlayer()->create()); };
 }
 
 Core *Paint::core() const
@@ -141,4 +148,15 @@ void Paint::selectImage()
   core()->brdStore()->setObject(obj);
 
   setMode("image");
+}
+
+void Paint::selectVideo()
+{
+  QFileDialog dialog;
+  dialog.setAcceptMode(QFileDialog::AcceptOpen);
+  //dialog.setNameFilter("Video files (*.avi)");  //TODO
+  if (!dialog.exec()) return;
+  QString file_name = dialog.selectedFiles().first();
+  _video_source = "file:///" + file_name;
+  setMode("video");
 }

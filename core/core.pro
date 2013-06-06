@@ -21,6 +21,7 @@ SOURCES += \
     src/brd/brdreply.cpp \
     src/brd/brdstore.cpp \
     src/core.cpp \
+    src/global.cpp \
     src/main.cpp \
     src/mainview.cpp \
     src/paint/circlegen.cpp \
@@ -49,8 +50,9 @@ SOURCES += \
     src/paint/sheetcanvas.cpp \
     src/paint/textgen.cpp \
     src/paint/textwrapper.cpp \
-    src/str_stack/strstack.cpp \
-    src/global.cpp
+    src/paint/videogen.cpp \
+    src/paint/videoplayer.cpp \
+    src/str_stack/strstack.cpp
 
 HEADERS += \
     src/brd/brdnetworkaccessmanager.h \
@@ -58,6 +60,7 @@ HEADERS += \
     src/brd/brdreply.h \
     src/brd/brdstore.h \
     src/core.h \
+    src/global.h \
     src/mainview.h \
     src/paint/circlegen.h \
     src/paint/ellipse.h \
@@ -87,8 +90,9 @@ HEADERS += \
     src/paint/sheetcanvas.h \
     src/paint/textgen.h \
     src/paint/textwrapper.h \
-    src/str_stack/strstack.h \
-    src/global.h
+    src/paint/videogen.h \
+    src/paint/videoplayer.h \
+    src/str_stack/strstack.h
 
 OTHER_FILES += \
     qml/Board.qml \
@@ -105,6 +109,7 @@ OTHER_FILES += \
     qml/Style.qml \
     qml/TextWrapper.qml \
     qml/ToolBar.qml \
+    qml/VideoPlayer.qml \
     res/backspace.svg \
     res/back.svg \
     res/circle.svg \
@@ -125,15 +130,19 @@ OTHER_FILES += \
     res/minimize.svg \
     res/move.svg \
     res/open.svg \
+    res/pause.svg \
     res/pen.svg \
+    res/play.svg \
     res/rectangle.svg \
     res/redo.svg \
     res/right_arrow.svg \
     res/save.svg \
     res/select.svg \
+    res/stop.svg \
     res/text.svg \
     res/thickness.svg \
     res/undo.svg \
-    res/up_arrow.svg
+    res/up_arrow.svg \
+    res/video.svg
 
 RESOURCES += core.qrc

@@ -23,9 +23,10 @@ Rectangle {
             id: tab
 
             Item {
+                id: item
                 width: height
                 height: toolBar.height
-                ListView.onIsCurrentItemChanged: modelData.visible = ListView.isCurrentItem
+                ListView.onCurrentItemChanged: modelData.visible = ListView.isCurrentItem
 
                 Text {
                     anchors.centerIn: parent
@@ -35,7 +36,17 @@ Rectangle {
 
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: listView.currentIndex = index
+                    acceptedButtons: Qt.LeftButton | Qt.RightButton
+                    onClicked: clickedFunc(mouse)
+
+                    function clickedFunc(mouse) {
+                        listView.currentIndex = index;
+                        if (mouse.button === Qt.RightButton) {
+                            sheetMenu.x = mouse.x + item.x - 4;
+                            sheetMenu.y = mouse.y - 4;
+                            sheetMenu.enabled = true;
+                        }
+                    }
                 }
             }
         }
@@ -48,6 +59,38 @@ Rectangle {
             delegate: tab
             highlight: Rectangle { color: "blue" }
             clip: true
+        }
+
+        PopupMenu {
+            id: sheetMenu
+            z: 1
+            items: [
+                QtObject {
+                    property string name: "Добавить перед"
+                    function onClicked() {
+                        var index = listView.currentIndex;
+                        Core.insertSheet(index);
+                        listView.currentIndex = index + 1;
+                        sheetMenu.enabled = false;
+                    }
+                },
+                QtObject {
+                    property string name: "Добавить после"
+                    function onClicked() {
+                        var index = listView.currentIndex;
+                        Core.insertSheet(index + 1);
+                        listView.currentIndex = index;
+                        sheetMenu.enabled = false;
+                    }
+                },
+                QtObject {
+                    property string name: "Удалить"
+                    function onClicked() {
+                        Core.deleteSheet(listView.currentIndex);
+                        sheetMenu.enabled = false;
+                    }
+                }
+            ]
         }
     }
 

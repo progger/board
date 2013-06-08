@@ -101,6 +101,7 @@ OTHER_FILES += \
     qml/keyboard.js \
     qml/Keyboard.qml \
     qml/ModeBar.qml \
+    qml/PopupMenu.qml \
     qml/ScrollBar.qml \
     qml/ScrollButton.qml \
     qml/sheet.js \

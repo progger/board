@@ -165,6 +165,21 @@ void Core::openBook(const QString &file_name)
   emit sheetsChanged();
 }
 
+void Core::insertSheet(int index)
+{
+  QQuickItem *sheet = createSheet();
+  _sheets.insert(_sheets.begin() + index, sheet);
+  emit sheetsChanged();
+}
+
+void Core::deleteSheet(int index)
+{
+  QQuickItem *sheet = _sheets[index];
+  sheet->deleteLater();
+  _sheets.erase(_sheets.begin() + index);
+  emit sheetsChanged();
+}
+
 void Core::onMainViewStatusChanged(QQuickView::Status status)
 {
   if (status == QQuickView::Loading) return;
@@ -182,20 +197,20 @@ void Core::onMainViewStatusChanged(QQuickView::Status status)
   {
     for (int i = 0; i < 5; ++i)
     {
-      addSheet();
+      QQuickItem *sheet = createSheet();
+      _sheets.push_back(sheet);
     }
   }
   emit sheetsChanged();
 }
 
-QQuickItem *Core::addSheet()
+QQuickItem *Core::createSheet()
 {
   QQuickItem *sheet = qobject_cast<QQuickItem*>(_comp_sheet->create());
   Q_ASSERT(sheet);
   sheet->setParent(_sheet_place);
   sheet->setVisible(false);
   sheet->setParentItem(_sheet_place);
-  _sheets.push_back(sheet);
   return sheet;
 }
 
@@ -273,7 +288,8 @@ void Core::openBookFiles(QuaZip *zip)
   while (reader.readNextStartElement())
   {
     if (reader.name() != "sheet") goto error;
-    QQuickItem *sheet = addSheet();
+    QQuickItem *sheet = createSheet();
+    _sheets.push_back(sheet);
     SheetCanvas *canvas = sheet->findChild<SheetCanvas*>("sheetCanvas");
     Q_ASSERT(canvas);
     canvas->deserializeSheet(&reader);

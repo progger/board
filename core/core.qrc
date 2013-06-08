@@ -6,6 +6,7 @@
         <file>qml/keyboard.js</file>
         <file>qml/Keyboard.qml</file>
         <file>qml/ModeBar.qml</file>
+        <file>qml/PopupMenu.qml</file>
         <file>qml/ScrollBar.qml</file>
         <file>qml/ScrollButton.qml</file>
         <file>qml/sheet.js</file>

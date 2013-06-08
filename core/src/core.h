@@ -55,6 +55,8 @@ public slots:
   void saveBook(const QString &file_name);
   void openBook();
   void openBook(const QString &file_name);
+  void insertSheet(int index);
+  void deleteSheet(int index);
 private slots:
   void onMainViewStatusChanged(QQuickView::Status status);
 private:
@@ -68,7 +70,7 @@ private:
   QQmlComponent *_comp_sheet;
   QQuickItem *_sheet_place;
   std::vector<QQuickItem*> _sheets;
-  QQuickItem *addSheet();
+  QQuickItem *createSheet();
   void saveBookFiles(QuaZip *zip);
   void openBookFiles(QuaZip *zip);
 };

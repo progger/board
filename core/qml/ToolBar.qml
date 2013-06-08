@@ -59,6 +59,7 @@ Rectangle {
             delegate: tab
             highlight: Rectangle { color: "blue" }
             clip: true
+            onCurrentIndexChanged: Core.sheetIndex = currentIndex
         }
 
         PopupMenu {

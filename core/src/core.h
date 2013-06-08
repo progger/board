@@ -26,13 +26,17 @@ class Core : public QObject, public ICore
   Q_INTERFACES(ICore)
   Q_PROPERTY(bool keyboard READ keyboard WRITE setKeyboard NOTIFY keyboardChanged FINAL)
   Q_PROPERTY(bool transparent READ transparent WRITE setTransparent NOTIFY transparentChanged FINAL)
+  Q_PROPERTY(int sheetIndex READ sheetIndex WRITE setSheetIndex NOTIFY sheetIndexChanged FINAL)
   Q_PROPERTY(Paint paint READ paint CONSTANT FINAL)
   Q_PROPERTY(QQmlListProperty<QQuickItem> sheets READ sheetsProperty NOTIFY sheetsChanged FINAL)
 public:
   explicit Core(QQuickView *parent = 0);
-  QObject *mainView() { return parent(); }
-  QDir rootDir() { return _root_dir; }
-  QSettings *settings() { return _settings; }
+  virtual QObject *mainView() override { return parent(); }
+  virtual QDir rootDir() override { return _root_dir; }
+  virtual QSettings *settings() override { return _settings; }
+  virtual int sheetsCount() override;
+  virtual int sheetIndex() override { return _sheet_index; }
+  virtual QQuickItem *sheet(int index) override;
   void showError(const QString &error);
   bool keyboard() const { return _keyboard; }
   bool transparent() const { return _transparent; }
@@ -44,10 +48,12 @@ public:
 signals:
   void keyboardChanged();
   void transparentChanged();
+  void sheetIndexChanged();
   void sheetsChanged();
 public slots:
   void setKeyboard(bool keyboard);
   void setTransparent(bool transparent);
+  void setSheetIndex(int index);
   void emulateKeyPress(int key, int modifiers, const QString & text = "") const;
   void quitButton();
   void minimizeButton();
@@ -62,6 +68,7 @@ private slots:
 private:
   bool _keyboard;
   bool _transparent;
+  int _sheet_index;
   QDir _root_dir;
   QSettings *_settings;
   BrdStore *_brdStore;

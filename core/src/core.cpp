@@ -67,6 +67,16 @@ Core::Core(QQuickView *parent) :
   connect(parent, SIGNAL(statusChanged(QQuickView::Status)), SLOT(onMainViewStatusChanged(QQuickView::Status)));
 }
 
+int Core::sheetsCount()
+{
+  return _sheets.size();
+}
+
+QQuickItem *Core::sheet(int index)
+{
+  return _sheets[index];
+}
+
 void Core::showError(const QString &error)
 {
   QMessageBox::critical(nullptr, "Error", error);
@@ -309,4 +319,10 @@ void Core::setTransparent(bool transparent)
 {
   _transparent = transparent;
   emit transparentChanged();
+}
+
+void Core::setSheetIndex(int index)
+{
+  _sheet_index = index;
+  emit sheetIndexChanged();
 }

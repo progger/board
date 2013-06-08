@@ -15,8 +15,9 @@ Rectangle {
     Item {
         anchors.left: parent.left
         anchors.top: parent.top
+        anchors.right: saveBookButton.left
         anchors.bottom: parent.bottom
-        width: parent.width / 3
+        anchors.rightMargin: 12
 
         Component {
             id: tab
@@ -50,116 +51,116 @@ Rectangle {
         }
     }
 
-    Row {
+    Button {
+        id: saveBookButton
+        style: board.style.normalButton
+        anchors.right: openBookButton.left
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.rightMargin: 4
+        width: buttonSize
+        height: buttonSize
+        image: "qrc:/core/res/save.svg"
+        onClicked: Core.saveBook()
+    }
+
+    Button {
+        id: openBookButton
+        style: board.style.normalButton
+        anchors.right: thicknessImage.left
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.rightMargin: 12
+        width: buttonSize
+        height: buttonSize
+        image: "qrc:/core/res/open.svg"
+        onClicked: Core.openBook()
+    }
+
+    Image {
+        id: thicknessImage
+        anchors.right: thicknessSpinBox.left
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.rightMargin: 4
+        height: buttonSize
+        width: buttonSize
+        source: "qrc:/core/res/thickness.svg"
+        smooth: true
+    }
+
+    SpinBox {
+        id: thicknessSpinBox
+        style: toolBar.style
+        anchors.right: fontSizeImage.left
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.rightMargin: 12
+        width: 60
+        height: buttonSize
+        onValueChanged: Paint.thickness = value
+        step: 1
+        minValue: 1
+        maxValue: 10
+        Component.onCompleted: value = Paint.thickness
+    }
+
+    Image {
+        id: fontSizeImage
+        anchors.right: fontSizeSpinBox.left
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.rightMargin: 4
+        height: buttonSize
+        width: buttonSize
+        source: "qrc:/core/res/font_size.svg"
+        smooth: true
+    }
+
+    SpinBox {
+        id: fontSizeSpinBox
+        style: toolBar.style
+        width: 60
+        anchors.right: transparentButton.left
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.rightMargin: 12
+        height: buttonSize
+        onValueChanged: Paint.fontSize = value
+        step: 2
+        minValue: 10
+        maxValue: 60
+        Component.onCompleted: value = Paint.fontSize
+    }
+
+    Button {
+        id: transparentButton
+        style: board.style.normalButton
+        anchors.right: minimizeButton.left
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.rightMargin: 4
+        width: buttonSize
+        height: buttonSize
+        image: "qrc:/core/res/desktop.svg"
+        toggled: Core.transparent
+        onClicked: Core.transparent = !Core.transparent
+    }
+
+    Button {
+        id: minimizeButton
+        style: board.style.minimizeButton
+        anchors.right: closeButton.left
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.rightMargin: 4
+        width: buttonSize
+        height: buttonSize
+        image: "qrc:/core/res/minimize.svg"
+        onClicked: Core.minimizeButton()
+    }
+
+    Button {
+        id: closeButton
+        style: board.style.closeButton
         anchors.right: parent.right
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        spacing: 4
-
-        Button {
-            style: board.style.normalButton
-            anchors.verticalCenter: parent.verticalCenter
-            width: buttonSize
-            height: buttonSize
-            image: "qrc:/core/res/save.svg"
-            onClicked: Core.saveBook()
-        }
-
-        Button {
-            style: board.style.normalButton
-            anchors.verticalCenter: parent.verticalCenter
-            width: buttonSize
-            height: buttonSize
-            image: "qrc:/core/res/open.svg"
-            onClicked: Core.openBook()
-        }
-
-        Item {
-            width: 8
-            height: parent.height
-        }
-
-        Image {
-            anchors.verticalCenter: parent.verticalCenter
-            height: buttonSize
-            width: buttonSize
-            source: "qrc:/core/res/thickness.svg"
-            smooth: true
-        }
-
-        SpinBox {
-            style: toolBar.style
-            anchors.verticalCenter: parent.verticalCenter
-            width: 60
-            height: buttonSize
-            onValueChanged: Paint.thickness = value
-            step: 1
-            minValue: 1
-            maxValue: 10
-            Component.onCompleted: value = Paint.thickness
-        }
-
-        Item {
-            width: 8
-            height: parent.height
-        }
-
-        Image {
-            anchors.verticalCenter: parent.verticalCenter
-            height: buttonSize
-            width: buttonSize
-            source: "qrc:/core/res/font_size.svg"
-            smooth: true
-        }
-
-        SpinBox {
-            style: toolBar.style
-            width: 60
-            anchors.verticalCenter: parent.verticalCenter
-            height: buttonSize
-            onValueChanged: Paint.fontSize = value
-            step: 2
-            minValue: 10
-            maxValue: 60
-            Component.onCompleted: value = Paint.fontSize
-        }
-
-        Item {
-            width: 8
-            height: parent.height
-        }
-
-        Button {
-            style: board.style.normalButton
-            anchors.verticalCenter: parent.verticalCenter
-            width: buttonSize
-            height: buttonSize
-            image: "qrc:/core/res/desktop.svg"
-            toggled: Core.transparent
-            onClicked: Core.transparent = !Core.transparent
-        }
-
-        Button {
-            style: board.style.minimizeButton
-            anchors.verticalCenter: parent.verticalCenter
-            width: buttonSize
-            height: buttonSize
-            image: "qrc:/core/res/minimize.svg"
-            onClicked: Core.minimizeButton()
-        }
-
-        Button {
-            style: board.style.closeButton
-            anchors.verticalCenter: parent.verticalCenter
-            width: buttonSize
-            height: buttonSize
-            image: "qrc:/core/res/close.svg"
-            onClicked: Core.quitButton()
-        }
-
-        Item {
-            width: 1
-            height: parent.height
-        }
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.rightMargin: 6
+        width: buttonSize
+        height: buttonSize
+        image: "qrc:/core/res/close.svg"
+        onClicked: Core.quitButton()
     }
 }

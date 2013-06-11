@@ -47,6 +47,7 @@ SOURCES += \
     src/paint/selectgen.cpp \
     src/paint/shape.cpp \
     src/paint/shapegen.cpp \
+    src/paint/sheet.cpp \
     src/paint/sheetcanvas.cpp \
     src/paint/textgen.cpp \
     src/paint/textwrapper.cpp \
@@ -87,6 +88,7 @@ HEADERS += \
     src/paint/selectgen.h \
     src/paint/shape.h \
     src/paint/shapegen.h \
+    src/paint/sheet.h \
     src/paint/sheetcanvas.h \
     src/paint/textgen.h \
     src/paint/textwrapper.h \

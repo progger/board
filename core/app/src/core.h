@@ -15,6 +15,7 @@
 #include <QSettings>
 #include <QQmlListProperty>
 #include "quazip.h"
+#include "paint/sheet.h"
 #include "icore.h"
 
 class BrdStore;
@@ -43,7 +44,7 @@ public:
   BrdStore *brdStore() const { return _brdStore; }
   Paint *paint() const { return _paint; }
   QQmlComponent *getComponent(const QString &urlString);
-  std::vector<QQuickItem*> *sheets() { return &_sheets; }
+  std::vector<Sheet*> *sheets() { return &_sheets; }
   QQmlListProperty<QQuickItem> sheetsProperty();
 signals:
   void keyboardChanged();
@@ -76,8 +77,8 @@ private:
   std::map<QString, QQmlComponent*> _map_componenet;
   QQmlComponent *_comp_sheet;
   QQuickItem *_sheet_place;
-  std::vector<QQuickItem*> _sheets;
-  QQuickItem *createSheet();
+  std::vector<Sheet*> _sheets;
+  Sheet *createSheet();
   void saveBookFiles(QuaZip *zip);
   void openBookFiles(QuaZip *zip);
 };

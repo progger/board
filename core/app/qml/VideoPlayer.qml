@@ -1,6 +1,12 @@
+/*
+ * Copyright (C) 2012 Kulabuhov Michail, Kemerovo, Russia.
+ *
+ * See the LICENSE file for terms of use.
+ */
+
 import QtQuick 2.0
 import QtMultimedia 5.0
-import board.core.paint 1.0
+import board.core.paint 2.0
 
 VideoPlayer {
     id: videoPlayer

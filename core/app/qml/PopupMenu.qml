@@ -1,3 +1,9 @@
+/*
+ * Copyright (C) 2012 Kulabuhov Michail, Kemerovo, Russia.
+ *
+ * See the LICENSE file for terms of use.
+ */
+
 import QtQuick 2.0
 
 Rectangle {

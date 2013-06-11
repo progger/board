@@ -1,1 +1,1 @@
-find . -regex '.*\.\(h\|\cpp\|qml\|js\)' -exec grep --files-without-match 'Copyright' {} \; | grep -v build
+find . -regex '.*\.\(h\|\cpp\|qml\|js\)' -exec grep --files-without-match 'Copyright' {} \; | grep -v build | grep -v third-party

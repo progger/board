@@ -53,10 +53,11 @@ Core::Core(QQuickView *parent) :
   parent->engine()->setNetworkAccessManagerFactory(new BrdNetworkAccessManagerFactory(_brdStore, this));
   qmlRegisterType<Core>();
   qmlRegisterType<Paint>();
-  qmlRegisterType<SheetCanvas>("board.core.paint", 1, 0, "SheetCanvas");
-  qmlRegisterType<TextWrapper>("board.core.paint", 1, 0, "TextWrapper");
-  qmlRegisterType<ImageWrapper>("board.core.paint", 1, 0, "ImageWrapper");
-  qmlRegisterType<VideoPlayer>("board.core.paint", 1, 0, "VideoPlayer");
+  qmlRegisterType<Sheet>("board.core.paint", 2, 0, "Sheet");
+  qmlRegisterType<SheetCanvas>("board.core.paint", 2, 0, "SheetCanvas");
+  qmlRegisterType<TextWrapper>("board.core.paint", 2, 0, "TextWrapper");
+  qmlRegisterType<ImageWrapper>("board.core.paint", 2, 0, "ImageWrapper");
+  qmlRegisterType<VideoPlayer>("board.core.paint", 2, 0, "VideoPlayer");
 
   _paint = new Paint(this);
   auto context = parent->rootContext();
@@ -177,7 +178,7 @@ void Core::openBook(const QString &file_name)
 
 void Core::insertSheet(int index)
 {
-  QQuickItem *sheet = createSheet();
+  Sheet *sheet = createSheet();
   _sheets.insert(_sheets.begin() + index, sheet);
   emit sheetsChanged();
 }
@@ -207,16 +208,16 @@ void Core::onMainViewStatusChanged(QQuickView::Status status)
   {
     for (int i = 0; i < 5; ++i)
     {
-      QQuickItem *sheet = createSheet();
+      Sheet *sheet = createSheet();
       _sheets.push_back(sheet);
     }
   }
   emit sheetsChanged();
 }
 
-QQuickItem *Core::createSheet()
+Sheet *Core::createSheet()
 {
-  QQuickItem *sheet = qobject_cast<QQuickItem*>(_comp_sheet->create());
+  Sheet *sheet = qobject_cast<Sheet*>(_comp_sheet->create());
   Q_ASSERT(sheet);
   sheet->setParent(_sheet_place);
   sheet->setVisible(false);
@@ -238,9 +239,9 @@ void Core::saveBookFiles(QuaZip *zip)
   writer.writeStartElement("book");
   writer.writeAttribute("version", "1.0");
   writer.writeStartElement("sheets");
-  for (QQuickItem *sheet : _sheets)
+  for (Sheet *sheet : _sheets)
   {
-    SheetCanvas *canvas = sheet->findChild<SheetCanvas*>("sheetCanvas");
+    SheetCanvas *canvas = sheet->sheetCanvas();;
     Q_ASSERT(canvas);
     canvas->serializeSheet(&writer, &brd_objects);
   }
@@ -298,9 +299,9 @@ void Core::openBookFiles(QuaZip *zip)
   while (reader.readNextStartElement())
   {
     if (reader.name() != "sheet") goto error;
-    QQuickItem *sheet = createSheet();
+    Sheet *sheet = createSheet();
     _sheets.push_back(sheet);
-    SheetCanvas *canvas = sheet->findChild<SheetCanvas*>("sheetCanvas");
+    SheetCanvas *canvas = sheet->sheetCanvas();
     Q_ASSERT(canvas);
     canvas->deserializeSheet(&reader);
   }

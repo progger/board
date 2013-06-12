@@ -4,7 +4,7 @@
  * See the LICENSE file for terms of use.
  */
 
-#include "../global.h"
+#include "global.h"
 #include "paint.h"
 #include "sheetcanvas.h"
 #include "videoplayer.h"

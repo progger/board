@@ -6,7 +6,7 @@
 
 #include "QSGGeometryNode"
 #include "QSGFlatColorMaterial"
-#include "../global.h"
+#include "global.h"
 #include "pen.h"
 
 using namespace std;

@@ -6,7 +6,7 @@
 
 #include <QFileDialog>
 #include <QImage>
-#include "../global.h"
+#include "global.h"
 #include "../core.h"
 #include "../brd/brdstore.h"
 #include "shapegen.h"

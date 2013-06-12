@@ -12,14 +12,16 @@
 class ImageWrapper : public Shape
 {
   Q_OBJECT
-  Q_PROPERTY(QString source READ source NOTIFY sourceChanged)
+  Q_PROPERTY(QString hash READ hash WRITE setHash NOTIFY hashChanged)
+  Q_PROPERTY(QString source READ source NOTIFY hashChanged)
 public:
   explicit ImageWrapper(QQuickItem *parent = 0);
+  QString hash() const { return _hash; }
   QString source() const;
 public slots:
   void setHash(const QString &hash);
 signals:
-  void sourceChanged();
+  void hashChanged();
 protected:
   virtual QString elementName() const override;
   virtual void innerSerialize(QXmlStreamWriter *writer, ISheetCanvas *, std::set<QString> *brd_objects) const override;

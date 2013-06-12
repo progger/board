@@ -12,7 +12,7 @@
 class VideoPlayer : public Shape
 {
   Q_OBJECT
-  Q_PROPERTY(QString source READ source NOTIFY sourceChanged)
+  Q_PROPERTY(QString source READ source WRITE setSource NOTIFY sourceChanged)
 public:
   explicit VideoPlayer(QQuickItem *parent = 0);
   QString source() const { return _source; }

@@ -8,7 +8,7 @@
 #define PAINTUTILS_H
 
 #include "isheetcanvas.h"
-#include "../global.h"
+#include "global.h"
 #include "paint.h"
 
 template <class T> T * createItem(ISheetCanvas *canvas, QPointF pos)

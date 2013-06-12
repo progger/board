@@ -4,7 +4,7 @@
  * See the LICENSE file for terms of use.
  */
 
-#include "../global.h"
+#include "global.h"
 #include "sheetcanvas.h"
 #include "paint.h"
 #include "textwrapper.h"

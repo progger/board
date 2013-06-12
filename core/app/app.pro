@@ -3,19 +3,12 @@ QT += core gui widgets qml quick
 TARGET = board
 TEMPLATE = app
 VERSION = 2.0.0
-QMAKE_CXXFLAGS += -std=c++11
 LIBS += -lz
+DESTDIR =  ../../bin
+DEPENDENCY_LIBRARIES = board-common
 
-DESTDIR = ../../bin
-OBJECTS_DIR = ./build
-MOC_DIR = ./build
-RCC_DIR = ./build
-
+include(../../main.pri)
 include(../../third-party/quazip-0.5.1/quazip/quazip.pri)
-
-INCLUDEPATH += \
-    ../../shared \
-    ../../shared/core
 
 SOURCES += \
     src/brd/brdnetworkaccessmanager.cpp \
@@ -23,7 +16,6 @@ SOURCES += \
     src/brd/brdreply.cpp \
     src/brd/brdstore.cpp \
     src/core.cpp \
-    src/global.cpp \
     src/main.cpp \
     src/mainview.cpp \
     src/paint/circlegen.cpp \
@@ -47,8 +39,6 @@ SOURCES += \
     src/paint/rectangle.cpp \
     src/paint/rectanglegen.cpp \
     src/paint/selectgen.cpp \
-    src/paint/shape.cpp \
-    src/paint/shapegen.cpp \
     src/paint/sheet.cpp \
     src/paint/sheetcanvas.cpp \
     src/paint/textgen.cpp \
@@ -63,7 +53,6 @@ HEADERS += \
     src/brd/brdreply.h \
     src/brd/brdstore.h \
     src/core.h \
-    src/global.h \
     src/mainview.h \
     src/paint/circlegen.h \
     src/paint/ellipse.h \
@@ -88,8 +77,6 @@ HEADERS += \
     src/paint/rectangle.h \
     src/paint/rectanglegen.h \
     src/paint/selectgen.h \
-    src/paint/shape.h \
-    src/paint/shapegen.h \
     src/paint/sheet.h \
     src/paint/sheetcanvas.h \
     src/paint/textgen.h \

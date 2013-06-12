@@ -5,7 +5,7 @@
  */
 
 #include <QCursor>
-#include "../global.h"
+#include "global.h"
 #include "../core.h"
 #include "../str_stack/strstack.h"
 #include "paint.h"

@@ -4,7 +4,7 @@
  * See the LICENSE file for terms of use.
  */
 
-#include "../global.h"
+#include "global.h"
 #include "imagewrapper.h"
 
 ImageWrapper::ImageWrapper(QQuickItem *parent) :
@@ -20,7 +20,7 @@ QString ImageWrapper::source() const
 void ImageWrapper::setHash(const QString &hash)
 {
   _hash = hash;
-  emit sourceChanged();
+  emit hashChanged();
 }
 
 QString ImageWrapper::elementName() const

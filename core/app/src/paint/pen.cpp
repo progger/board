@@ -6,15 +6,13 @@
 
 #include "QSGGeometryNode"
 #include "QSGFlatColorMaterial"
-#include "../core.h"
-#include "../brd/brdstore.h"
+#include "../global.h"
 #include "pen.h"
 
 using namespace std;
 
-Pen::Pen(Core *core, QQuickItem *parent, float thinkness, QColor color) :
+Pen::Pen(QQuickItem *parent, float thinkness, QColor color) :
   Shape(parent, thinkness, color),
-  _core(core),
   _points(),
   _hash()
 {
@@ -29,7 +27,7 @@ void Pen::savePoints()
   {
     stream << point.x() << point.y();
   }
-  _hash = _core->brdStore()->addObject(data);
+  _hash = g_core->brdStore()->addObject(data);
 }
 
 QSGNode *Pen::updatePaintNode(QSGNode *old_node, QQuickItem::UpdatePaintNodeData *)
@@ -86,18 +84,18 @@ QString Pen::elementName() const
   return "pen";
 }
 
-void Pen::innerSerialize(QXmlStreamWriter *writer, SheetCanvas *, std::set<QString> *brd_objects) const
+void Pen::innerSerialize(QXmlStreamWriter *writer, ISheetCanvas *, std::set<QString> *brd_objects) const
 {
   writer->writeAttribute("hash", _hash);
   if (brd_objects) brd_objects->insert(_hash);
 }
 
-void Pen::innerDeserialize(QXmlStreamReader *reader, SheetCanvas *)
+void Pen::innerDeserialize(QXmlStreamReader *reader, ISheetCanvas *)
 {
   _points.clear();
   _hash = reader->attributes().value("hash").toString();
-  auto obj = _core->brdStore()->getObject(_hash);
-  QDataStream stream(obj->data());
+  QByteArray data = g_core->brdStore()->getObject(_hash);
+  QDataStream stream(data);
   while (!stream.atEnd())
   {
     qreal x, y;

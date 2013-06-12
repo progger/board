@@ -4,12 +4,11 @@
  * See the LICENSE file for terms of use.
  */
 
-#include "sheetcanvas.h"
 #include "paintutils.h"
 #include "rectangle.h"
 #include "rectanglegen.h"
 
-RectangleGen::RectangleGen(SheetCanvas *canvas) :
+RectangleGen::RectangleGen(ISheetCanvas *canvas) :
   ShapeGen(canvas)
 {
 }

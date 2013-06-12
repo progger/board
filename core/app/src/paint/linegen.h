@@ -12,7 +12,7 @@
 class LineGen : public ShapeGen
 {
 public:
-  explicit LineGen(SheetCanvas *canvas);
+  explicit LineGen(ISheetCanvas *canvas);
   virtual void begin(const QPointF &p) override;
   virtual void move(const QPointF &p) override;
 };

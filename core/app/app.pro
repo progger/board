@@ -13,7 +13,9 @@ RCC_DIR = ./build
 
 include(../../third-party/quazip-0.5.1/quazip/quazip.pri)
 
-INCLUDEPATH += ../../shared
+INCLUDEPATH += \
+    ../../shared \
+    ../../shared/core
 
 SOURCES += \
     src/brd/brdnetworkaccessmanager.cpp \

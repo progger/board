@@ -12,7 +12,7 @@
 class RectangleGen : public ShapeGen
 {
 public:
-  explicit RectangleGen(SheetCanvas *canvas);
+  explicit RectangleGen(ISheetCanvas *canvas);
   virtual void begin(const QPointF &p) override;
 };
 

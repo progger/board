@@ -9,17 +9,23 @@
 
 #include <QQuickItem>
 #include "sheetcanvas.h"
+#include "isheet.h"
 
-class Sheet : public QQuickItem
+class Sheet : public QQuickItem, public ISheet
 {
   Q_OBJECT
+  Q_INTERFACES(ISheet)
 public:
   explicit Sheet(QQuickItem *parent = 0);
-  SheetCanvas *sheetCanvas() { return _sheet_canvas; }
+
+  // ISheet
+  virtual ISheetCanvas *canvas() override;
+
+  SheetCanvas *canvasObj() { return _canvas; }
 protected:
   virtual void componentComplete() override;
 private:
-  SheetCanvas *_sheet_canvas;
+  SheetCanvas *_canvas;
 };
 
 #endif // SHEET_H

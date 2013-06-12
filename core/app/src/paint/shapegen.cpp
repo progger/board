@@ -4,19 +4,12 @@
  * See the LICENSE file for terms of use.
  */
 
-#include "sheetcanvas.h"
-#include "paint.h"
 #include "shape.h"
 #include "shapegen.h"
 
-ShapeGen::ShapeGen(SheetCanvas *canvas) :
+ShapeGen::ShapeGen(ISheetCanvas *canvas) :
   _canvas(canvas)
 {
-}
-
-Paint *ShapeGen::paint() const
-{
-  return _canvas->paint();
 }
 
 void ShapeGen::begin(const QPointF &p)

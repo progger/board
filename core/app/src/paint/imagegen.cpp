@@ -4,6 +4,7 @@
  * See the LICENSE file for terms of use.
  */
 
+#include "../global.h"
 #include "paint.h"
 #include "sheetcanvas.h"
 #include "imagewrapper.h"
@@ -11,16 +12,17 @@
 
 using namespace std;
 
-ImageGen::ImageGen(SheetCanvas *canvas) :
+ImageGen::ImageGen(ISheetCanvas *canvas) :
   ShapeGen(canvas)
 {
-  _image_size = canvas->paint()->imageSize();
-  _image_hash = canvas->paint()->imageHash();
+  SheetCanvas *canvas_obj = static_cast<SheetCanvas*>(canvas);
+  _image_size = canvas_obj->paintObj()->imageSize();
+  _image_hash = canvas_obj->paintObj()->imageHash();
 }
 
 void ImageGen::begin(const QPointF &p)
 {
-  QObject *obj = _canvas->paint()->compImageWrapper()->create();
+  QObject *obj = g_core->getComponent("qrc:/core/qml/ImageWrapper.qml")->create();
   ImageWrapper *image = qobject_cast<ImageWrapper*>(obj);
   Q_ASSERT(image);
   image->setParent(_canvas->container());
@@ -35,7 +37,7 @@ void ImageGen::begin(const QPointF &p)
 void ImageGen::end(const QPointF &p)
 {
   ShapeGen::end(p);
-  _canvas->paint()->setMode("select");
+  g_core->paint()->setMode("select");
 }
 
 void ImageGen::move(const QPointF &p)

@@ -7,14 +7,16 @@
 #ifndef SELECTGEN_H
 #define SELECTGEN_H
 
+#include <vector>
 #include "shapegen.h"
-#include "vector"
+
+class SheetCanvas;
 
 class SelectGen : public QObject, public ShapeGen
 {
   Q_OBJECT
 public:
-  explicit SelectGen(SheetCanvas *canvas);
+  explicit SelectGen(ISheetCanvas *canvas);
   virtual ~SelectGen() override;
   virtual void begin(const QPointF &p) override;
   virtual void end(const QPointF &p) override;
@@ -30,6 +32,7 @@ public slots:
   void onDel();
   void onDuplicate();
 private:
+  SheetCanvas *_canvas_obj;
   QQuickItem *_select_rect;
   std::vector<Shape*> _selected;
   int _mx1;

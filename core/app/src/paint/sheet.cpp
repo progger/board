@@ -11,9 +11,14 @@ Sheet::Sheet(QQuickItem *parent) :
 {
 }
 
+ISheetCanvas *Sheet::canvas()
+{
+  return _canvas;
+}
+
 void Sheet::componentComplete()
 {
   QQuickItem::componentComplete();
-  _sheet_canvas = findChild<SheetCanvas*>("sheetCanvas");
-  Q_ASSERT(_sheet_canvas);
+  _canvas = findChild<SheetCanvas*>("sheetCanvas");
+  Q_ASSERT(_canvas);
 }

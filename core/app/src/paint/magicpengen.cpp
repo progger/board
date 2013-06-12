@@ -4,12 +4,11 @@
  * See the LICENSE file for terms of use.
  */
 
-#include "sheetcanvas.h"
 #include "pen.h"
 #include "pathprocessor/pathprocessor.h"
 #include "magicpengen.h"
 
-MagicPenGen::MagicPenGen(SheetCanvas *canvas) :
+MagicPenGen::MagicPenGen(ISheetCanvas *canvas) :
   PenGen(canvas)
 {
 }

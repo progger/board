@@ -10,6 +10,7 @@
 #include <memory>
 #include <map>
 #include <QObject>
+#include "ibrdstore.h"
 
 class BrdObject
 {
@@ -17,22 +18,25 @@ public:
   BrdObject(const QByteArray &data);
   QByteArray data() const { return _data; }
   QString hash() const { return _hash; }
-  static QString urlString(const QString &hash);
 private:
   QByteArray _data;
   QString _hash;
 };
 
-class BrdStore : public QObject
+class BrdStore : public QObject, public IBrdStore
 {
   Q_OBJECT
+  Q_INTERFACES(IBrdStore)
 public:
   explicit BrdStore(QObject *parent = 0);
-  std::shared_ptr<BrdObject> getObject(const QString &hash) const;
-  void setObject(std::shared_ptr<BrdObject> obj);
-  QString addObject(QByteArray data);
+
+  // IBrdStore
+  virtual QString addObject(const QByteArray &data) override;
+  virtual QString addFromFile(const QString &file_name) override;
+  virtual QByteArray getObject(const QString &hash) override;
+  virtual QString getUrlString(const QString &hash) override;
+
   void clear();
-  static std::shared_ptr<BrdObject> fromFile(const QString &file_name);
 private:
   std::map<QString, std::shared_ptr<BrdObject>> _store;
 };

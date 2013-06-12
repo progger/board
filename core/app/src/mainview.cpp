@@ -4,13 +4,14 @@
  * See the LICENSE file for terms of use.
  */
 
-#include "mainview.h"
+#include "global.h"
 #include "core.h"
+#include "mainview.h"
 
 MainView::MainView(QWindow *parent) :
   QQuickView(parent)
 {
-  new Core(this);
+  g_core = new Core(this);
   setResizeMode(QQuickView::SizeRootObjectToView);
   setSource(QUrl("qrc:/core/qml/Board.qml"));
 }

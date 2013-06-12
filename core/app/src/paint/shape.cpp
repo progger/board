@@ -4,7 +4,6 @@
  * See the LICENSE file for terms of use.
  */
 
-#include "sheetcanvas.h"
 #include "shape.h"
 
 Shape::Shape(QQuickItem *parent, float thickness, QColor color) :
@@ -16,7 +15,7 @@ Shape::Shape(QQuickItem *parent, float thickness, QColor color) :
   connect(this, SIGNAL(heightChanged()), SLOT(onHeightChanged()));
 }
 
-void Shape::serialize(QXmlStreamWriter *writer, SheetCanvas *canvas, std::set<QString> *brd_objects) const
+void Shape::serialize(QXmlStreamWriter *writer, ISheetCanvas *canvas, std::set<QString> *brd_objects) const
 {
   writer->writeStartElement(elementName());
   writer->writeAttribute("x", QString::number(x() + canvas->sheetPoint().x()));
@@ -31,7 +30,7 @@ void Shape::serialize(QXmlStreamWriter *writer, SheetCanvas *canvas, std::set<QS
   writer->writeEndElement();
 }
 
-void Shape::deserialize(QXmlStreamReader *reader, SheetCanvas *canvas)
+void Shape::deserialize(QXmlStreamReader *reader, ISheetCanvas *canvas)
 {
   auto attrs = reader->attributes();
   setX(attrs.value("x").toString().toDouble() - canvas->sheetPoint().x());

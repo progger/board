@@ -28,22 +28,26 @@ class Core : public QObject, public ICore
   Q_PROPERTY(bool keyboard READ keyboard WRITE setKeyboard NOTIFY keyboardChanged FINAL)
   Q_PROPERTY(bool transparent READ transparent WRITE setTransparent NOTIFY transparentChanged FINAL)
   Q_PROPERTY(int sheetIndex READ sheetIndex WRITE setSheetIndex NOTIFY sheetIndexChanged FINAL)
-  Q_PROPERTY(Paint paint READ paint CONSTANT FINAL)
+  Q_PROPERTY(Paint paint READ paintObj CONSTANT FINAL)
   Q_PROPERTY(QQmlListProperty<QQuickItem> sheets READ sheetsProperty NOTIFY sheetsChanged FINAL)
 public:
   explicit Core(QQuickView *parent = 0);
-  virtual QObject *mainView() override { return parent(); }
-  virtual QDir rootDir() override { return _root_dir; }
-  virtual QSettings *settings() override { return _settings; }
+
+  // ICore
+  virtual QObject *mainView() override;
+  virtual QDir rootDir() override;
+  virtual QSettings *settings() override;
+  virtual IPaint *paint() override;
+  virtual IBrdStore *brdStore() override;
   virtual int sheetsCount() override;
-  virtual int sheetIndex() override { return _sheet_index; }
-  virtual QQuickItem *sheet(int index) override;
-  void showError(const QString &error);
+  virtual int sheetIndex() override;
+  virtual ISheet *sheet(int index) override;
+  virtual QQmlComponent *getComponent(const QString &urlString) override;
+  virtual void showError(const QString &error) override;
+
   bool keyboard() const { return _keyboard; }
   bool transparent() const { return _transparent; }
-  BrdStore *brdStore() const { return _brdStore; }
-  Paint *paint() const { return _paint; }
-  QQmlComponent *getComponent(const QString &urlString);
+  Paint *paintObj() const { return _paint; }
   std::vector<Sheet*> *sheets() { return &_sheets; }
   QQmlListProperty<QQuickItem> sheetsProperty();
 signals:

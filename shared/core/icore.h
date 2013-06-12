@@ -7,9 +7,12 @@
 #ifndef ICORE_H
 #define ICORE_H
 
-#include <QQuickItem>
+#include <QQmlComponent>
 #include <QDir>
 #include <QSettings>
+#include "ipaint.h"
+#include "isheet.h"
+#include "ibrdstore.h"
 
 class ICore {
 public:
@@ -17,12 +20,15 @@ public:
   virtual QObject *mainView() = 0;
   virtual QDir rootDir() = 0;
   virtual QSettings *settings() = 0;
+  virtual IPaint *paint() = 0;
+  virtual IBrdStore *brdStore() = 0;
   virtual int sheetsCount() = 0;
   virtual int sheetIndex() = 0;
-  virtual QQuickItem *sheet(int index) = 0;
+  virtual ISheet *sheet(int index) = 0;
+  virtual QQmlComponent *getComponent(const QString &urlString) = 0;
   virtual void showError(const QString &error) = 0;
 };
 
-Q_DECLARE_INTERFACE(ICore, "board.ICore/2.0")
+Q_DECLARE_INTERFACE(ICore, "board.core.ICore/2.0")
 
 #endif // ICORE_H

@@ -11,23 +11,21 @@
 #include <vector>
 #include "shape.h"
 
-class Core;
 typedef std::vector<QPointF> Points;
 
 class Pen : public Shape
 {
   Q_OBJECT
 public:
-  explicit Pen(Core *core, QQuickItem *parent = 0, float thinkness = 0, QColor color = QColor());
+  explicit Pen(QQuickItem *parent = 0, float thinkness = 0, QColor color = QColor());
   Points &points() { return _points; }
   void savePoints();
 protected:
   virtual QSGNode *updatePaintNode(QSGNode *old_node, UpdatePaintNodeData *) override;
   virtual QString elementName() const override;
-  virtual void innerSerialize(QXmlStreamWriter *writer, SheetCanvas *, std::set<QString> *brd_objects) const override;
-  virtual void innerDeserialize(QXmlStreamReader *reader, SheetCanvas *) override;
+  virtual void innerSerialize(QXmlStreamWriter *writer, ISheetCanvas *, std::set<QString> *brd_objects) const override;
+  virtual void innerDeserialize(QXmlStreamReader *reader, ISheetCanvas *) override;
 private:
-  Core *_core;
   Points _points;
   QString _hash;
 };

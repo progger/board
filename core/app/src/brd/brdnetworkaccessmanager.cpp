@@ -19,10 +19,10 @@ QNetworkReply *BrdNetworkAccessManager::createRequest(QNetworkAccessManager::Ope
 {
   if (request.url().scheme() == "brd" && op == GetOperation)
   {
-    auto object = _store->getObject(request.url().path());
-    if (object)
+    QByteArray data = _store->getObject(request.url().path());
+    if (!data.isEmpty())
     {
-      return new BrdReply(object, this);
+      return new BrdReply(data, this);
     }
   }
   return QNetworkAccessManager::createRequest(op, request, outgoingData);

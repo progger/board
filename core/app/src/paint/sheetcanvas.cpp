@@ -5,6 +5,7 @@
  */
 
 #include <QCursor>
+#include "../global.h"
 #include "../core.h"
 #include "../str_stack/strstack.h"
 #include "paint.h"
@@ -25,6 +26,16 @@ SheetCanvas::SheetCanvas(QQuickItem *parent) :
   _start_move(false)
 {
   connect(this, SIGNAL(enabledChanged()), SLOT(onEnabledChanged()));
+  Core *core = static_cast<Core*>(g_core);
+  _paint = core->paintObj();
+  connect(_paint, SIGNAL(modeChanged()), SLOT(onModeChanged()));
+  connect(_paint, SIGNAL(undo()), SLOT(onUndo()));
+  connect(_paint, SIGNAL(redo()), SLOT(onRedo()));
+}
+
+QQuickItem *SheetCanvas::container()
+{
+  return _container;
 }
 
 void SheetCanvas::moveSheet(qreal dx, qreal dy)
@@ -104,16 +115,6 @@ void SheetCanvas::pushState()
     _paint->setCanUndo(true);
     _paint->setCanRedo(false);
   }
-}
-
-void SheetCanvas::setCore(Core *core)
-{
-  _core = core;
-  _paint = core->paint();
-  connect(_paint, SIGNAL(modeChanged()), SLOT(onModeChanged()));
-  connect(_paint, SIGNAL(undo()), SLOT(onUndo()));
-  connect(_paint, SIGNAL(redo()), SLOT(onRedo()));
-  emit coreChanged();
 }
 
 void SheetCanvas::updateSheetRect()
@@ -224,4 +225,19 @@ void SheetCanvas::geometryChanged(const QRectF &newGeometry, const QRectF &oldGe
 {
   QQuickItem::geometryChanged(newGeometry, oldGeometry);
   updateSheetRect();
+}
+
+QPointF SheetCanvas::sheetPoint()
+{
+  return _sheet_point;
+}
+
+QRectF SheetCanvas::sheetRect()
+{
+  return _sheet_rect;
+}
+
+QSizeF SheetCanvas::canvasSize()
+{
+  return QSizeF(width(), height());
 }

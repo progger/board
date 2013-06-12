@@ -9,7 +9,7 @@
 #include "ellipse.h"
 #include "ellipsegen.h"
 
-EllipseGen::EllipseGen(SheetCanvas *canvas) :
+EllipseGen::EllipseGen(ISheetCanvas *canvas) :
   ShapeGen(canvas)
 {
 }

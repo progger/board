@@ -9,10 +9,12 @@
 
 #include "shapegen.h"
 
+class SheetCanvas;
+
 class MoveGen : public ShapeGen
 {
 public:
-  explicit MoveGen(SheetCanvas *canvas);
+  explicit MoveGen(ISheetCanvas *canvas);
   virtual void move(const QPointF &p) override;
   virtual void end(const QPointF &p) override;
 };

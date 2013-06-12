@@ -8,23 +8,21 @@
 #define SHAPEGEN_H
 
 #include <QQuickItem>
+#include "isheetcanvas.h"
 
-class SheetCanvas;
-class Paint;
 class Shape;
 
 class ShapeGen
 {
 public:
-  explicit ShapeGen(SheetCanvas *canvas);
+  explicit ShapeGen(ISheetCanvas *canvas);
   virtual ~ShapeGen() {}
-  Paint *paint() const;
   virtual void begin(const QPointF &p);
   virtual void end(const QPointF &p);
   virtual void move(const QPointF &p);
 protected:
   QPointF _start;
-  SheetCanvas *_canvas;
+  ISheetCanvas *_canvas;
   Shape *_item;
 };
 

@@ -12,7 +12,7 @@
 class VideoGen : public ShapeGen
 {
 public:
-  explicit VideoGen(SheetCanvas *canvas);
+  explicit VideoGen(ISheetCanvas *canvas);
   virtual void begin(const QPointF &p) override;
   virtual void end(const QPointF &p) override;
   virtual void move(const QPointF &p) override;

@@ -13,7 +13,7 @@ class TextGen : public QObject, public ShapeGen
 {
   Q_OBJECT
 public:
-  explicit TextGen(SheetCanvas *canvas);
+  explicit TextGen(ISheetCanvas *canvas);
   virtual ~TextGen() override;
   virtual void begin(const QPointF &);
   virtual void end(const QPointF &p);

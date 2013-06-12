@@ -4,12 +4,11 @@
  * See the LICENSE file for terms of use.
  */
 
-#include "sheetcanvas.h"
 #include "paintutils.h"
 #include "line.h"
 #include "linegen.h"
 
-LineGen::LineGen(SheetCanvas *canvas) :
+LineGen::LineGen(ISheetCanvas *canvas) :
   ShapeGen(canvas)
 {
 }

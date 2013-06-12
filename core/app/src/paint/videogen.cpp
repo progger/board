@@ -4,25 +4,27 @@
  * See the LICENSE file for terms of use.
  */
 
+#include "../global.h"
 #include "paint.h"
 #include "sheetcanvas.h"
 #include "videoplayer.h"
 #include "videogen.h"
 
-VideoGen::VideoGen(SheetCanvas *canvas) :
+VideoGen::VideoGen(ISheetCanvas *canvas) :
   ShapeGen(canvas)
 {
-  _video_source = canvas->paint()->videoSource();
+  SheetCanvas *canvas_obj = static_cast<SheetCanvas*>(canvas);
+  _video_source = canvas_obj->paintObj()->videoSource();
 }
 
 void VideoGen::begin(const QPointF &p)
 {
-  QObject *obj = _canvas->paint()->compVideoPlayer()->create();
+  QObject *obj = g_core->getComponent("qrc:/core/qml/VideoPlayer.qml")->create();
   VideoPlayer *video = qobject_cast<VideoPlayer*>(obj);
   Q_ASSERT(video);
   video->setParent(_canvas->container());
   video->setParentItem(_canvas->container());
-  QSize size(_canvas->width() / 2, _canvas->width() / 8 * 3);
+  QSizeF size(_canvas->canvasSize().width() / 2, _canvas->canvasSize().width() / 8 * 3);
   video->setSize(size);
   video->setInnerSize(size);
   video->setSource(_video_source);
@@ -36,7 +38,7 @@ void VideoGen::end(const QPointF &p)
   Q_ASSERT(video);
   emit video->play();
   ShapeGen::end(p);
-  _canvas->paint()->setMode("select");
+  g_core->paint()->setMode("select");
 }
 
 void VideoGen::move(const QPointF &p)

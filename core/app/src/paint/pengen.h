@@ -12,7 +12,7 @@
 class PenGen : public ShapeGen
 {
 public:
-  explicit PenGen(SheetCanvas *canvas);
+  explicit PenGen(ISheetCanvas *canvas);
   virtual void begin(const QPointF &p) override;
   virtual void end(const QPointF &p) override;
   virtual void move(const QPointF &p) override;

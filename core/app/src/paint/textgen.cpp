@@ -4,15 +4,17 @@
  * See the LICENSE file for terms of use.
  */
 
+#include "../global.h"
 #include "sheetcanvas.h"
 #include "paint.h"
 #include "textwrapper.h"
 #include "textgen.h"
 
-TextGen::TextGen(SheetCanvas *canvas) :
+TextGen::TextGen(ISheetCanvas *canvas) :
   ShapeGen(canvas)
 {
-  _text_input = _canvas->textInput();
+  SheetCanvas *canvas_obj = static_cast<SheetCanvas*>(canvas);
+  _text_input = canvas_obj->textInput();
   _text_input->setProperty("textGen", QVariant::fromValue<QObject*>(this));
 }
 
@@ -40,13 +42,13 @@ void TextGen::end(const QPointF &p)
   }
   if (!_item)
   {
-    QObject *obj = _canvas->paint()->compTextWrapper()->create();
+    QObject *obj = g_core->getComponent("qrc:/core/qml/TextWrapper.qml")->create();
     TextWrapper *text = qobject_cast<TextWrapper*>(obj);
     Q_ASSERT(text);
     text->setParent(_canvas->container());
     text->setParentItem(_canvas->container());
-    int font_size = _canvas->paint()->fontSize();
-    text->setColor(_canvas->paint()->color());
+    int font_size = g_core->paint()->fontSize();
+    text->setColor(g_core->paint()->color());
     text->setFontSize(font_size);
     text->setPosition(QPointF(p.x(), p.y() - font_size / 2));
     text->setSize(text->innerSize());

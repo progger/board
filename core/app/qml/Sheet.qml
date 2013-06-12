@@ -20,7 +20,6 @@ Sheet {
         anchors.right: vscroll.left
         anchors.bottom: hscroll.top
         clip: true
-        core: Core
 
         Item {
             id: container

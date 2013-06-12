@@ -12,7 +12,7 @@
 class EllipseGen : public ShapeGen
 {
 public:
-  explicit EllipseGen(SheetCanvas *canvas);
+  explicit EllipseGen(ISheetCanvas *canvas);
   virtual void begin(const QPointF &p) override;
 };
 

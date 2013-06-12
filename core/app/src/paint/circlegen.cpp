@@ -9,7 +9,7 @@
 #include "ellipse.h"
 #include "circlegen.h"
 
-CircleGen::CircleGen(SheetCanvas *canvas) :
+CircleGen::CircleGen(ISheetCanvas *canvas) :
   ShapeGen(canvas)
 {
 }

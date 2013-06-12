@@ -8,3 +8,4 @@
 
 bool g_window_mode = false;
 QString g_brd_file;
+ICore *g_core;

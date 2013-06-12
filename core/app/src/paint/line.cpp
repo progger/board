@@ -65,12 +65,12 @@ QString Line::elementName() const
   return "line";
 }
 
-void Line::innerSerialize(QXmlStreamWriter *writer, SheetCanvas *, std::set<QString> *) const
+void Line::innerSerialize(QXmlStreamWriter *writer, ISheetCanvas *, std::set<QString> *) const
 {
   writer->writeAttribute("ltrb", QString::number(_mode_ltrb));
 }
 
-void Line::innerDeserialize(QXmlStreamReader *reader, SheetCanvas *)
+void Line::innerDeserialize(QXmlStreamReader *reader, ISheetCanvas *)
 {
   _mode_ltrb = reader->attributes().value("ltrb").toString().toInt();
 }

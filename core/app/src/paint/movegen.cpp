@@ -7,7 +7,7 @@
 #include "sheetcanvas.h"
 #include "movegen.h"
 
-MoveGen::MoveGen(SheetCanvas *canvas) :
+MoveGen::MoveGen(ISheetCanvas *canvas) :
   ShapeGen(canvas)
 {
 }
@@ -15,7 +15,8 @@ MoveGen::MoveGen(SheetCanvas *canvas) :
 void MoveGen::move(const QPointF &p)
 {
   QPointF dp = _start - p;
-  _canvas->moveSheet(dp.x(), dp.y());
+  SheetCanvas *canvas = static_cast<SheetCanvas*>(_canvas);
+  canvas->moveSheet(dp.x(), dp.y());
   _start = p;
 }
 

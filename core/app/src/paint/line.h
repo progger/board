@@ -20,8 +20,8 @@ public slots:
 protected:
   virtual QSGNode *updatePaintNode(QSGNode *old_node, UpdatePaintNodeData *) override;
   virtual QString elementName() const override;
-  virtual void innerSerialize(QXmlStreamWriter *writer, SheetCanvas *, std::set<QString> *) const override;
-  virtual void innerDeserialize(QXmlStreamReader *reader, SheetCanvas *) override;
+  virtual void innerSerialize(QXmlStreamWriter *writer, ISheetCanvas *, std::set<QString> *) const override;
+  virtual void innerDeserialize(QXmlStreamReader *reader, ISheetCanvas *) override;
 private:
   bool _mode_ltrb;
 };

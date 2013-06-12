@@ -9,7 +9,7 @@
 #include "shape.h"
 #include "selectgen.h"
 
-SelectGen::SelectGen(SheetCanvas *canvas) :
+SelectGen::SelectGen(ISheetCanvas *canvas) :
   ShapeGen(canvas),
   _selected(),
   _mx1(0),
@@ -17,17 +17,18 @@ SelectGen::SelectGen(SheetCanvas *canvas) :
   _mx2(0),
   _my2(0)
 {
-  _select_rect = _canvas->selectRect();
+  _canvas_obj = static_cast<SheetCanvas*>(canvas);
+  _select_rect = _canvas_obj->selectRect();
   _select_rect->setProperty("selectGen", QVariant::fromValue<QObject*>(this));
-  connect(_canvas, SIGNAL(sheetPointChanged()), SLOT(onSheetPointChanged()));
-  connect(_canvas->paint(), SIGNAL(del()), SLOT(onDel()));
-  connect(_canvas->paint(), SIGNAL(duplicate()), SLOT(onDuplicate()));
+  connect(_canvas_obj, SIGNAL(sheetPointChanged()), SLOT(onSheetPointChanged()));
+  connect(_canvas_obj->paintObj(), SIGNAL(del()), SLOT(onDel()));
+  connect(_canvas_obj->paintObj(), SIGNAL(duplicate()), SLOT(onDuplicate()));
 }
 
 SelectGen::~SelectGen()
 {
   _select_rect->setVisible(false);
-  _canvas->paint()->setSelected(false);
+  _canvas_obj->paintObj()->setSelected(false);
 }
 
 void SelectGen::begin(const QPointF &p)
@@ -58,13 +59,13 @@ void SelectGen::end(const QPointF &p)
   if (_selected.empty())
   {
     _select_rect->setVisible(false);
-    _canvas->paint()->setSelected(false);
+    _canvas_obj->paintObj()->setSelected(false);
   }
   else
   {
     _select_rect->setProperty("bobberVisible", true);
     updateRoundRect();
-    _canvas->paint()->setSelected(true);
+    _canvas_obj->paintObj()->setSelected(true);
   }
 }
 
@@ -163,7 +164,7 @@ void SelectGen::onDel()
   }
   _selected.clear();
   _select_rect->setVisible(false);
-  _canvas->paint()->setSelected(false);
+  _canvas_obj->paintObj()->setSelected(false);
   _canvas->pushState();
 }
 
@@ -181,7 +182,7 @@ void SelectGen::onDuplicate()
   QXmlStreamReader reader(data);
   reader.readNextStartElement();
   _selected.clear();
-  _canvas->deserializeShapes(&reader, &_selected);
+  _canvas_obj->deserializeShapes(&reader, &_selected);
   for (Shape *shape : _selected)
   {
     shape->setPosition(QPointF(shape->x() + 20, shape->y() + 20));

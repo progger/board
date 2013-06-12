@@ -12,36 +12,38 @@
 #include <QXmlStreamWriter>
 #include <QXmlStreamReader>
 #include <QQuickItem>
+#include "isheetcanvas.h"
 
-class Core;
 class Paint;
 class Shape;
 class ShapeGen;
 class StrStack;
 
-class SheetCanvas : public QQuickItem
+class SheetCanvas : public QQuickItem, public ISheetCanvas
 {
   Q_OBJECT
-  Q_PROPERTY(Core* core READ core WRITE setCore NOTIFY coreChanged)
+  Q_INTERFACES(ISheetCanvas)
   Q_PROPERTY(QPointF sheetPoint READ sheetPoint NOTIFY sheetPointChanged)
   Q_PROPERTY(QRectF sheetRect READ sheetRect NOTIFY sheetRectChanged)
 public:
   explicit SheetCanvas(QQuickItem *parent = 0);
-  Core *core() const { return _core; }
-  Paint *paint() const { return _paint; }
-  QPointF sheetPoint() const { return _sheet_point; }
-  QRectF sheetRect() const { return _sheet_rect; }
+
+  // ISheetCanvas
+  virtual QQuickItem *container() override;
+  virtual QPointF sheetPoint() override;
+  virtual QRectF sheetRect() override;
+  virtual QSizeF canvasSize() override;
+  virtual void pushState() override;
+  virtual void updateSheetRect() override;
+
+  Paint *paintObj() const { return _paint; }
   Q_INVOKABLE void moveSheet(qreal dx, qreal dy);
-  QQuickItem *container() const { return _container; }
   QQuickItem *selectRect() const { return _select_rect; }
   QQuickItem *textInput() const { return _text_input; }
   void serializeSheet(QXmlStreamWriter *writer, std::set<QString> *brd_objects = nullptr);
   void deserializeSheet(QXmlStreamReader *reader);
   void deserializeShapes(QXmlStreamReader *reader, std::vector<Shape*> *shapes = nullptr);
-  void pushState();
 public slots:
-  void setCore(Core *core);
-  void updateSheetRect();
   void onEnabledChanged();
   void onModeChanged();
   void onMousePress(QObject *event);
@@ -50,14 +52,12 @@ public slots:
   void onUndo();
   void onRedo();
 signals:
-  void coreChanged();
   void sheetPointChanged();
   void sheetRectChanged();
 protected:
   virtual void componentComplete() override;
   virtual void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry) override;
 private:
-  Core *_core;
   Paint *_paint;
   QPointF _sheet_point;
   QRectF _sheet_rect;

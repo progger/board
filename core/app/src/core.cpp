@@ -68,12 +68,42 @@ Core::Core(QQuickView *parent) :
   connect(parent, SIGNAL(statusChanged(QQuickView::Status)), SLOT(onMainViewStatusChanged(QQuickView::Status)));
 }
 
+QObject *Core::mainView()
+{
+  return parent();
+}
+
+QDir Core::rootDir()
+{
+  return _root_dir;
+}
+
+QSettings *Core::settings()
+{
+  return _settings;
+}
+
+IPaint *Core::paint()
+{
+  return _paint;
+}
+
+IBrdStore *Core::brdStore()
+{
+  return _brdStore;
+}
+
 int Core::sheetsCount()
 {
   return _sheets.size();
 }
 
-QQuickItem *Core::sheet(int index)
+int Core::sheetIndex()
+{
+  return _sheet_index;
+}
+
+ISheet *Core::sheet(int index)
 {
   return _sheets[index];
 }
@@ -241,8 +271,7 @@ void Core::saveBookFiles(QuaZip *zip)
   writer.writeStartElement("sheets");
   for (Sheet *sheet : _sheets)
   {
-    SheetCanvas *canvas = sheet->sheetCanvas();;
-    Q_ASSERT(canvas);
+    SheetCanvas *canvas = sheet->canvasObj();;
     canvas->serializeSheet(&writer, &brd_objects);
   }
   writer.writeEndElement();
@@ -252,14 +281,14 @@ void Core::saveBookFiles(QuaZip *zip)
 
   for (QString hash : brd_objects)
   {
-    auto brd_object = _brdStore->getObject(hash);
-    if (!brd_object) continue;
+    QByteArray data = _brdStore->getObject(hash);
+    if (data.isEmpty()) continue;
     if (!zip_file.open(QIODevice::WriteOnly, QuaZipNewInfo(hash)))
     {
       showError(QString("Не удалось соханить книгу: %1").arg(zip_file.getZipError()));
       return;
     }
-    zip_file.write(brd_object->data());
+    zip_file.write(data);
     zip_file.close();
   }
 }
@@ -301,8 +330,7 @@ void Core::openBookFiles(QuaZip *zip)
     if (reader.name() != "sheet") goto error;
     Sheet *sheet = createSheet();
     _sheets.push_back(sheet);
-    SheetCanvas *canvas = sheet->sheetCanvas();
-    Q_ASSERT(canvas);
+    SheetCanvas *canvas = sheet->canvasObj();
     canvas->deserializeSheet(&reader);
   }
   return;

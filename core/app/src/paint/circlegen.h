@@ -12,7 +12,7 @@
 class CircleGen : public ShapeGen
 {
 public:
-  explicit CircleGen(SheetCanvas *canvas);
+  explicit CircleGen(ISheetCanvas *canvas);
   virtual void begin(const QPointF &p) override;
   virtual void move(const QPointF &p) override;
 };

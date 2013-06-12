@@ -4,12 +4,11 @@
  * See the LICENSE file for terms of use.
  */
 
-#include "sheetcanvas.h"
 #include "paintutils.h"
 #include "pen.h"
 #include "pengen.h"
 
-PenGen::PenGen(SheetCanvas *canvas) :
+PenGen::PenGen(ISheetCanvas *canvas) :
   ShapeGen(canvas)
 {
 }
@@ -17,8 +16,7 @@ PenGen::PenGen(SheetCanvas *canvas) :
 void PenGen::begin(const QPointF &p)
 {
   ShapeGen::begin(p);
-  Pen *pen = new Pen(_canvas->core(), _canvas->container(),
-                     _canvas->paint()->thickness(), _canvas->paint()->color());
+  Pen *pen = new Pen(_canvas->container(), g_core->paint()->thickness(), g_core->paint()->color());
   pen->setPosition(p);
   pen->points().push_back(QPointF(0, 0));
   _item = pen;

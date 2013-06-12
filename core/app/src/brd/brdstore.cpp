@@ -17,51 +17,46 @@ BrdObject::BrdObject(const QByteArray &data) :
   _hash = QString::fromLatin1(hash.toHex());
 }
 
-QString BrdObject::urlString(const QString &hash)
-{
-  return "brd:" + hash;
-}
-
 BrdStore::BrdStore(QObject *parent) :
   QObject(parent),
   _store()
 {
 }
 
-shared_ptr<BrdObject> BrdStore::getObject(const QString &hash) const
+QByteArray BrdStore::getObject(const QString &hash)
 {
   auto it = _store.find(hash);
   if (it == _store.cend())
   {
-    return nullptr;
+    return QByteArray();
   }
-  return (*it).second;
+  return (*it).second->data();
 }
 
-void BrdStore::setObject(std::shared_ptr<BrdObject> obj)
+QString BrdStore::getUrlString(const QString &hash)
 {
-  _store[obj->hash()] = obj;
+  return "brd:" + hash;
 }
 
-QString BrdStore::addObject(QByteArray data)
+QString BrdStore::addObject(const QByteArray &data)
 {
   shared_ptr<BrdObject> obj = make_shared<BrdObject>(data);
-  setObject(obj);
+  _store[obj->hash()] = obj;
   return obj->hash();
+}
+
+QString BrdStore::addFromFile(const QString &file_name)
+{
+  QFile file(file_name);
+  if (!file.open(QIODevice::ReadOnly))
+  {
+    return QString();
+  }
+  QByteArray data = file.readAll();
+  return addObject(data);
 }
 
 void BrdStore::clear()
 {
   _store.clear();
-}
-
-std::shared_ptr<BrdObject> BrdStore::fromFile(const QString &file_name)
-{
-  QFile file(file_name);
-  if (!file.open(QIODevice::ReadOnly))
-  {
-    return nullptr;
-  }
-  QByteArray data = file.readAll();
-  return make_shared<BrdObject>(data);
 }

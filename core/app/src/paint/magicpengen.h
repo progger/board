@@ -12,7 +12,7 @@
 class MagicPenGen : public PenGen
 {
 public:
-  explicit MagicPenGen(SheetCanvas *canvas);
+  explicit MagicPenGen(ISheetCanvas *canvas);
   virtual void end(const QPointF &p) override;
 };
 

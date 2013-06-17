@@ -1,0 +1,1 @@
+?package(board):needs="X11" section="Applications/Education" title="board" command="/usr/bin/board"

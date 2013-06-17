@@ -14,4 +14,17 @@ SOURCES += \
     src/shapegen.cpp
 
 HEADERS += \
-    ../../shared/core/shape.h
+    ../../shared/core/global.h \
+    ../../shared/core/ibrdstore.h \
+    ../../shared/core/icore.h \
+    ../../shared/core/ipaint.h \
+    ../../shared/core/iplugin.h \
+    ../../shared/core/isheetcanvas.h \
+    ../../shared/core/isheet.h \
+    ../../shared/core/shape.h \
+    ../../shared/core/shapegen.h
+
+headers.path=$$PREFIX/include/board
+headers.files=$$HEADERS
+target.path=$$PREFIX/lib
+INSTALLS += headers target

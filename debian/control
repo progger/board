@@ -1,0 +1,32 @@
+Source: board
+Section: misc
+Priority: optional
+Maintainer: Michael Kulabuhov <progger.ru@gmail.com>
+Build-Depends: debhelper (>= 8.0.0), qtbase5-dev, qtdeclarative5-dev, qtdeclarative5-qtquick2-plugin, qtdeclarative5-qtmultimedia-plugin, zlib1g-dev
+Standards-Version: 3.9.4
+Homepage: https://progger.dyndns.info/
+
+Package: board
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, qtdeclarative5-qtquick2-plugin, qtdeclarative5-qtmultimedia-plugin
+Description: board graphics program
+ Extendable vector graphics program
+
+Package: libboard-common
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: board graphics program
+ Extendable vector graphics program
+ .
+ This package contains the common library
+
+Package: libboard-common-dev
+Section: libdevel
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: board graphics program
+ Extendable vector graphics program
+ .
+ This package contains the common library development files
+

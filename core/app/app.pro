@@ -138,3 +138,6 @@ OTHER_FILES += \
     res/video.svg
 
 RESOURCES += app.qrc
+
+target.path=$$PREFIX/bin
+INSTALLS += target

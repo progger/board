@@ -12,9 +12,9 @@
 class IPlugin {
 public:
   virtual ~IPlugin() {}
-  virtual void init(ICore *core, const QStringList &param) = 0;
+  virtual void init() = 0;
 };
 
-Q_DECLARE_INTERFACE(IPlugin, "Board.IPlugin/1.0")
+Q_DECLARE_INTERFACE(IPlugin, "Board.IPlugin/2.0")
 
 #endif // IPLUGIN_H

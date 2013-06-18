@@ -15,11 +15,13 @@
 #include <QSettings>
 #include <QQmlListProperty>
 #include "quazip.h"
-#include "paint/sheet.h"
 #include "icore.h"
+#include "iplugin.h"
+#include "paint/sheet.h"
 
 class BrdStore;
 class Paint;
+class Style;
 
 class Core : public QObject, public ICore
 {
@@ -42,8 +44,11 @@ public:
   virtual int sheetsCount() override;
   virtual int sheetIndex() override;
   virtual ISheet *sheet(int index) override;
-  virtual QQmlComponent *getComponent(const QString &urlString) override;
+  virtual QQmlComponent *getComponent(const QString &url_string) override;
+  virtual void logMessage(const QString &message) override;
+  virtual void logError(const QString &error) override;
   virtual void showError(const QString &error) override;
+  virtual void addPluginRowItem(const QString &url_string) override;
 
   bool keyboard() const { return _keyboard; }
   bool transparent() const { return _transparent; }
@@ -81,10 +86,14 @@ private:
   std::map<QString, QQmlComponent*> _map_componenet;
   QQmlComponent *_comp_sheet;
   QQuickItem *_sheet_place;
+  QQuickItem *_plugin_row;
   std::vector<Sheet*> _sheets;
+  std::vector<IPlugin*> _plugins;
   Sheet *createSheet();
   void saveBookFiles(QuaZip *zip);
   void openBookFiles(QuaZip *zip);
+  void loadPlugins();
+  void initPlugins();
 };
 
 #endif // CORE_H

@@ -5,12 +5,12 @@
  */
 
 import QtQuick 2.0
+import board.core 2.0
 
 Rectangle {
     id: modeBar
-    property variant style: board.style
-    property int buttonSize: style.panelSize - 6
-    width:  style.panelSize
+    property int buttonSize: Style.panelSize - 6
+    width:  Style.panelSize
     height: column.height + 20
     color: "white"
     radius: 10
@@ -45,7 +45,7 @@ Rectangle {
 
                 Button {
                     anchors.horizontalCenter: parent.horizontalCenter
-                    style: modeBar.style.normalButton
+                    style: Style.normalButton
                     border.color: "silver"
                     border.width: 2
                     width: buttonSize
@@ -59,7 +59,7 @@ Rectangle {
 
         Button {
             anchors.horizontalCenter: parent.horizontalCenter
-            style: modeBar.style.normalButton
+            style: Style.normalButton
             border.color: "silver"
             border.width: 2
             width: buttonSize
@@ -71,7 +71,7 @@ Rectangle {
 
         Button {
             anchors.horizontalCenter: parent.horizontalCenter
-            style: modeBar.style.normalButton
+            style: Style.normalButton
             border.color: "silver"
             border.width: 2
             width: buttonSize
@@ -83,7 +83,7 @@ Rectangle {
 
         Button {
             anchors.horizontalCenter: parent.horizontalCenter
-            style: modeBar.style.normalButton
+            style: Style.normalButton
             border.color: "silver"
             border.width: 2
             width: buttonSize
@@ -95,7 +95,7 @@ Rectangle {
 
         Button {
             anchors.horizontalCenter: parent.horizontalCenter
-            style: modeBar.style.normalButton
+            style: Style.normalButton
             border.color: "silver"
             border.width: 2
             width: buttonSize
@@ -107,7 +107,7 @@ Rectangle {
 
         Button {
             anchors.horizontalCenter: parent.horizontalCenter
-            style: modeBar.style.normalButton
+            style: Style.normalButton
             border.color: "silver"
             border.width: 2
             enabled: Paint.selected;
@@ -119,7 +119,7 @@ Rectangle {
 
         Button {
             anchors.horizontalCenter: parent.horizontalCenter
-            style: modeBar.style.normalButton
+            style: Style.normalButton
             border.color: "silver"
             border.width: 2
             enabled: Paint.selected;
@@ -132,7 +132,7 @@ Rectangle {
         Button {
             id: colorButton
             anchors.horizontalCenter: parent.horizontalCenter
-            style: modeBar.style.normalButton
+            style: Style.normalButton
             border.color: "silver"
             border.width: 2
             width: buttonSize
@@ -144,7 +144,7 @@ Rectangle {
 /*
         Button {
             anchors.horizontalCenter: parent.horizontalCenter
-            style: modeBar.style.normalButton
+            style: Style.normalButton
             border.color: "silver"
             border.width: 2
             width: buttonSize

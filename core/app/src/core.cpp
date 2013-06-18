@@ -10,6 +10,7 @@
 #include <QtQml>
 #include <QMessageBox>
 #include <QFileDialog>
+#include "global.h"
 #include "quazipfile.h"
 #include "brd/brdstore.h"
 #include "brd/brdnetworkaccessmanagerfactory.h"
@@ -18,7 +19,7 @@
 #include "paint/textwrapper.h"
 #include "paint/imagewrapper.h"
 #include "paint/videoplayer.h"
-#include "global.h"
+#include "style.h"
 #include "core.h"
 
 using namespace std;
@@ -53,11 +54,17 @@ Core::Core(QQuickView *parent) :
   parent->engine()->setNetworkAccessManagerFactory(new BrdNetworkAccessManagerFactory(_brdStore, this));
   qmlRegisterType<Core>();
   qmlRegisterType<Paint>();
+  qmlRegisterType<Style>("board.core", 2, 0, "StyleQml");
   qmlRegisterType<Sheet>("board.core.paint", 2, 0, "Sheet");
   qmlRegisterType<SheetCanvas>("board.core.paint", 2, 0, "SheetCanvas");
   qmlRegisterType<TextWrapper>("board.core.paint", 2, 0, "TextWrapper");
   qmlRegisterType<ImageWrapper>("board.core.paint", 2, 0, "ImageWrapper");
   qmlRegisterType<VideoPlayer>("board.core.paint", 2, 0, "VideoPlayer");
+  qmlRegisterSingletonType<Style>("board.core", 2, 0, "Style",
+                                  [](QQmlEngine *, QJSEngine *)
+  {
+    return g_core->getComponent("qrc:/core/qml/StyleQml.qml")->create();
+  });
 
   _paint = new Paint(this);
   auto context = parent->rootContext();
@@ -65,7 +72,10 @@ Core::Core(QQuickView *parent) :
   context->setContextProperty("Paint", _paint);
 
   _comp_sheet = getComponent("qrc:/core/qml/Sheet.qml");
+  Q_ASSERT(_comp_sheet);
   connect(parent, SIGNAL(statusChanged(QQuickView::Status)), SLOT(onMainViewStatusChanged(QQuickView::Status)));
+
+  loadPlugins();
 }
 
 QObject *Core::mainView()
@@ -110,22 +120,50 @@ ISheet *Core::sheet(int index)
 
 void Core::showError(const QString &error)
 {
+  logError(error);
   QMessageBox::critical(nullptr, "Error", error);
 }
 
-QQmlComponent *Core::getComponent(const QString &urlString)
+void Core::addPluginRowItem(const QString &url_string)
 {
-  auto it = _map_componenet.find(urlString);
+  QQmlComponent *component = getComponent(url_string);
+  if (!component) return;
+  QQuickItem *item = qobject_cast<QQuickItem*>(component->create());
+  if (!item) return;
+  item->setParent(_plugin_row);
+  item->setParentItem(_plugin_row);
+  item->setHeight(_plugin_row->height());
+}
+
+QQmlComponent *Core::getComponent(const QString &url_string)
+{
+  auto it = _map_componenet.find(url_string);
   if (it == _map_componenet.cend())
   {
     QQuickView *view = qobject_cast<QQuickView*>(parent());
     Q_ASSERT(view);
-    QQmlComponent *component = new QQmlComponent(view->engine(), QUrl(urlString), this);
-    Q_ASSERT(component->isReady());
-    _map_componenet[urlString] = component;
+    QQmlComponent *component = new QQmlComponent(view->engine(), QUrl(url_string), this);
+    if (!component->isReady())
+    {
+      logError("Error loading component " + url_string + " : " + component->errorString());
+      component = nullptr;
+    }
+    _map_componenet[url_string] = component;
     return component;
   }
   return (*it).second;
+}
+
+void Core::logMessage(const QString &message)
+{
+  QTextStream cout(stdout);
+  cout << message << endl;
+}
+
+void Core::logError(const QString &error)
+{
+  QTextStream cerr(stderr);
+  cerr << error << endl;
 }
 
 QQmlListProperty<QQuickItem> Core::sheetsProperty()
@@ -230,6 +268,9 @@ void Core::onMainViewStatusChanged(QQuickView::Status status)
   Q_ASSERT(view->rootObject());
   _sheet_place = view->rootObject()->findChild<QQuickItem*>("sheetPlace");
   Q_ASSERT(_sheet_place);
+  _plugin_row = view->rootObject()->findChild<QQuickItem*>("pluginRow");
+  Q_ASSERT(_plugin_row);
+  initPlugins();
   if (!g_brd_file.isEmpty())
   {
     openBook(g_brd_file);
@@ -336,6 +377,47 @@ void Core::openBookFiles(QuaZip *zip)
   return;
 error:
   showError("Книга имеет неверный формат");
+}
+
+void Core::loadPlugins()
+{
+#if defined(Q_OS_LINUX) && !defined(QT_DEBUG)
+  QDir dir("/usr/lib/board");
+#else
+  QDir dir = QDir(QCoreApplication::applicationDirPath());
+  dir.cd("plugins");
+#endif
+  QStringList files = dir.entryList(QDir::Files);
+  for (QString file_name : files)
+  {
+    QString full_file_name = dir.absoluteFilePath(file_name);
+    QPluginLoader *loader = new QPluginLoader(full_file_name, this);
+    QObject *plugin_obj = loader->instance();
+    if (plugin_obj)
+    {
+      IPlugin *plugin = qobject_cast<IPlugin*>(plugin_obj);
+      if (plugin)
+      {
+        _plugins.push_back(plugin);
+      }
+      else
+      {
+        logError("Invalid plugin interface " + full_file_name);
+      }
+    }
+    else
+    {
+      logError("Error loading plugin " + full_file_name + " : " + loader->errorString());
+    }
+  }
+}
+
+void Core::initPlugins()
+{
+  for (IPlugin *plugin : _plugins)
+  {
+    plugin->init();
+  }
 }
 
 void Core::setKeyboard(bool keyboard)

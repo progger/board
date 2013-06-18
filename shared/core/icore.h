@@ -25,8 +25,11 @@ public:
   virtual int sheetsCount() = 0;
   virtual int sheetIndex() = 0;
   virtual ISheet *sheet(int index) = 0;
-  virtual QQmlComponent *getComponent(const QString &urlString) = 0;
+  virtual QQmlComponent *getComponent(const QString &url_string) = 0;
+  virtual void logMessage(const QString &message) = 0;
+  virtual void logError(const QString &error) = 0;
   virtual void showError(const QString &error) = 0;
+  virtual void addPluginRowItem(const QString &url_string) = 0;
 };
 
 Q_DECLARE_INTERFACE(ICore, "board.core.ICore/2.0")

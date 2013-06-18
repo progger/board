@@ -5,11 +5,11 @@
  */
 
 import QtQuick 2.0
+import board.core 2.0
 import "keyboard.js" as Script
 
 Item {
     id: keyboard
-    property variant style
     property int layout: 0
     property int shift: 0
     property int rowHeight: keyboard.height / Script.keys.length
@@ -47,7 +47,7 @@ Item {
 
                     Button {
                         id: button
-                        style: keyboard.style.normalButton
+                        style: Style.normalButton
                         width: height * modelData.size
                         anchors.top: parent.top
                         anchors.topMargin: 1

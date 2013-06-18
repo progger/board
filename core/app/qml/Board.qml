@@ -5,10 +5,10 @@
  */
 
 import QtQuick 2.0
+import board.core 2.0
 
 Rectangle {
     id: board
-    property Style style: Style {}
     color: Core.transparent ? "transparent" : "white"
     Behavior on color {
         ColorAnimation { duration: 300 }
@@ -25,7 +25,7 @@ Rectangle {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
-        height: board.style.panelSize
+        height: Style.panelSize
     }
 
     ModeBar {
@@ -46,7 +46,6 @@ Rectangle {
     Keyboard {
         id: keyboard
         z: 1
-        style: board.style
         anchors.bottom: parent.bottom
         anchors.horizontalCenter: parent.horizontalCenter
         height: board.height / 4

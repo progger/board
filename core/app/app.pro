@@ -5,6 +5,7 @@ TEMPLATE = app
 VERSION = 2.0.0
 LIBS += -lz
 DESTDIR =  ../../bin
+LIBSDIR = ../../bin
 DEPENDENCY_LIBRARIES = board-common
 
 include(../../main.pri)
@@ -45,7 +46,8 @@ SOURCES += \
     src/paint/textwrapper.cpp \
     src/paint/videogen.cpp \
     src/paint/videoplayer.cpp \
-    src/str_stack/strstack.cpp
+    src/str_stack/strstack.cpp \
+    src/style.cpp
 
 HEADERS += \
     src/brd/brdnetworkaccessmanager.h \
@@ -83,7 +85,8 @@ HEADERS += \
     src/paint/textwrapper.h \
     src/paint/videogen.h \
     src/paint/videoplayer.h \
-    src/str_stack/strstack.h
+    src/str_stack/strstack.h \
+    src/style.h
 
 OTHER_FILES += \
     qml/Board.qml \
@@ -98,7 +101,6 @@ OTHER_FILES += \
     qml/sheet.js \
     qml/Sheet.qml \
     qml/SpinBox.qml \
-    qml/Style.qml \
     qml/TextWrapper.qml \
     qml/ToolBar.qml \
     qml/VideoPlayer.qml \
@@ -135,7 +137,8 @@ OTHER_FILES += \
     res/thickness.svg \
     res/undo.svg \
     res/up_arrow.svg \
-    res/video.svg
+    res/video.svg \
+    qml/StyleQml.qml
 
 RESOURCES += app.qrc
 

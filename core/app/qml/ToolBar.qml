@@ -5,12 +5,12 @@
  */
 
 import QtQuick 2.0
+import board.core 2.0
 
 Rectangle {
     id: toolBar
-    property variant style: board.style
     property int buttonSize: height - 6
-    color: style.panelColor
+    color: Style.panelColor
 
     Item {
         anchors.left: parent.left
@@ -97,7 +97,7 @@ Rectangle {
 
     Button {
         id: saveBookButton
-        style: board.style.normalButton
+        style: Style.normalButton
         anchors.right: openBookButton.left
         anchors.verticalCenter: parent.verticalCenter
         anchors.rightMargin: 4
@@ -109,14 +109,23 @@ Rectangle {
 
     Button {
         id: openBookButton
-        style: board.style.normalButton
-        anchors.right: thicknessImage.left
+        style: Style.normalButton
+        anchors.right: pluginsRow.left
         anchors.verticalCenter: parent.verticalCenter
         anchors.rightMargin: 12
         width: buttonSize
         height: buttonSize
         image: "qrc:/core/res/open.svg"
         onClicked: Core.openBook()
+    }
+
+    Row {
+        id: pluginsRow
+        objectName: "pluginRow"
+        anchors.right: thicknessImage.left
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.rightMargin: 12
+        height: parent.height
     }
 
     Image {
@@ -132,7 +141,6 @@ Rectangle {
 
     SpinBox {
         id: thicknessSpinBox
-        style: toolBar.style
         anchors.right: fontSizeImage.left
         anchors.verticalCenter: parent.verticalCenter
         anchors.rightMargin: 12
@@ -158,7 +166,6 @@ Rectangle {
 
     SpinBox {
         id: fontSizeSpinBox
-        style: toolBar.style
         width: 60
         anchors.right: transparentButton.left
         anchors.verticalCenter: parent.verticalCenter
@@ -173,7 +180,7 @@ Rectangle {
 
     Button {
         id: transparentButton
-        style: board.style.normalButton
+        style: Style.normalButton
         anchors.right: minimizeButton.left
         anchors.verticalCenter: parent.verticalCenter
         anchors.rightMargin: 4
@@ -186,7 +193,7 @@ Rectangle {
 
     Button {
         id: minimizeButton
-        style: board.style.minimizeButton
+        style: Style.minimizeButton
         anchors.right: closeButton.left
         anchors.verticalCenter: parent.verticalCenter
         anchors.rightMargin: 4
@@ -198,7 +205,7 @@ Rectangle {
 
     Button {
         id: closeButton
-        style: board.style.closeButton
+        style: Style.closeButton
         anchors.right: parent.right
         anchors.verticalCenter: parent.verticalCenter
         anchors.rightMargin: 6

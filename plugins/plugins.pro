@@ -1,4 +1,4 @@
 TEMPLATE = subdirs
 
-#SUBDIRS += \
-#    crossword
+SUBDIRS += \
+    import-documents

@@ -5,10 +5,10 @@
  */
 
 import QtQuick 2.0
+import board.core 2.0
 
 Rectangle {
     id: spinBox
-    property variant style
     property real value: 0
     property real step: 1
     property real minValue: 0
@@ -48,7 +48,7 @@ Rectangle {
         width: parent.height / 2
 
         Button {
-            style: spinBox.style.normalButton
+            style: Style.normalButton
             anchors.right: parent.right
             anchors.top: parent.top
             anchors.bottom: parent.verticalCenter
@@ -59,7 +59,7 @@ Rectangle {
         }
 
         Button {
-            style: spinBox.style.normalButton
+            style: Style.normalButton
             anchors.right: parent.right
             anchors.top: parent.verticalCenter
             anchors.bottom: parent.bottom

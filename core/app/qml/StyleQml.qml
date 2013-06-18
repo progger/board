@@ -5,8 +5,9 @@
  */
 
 import QtQuick 2.0
+import board.core 2.0
 
-Item {
+StyleQml {
     property color panelColor: "#E0E0E0"
     property int panelSize: 40
     property variant normalButton: normalButton

@@ -6,6 +6,7 @@
 
 #include <QFileDialog>
 #include <QBuffer>
+#include <QProcess>
 #include <poppler/cpp/poppler-document.h>
 #include <poppler/cpp/poppler-page.h>
 #include <poppler/cpp/poppler-page-renderer.h>
@@ -21,10 +22,15 @@ void ImportDoc::importDoc()
 {
   QFileDialog dialog;
   dialog.setAcceptMode(QFileDialog::AcceptOpen);
-  dialog.setNameFilter("PDF (*.pdf)");
-  dialog.setDefaultSuffix("pdf");
   if (!dialog.exec()) return;
   QString file_name = dialog.selectedFiles().first();
+  QTemporaryDir *dir;
+  if (QFileInfo(file_name).suffix().compare("pdf", Qt::CaseInsensitive) != 0)
+  {
+    dir = new QTemporaryDir();
+    file_name = convert(file_name, dir);
+    if (file_name.isEmpty()) return;
+  }
   poppler::document *document = poppler::document::load_from_file(file_name.toStdString());
   int count = document->pages();
   poppler::page_renderer renderer;
@@ -75,5 +81,22 @@ void ImportDoc::importDoc()
     y += pdf_image.height();
   }
   delete document;
+  delete dir;
   canvas->updateSheetRect();
+}
+
+QString ImportDoc::convert(const QString &file_name, QTemporaryDir *dir)
+{
+  QProcess process;
+  process.start(QString("soffice --headless --convert-to pdf --outdir %1 %2").arg(dir->path(), file_name));
+  if (!process.waitForFinished())
+  {
+    g_core->showError("Не удалось импортировать документ");
+  }
+  QFileInfoList files = QDir(dir->path()).entryInfoList(QDir::Files);
+  if (files.count())
+  {
+    return files.first().filePath();
+  }
+  return QString();
 }

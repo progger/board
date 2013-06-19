@@ -8,6 +8,7 @@
 #define IMPORTDOC_H
 
 #include <QObject>
+#include <QTemporaryDir>
 
 class ImportDoc : public QObject
 {
@@ -16,6 +17,8 @@ public:
   explicit ImportDoc(QObject *parent = 0);
 public slots:
   void importDoc();
+private:
+  QString convert(const QString &file_name, QTemporaryDir *dir);
 };
 
 #endif // IMPORTDOC_H

@@ -18,7 +18,7 @@ Item {
         style: Style.normalButton
         width: height
         height: parent.height - 6
-        //image: "qrc:/core/res/open.svg"
+        image: "qrc:/import-documents/res/import.svg"
         onClicked: ImportDoc.importDoc()
     }
 }

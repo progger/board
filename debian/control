@@ -2,7 +2,8 @@ Source: board
 Section: misc
 Priority: optional
 Maintainer: Michael Kulabuhov <progger.ru@gmail.com>
-Build-Depends: debhelper (>= 8.0.0), qtbase5-dev, qtdeclarative5-dev, qtdeclarative5-qtquick2-plugin,
+Build-Depends: debhelper (>= 8.0.0), qt5-qmake, qt5-default, qtchooser,
+ qtbase5-dev, qtdeclarative5-dev, qtdeclarative5-qtquick2-plugin,
  qtdeclarative5-qtmultimedia-plugin, zlib1g-dev, libpoppler-cpp-dev
 Standards-Version: 3.9.4
 Homepage: https://progger.dyndns.info/
@@ -10,6 +11,7 @@ Homepage: https://progger.dyndns.info/
 Package: board
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, qtdeclarative5-qtquick2-plugin, qtdeclarative5-qtmultimedia-plugin
+Recommends: board-import-documenets
 Description: board graphics program
  Extendable vector graphics program
 
@@ -24,7 +26,7 @@ Description: board graphics program
 
 Package: libboard-common-dev
 Section: libdevel
-Architecture: any
+Architecture: all
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: board graphics program
  Extendable vector graphics program

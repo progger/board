@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=board
+Name[ru]=board
+GenericName=Vector graphic editor
+GenericName[ru]=Векторный графический редактор
+Exec=board %f
+

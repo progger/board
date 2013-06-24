@@ -101,6 +101,7 @@ OTHER_FILES += \
     qml/sheet.js \
     qml/Sheet.qml \
     qml/SpinBox.qml \
+    qml/StyleQml.qml \
     qml/TextWrapper.qml \
     qml/ToolBar.qml \
     qml/VideoPlayer.qml \
@@ -138,9 +139,11 @@ OTHER_FILES += \
     res/undo.svg \
     res/up_arrow.svg \
     res/video.svg \
-    qml/StyleQml.qml
+    board.desktop
 
 RESOURCES += app.qrc
 
 target.path=$$PREFIX/bin
-INSTALLS += target
+shortcut.path=$$PREFIX/share/applications
+shortcut.files=board.desktop
+INSTALLS += target shortcut

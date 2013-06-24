@@ -26,4 +26,5 @@ target.path=$$PREFIX/lib/board
 INSTALLS += target
 
 OTHER_FILES += \
-    qml/ImportDocumentsButton.qml
+    qml/ImportDocumentsButton.qml \
+    res/import.svg

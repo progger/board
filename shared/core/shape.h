@@ -30,6 +30,7 @@ public:
   qreal scaley() const;
   int thickness() const { return _thickness; }
   QColor color() const { return _color; }
+  virtual bool checkIntersect(const QRectF &rect);
 public slots:
   void setInnerSize(const QSizeF &size);
   void setThickness(int thickness);

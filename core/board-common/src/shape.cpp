@@ -84,3 +84,11 @@ void Shape::onHeightChanged()
 {
   emit scaleyChanged();
 }
+
+bool Shape::checkIntersect(const QRectF &rect)
+{
+  return !(rect.x() + rect.width() < x() ||
+           rect.x() > x() + width() ||
+           rect.y() + rect.height() < y() ||
+           rect.y() > y() + height());
+}

@@ -44,16 +44,19 @@ void SelectGen::begin(const QPointF &p)
 void SelectGen::end(const QPointF &p)
 {
   move(p);
-  QRectF select(_select_rect->x(), _select_rect->y(),
-                qMax(_select_rect->width(), 1.0), qMax(_select_rect->height(), 1.0));
-  for (QQuickItem *item : _canvas->container()->childItems())
+  QRectF select(_select_rect->x(), _select_rect->y(),_select_rect->width(), _select_rect->height());
+  bool click = select.width() < 8 && select.height() < 8;
+  auto items = _canvas->container()->childItems();
+  auto it = items.cend();
+  while (it != items.cbegin())
   {
-    Shape *shape = qobject_cast<Shape*>(item);
+    --it;
+    Shape *shape = qobject_cast<Shape*>(*it);
     if (!shape) continue;
-    QRectF rect(shape->x(), shape->y(), shape->width(), shape->height());
-    if (select.intersects(rect))
+    if (shape->checkIntersect(select))
     {
       _selected.push_back(shape);
+      if (click) break;
     }
   }
   if (_selected.empty())

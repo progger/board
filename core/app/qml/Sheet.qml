@@ -111,7 +111,7 @@ Sheet {
             }
         }
 
-        TextInput {
+        TextEdit {
             id: textInput
             objectName: "textInput"
             property variant textGen
@@ -125,7 +125,6 @@ Sheet {
                 id: textInputScale
             }
 
-            onAccepted: if (textGen) textGen.endEdit()
             onTextItemChanged: updateTextInput()
             function updateTextInput()
             {
@@ -137,8 +136,8 @@ Sheet {
                     textInputScale.xScale = textItem.scalex;
                     textInputScale.yScale = textItem.scaley;
                     text = textItem.text;
-                    cursorPosition = positionAt((mouseArea.mouseX - x) / textItem.scalex,
-                                                (mouseArea.mouseY - y) / textItem.scaley);
+                    cursorPosition = positionAt((mouseArea.mouseX - textItem.x) / textItem.scalex,
+                                                (mouseArea.mouseY - textItem.y) / textItem.scaley);
                     Core.keyboard = true;
                 }
                 else

@@ -27,6 +27,7 @@ class Core : public QObject, public ICore
 {
   Q_OBJECT
   Q_INTERFACES(ICore)
+  Q_PROPERTY(bool windowMode READ windowMode CONSTANT)
   Q_PROPERTY(bool keyboard READ keyboard WRITE setKeyboard NOTIFY keyboardChanged FINAL)
   Q_PROPERTY(bool transparent READ transparent WRITE setTransparent NOTIFY transparentChanged FINAL)
   Q_PROPERTY(int sheetIndex READ sheetIndex WRITE setSheetIndex NOTIFY sheetIndexChanged FINAL)
@@ -50,6 +51,7 @@ public:
   virtual void showError(const QString &error) override;
   virtual void addPluginRowItem(const QString &url_string) override;
 
+  bool windowMode() const;
   bool keyboard() const { return _keyboard; }
   bool transparent() const { return _transparent; }
   Paint *paintObj() const { return _paint; }

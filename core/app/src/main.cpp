@@ -40,6 +40,10 @@ void parseCmd()
       {
         g_window_mode = true;
       }
+      else if (param == "--fullscreen" || param == "-f")
+      {
+        g_window_mode = false;
+      }
       else
       {
         QTextStream cout(stdout);

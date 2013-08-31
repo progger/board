@@ -1,4 +1,5 @@
 Usage: board [options] [book.brd]
 Options:
-  -h, --help      Показать справку и выйти
-  -w, --window    Запуск в оконном режиме
+  -h, --help          Показать справку и выйти
+  -w, --window        Запуск в оконном режиме
+  -f, --fullscreen    Запуск в полноэкранном режиме

@@ -135,6 +135,11 @@ void Core::addPluginRowItem(const QString &url_string)
   item->setHeight(_plugin_row->height());
 }
 
+bool Core::windowMode() const
+{
+  return g_window_mode;
+}
+
 QQmlComponent *Core::getComponent(const QString &url_string)
 {
   auto it = _map_componenet.find(url_string);
@@ -188,8 +193,7 @@ void Core::minimizeButton()
   QQuickView *view = qobject_cast<QQuickView*>(mainView());
   if (view)
   {
-    //view->showMinimized();
-    view->setWindowState(Qt::WindowMinimized);
+    view->showMinimized();
   }
 }
 

@@ -181,7 +181,7 @@ Rectangle {
     Button {
         id: transparentButton
         style: Style.normalButton
-        anchors.right: minimizeButton.left
+        anchors.right: Core.windowMode ? parent.right : minimizeButton.left
         anchors.verticalCenter: parent.verticalCenter
         anchors.rightMargin: 4
         width: buttonSize
@@ -201,6 +201,7 @@ Rectangle {
         height: buttonSize
         image: "qrc:/core/res/minimize.svg"
         onClicked: Core.minimizeButton()
+        visible: !Core.windowMode
     }
 
     Button {
@@ -213,5 +214,6 @@ Rectangle {
         height: buttonSize
         image: "qrc:/core/res/close.svg"
         onClicked: Core.quitButton()
+        visible: !Core.windowMode
     }
 }

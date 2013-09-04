@@ -24,7 +24,7 @@ void ImportDoc::importDoc()
   dialog.setAcceptMode(QFileDialog::AcceptOpen);
   if (!dialog.exec()) return;
   QString file_name = dialog.selectedFiles().first();
-  QTemporaryDir *dir;
+  QTemporaryDir *dir = nullptr;
   if (QFileInfo(file_name).suffix().compare("pdf", Qt::CaseInsensitive) != 0)
   {
     dir = new QTemporaryDir();
@@ -88,7 +88,7 @@ void ImportDoc::importDoc()
 QString ImportDoc::convert(const QString &file_name, QTemporaryDir *dir)
 {
   QProcess process;
-  process.start(QString("soffice --headless --convert-to pdf --outdir %1 %2").arg(dir->path(), file_name));
+  process.start(QString("soffice --headless --convert-to pdf --outdir \"%1\" \"%2\"").arg(dir->path(), file_name));
   if (!process.waitForFinished())
   {
     g_core->showError("Не удалось импортировать документ");

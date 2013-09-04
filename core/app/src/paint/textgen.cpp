@@ -67,10 +67,17 @@ void TextGen::endEdit()
 {
   if (_item)
   {
-    _item->setWidth(_text_input->width() * _item->scalex());
-    _item->setHeight(_text_input->height() * _item->scaley());
-    _item->setProperty("text", _text_input->property("text"));
-    _item->setVisible(true);
+    if (_text_input->property("text").toString().isEmpty())
+    {
+      delete _item;
+    }
+    else
+    {
+      _item->setWidth(_text_input->width() * _item->scalex());
+      _item->setHeight(_text_input->height() * _item->scaley());
+      _item->setProperty("text", _text_input->property("text"));
+      _item->setVisible(true);
+    }
     _item = nullptr;
     _canvas->pushState();
     _canvas->updateSheetRect();

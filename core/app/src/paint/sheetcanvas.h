@@ -35,6 +35,7 @@ public:
   virtual QSizeF canvasSize() override;
   virtual void pushState() override;
   virtual void updateSheetRect() override;
+  virtual qreal getZ() override;
 
   Paint *paintObj() const { return _paint; }
   Q_INVOKABLE void moveSheet(qreal dx, qreal dy);
@@ -69,6 +70,8 @@ private:
   std::shared_ptr<StrStack> _redo_stack;
   QByteArray _cur_state;
   bool _start_move;
+  qreal _z_min;
+  qreal _z_max;
 };
 
 #endif // SHEETCANVAS_H

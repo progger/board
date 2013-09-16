@@ -15,6 +15,7 @@ template <class T> T * createItem(ISheetCanvas *canvas, QPointF pos)
 {
   T *t = new T(canvas->container(), g_core->paint()->thickness(), g_core->paint()->color());
   t->setPosition(pos);
+  t->setZ(canvas->getZ());
   return t;
 }
 

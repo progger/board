@@ -18,8 +18,9 @@ public:
   virtual QSizeF canvasSize() = 0;
   virtual void pushState() = 0;
   virtual void updateSheetRect() = 0;
+  virtual qreal getZ() = 0;
 };
 
-Q_DECLARE_INTERFACE(ISheetCanvas, "board.core.ISheetCanvas/2.0")
+Q_DECLARE_INTERFACE(ISheetCanvas, "board.core.ISheetCanvas/2.1")
 
 #endif // ISHEETCANVAS_H

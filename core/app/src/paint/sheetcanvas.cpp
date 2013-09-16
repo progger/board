@@ -23,7 +23,9 @@ SheetCanvas::SheetCanvas(QQuickItem *parent) :
   _undo_stack(make_shared<StrStack>()),
   _redo_stack(make_shared<StrStack>()),
   _cur_state(),
-  _start_move(false)
+  _start_move(false),
+  _z_min(0),
+  _z_max(-1)
 {
   connect(this, SIGNAL(enabledChanged()), SLOT(onEnabledChanged()));
   Core *core = static_cast<Core*>(g_core);
@@ -115,6 +117,15 @@ void SheetCanvas::pushState()
     _paint->setCanUndo(true);
     _paint->setCanRedo(false);
   }
+
+  _z_min = 0;
+  _z_max = -1;
+  for (QQuickItem *item : _container->childItems())
+  {
+    qreal z = item->z();
+    if (z < _z_min) _z_min = z;
+    if (z > _z_max) _z_max = z;
+  }
 }
 
 void SheetCanvas::updateSheetRect()
@@ -135,6 +146,11 @@ void SheetCanvas::updateSheetRect()
   }
   _sheet_rect = QRectF(x1, y1, qMax(x2 - x1, 1.0), qMax(y2 - y1, 1.0));
   emit sheetRectChanged();
+}
+
+qreal SheetCanvas::getZ()
+{
+  return _z_max + 1;
 }
 
 void SheetCanvas::onEnabledChanged()

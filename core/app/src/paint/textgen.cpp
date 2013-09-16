@@ -47,6 +47,7 @@ void TextGen::end(const QPointF &p)
     Q_ASSERT(text);
     text->setParent(_canvas->container());
     text->setParentItem(_canvas->container());
+    text->setZ(_canvas->getZ());
     int font_size = g_core->paint()->fontSize();
     text->setColor(g_core->paint()->color());
     text->setFontSize(font_size);

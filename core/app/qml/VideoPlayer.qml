@@ -6,11 +6,11 @@
 
 import QtQuick 2.0
 import QtMultimedia 5.0
+import board.core 2.0
 import board.core.paint 2.0
 
 VideoPlayer {
     id: videoPlayer
-    Style { id: style }
 
     Rectangle {
         anchors.fill: parent
@@ -50,7 +50,7 @@ VideoPlayer {
                 anchors.bottom: parent.bottom
                 width: height
                 radius: height / 2
-                style: style.normalButton
+                style: Style.normalButton
                 image: mediaPlayer.playbackState == MediaPlayer.PlayingState
                        ? "qrc:/core/res/pause.svg"
                        : "qrc:/core/res/play.svg"
@@ -73,7 +73,7 @@ VideoPlayer {
                 anchors.leftMargin: 4
                 width: height
                 radius: height / 2
-                style: style.normalButton
+                style: Style.normalButton
                 image: "qrc:/core/res/stop.svg"
                 enabled: parent.enabled
                 onClicked: mediaPlayer.stop()

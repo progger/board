@@ -4,9 +4,10 @@
  * See the LICENSE file for terms of use.
  */
 
-#include "QSGGeometryNode"
-#include "QSGFlatColorMaterial"
+#include <QSGGeometryNode>
+#include <QSGFlatColorMaterial>
 #include "global.h"
+#include "line.h"
 #include "pen.h"
 
 using namespace std;
@@ -28,6 +29,21 @@ void Pen::savePoints()
     stream << point.x() << point.y();
   }
   _hash = g_core->brdStore()->addObject(data);
+}
+
+bool Pen::checkIntersect(const QRectF &rect)
+{
+  if (!Shape::checkIntersect(rect)) return false;
+  qreal t = thickness() / 2 + 6;
+  auto r = QRectF(rect.x() - t, rect.y() - t, rect.width() + t * 2, rect.height() + t * 2);
+  int count = _points.size();
+  for (int i = 0; i < count - 1; ++i)
+  {
+    auto p1 = QPointF(x() + _points[i].x() * scalex(), y() + _points[i].y() * scaley());
+    auto p2 = QPointF(x() + _points[i + 1].x() * scalex(), y() + _points[i + 1].y() * scaley());
+    if (Line::isLineIntersectRect(p1, p2, r)) return true;
+  }
+  return false;
 }
 
 QSGNode *Pen::updatePaintNode(QSGNode *old_node, QQuickItem::UpdatePaintNodeData *)

@@ -20,6 +20,7 @@ public:
   explicit Pen(QQuickItem *parent = 0, float thinkness = 0, QColor color = QColor());
   Points &points() { return _points; }
   void savePoints();
+  virtual bool checkIntersect(const QRectF &rect) override;
 protected:
   virtual QSGNode *updatePaintNode(QSGNode *old_node, UpdatePaintNodeData *) override;
   virtual QString elementName() const override;

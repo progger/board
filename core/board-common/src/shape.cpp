@@ -87,8 +87,8 @@ void Shape::onHeightChanged()
 
 bool Shape::checkIntersect(const QRectF &rect)
 {
-  return !(rect.x() + rect.width() < x() ||
-           rect.x() > x() + width() ||
-           rect.y() + rect.height() < y() ||
-           rect.y() > y() + height());
+  return !(rect.right() < x() ||
+           rect.left() > x() + width() ||
+           rect.bottom() < y() ||
+           rect.top() > y() + height());
 }

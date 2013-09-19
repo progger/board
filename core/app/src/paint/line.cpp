@@ -8,12 +8,59 @@
 #include <QSGFlatColorMaterial>
 #include "line.h"
 
+static bool cmpIntr(qreal Ax, qreal Ay, qreal Bx, qreal By,
+                    qreal Cx, qreal Cy, qreal Dx, qreal Dy)
+{
+  qreal r = ((Ay - Cy) * (Dx - Cx) - (Ax - Cx) * (Dy - Cy)) /
+            ((Bx - Ax) * (Dy - Cy) - (By - Ay) * (Dx - Cx));
+  qreal s = ((Ay - Cy) * (Bx - Ax) - (Ax - Cx) * (By - Ay)) /
+            ((Bx - Ax) * (Dy - Cy) - (By - Ay) * (Dx - Cx));
+  return r >= 0 && r <= 1 && s >= 0 && s <= 1;
+}
+
 Line::Line(QQuickItem *parent, float thinkness, QColor color) :
   Shape(parent, thinkness, color),
   _p1(),
   _p2()
 {
   setFlag(ItemHasContents);
+}
+
+bool Line::checkIntersect(const QRectF &rect)
+{
+  if (!Shape::checkIntersect(rect)) return false;
+  qreal t = thickness() / 2 + 6;
+  auto p1 = QPointF(x() + _p1.x() * scalex(), y() + _p1.y() * scaley());
+  auto p2 = QPointF(x() + _p2.x() * scalex(), y() + _p2.y() * scaley());
+  auto r = QRectF(rect.x() - t, rect.y() - t, rect.width() + t * 2, rect.height() + t * 2);
+  return isLineIntersectRect(p1, p2, r);
+}
+
+int Line::computeCohenOutcode(const QPointF &p, const QRectF &rect)
+{
+  int code = 0;
+  if (p.y() > rect.bottom()) code = 8;
+  else if(p.y() < rect.top()) code = 4;
+  if(p.x() > rect.right()) return code + 2;
+  else if(p.x() < rect.left()) return code + 1;
+  return code;
+}
+
+bool Line::isLineIntersectRect(const QPointF &p1, const QPointF &p2, const QRectF &rect)
+{
+  int outcode_p1 = computeCohenOutcode(p1, rect);
+  if (outcode_p1 == 0) return true;
+  int outcode_p2 = computeCohenOutcode(p2, rect);
+  if (outcode_p2 == 0) return true;
+  if ((outcode_p1 & outcode_p2) != 0) return false;
+  if ((outcode_p1 + outcode_p2) == 12) return true;
+  if ((outcode_p1 + outcode_p2) == 3) return true;
+
+  return
+      cmpIntr(p1.x(), p1.y(), p2.x(), p2.y(), rect.left(), rect.bottom(), rect.right(), rect.bottom()) ||
+      cmpIntr(p1.x(), p1.y(), p2.x(), p2.y(), rect.left(), rect.top(), rect.right(), rect.top()) ||
+      cmpIntr(p1.x(), p1.y(), p2.x(), p2.y(), rect.left(), rect.top(), rect.left(), rect.bottom()) ||
+      cmpIntr(p1.x(), p1.y(), p2.x(), p2.y(), rect.right(), rect.top(), rect.right(), rect.bottom());
 }
 
 void Line::setP1(const QPointF &p)

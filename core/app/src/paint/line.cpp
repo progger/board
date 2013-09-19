@@ -10,14 +10,21 @@
 
 Line::Line(QQuickItem *parent, float thinkness, QColor color) :
   Shape(parent, thinkness, color),
-  _mode_ltrb(true)
+  _p1(),
+  _p2()
 {
   setFlag(ItemHasContents);
 }
 
-void Line::setModeLtrb(bool ltrb)
+void Line::setP1(const QPointF &p)
 {
-  _mode_ltrb = ltrb;
+  _p1 = p;
+  update();
+}
+
+void Line::setP2(const QPointF &p)
+{
+  _p2 = p;
   update();
 }
 
@@ -44,10 +51,10 @@ QSGNode *Line::updatePaintNode(QSGNode *old_node, QQuickItem::UpdatePaintNodeDat
   auto p = g->vertexDataAsPoint2D();
   float tx = thickness() * scalex() / 2;
   float ty = thickness() * scaley() / 2;
-  qreal x1 = 0;
-  qreal y1 = _mode_ltrb ? 0 : innerSize().height() * scaley();
-  qreal x2 = innerSize().width() * scalex();
-  qreal y2 = _mode_ltrb ? innerSize().height() * scaley() : 0;
+  qreal x1 = _p1.x() * scalex();
+  qreal y1 = _p1.y() * scaley();
+  qreal x2 = _p2.x() * scalex();
+  qreal y2 = _p2.y() * scaley();
   qreal dx = x2 - x1;
   qreal dy = y2 - y1;
   qreal l = sqrt(dx * dx + dy * dy);
@@ -67,10 +74,36 @@ QString Line::elementName() const
 
 void Line::innerSerialize(QXmlStreamWriter *writer, ISheetCanvas *, std::set<QString> *) const
 {
-  writer->writeAttribute("ltrb", QString::number(_mode_ltrb));
+  writer->writeAttribute("x1", QString::number(_p1.x()));
+  writer->writeAttribute("y1", QString::number(_p1.y()));
+  writer->writeAttribute("x2", QString::number(_p2.x()));
+  writer->writeAttribute("y2", QString::number(_p2.y()));
 }
 
 void Line::innerDeserialize(QXmlStreamReader *reader, ISheetCanvas *)
 {
-  _mode_ltrb = reader->attributes().value("ltrb").toString().toInt();
+  if (reader->attributes().hasAttribute("ltrb"))
+  {
+    // Убрать через некоторое время
+    bool mode_ltrb = reader->attributes().value("ltrb").toString().toInt();
+    _p1.setX(0);
+    _p2.setY(innerSize().width());
+    if (mode_ltrb)
+    {
+      _p1.setY(0);
+      _p2.setY(innerSize().height());
+    }
+    else
+    {
+      _p1.setY(innerSize().height());
+      _p2.setY(0);
+    }
+  }
+  else
+  {
+    _p1.setX(reader->attributes().value("x1").toString().toDouble());
+    _p1.setY(reader->attributes().value("y1").toString().toDouble());
+    _p2.setX(reader->attributes().value("x2").toString().toDouble());
+    _p2.setY(reader->attributes().value("y2").toString().toDouble());
+  }
 }

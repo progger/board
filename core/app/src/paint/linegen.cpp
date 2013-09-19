@@ -24,5 +24,7 @@ void LineGen::move(const QPointF &p)
   ShapeGen::move(p);
   Line *line = qobject_cast<Line*>(_item);
   Q_ASSERT(line);
-  line->setModeLtrb((_start.x() < p.x()) == (_start.y() < p.y()));
+  bool ltrb = (_start.x() < p.x()) == (_start.y() < p.y());
+  line->setP1(QPointF(0, ltrb ? 0 : line->innerSize().height()));
+  line->setP2(QPointF(line->innerSize().width(), ltrb ? line->innerSize().height() : 0));
 }

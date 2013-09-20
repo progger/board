@@ -82,54 +82,6 @@ Rectangle {
         }
 
         Button {
-            anchors.horizontalCenter: parent.horizontalCenter
-            style: Style.normalButton
-            border.color: "silver"
-            border.width: 2
-            width: buttonSize
-            height: buttonSize
-            image: "qrc:/core/res/undo.svg"
-            enabled: Paint.canUndo
-            onClicked: Paint.undo()
-        }
-
-        Button {
-            anchors.horizontalCenter: parent.horizontalCenter
-            style: Style.normalButton
-            border.color: "silver"
-            border.width: 2
-            width: buttonSize
-            height: buttonSize
-            image: "qrc:/core/res/redo.svg"
-            enabled: Paint.canRedo
-            onClicked: Paint.redo()
-        }
-
-        Button {
-            anchors.horizontalCenter: parent.horizontalCenter
-            style: Style.normalButton
-            border.color: "silver"
-            border.width: 2
-            enabled: Paint.selected;
-            width: buttonSize
-            height: buttonSize
-            image: "qrc:/core/res/delete.svg"
-            onClicked: Paint.del()
-        }
-
-        Button {
-            anchors.horizontalCenter: parent.horizontalCenter
-            style: Style.normalButton
-            border.color: "silver"
-            border.width: 2
-            enabled: Paint.selected;
-            width: buttonSize
-            height: buttonSize
-            image: "qrc:/core/res/duplicate.svg"
-            onClicked: Paint.duplicate()
-        }
-
-        Button {
             id: colorButton
             anchors.horizontalCenter: parent.horizontalCenter
             style: Style.normalButton
@@ -141,18 +93,6 @@ Rectangle {
             toggled: colorGridRect.opacity
             onClicked: colorGridRect.opacity = !colorGridRect.opacity
         }
-/*
-        Button {
-            anchors.horizontalCenter: parent.horizontalCenter
-            style: Style.normalButton
-            border.color: "silver"
-            border.width: 2
-            width: buttonSize
-            height: buttonSize
-            image: "qrc:/core/res/save.svg"
-            onClicked: Paint.save()
-        }
-*/
     }
 
     Rectangle {

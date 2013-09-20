@@ -59,6 +59,8 @@ signals:
   void redo();
   void del();
   void duplicate();
+  void toFront();
+  void toBack();
   void save();
 public slots:
   // IPaint

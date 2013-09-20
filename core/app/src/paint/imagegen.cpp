@@ -27,7 +27,7 @@ void ImageGen::begin(const QPointF &p)
   Q_ASSERT(image);
   image->setParent(_canvas->container());
   image->setParentItem(_canvas->container());
-  image->setZ(_canvas->getZ());
+  image->setZ(_canvas->getZNext());
   image->setSize(_image_size);
   image->setInnerSize(_image_size);
   image->setHash(_image_hash);

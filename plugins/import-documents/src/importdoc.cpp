@@ -52,7 +52,7 @@ void ImportDoc::importDoc()
 
     image->setParent(canvas->container());
     image->setParentItem(canvas->container());
-    image->setZ(canvas->getZ());
+    image->setZ(canvas->getZNext());
     image->setPosition(QPointF((canvas->container()->width() - pdf_image.width()) / 2, y));
     image->setSize(QSizeF(pdf_image.width(), pdf_image.height()));
 

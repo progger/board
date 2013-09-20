@@ -4,6 +4,7 @@
  * See the LICENSE file for terms of use.
  */
 
+#include <algorithm>
 #include "sheetcanvas.h"
 #include "paint.h"
 #include "shape.h"
@@ -23,6 +24,8 @@ SelectGen::SelectGen(ISheetCanvas *canvas) :
   connect(_canvas_obj, SIGNAL(sheetPointChanged()), SLOT(onSheetPointChanged()));
   connect(_canvas_obj->paintObj(), SIGNAL(del()), SLOT(onDel()));
   connect(_canvas_obj->paintObj(), SIGNAL(duplicate()), SLOT(onDuplicate()));
+  connect(_canvas_obj->paintObj(), SIGNAL(toFront()), SLOT(onToFront()));
+  connect(_canvas_obj->paintObj(), SIGNAL(toBack()), SLOT(onToBack()));
 }
 
 SelectGen::~SelectGen()
@@ -194,6 +197,30 @@ void SelectGen::onDuplicate()
   _canvas->pushState();
 }
 
+void SelectGen::onToFront()
+{
+  if (_selected.empty()) return;
+  sortSelected();
+  int z = _canvas->getZMax();
+  for (Shape *shape : _selected)
+  {
+    shape->setZ(++z);
+  }
+  _canvas->pushState();
+}
+
+void SelectGen::onToBack()
+{
+  if (_selected.empty()) return;
+  sortSelected();
+  int z = _canvas->getZMin();
+  for (Shape *shape : _selected)
+  {
+    shape->setZ(--z);
+  }
+  _canvas->pushState();
+}
+
 void SelectGen::updateRoundRect()
 {
   Shape *item = _selected[0];
@@ -218,4 +245,9 @@ QPointF SelectGen::getRectPoint(const QPointF &p)
 {
   return QPointF((p.x() - _select_rect->x()) / _select_rect->width(),
                  (p.y() - _select_rect->y()) / _select_rect->height());
+}
+
+void SelectGen::sortSelected()
+{
+  std::sort(_selected.begin(), _selected.end(), [](Shape *s1, Shape *s2) { return s1->z() < s2->z(); });
 }

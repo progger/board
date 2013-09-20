@@ -142,6 +142,26 @@ Rectangle {
             image: "qrc:/core/res/duplicate.svg"
             onClicked: Paint.duplicate()
         }
+
+        Button {
+            anchors.verticalCenter: parent.verticalCenter
+            style: Style.normalButton
+            enabled: Paint.selected;
+            width: buttonSize
+            height: buttonSize
+            image: "qrc:/core/res/to_front.svg"
+            onClicked: Paint.toFront()
+        }
+
+        Button {
+            anchors.verticalCenter: parent.verticalCenter
+            style: Style.normalButton
+            enabled: Paint.selected;
+            width: buttonSize
+            height: buttonSize
+            image: "qrc:/core/res/to_back.svg"
+            onClicked: Paint.toBack()
+        }
     }
 
     Button {

@@ -31,6 +31,8 @@ public slots:
   void onSheetPointChanged();
   void onDel();
   void onDuplicate();
+  void onToFront();
+  void onToBack();
 private:
   SheetCanvas *_canvas_obj;
   QQuickItem *_select_rect;
@@ -41,6 +43,7 @@ private:
   int _my2;
   void updateRoundRect();
   QPointF getRectPoint(const QPointF &p);
+  void sortSelected();
 };
 
 #endif // SELECTGEN_H

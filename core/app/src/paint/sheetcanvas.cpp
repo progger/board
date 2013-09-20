@@ -117,15 +117,7 @@ void SheetCanvas::pushState()
     _paint->setCanUndo(true);
     _paint->setCanRedo(false);
   }
-
-  _z_min = 0;
-  _z_max = -1;
-  for (QQuickItem *item : _container->childItems())
-  {
-    qreal z = item->z();
-    if (z < _z_min) _z_min = z;
-    if (z > _z_max) _z_max = z;
-  }
+  updateZMinMax();
 }
 
 void SheetCanvas::updateSheetRect()
@@ -148,7 +140,17 @@ void SheetCanvas::updateSheetRect()
   emit sheetRectChanged();
 }
 
-qreal SheetCanvas::getZ()
+qreal SheetCanvas::getZMin()
+{
+  return _z_min;
+}
+
+qreal SheetCanvas::getZMax()
+{
+  return _z_max;
+}
+
+qreal SheetCanvas::getZNext()
 {
   return _z_max + 1;
 }
@@ -208,6 +210,7 @@ void SheetCanvas::onUndo()
   _paint->setCanRedo(true);
   _shape_gen = _paint->createShapeGen(this);
   updateSheetRect();
+  updateZMinMax();
 }
 
 void SheetCanvas::onRedo()
@@ -222,6 +225,7 @@ void SheetCanvas::onRedo()
   _paint->setCanRedo(!_redo_stack->empty());
   _shape_gen = _paint->createShapeGen(this);
   updateSheetRect();
+  updateZMinMax();
 }
 
 void SheetCanvas::componentComplete()
@@ -241,6 +245,18 @@ void SheetCanvas::geometryChanged(const QRectF &newGeometry, const QRectF &oldGe
 {
   QQuickItem::geometryChanged(newGeometry, oldGeometry);
   updateSheetRect();
+}
+
+void SheetCanvas::updateZMinMax()
+{
+  _z_min = 0;
+  _z_max = -1;
+  for (QQuickItem *item : _container->childItems())
+  {
+    qreal z = item->z();
+    if (z < _z_min) _z_min = z;
+    if (z > _z_max) _z_max = z;
+  }
 }
 
 QPointF SheetCanvas::sheetPoint()

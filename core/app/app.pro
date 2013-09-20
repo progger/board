@@ -136,6 +136,8 @@ OTHER_FILES += \
     res/stop.svg \
     res/text.svg \
     res/thickness.svg \
+    res/to_front.svg \
+    res/to_back.svg \
     res/undo.svg \
     res/up_arrow.svg \
     res/video.svg \

@@ -20,6 +20,7 @@ void Shape::serialize(QXmlStreamWriter *writer, ISheetCanvas *canvas, std::set<Q
   writer->writeStartElement(elementName());
   writer->writeAttribute("x", QString::number(x() + canvas->sheetPoint().x()));
   writer->writeAttribute("y", QString::number(y() + canvas->sheetPoint().y()));
+  writer->writeAttribute("z", QString::number(z()));
   writer->writeAttribute("width", QString::number(width()));
   writer->writeAttribute("height", QString::number(height()));
   writer->writeAttribute("innerWidth", QString::number(_inner_size.width()));
@@ -35,6 +36,7 @@ void Shape::deserialize(QXmlStreamReader *reader, ISheetCanvas *canvas)
   auto attrs = reader->attributes();
   setX(attrs.value("x").toString().toDouble() - canvas->sheetPoint().x());
   setY(attrs.value("y").toString().toDouble() - canvas->sheetPoint().y());
+  setZ(attrs.value("z").toString().toDouble());
   setSize(QSizeF(attrs.value("width").toString().toDouble(),
                  attrs.value("height").toString().toDouble()));
   setInnerSize(QSizeF(attrs.value("innerWidth").toString().toDouble(),

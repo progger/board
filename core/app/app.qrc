@@ -47,6 +47,8 @@
         <file>res/stop.svg</file>
         <file>res/text.svg</file>
         <file>res/thickness.svg</file>
+        <file>res/to_front.svg</file>
+        <file>res/to_back.svg</file>
         <file>res/undo.svg</file>
         <file>res/up_arrow.svg</file>
         <file>res/video.svg</file>

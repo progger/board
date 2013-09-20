@@ -95,6 +95,75 @@ Rectangle {
         }
     }
 
+    Row {
+        id: operationButtons
+        anchors.right: saveBookButton.left
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.rightMargin: 12
+        height: parent.height
+        spacing: 4
+
+        Button {
+            anchors.verticalCenter: parent.verticalCenter
+            style: Style.normalButton
+            width: buttonSize
+            height: buttonSize
+            image: "qrc:/core/res/undo.svg"
+            enabled: Paint.canUndo
+            onClicked: Paint.undo()
+        }
+
+        Button {
+            anchors.verticalCenter: parent.verticalCenter
+            style: Style.normalButton
+            width: buttonSize
+            height: buttonSize
+            image: "qrc:/core/res/redo.svg"
+            enabled: Paint.canRedo
+            onClicked: Paint.redo()
+        }
+
+        Button {
+            anchors.verticalCenter: parent.verticalCenter
+            style: Style.normalButton
+            enabled: Paint.selected;
+            width: buttonSize
+            height: buttonSize
+            image: "qrc:/core/res/delete.svg"
+            onClicked: Paint.del()
+        }
+
+        Button {
+            anchors.verticalCenter: parent.verticalCenter
+            style: Style.normalButton
+            enabled: Paint.selected;
+            width: buttonSize
+            height: buttonSize
+            image: "qrc:/core/res/duplicate.svg"
+            onClicked: Paint.duplicate()
+        }
+
+        Button {
+            anchors.verticalCenter: parent.verticalCenter
+            style: Style.normalButton
+            enabled: Paint.selected;
+            width: buttonSize
+            height: buttonSize
+            image: "qrc:/core/res/to_front.svg"
+            onClicked: Paint.toFront()
+        }
+
+        Button {
+            anchors.verticalCenter: parent.verticalCenter
+            style: Style.normalButton
+            enabled: Paint.selected;
+            width: buttonSize
+            height: buttonSize
+            image: "qrc:/core/res/to_back.svg"
+            onClicked: Paint.toBack()
+        }
+    }
+
     Button {
         id: saveBookButton
         style: Style.normalButton

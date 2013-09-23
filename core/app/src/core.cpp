@@ -43,7 +43,8 @@ Core::Core(QQuickView *parent) :
   _keyboard(false),
   _transparent(false),
   _map_componenet(),
-  _sheets()
+  _sheets(),
+  _changes(false)
 {
   _root_dir = QDir::home();
   _root_dir.mkdir("board");
@@ -135,6 +136,11 @@ void Core::addPluginRowItem(const QString &url_string)
   item->setHeight(_plugin_row->height());
 }
 
+void Core::setChanges()
+{
+  _changes = true;
+}
+
 bool Core::windowMode() const
 {
   return g_window_mode;
@@ -185,7 +191,7 @@ void Core::emulateKeyPress(int key, int modifiers, const QString &text) const
 
 void Core::quitButton()
 {
-  QGuiApplication::quit();
+  QGuiApplication::postEvent(parent(), new QCloseEvent());
 }
 
 void Core::minimizeButton()
@@ -336,6 +342,7 @@ void Core::saveBookFiles(QuaZip *zip)
     zip_file.write(data);
     zip_file.close();
   }
+  _changes = false;
 }
 
 void Core::openBookFiles(QuaZip *zip)

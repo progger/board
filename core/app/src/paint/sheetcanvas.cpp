@@ -118,6 +118,7 @@ void SheetCanvas::pushState()
     _paint->setCanRedo(false);
   }
   updateZMinMax();
+  g_core->setChanges();
 }
 
 void SheetCanvas::updateSheetRect()
@@ -211,6 +212,7 @@ void SheetCanvas::onUndo()
   _shape_gen = _paint->createShapeGen(this);
   updateSheetRect();
   updateZMinMax();
+  g_core->setChanges();
 }
 
 void SheetCanvas::onRedo()
@@ -226,6 +228,7 @@ void SheetCanvas::onRedo()
   _shape_gen = _paint->createShapeGen(this);
   updateSheetRect();
   updateZMinMax();
+  g_core->setChanges();
 }
 
 void SheetCanvas::componentComplete()

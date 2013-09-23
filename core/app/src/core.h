@@ -50,6 +50,7 @@ public:
   virtual void logError(const QString &error) override;
   virtual void showError(const QString &error) override;
   virtual void addPluginRowItem(const QString &url_string) override;
+  virtual void setChanges() override;
 
   bool windowMode() const;
   bool keyboard() const { return _keyboard; }
@@ -57,6 +58,7 @@ public:
   Paint *paintObj() const { return _paint; }
   std::vector<Sheet*> *sheets() { return &_sheets; }
   QQmlListProperty<QQuickItem> sheetsProperty();
+  bool hasChanges() { return _changes; }
 signals:
   void keyboardChanged();
   void transparentChanged();
@@ -91,6 +93,7 @@ private:
   QQuickItem *_plugin_row;
   std::vector<Sheet*> _sheets;
   std::vector<IPlugin*> _plugins;
+  bool _changes;
   Sheet *createSheet();
   void saveBookFiles(QuaZip *zip);
   void openBookFiles(QuaZip *zip);

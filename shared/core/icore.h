@@ -30,8 +30,9 @@ public:
   virtual void logError(const QString &error) = 0;
   virtual void showError(const QString &error) = 0;
   virtual void addPluginRowItem(const QString &url_string) = 0;
+  virtual void setChanges() = 0;
 };
 
-Q_DECLARE_INTERFACE(ICore, "board.core.ICore/2.0")
+Q_DECLARE_INTERFACE(ICore, "board.core.ICore/2.1")
 
 #endif // ICORE_H

@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Michael Kulabuhov <progger.ru@gmail.com>
 Build-Depends: debhelper (>= 8.0.0), qt5-qmake, qt5-default, qtchooser,
  qtbase5-dev, qtdeclarative5-dev, qtdeclarative5-qtquick2-plugin,
- qtdeclarative5-qtmultimedia-plugin, zlib1g-dev, libpoppler-cpp-dev
+ qtdeclarative5-qtmultimedia-plugin, zlib1g-dev, libpoppler-qt5-dev
 Standards-Version: 3.9.4
 Homepage: https://progger.dyndns.info/
 

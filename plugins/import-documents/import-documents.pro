@@ -5,7 +5,7 @@ TEMPLATE = lib
 CONFIG += plugin
 VERSION = 2.0.0
 QMAKE_CXXFLAGS += -std=c++11
-LIBS += -lpoppler-cpp
+LIBS += -lpoppler-qt5
 DESTDIR = ../../bin/plugins
 LIBSDIR = ../../bin
 DEPENDENCY_LIBRARIES = board-common

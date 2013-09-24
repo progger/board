@@ -7,9 +7,7 @@
 #include <QFileDialog>
 #include <QBuffer>
 #include <QProcess>
-#include <poppler/cpp/poppler-document.h>
-#include <poppler/cpp/poppler-page.h>
-#include <poppler/cpp/poppler-page-renderer.h>
+#include <poppler/qt5/poppler-qt5.h>
 #include "global.h"
 #include "importdoc.h"
 
@@ -31,12 +29,11 @@ void ImportDoc::importDoc()
     file_name = convert(file_name, dir);
     if (file_name.isEmpty()) return;
   }
-  poppler::document *document = poppler::document::load_from_file(file_name.toStdString());
-  int count = document->pages();
-  poppler::page_renderer renderer;
-  renderer.set_render_hints(poppler::page_renderer::antialiasing |
-                            poppler::page_renderer::text_antialiasing |
-                            poppler::page_renderer::text_hinting);
+  Poppler::Document *document = Poppler::Document::load(file_name);
+  document->setRenderHint(Poppler::Document::Antialiasing);
+  document->setRenderHint(Poppler::Document::TextAntialiasing);
+  document->setRenderHint(Poppler::Document::TextHinting);
+  int count = document->numPages();
   ISheet *sheet = g_core->sheet(g_core->sheetIndex());
   ISheetCanvas *canvas = sheet->canvas();
   int y = canvas->sheetPoint().y();
@@ -44,8 +41,8 @@ void ImportDoc::importDoc()
   Q_ASSERT(image_comp);
   for (int i = 0; i < count; i++)
   {
-    poppler::page *page = document->create_page(i);
-    poppler::image pdf_image = renderer.render_page(page, 128, 128);
+    Poppler::Page *page = document->page(i);
+    QImage pdf_image = page->renderToImage(128, 128);
     delete page;
     QQuickItem *image = qobject_cast<QQuickItem*>(image_comp->create());
     Q_ASSERT(image);
@@ -56,25 +53,10 @@ void ImportDoc::importDoc()
     image->setPosition(QPointF((canvas->container()->width() - pdf_image.width()) / 2, y));
     image->setSize(QSizeF(pdf_image.width(), pdf_image.height()));
 
-    QImage::Format format;
-    switch (pdf_image.format()) {
-      case poppler::image::format_mono:
-        format = QImage::Format_Mono;
-        break;
-      case poppler::image::format_rgb24:
-        format = QImage::Format_RGB888;
-        break;
-      case poppler::image::format_argb32:
-        format = QImage::Format_ARGB32;
-        break;
-      default:
-        return;
-    }
-    QImage qt_image((uchar*)pdf_image.data(), pdf_image.width(), pdf_image.height(), format);
     QByteArray data;
     QBuffer buffer(&data);
     buffer.open(QIODevice::WriteOnly);
-    qt_image.save(&buffer, "PNG");
+    pdf_image.save(&buffer, "PNG");
     buffer.close();
     QString hash = g_core->brdStore()->addObject(data);
     image->setProperty("hash", hash);

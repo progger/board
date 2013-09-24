@@ -25,7 +25,7 @@ void PenGen::begin(const QPointF &p)
 
 void PenGen::end(const QPointF &p)
 {
-  move(p);
+  //move(p);
   Pen *pen = static_cast<Pen*>(_item);
   pen->points().shrink_to_fit();
   pen->savePoints();

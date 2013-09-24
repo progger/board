@@ -7,7 +7,11 @@
 #include <QFileDialog>
 #include <QBuffer>
 #include <QProcess>
+#ifdef Q_OS_WIN
+#include <poppler-qt5.h>
+#else
 #include <poppler/qt5/poppler-qt5.h>
+#endif
 #include "global.h"
 #include "importdoc.h"
 
@@ -65,13 +69,24 @@ void ImportDoc::importDoc()
   }
   delete document;
   delete dir;
+  canvas->pushState();
   canvas->updateSheetRect();
 }
 
 QString ImportDoc::convert(const QString &file_name, QTemporaryDir *dir)
 {
   QProcess process;
+#ifdef Q_OS_WIN
+  QString soffice_name = "soffice.exe";
+  QSettings settings("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\soffice.exe", QSettings::NativeFormat);
+  if (settings.contains("."))
+  {
+    soffice_name = settings.value(".", "").toString();
+  }
+  process.start(QString("\"%1\" --headless --convert-to pdf --outdir \"%2\" \"%3\"").arg(soffice_name, dir->path(), file_name));
+#else
   process.start(QString("soffice --headless --convert-to pdf --outdir \"%1\" \"%2\"").arg(dir->path(), file_name));
+#endif
   if (!process.waitForFinished())
   {
     g_core->showError("Не удалось импортировать документ");

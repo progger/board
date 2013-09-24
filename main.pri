@@ -8,10 +8,16 @@ INCLUDEPATH += \
     $$PWD/shared \
     $$PWD/shared/core
 
-win32: SONAME=dll
-linux: SONAME=so
+win32: {
+  LIBPOSTFIX=2
+  SONAME=dll
+}
+linux: {
+  LIBPREFIX=lib
+  SONAME=so
+}
 
 for(dep, DEPENDENCY_LIBRARIES) {
-    LIBS += $${LIBSDIR}/lib$${dep}.$${SONAME}
-    PRE_TARGETDEPS += $${LIBSDIR}/lib$${dep}.$${SONAME}
+    LIBS += $${LIBSDIR}/$${LIBPREFIX}$${dep}$${LIBPOSTFIX}.$${SONAME}
+    PRE_TARGETDEPS += $${LIBSDIR}/$${LIBPREFIX}$${dep}$${LIBPOSTFIX}.$${SONAME}
 }

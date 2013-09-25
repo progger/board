@@ -11,6 +11,7 @@ Rectangle {
     property variant style
     property string image
     property string text
+    property string hint
     property bool pressed: false
     property bool toggled: false
     property bool enabled: true
@@ -57,6 +58,7 @@ Rectangle {
         enabled: button.enabled
         onPressedChanged: button.pressed = pressed
         onClicked: if (enabled) button.clicked()
+        onEntered: hintTimer.restart()
     }
 
     Image {
@@ -71,5 +73,53 @@ Rectangle {
         font.pixelSize: parent.height / 2
         text: button.text
         smooth: true
+    }
+
+    Rectangle {
+        id: hintRect
+        property real dx
+        property real dy
+        parent: getRoot(button)
+        x: Math.min(mouseArea.mouseX + dx, parent.width - width)
+        y: Math.max(mouseArea.mouseY + dy - height, 0)
+        z: 100
+        width: hintText.width + 6
+        height: hintText.height + 4
+        border.width: 1
+        border.color: "black"
+        color: "#FFFFC0"
+        enabled: hint
+        visible: hint
+        opacity: (hint ? true : false) && mouseArea.containsMouse && !hintTimer.running
+
+        function getRoot(item) {
+            if (item.parent.parent) {
+                return getRoot(item.parent);
+            }
+            return item;
+        }
+
+        Behavior on opacity {
+            NumberAnimation { duration: 500 }
+        }
+
+        Text {
+            id: hintText
+            anchors.centerIn: parent
+            font.pixelSize: 14
+            text: hint
+        }
+
+        Timer {
+            id: hintTimer
+            interval: 1000
+
+            onTriggered: {
+                var root = hintRect.parent;
+                var p = root.mapFromItem(button, 0, 0);
+                hintRect.dx = p.x;
+                hintRect.dy = p.y;
+            }
+        }
     }
 }

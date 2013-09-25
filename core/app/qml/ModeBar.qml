@@ -28,15 +28,15 @@ Rectangle {
 
         Repeater {
             model: [
-                {"mode": "select", "image": "qrc:/core/res/select.svg"},
-                {"mode": "pen", "image": "qrc:/core/res/pen.svg"},
-                {"mode": "line", "image": "qrc:/core/res/line.svg"},
-                {"mode": "rectangle", "image": "qrc:/core/res/rectangle.svg"},
-                {"mode": "magic_pen", "image": "qrc:/core/res/magic_pen.svg"},
-                {"mode": "circle", "image": "qrc:/core/res/circle.svg"},
-                {"mode": "ellipse", "image": "qrc:/core/res/ellipse.svg"},
-                {"mode": "text", "image": "qrc:/core/res/text.svg"},
-                {"mode": "move", "image": "qrc:/core/res/move.svg"}
+                {"mode": "select", "image": "qrc:/core/res/select.svg", "hint": "выбор"},
+                {"mode": "pen", "image": "qrc:/core/res/pen.svg", "hint": "карандаш"},
+                {"mode": "line", "image": "qrc:/core/res/line.svg", "hint": "линия"},
+                {"mode": "rectangle", "image": "qrc:/core/res/rectangle.svg", "hint": "прямоугольник"},
+                {"mode": "magic_pen", "image": "qrc:/core/res/magic_pen.svg", "hint": "магический карандаш"},
+                {"mode": "circle", "image": "qrc:/core/res/circle.svg", "hint": "круг"},
+                {"mode": "ellipse", "image": "qrc:/core/res/ellipse.svg", "hint": "эллипс"},
+                {"mode": "text", "image": "qrc:/core/res/text.svg", "hint": "текст"},
+                {"mode": "move", "image": "qrc:/core/res/move.svg", "hint": "движение"}
             ]
 
             Item {
@@ -50,6 +50,7 @@ Rectangle {
                     border.width: 2
                     width: buttonSize
                     height: buttonSize
+                    hint: modelData.hint
                     image: modelData.image
                     toggled: Paint.mode == modelData.mode
                     onClicked: Paint.mode = modelData.mode
@@ -64,6 +65,7 @@ Rectangle {
             border.width: 2
             width: buttonSize
             height: buttonSize
+            hint: "картинка"
             image: "qrc:/core/res/image.svg"
             toggled: Paint.mode == "image"
             onClicked: Paint.selectImage()
@@ -76,6 +78,7 @@ Rectangle {
             border.width: 2
             width: buttonSize
             height: buttonSize
+            hint: "видео"
             image: "qrc:/core/res/video.svg"
             toggled: Paint.mode == "video"
             onClicked: Paint.selectVideo()
@@ -89,6 +92,7 @@ Rectangle {
             border.width: 2
             width: buttonSize
             height: buttonSize
+            hint: "выбор цвета"
             image: "qrc:/core/res/color.svg"
             toggled: colorGridRect.opacity
             onClicked: colorGridRect.opacity = !colorGridRect.opacity

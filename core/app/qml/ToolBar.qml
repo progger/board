@@ -108,6 +108,7 @@ Rectangle {
             style: Style.normalButton
             width: buttonSize
             height: buttonSize
+            hint: "отменить"
             image: "qrc:/core/res/undo.svg"
             enabled: Paint.canUndo
             onClicked: Paint.undo()
@@ -118,6 +119,7 @@ Rectangle {
             style: Style.normalButton
             width: buttonSize
             height: buttonSize
+            hint: "вернуть"
             image: "qrc:/core/res/redo.svg"
             enabled: Paint.canRedo
             onClicked: Paint.redo()
@@ -129,6 +131,7 @@ Rectangle {
             enabled: Paint.selected;
             width: buttonSize
             height: buttonSize
+            hint: "удалить"
             image: "qrc:/core/res/delete.svg"
             onClicked: Paint.del()
         }
@@ -139,6 +142,7 @@ Rectangle {
             enabled: Paint.selected;
             width: buttonSize
             height: buttonSize
+            hint: "дублировать"
             image: "qrc:/core/res/duplicate.svg"
             onClicked: Paint.duplicate()
         }
@@ -149,6 +153,7 @@ Rectangle {
             enabled: Paint.selected;
             width: buttonSize
             height: buttonSize
+            hint: "на передний план"
             image: "qrc:/core/res/to_front.svg"
             onClicked: Paint.toFront()
         }
@@ -159,6 +164,7 @@ Rectangle {
             enabled: Paint.selected;
             width: buttonSize
             height: buttonSize
+            hint: "на задний план"
             image: "qrc:/core/res/to_back.svg"
             onClicked: Paint.toBack()
         }
@@ -172,6 +178,7 @@ Rectangle {
         anchors.rightMargin: 4
         width: buttonSize
         height: buttonSize
+        hint: "сохранить"
         image: "qrc:/core/res/save.svg"
         onClicked: Core.saveBook()
     }
@@ -184,6 +191,7 @@ Rectangle {
         anchors.rightMargin: 12
         width: buttonSize
         height: buttonSize
+        hint: "открыть"
         image: "qrc:/core/res/open.svg"
         onClicked: Core.openBook()
     }
@@ -255,6 +263,7 @@ Rectangle {
         anchors.rightMargin: 4
         width: buttonSize
         height: buttonSize
+        hint: "рабочий стол"
         image: "qrc:/core/res/desktop.svg"
         toggled: Core.transparent
         onClicked: Core.transparent = !Core.transparent

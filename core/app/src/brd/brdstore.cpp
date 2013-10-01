@@ -19,7 +19,11 @@ BrdObject::BrdObject(const QByteArray &data) :
 
 BrdStore::BrdStore(QObject *parent) :
   QObject(parent),
-  _store()
+  _store(),
+  _tmp_store(),
+  _tmp_free(),
+  _tmp_used(),
+  _tmp_next(1)
 {
 }
 
@@ -36,6 +40,44 @@ QByteArray BrdStore::getObject(const QString &hash)
 QString BrdStore::getUrlString(const QString &hash)
 {
   return "brd:" + hash;
+}
+
+int BrdStore::addTempObject(const QByteArray &data)
+{
+  int id;
+  if (_tmp_free.empty())
+  {
+    id = _tmp_next++;
+  }
+  else
+  {
+    id = *(_tmp_free.erase(_tmp_free.cbegin()));
+  }
+  _tmp_store[id] = data;
+  _tmp_used.insert(id);
+  return id;
+}
+
+void BrdStore::removeTempObject(int id)
+{
+  _tmp_store[id] = QByteArray();
+  _tmp_used.erase(id);
+  _tmp_free.insert(id);
+}
+
+QByteArray BrdStore::getTempObject(int id)
+{
+  auto it = _tmp_store.find(id);
+  if (it == _tmp_store.cend())
+  {
+    return QByteArray();
+  }
+  return (*it).second;
+}
+
+QString BrdStore::getTempUrl(int id)
+{
+  return "tmp:" + QString::number(id);
 }
 
 QString BrdStore::addObject(const QByteArray &data)

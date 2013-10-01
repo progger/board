@@ -17,12 +17,24 @@ BrdNetworkAccessManager::BrdNetworkAccessManager(BrdStore *store, QObject *paren
 
 QNetworkReply *BrdNetworkAccessManager::createRequest(QNetworkAccessManager::Operation op, const QNetworkRequest &request, QIODevice *outgoingData)
 {
-  if (request.url().scheme() == "brd" && op == GetOperation)
+  if (op == GetOperation)
   {
-    QByteArray data = _store->getObject(request.url().path());
-    if (!data.isEmpty())
+    QString scheme = request.url().scheme();
+    if (scheme == "brd")
     {
-      return new BrdReply(data, this);
+      QByteArray data = _store->getObject(request.url().path());
+      if (!data.isEmpty())
+      {
+        return new BrdReply(data, this);
+      }
+    }
+    if (scheme == "tmp")
+    {
+      QByteArray data = _store->getTempObject(request.url().path().toInt());
+      if (!data.isEmpty())
+      {
+        return new BrdReply(data, this);
+      }
     }
   }
   return QNetworkAccessManager::createRequest(op, request, outgoingData);

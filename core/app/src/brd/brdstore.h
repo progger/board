@@ -9,6 +9,7 @@
 
 #include <memory>
 #include <map>
+#include <set>
 #include <QObject>
 #include "ibrdstore.h"
 
@@ -35,10 +36,18 @@ public:
   virtual QString addFromFile(const QString &file_name) override;
   virtual QByteArray getObject(const QString &hash) override;
   virtual QString getUrlString(const QString &hash) override;
+  virtual int addTempObject(const QByteArray &data) override;
+  virtual void removeTempObject(int id) override;
+  virtual QByteArray getTempObject(int id) override;
+  virtual QString getTempUrl(int id) override;
 
   void clear();
 private:
   std::map<QString, std::shared_ptr<BrdObject>> _store;
+  std::map<int, QByteArray> _tmp_store;
+  std::set<int> _tmp_free;
+  std::set<int> _tmp_used;
+  int _tmp_next;
 };
 
 #endif // BRDSTORE_H

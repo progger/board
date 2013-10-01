@@ -16,8 +16,12 @@ public:
   virtual QString addFromFile(const QString &file_name) = 0;
   virtual QByteArray getObject(const QString &hash) = 0;
   virtual QString getUrlString(const QString &hash) = 0;
+  virtual int addTempObject(const QByteArray &data) = 0;
+  virtual void removeTempObject(int id) = 0;
+  virtual QByteArray getTempObject(int id) = 0;
+  virtual QString getTempUrl(int id) = 0;
 };
 
-Q_DECLARE_INTERFACE(IBrdStore, "board.core.IBrdStore/2.0")
+Q_DECLARE_INTERFACE(IBrdStore, "board.core.IBrdStore")
 
 #endif // IBRDSTORE_H

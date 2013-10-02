@@ -7,6 +7,7 @@
 #ifndef IMPORTDOC_H
 #define IMPORTDOC_H
 
+#include <memory>
 #include <QObject>
 #include <QTemporaryDir>
 
@@ -18,7 +19,7 @@ public:
 public slots:
   void importDoc();
 private:
-  QString convert(const QString &file_name, QTemporaryDir *dir);
+  QString convert(const QString &file_name, std::shared_ptr<QTemporaryDir> dir);
 };
 
 #endif // IMPORTDOC_H

@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/import-documents/">
         <file>qml/ImportDocumentsButton.qml</file>
+        <file>qml/PdfViewer.qml</file>
         <file>res/import.svg</file>
     </qresource>
 </RCC>

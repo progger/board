@@ -15,6 +15,6 @@ public:
   virtual void init() = 0;
 };
 
-Q_DECLARE_INTERFACE(IPlugin, "Board.IPlugin/2.0")
+Q_DECLARE_INTERFACE(IPlugin, "Board.IPlugin")
 
 #endif // IPLUGIN_H

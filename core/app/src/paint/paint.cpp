@@ -47,25 +47,26 @@ Paint::Paint(Core *parent) :
   _map_shape_gen(),
   _map_shape()
 {
-  _map_shape_gen["select"] =    [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<SelectGen>(canvas); };
-  _map_shape_gen["pen"] =       [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<PenGen>(canvas); };
-  _map_shape_gen["magic_pen"] = [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<MagicPenGen>(canvas); };
-  _map_shape_gen["line"] =      [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<LineGen>(canvas); };
-  _map_shape_gen["rectangle"] = [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<RectangleGen>(canvas); };
-  _map_shape_gen["circle"] =    [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<CircleGen>(canvas); };
-  _map_shape_gen["ellipse"] =   [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<EllipseGen>(canvas); };
-  _map_shape_gen["text"] =      [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<TextGen>(canvas); };
-  _map_shape_gen["move"] =      [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<MoveGen>(canvas); };
-  _map_shape_gen["image"] =     [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<ImageGen>(canvas); };
-  _map_shape_gen["video"] =     [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<VideoGen>(canvas); };
+  RegisterShapeGen("select",    [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<SelectGen>(canvas); });
+  RegisterShapeGen("select",    [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<SelectGen>(canvas); });
+  RegisterShapeGen("pen",       [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<PenGen>(canvas); });
+  RegisterShapeGen("magic_pen", [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<MagicPenGen>(canvas); });
+  RegisterShapeGen("line",      [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<LineGen>(canvas); });
+  RegisterShapeGen("rectangle", [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<RectangleGen>(canvas); });
+  RegisterShapeGen("circle",    [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<CircleGen>(canvas); });
+  RegisterShapeGen("ellipse",   [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<EllipseGen>(canvas); });
+  RegisterShapeGen("text",      [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<TextGen>(canvas); });
+  RegisterShapeGen("move",      [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<MoveGen>(canvas); });
+  RegisterShapeGen("image",     [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<ImageGen>(canvas); });
+  RegisterShapeGen("video",     [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<VideoGen>(canvas); });
 
-  _map_shape["pen"] =       []() -> Shape* { return new Pen(); };
-  _map_shape["line"] =      []() -> Shape* { return new Line(); };
-  _map_shape["rectangle"] = []() -> Shape* { return new class Rectangle(); };
-  _map_shape["ellipse"] =   []() -> Shape* { return new class Ellipse(); };
-  _map_shape["text"] =      []() -> Shape* { return static_cast<Shape*>(g_core->getComponent("qrc:/core/qml/TextWrapper.qml")->create()); };
-  _map_shape["image"] =     []() -> Shape* { return static_cast<Shape*>(g_core->getComponent("qrc:/core/qml/ImageWrapper.qml")->create()); };
-  _map_shape["video"] =     []() -> Shape* { return static_cast<Shape*>(g_core->getComponent("qrc:/core/qml/VideoPlayer.qml")->create()); };
+  RegisterShape("pen",       []() -> Shape* { return new Pen(); });
+  RegisterShape("line",      []() -> Shape* { return new Line(); });
+  RegisterShape("rectangle", []() -> Shape* { return new class Rectangle(); });
+  RegisterShape("ellipse",   []() -> Shape* { return new class Ellipse(); });
+  RegisterShape("text",      []() -> Shape* { return static_cast<Shape*>(g_core->getComponent("qrc:/core/qml/TextWrapper.qml")->create()); });
+  RegisterShape("image",     []() -> Shape* { return static_cast<Shape*>(g_core->getComponent("qrc:/core/qml/ImageWrapper.qml")->create()); });
+  RegisterShape("video",     []() -> Shape* { return static_cast<Shape*>(g_core->getComponent("qrc:/core/qml/VideoPlayer.qml")->create()); });
 }
 
 QString Paint::mode()
@@ -169,4 +170,15 @@ void Paint::selectVideo()
   QString file_name = dialog.selectedFiles().first();
   _video_source = "file:///" + file_name;
   setMode("video");
+}
+
+
+void Paint::RegisterShapeGen(const QString &name, ShapeGenFunc func)
+{
+  _map_shape_gen[name] = func;
+}
+
+void Paint::RegisterShape(const QString &name, ShapeFunc func)
+{
+  _map_shape[name] = func;
 }

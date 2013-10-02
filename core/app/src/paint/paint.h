@@ -64,6 +64,8 @@ signals:
   void save();
 public slots:
   // IPaint
+  virtual void RegisterShapeGen(const QString &name, ShapeGenFunc func) override;
+  virtual void RegisterShape(const QString &name, ShapeFunc func) override;
   virtual void setMode(const QString &mode) override;
   virtual void setThickness(float thickness) override;
   virtual void setColor(const QColor &color) override;
@@ -85,8 +87,8 @@ private:
   QSize _image_size;
   QString _image_hash;
   QString _video_source;
-  std::map<QString, std::shared_ptr<ShapeGen>(*)(ISheetCanvas *)> _map_shape_gen;
-  std::map<QString, Shape *(*)()> _map_shape;
+  std::map<QString, ShapeGenFunc> _map_shape_gen;
+  std::map<QString, ShapeFunc> _map_shape;
 };
 
 #endif // PAINT_H

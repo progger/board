@@ -9,10 +9,18 @@
 
 #include <QString>
 #include <QColor>
+#include <memory>
+#include "shapegen.h"
+#include "isheetcanvas.h"
+
+typedef std::shared_ptr<ShapeGen>(*ShapeGenFunc)(ISheetCanvas *);
+typedef Shape *(*ShapeFunc)();
 
 class IPaint {
 public:
   virtual ~IPaint() {}
+  virtual void RegisterShapeGen(const QString &name, ShapeGenFunc func) = 0;
+  virtual void RegisterShape(const QString &name, ShapeFunc func) = 0;
   virtual QString mode() = 0;
   virtual float thickness() = 0;
   virtual QColor color() = 0;
@@ -23,6 +31,6 @@ public:
   virtual void setFontSize(int font_size) = 0;
 };
 
-Q_DECLARE_INTERFACE(IPaint, "board.core.IPaint/2.0")
+Q_DECLARE_INTERFACE(IPaint, "board.core.IPaint")
 
 #endif // IPAINT_H

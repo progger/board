@@ -23,9 +23,9 @@ void PenGen::begin(const QPointF &p)
   _item = pen;
 }
 
-void PenGen::end(const QPointF &p)
+void PenGen::end(const QPointF &)
 {
-  //move(p);
+  //move(p);  //TODO: Почему-то это приводит к глюку на винде (полосы влево вверх)
   Pen *pen = static_cast<Pen*>(_item);
   pen->points().shrink_to_fit();
   pen->savePoints();

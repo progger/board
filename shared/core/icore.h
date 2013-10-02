@@ -33,6 +33,6 @@ public:
   virtual void setChanges() = 0;
 };
 
-Q_DECLARE_INTERFACE(ICore, "board.core.ICore/2.1")
+Q_DECLARE_INTERFACE(ICore, "board.core.ICore")
 
 #endif // ICORE_H

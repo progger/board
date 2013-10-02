@@ -6,6 +6,7 @@
 
 #include "global.h"
 #include "importdoc.h"
+#include "pdfviewer.h"
 #include "plugin.h"
 
 Plugin::Plugin(QObject *parent) :
@@ -15,10 +16,12 @@ Plugin::Plugin(QObject *parent) :
 
 void Plugin::init()
 {
+  qmlRegisterType<PdfViewer>("board.importdocuments", 2, 0, "PdfViewer");
   qmlRegisterSingletonType<ImportDoc>("board.importdocuments", 2, 0, "ImportDoc",
                                    [](QQmlEngine *, QJSEngine *) -> QObject*
   {
     return new ImportDoc();
   });
   g_core->addPluginRowItem("qrc:/import-documents/qml/ImportDocumentsButton.qml");
+  g_core->paint()->RegisterShape("PdfViewer", []() -> Shape* { return static_cast<Shape*>(g_core->getComponent("qrc:/import-documents/qml/PdfViewer.qml")->create()); });
 }

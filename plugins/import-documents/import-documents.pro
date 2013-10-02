@@ -17,10 +17,12 @@ win32: INCLUDEPATH += C:/lib/poppler/qt5/src/
 
 SOURCES += \
     src/plugin.cpp \
+    src/pdfviewer.cpp \
     src/importdoc.cpp
 
 HEADERS += \
     src/plugin.h \
+    src/pdfviewer.h \
     src/importdoc.h
 
 RESOURCES += import-documents.qrc
@@ -30,4 +32,5 @@ INSTALLS += target
 
 OTHER_FILES += \
     qml/ImportDocumentsButton.qml \
+    qml/PdfViewer.qml \
     res/import.svg

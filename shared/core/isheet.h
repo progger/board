@@ -15,6 +15,6 @@ public:
   virtual ISheetCanvas *canvas() = 0;
 };
 
-Q_DECLARE_INTERFACE(ISheet, "board.core.ISheet/2.0")
+Q_DECLARE_INTERFACE(ISheet, "board.core.ISheet")
 
 #endif // ISHEET_H

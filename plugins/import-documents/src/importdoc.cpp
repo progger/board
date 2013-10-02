@@ -5,7 +5,6 @@
  */
 
 #include <QFileDialog>
-#include <QBuffer>
 #include <QProcess>
 #ifdef Q_OS_WIN
 #include <poppler-qt5.h>
@@ -13,6 +12,7 @@
 #include <poppler/qt5/poppler-qt5.h>
 #endif
 #include "global.h"
+#include "pdfviewer.h"
 #include "importdoc.h"
 
 ImportDoc::ImportDoc(QObject *parent) :
@@ -26,54 +26,46 @@ void ImportDoc::importDoc()
   dialog.setAcceptMode(QFileDialog::AcceptOpen);
   if (!dialog.exec()) return;
   QString file_name = dialog.selectedFiles().first();
-  QTemporaryDir *dir = nullptr;
+  std::shared_ptr<QTemporaryDir> dir = nullptr;
   if (QFileInfo(file_name).suffix().compare("pdf", Qt::CaseInsensitive) != 0)
   {
-    dir = new QTemporaryDir();
+    dir = std::make_shared<QTemporaryDir>();
     file_name = convert(file_name, dir);
     if (file_name.isEmpty()) return;
   }
-  Poppler::Document *document = Poppler::Document::load(file_name);
-  document->setRenderHint(Poppler::Document::Antialiasing);
-  document->setRenderHint(Poppler::Document::TextAntialiasing);
-  document->setRenderHint(Poppler::Document::TextHinting);
-  int count = document->numPages();
-  ISheet *sheet = g_core->sheet(g_core->sheetIndex());
-  ISheetCanvas *canvas = sheet->canvas();
-  int y = canvas->sheetPoint().y();
-  QQmlComponent *image_comp = g_core->getComponent("qrc:/core/qml/ImageWrapper.qml");
-  Q_ASSERT(image_comp);
-  for (int i = 0; i < count; i++)
+  QFile file(file_name);
+  if (!file.open(QIODevice::ReadOnly))
   {
-    Poppler::Page *page = document->page(i);
-    QImage pdf_image = page->renderToImage(128, 128);
-    delete page;
-    QQuickItem *image = qobject_cast<QQuickItem*>(image_comp->create());
-    Q_ASSERT(image);
-
-    image->setParent(canvas->container());
-    image->setParentItem(canvas->container());
-    image->setZ(canvas->getZNext());
-    image->setPosition(QPointF((canvas->container()->width() - pdf_image.width()) / 2, y));
-    image->setSize(QSizeF(pdf_image.width(), pdf_image.height()));
-
-    QByteArray data;
-    QBuffer buffer(&data);
-    buffer.open(QIODevice::WriteOnly);
-    pdf_image.save(&buffer, "PNG");
-    buffer.close();
-    QString hash = g_core->brdStore()->addObject(data);
-    image->setProperty("hash", hash);
-
-    y += pdf_image.height();
+    g_core->showError("Не удалось открыть файл " + file_name);
+    return;
+  }
+  QByteArray pdf_content = file.readAll();
+  Poppler::Document *document = Poppler::Document::loadFromData(pdf_content);
+  if (!document)
+  {
+    g_core->showError("Не удалось загрузить документ");
+    return;
   }
   delete document;
-  delete dir;
+
+  ISheet *sheet = g_core->sheet(g_core->sheetIndex());
+  ISheetCanvas *canvas = sheet->canvas();
+  QQmlComponent *component = g_core->getComponent("qrc:/import-documents/qml/PdfViewer.qml");
+  PdfViewer *viewer = qobject_cast<PdfViewer*>(component->create());
+  Q_ASSERT(viewer);
+  viewer->setParent(canvas->container());
+  viewer->setParentItem(canvas->container());
+  viewer->setZ(canvas->getZNext());
+  QSizeF size = QSizeF(canvas->container()->width() / 2, canvas->container()->height() / 1.5);
+  viewer->setPosition(QPointF((canvas->container()->width() - size.width()) / 2,
+                              (canvas->container()->height() - size.height()) / 2));
+  viewer->setSize(size);
+  viewer->setPdf(pdf_content);
   canvas->pushState();
   canvas->updateSheetRect();
 }
 
-QString ImportDoc::convert(const QString &file_name, QTemporaryDir *dir)
+QString ImportDoc::convert(const QString &file_name, std::shared_ptr<QTemporaryDir> dir)
 {
   QProcess process;
 #ifdef Q_OS_WIN

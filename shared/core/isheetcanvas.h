@@ -23,6 +23,6 @@ public:
   virtual qreal getZNext() = 0;
 };
 
-Q_DECLARE_INTERFACE(ISheetCanvas, "board.core.ISheetCanvas/2.1")
+Q_DECLARE_INTERFACE(ISheetCanvas, "board.core.ISheetCanvas")
 
 #endif // ISHEETCANVAS_H

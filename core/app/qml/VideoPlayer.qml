@@ -31,9 +31,6 @@ VideoPlayer {
             source: mediaPlayer
         }
 
-        MediaPlayer {
-        }
-
         Item {
             id: panel
             anchors.left: parent.left

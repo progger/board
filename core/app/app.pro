@@ -2,7 +2,6 @@ QT += core gui widgets qml quick
 
 TARGET = board
 TEMPLATE = app
-VERSION = 2.0.0
 LIBS += -lz
 DESTDIR =  ../../bin
 LIBSDIR = ../../bin

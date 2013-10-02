@@ -1,5 +1,16 @@
-board (2.0.0) unstable; urgency=low
+board (2.1.0) stable; urgency=low
+
+  * Добавлены всплывающие подсказки
+  * Улучшено определене выбора фигур
+  * Добавлены кнопки переноса фигур на передний и задний план
+  * Импорт документов в специальную интерактивную фигуру с постраничным просмотром
+  * Предупреждение при закрытии о несохранённых изменениях
+
+ -- Michael Kulabuhov <progger.ru@gmail.com>  Wed, 02 Oct 2013 20:45:11 +0700
+
+board (2.0.0) stable; urgency=low
 
   * Initial Release.
 
  -- Michael Kulabuhov <progger.ru@gmail.com>  Thu, 17 Jun 2013 19:22:46 +0700
+

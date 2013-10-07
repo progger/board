@@ -5,11 +5,12 @@
  */
 
 #include <QApplication>
-#include <QTextCodec>
+#include <QQmlEngine>
+#include <QQuickWindow>
 #include <QTextStream>
 #include <QFile>
 #include "global.h"
-#include "mainview.h"
+#include "core.h"
 
 void help()
 {
@@ -20,7 +21,7 @@ void help()
     cout << help_file.readAll();
   }
   cout.flush();
-  exit(0);
+  exit(EXIT_SUCCESS);
 }
 
 void parseCmd()
@@ -65,14 +66,27 @@ int main(int argc, char *argv[])
 {
   QApplication app(argc, argv);
   parseCmd();
-  MainView view;
-  QSurfaceFormat format = view.format();
-  format.setAlphaBufferSize(8);
-  view.setFormat(format);
-  view.setColor(QColor(0, 0, 0, 0));
+
+  QQmlEngine engine;
+  Core *core = new Core(&engine);
+  g_core = core;
+  QQuickWindow::setDefaultAlphaBuffer(true);
+  QQmlComponent *component = core->getComponent("qrc:/core/qml/Board.qml");
+  if (!component)
+  {
+    return EXIT_FAILURE;
+  }
+  QObject *obj = component->create();
+  obj->setParent(core);
+  Q_ASSERT(obj);
+  QQuickWindow *main_window = qobject_cast<QQuickWindow*>(obj);
+  Q_ASSERT(main_window);
+  core->init(main_window);
   if (g_window_mode)
-    view.showMaximized();
+    main_window->showMaximized();
   else
-    view.showFullScreen();
-  return app.exec();
+    main_window->showFullScreen();
+  int result = app.exec();
+  delete obj;  //TODO: разобраться почему без этого завершается некорректно
+  return result;
 }

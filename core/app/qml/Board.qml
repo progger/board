@@ -4,17 +4,16 @@
  * See the LICENSE file for terms of use.
  */
 
-import QtQuick 2.0
+import QtQuick 2.1
+import QtQuick.Window 2.1
 import board.core 2.0
 
-Rectangle {
+Window {
     id: board
     color: Core.transparent ? "transparent" : "white"
     Behavior on color {
         ColorAnimation { duration: 300 }
     }
-
-    focus: true
 
     width: 400
     height: 300

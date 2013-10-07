@@ -8,6 +8,7 @@
 #define PDFVIEWER_H
 
 #include <memory>
+#include <QtGlobal>
 #ifdef Q_OS_WIN
 #include <poppler-qt5.h>
 #else

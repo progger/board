@@ -38,8 +38,10 @@ QQuickItem *sheetsAtFunction(QQmlListProperty<QQuickItem> *list, int index)
   return core->sheets()->at(index);
 }
 
-Core::Core(QQuickView *parent) :
-  QObject(parent),
+Core::Core(QQmlEngine *engine) :
+  QObject(engine),
+  _engine(engine),
+  _main_window(nullptr),
   _keyboard(false),
   _transparent(false),
   _map_componenet(),
@@ -52,7 +54,7 @@ Core::Core(QQuickView *parent) :
   _settings = new QSettings(_root_dir.filePath("settings.ini"), QSettings::IniFormat, this);
   _brdStore = new BrdStore(this);
 
-  parent->engine()->setNetworkAccessManagerFactory(new BrdNetworkAccessManagerFactory(_brdStore, this));
+  engine->setNetworkAccessManagerFactory(new BrdNetworkAccessManagerFactory(_brdStore, this));
   qmlRegisterType<Core>();
   qmlRegisterType<Paint>();
   qmlRegisterType<Style>("board.core", 2, 0, "StyleQml");
@@ -68,13 +70,12 @@ Core::Core(QQuickView *parent) :
   });
 
   _paint = new Paint(this);
-  auto context = parent->rootContext();
+  auto context = engine->rootContext();
   context->setContextProperty("Core", this);
   context->setContextProperty("Paint", _paint);
 
   _comp_sheet = getComponent("qrc:/core/qml/Sheet.qml");
   Q_ASSERT(_comp_sheet);
-  connect(parent, SIGNAL(statusChanged(QQuickView::Status)), SLOT(onMainViewStatusChanged(QQuickView::Status)));
 
   loadPlugins();
 }
@@ -141,6 +142,30 @@ void Core::setChanges()
   _changes = true;
 }
 
+void Core::init(QQuickWindow *main_window)
+{
+  Q_ASSERT(main_window);
+  _main_window = main_window;
+  _sheet_place = _main_window->findChild<QQuickItem*>("sheetPlace");
+  Q_ASSERT(_sheet_place);
+  _plugin_row = _main_window->findChild<QQuickItem*>("pluginRow");
+  Q_ASSERT(_plugin_row);
+  initPlugins();
+  if (!g_brd_file.isEmpty())
+  {
+    openBook(g_brd_file);
+  }
+  else
+  {
+    for (int i = 0; i < 5; ++i)
+    {
+      Sheet *sheet = createSheet();
+      _sheets.push_back(sheet);
+    }
+  }
+  emit sheetsChanged();
+}
+
 bool Core::windowMode() const
 {
   return g_window_mode;
@@ -151,9 +176,7 @@ QQmlComponent *Core::getComponent(const QString &url_string)
   auto it = _map_componenet.find(url_string);
   if (it == _map_componenet.cend())
   {
-    QQuickView *view = qobject_cast<QQuickView*>(parent());
-    Q_ASSERT(view);
-    QQmlComponent *component = new QQmlComponent(view->engine(), QUrl(url_string), this);
+    QQmlComponent *component = new QQmlComponent(_engine, QUrl(url_string), this);
     if (!component->isReady())
     {
       logError("Error loading component " + url_string + " : " + component->errorString());
@@ -191,16 +214,12 @@ void Core::emulateKeyPress(int key, int modifiers, const QString &text) const
 
 void Core::quitButton()
 {
-  QGuiApplication::postEvent(parent(), new QCloseEvent());
+  QGuiApplication::postEvent(_main_window, new QCloseEvent());
 }
 
 void Core::minimizeButton()
 {
-  QQuickView *view = qobject_cast<QQuickView*>(mainView());
-  if (view)
-  {
-    view->showMinimized();
-  }
+  _main_window->showMinimized();
 }
 
 void Core::saveBook()
@@ -266,33 +285,6 @@ void Core::deleteSheet(int index)
   QQuickItem *sheet = _sheets[index];
   sheet->deleteLater();
   _sheets.erase(_sheets.begin() + index);
-  emit sheetsChanged();
-}
-
-void Core::onMainViewStatusChanged(QQuickView::Status status)
-{
-  if (status == QQuickView::Loading) return;
-  Q_ASSERT(status == QQuickView::Ready);
-  QQuickView *view = qobject_cast<QQuickView*>(parent());
-  Q_ASSERT(view);
-  Q_ASSERT(view->rootObject());
-  _sheet_place = view->rootObject()->findChild<QQuickItem*>("sheetPlace");
-  Q_ASSERT(_sheet_place);
-  _plugin_row = view->rootObject()->findChild<QQuickItem*>("pluginRow");
-  Q_ASSERT(_plugin_row);
-  initPlugins();
-  if (!g_brd_file.isEmpty())
-  {
-    openBook(g_brd_file);
-  }
-  else
-  {
-    for (int i = 0; i < 5; ++i)
-    {
-      Sheet *sheet = createSheet();
-      _sheets.push_back(sheet);
-    }
-  }
   emit sheetsChanged();
 }
 

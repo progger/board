@@ -17,7 +17,6 @@ SOURCES += \
     src/brd/brdstore.cpp \
     src/core.cpp \
     src/main.cpp \
-    src/mainview.cpp \
     src/paint/circlegen.cpp \
     src/paint/ellipse.cpp \
     src/paint/ellipsegen.cpp \
@@ -54,7 +53,6 @@ HEADERS += \
     src/brd/brdreply.h \
     src/brd/brdstore.h \
     src/core.h \
-    src/mainview.h \
     src/paint/circlegen.h \
     src/paint/ellipse.h \
     src/paint/ellipsegen.h \

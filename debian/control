@@ -10,7 +10,7 @@ Homepage: https://progger.dyndns.info/
 
 Package: board
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, qtdeclarative5-qtquick2-plugin, qtdeclarative5-qtmultimedia-plugin
+Depends: ${shlibs:Depends}, ${misc:Depends}, qtdeclarative5-qtquick2-plugin,  qtdeclarative5-window-plugin, qtdeclarative5-qtmultimedia-plugin
 Recommends: board-import-documenets
 Description: board graphics program
  Extendable vector graphics program

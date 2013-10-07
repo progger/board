@@ -9,8 +9,8 @@
 
 #include <vector>
 #include <map>
-#include <QObject>
-#include <QQuickView>
+#include <QQmlEngine>
+#include <QQuickWindow>
 #include <QDir>
 #include <QSettings>
 #include <QQmlListProperty>
@@ -34,7 +34,7 @@ class Core : public QObject, public ICore
   Q_PROPERTY(Paint paint READ paintObj CONSTANT FINAL)
   Q_PROPERTY(QQmlListProperty<QQuickItem> sheets READ sheetsProperty NOTIFY sheetsChanged FINAL)
 public:
-  explicit Core(QQuickView *parent = 0);
+  explicit Core(QQmlEngine *engine);
 
   // ICore
   virtual QObject *mainView() override;
@@ -52,6 +52,7 @@ public:
   virtual void addPluginRowItem(const QString &url_string) override;
   virtual void setChanges() override;
 
+  void init(QQuickWindow *main_window);
   bool windowMode() const;
   bool keyboard() const { return _keyboard; }
   bool transparent() const { return _transparent; }
@@ -77,9 +78,9 @@ public slots:
   void openBook(const QString &file_name);
   void insertSheet(int index);
   void deleteSheet(int index);
-private slots:
-  void onMainViewStatusChanged(QQuickView::Status status);
 private:
+  QQmlEngine *_engine;
+  QQuickWindow *_main_window;
   bool _keyboard;
   bool _transparent;
   int _sheet_index;

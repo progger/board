@@ -30,6 +30,7 @@ class Core : public QObject, public ICore
   Q_PROPERTY(bool windowMode READ windowMode CONSTANT)
   Q_PROPERTY(bool keyboard READ keyboard WRITE setKeyboard NOTIFY keyboardChanged FINAL)
   Q_PROPERTY(bool transparent READ transparent WRITE setTransparent NOTIFY transparentChanged FINAL)
+  Q_PROPERTY(bool hasChanges READ hasChanges NOTIFY hasChangesChanged FINAL)
   Q_PROPERTY(int sheetIndex READ sheetIndex WRITE setSheetIndex NOTIFY sheetIndexChanged FINAL)
   Q_PROPERTY(Paint paint READ paintObj CONSTANT FINAL)
   Q_PROPERTY(QQmlListProperty<QQuickItem> sheets READ sheetsProperty NOTIFY sheetsChanged FINAL)
@@ -51,6 +52,7 @@ public:
   virtual void showError(const QString &error) override;
   virtual void addPluginRowItem(const QString &url_string) override;
   virtual void setChanges() override;
+  virtual bool hasChanges() override;
 
   void init(QQuickWindow *main_window);
   bool windowMode() const;
@@ -59,12 +61,12 @@ public:
   Paint *paintObj() const { return _paint; }
   std::vector<Sheet*> *sheets() { return &_sheets; }
   QQmlListProperty<QQuickItem> sheetsProperty();
-  bool hasChanges() { return _changes; }
 signals:
   void keyboardChanged();
   void transparentChanged();
   void sheetIndexChanged();
   void sheetsChanged();
+  void hasChangesChanged();
 public slots:
   void setKeyboard(bool keyboard);
   void setTransparent(bool transparent);

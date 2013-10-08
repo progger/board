@@ -8,6 +8,8 @@ import QtQuick 2.1
 import QtQuick.Window 2.1
 import board.core 2.0
 
+import QtQuick.Dialogs 1.0
+
 Window {
     id: board
     color: Core.transparent ? "transparent" : "white"
@@ -52,6 +54,19 @@ Window {
         enabled: Core.keyboard
         Behavior on opacity {
             NumberAnimation { duration: 500 }
+        }
+    }
+
+    CloseCaution {
+        id: closeCaution
+        onCloseApp: board.close()
+        onSave: Core.saveBook()
+    }
+
+    onClosing: {
+        if (Core.hasChanges) {
+            closeCaution.show()
+            close.accepted = false
         }
     }
 }

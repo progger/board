@@ -2,6 +2,7 @@
     <qresource prefix="/core/">
         <file>qml/Board.qml</file>
         <file>qml/Button.qml</file>
+        <file>qml/CloseCaution.qml</file>
         <file>qml/ImageWrapper.qml</file>
         <file>qml/keyboard.js</file>
         <file>qml/Keyboard.qml</file>

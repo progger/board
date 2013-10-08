@@ -140,6 +140,12 @@ void Core::addPluginRowItem(const QString &url_string)
 void Core::setChanges()
 {
   _changes = true;
+  emit hasChangesChanged();
+}
+
+bool Core::hasChanges()
+{
+  return _changes;
 }
 
 void Core::init(QQuickWindow *main_window)

@@ -88,6 +88,7 @@ HEADERS += \
 OTHER_FILES += \
     qml/Board.qml \
     qml/Button.qml \
+    qml/CloseCaution.qml\
     qml/ImageWrapper.qml \
     qml/keyboard.js \
     qml/Keyboard.qml \

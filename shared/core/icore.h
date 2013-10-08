@@ -31,6 +31,7 @@ public:
   virtual void showError(const QString &error) = 0;
   virtual void addPluginRowItem(const QString &url_string) = 0;
   virtual void setChanges() = 0;
+  virtual bool hasChanges() = 0;
 };
 
 Q_DECLARE_INTERFACE(ICore, "board.core.ICore")

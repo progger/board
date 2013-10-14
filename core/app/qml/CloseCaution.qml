@@ -1,13 +1,14 @@
 import QtQuick 2.1
 import QtQuick.Window 2.1
 import QtQuick.Layouts 1.0
+import QtQuick.Controls 1.0
 import board.core 2.0
 
 Window {
     id: dialog
     signal closeApp
     signal save
-    width: 400
+    width: 420
     height: 80
     minimumWidth: width
     maximumWidth: width
@@ -15,9 +16,10 @@ Window {
     maximumHeight: height
     modality: Qt.ApplicationModal
     flags: Qt.Dialog | Qt.WindowCloseButtonHint
+    color: Style.panelColor
     title: "Имеются несохранённые изменения"
 
-    Text {
+    Label {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top

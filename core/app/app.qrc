@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/core/">
         <file>qml/Board.qml</file>
-        <file>qml/Button.qml</file>
         <file>qml/CloseCaution.qml</file>
         <file>qml/ImageWrapper.qml</file>
         <file>qml/keyboard.js</file>
@@ -12,7 +11,7 @@
         <file>qml/ScrollButton.qml</file>
         <file>qml/sheet.js</file>
         <file>qml/Sheet.qml</file>
-        <file>qml/SpinBox.qml</file>
+        <file>qml/SpinBoxEx.qml</file>
         <file>qml/StyleQml.qml</file>
         <file>qml/TextWrapper.qml</file>
         <file>qml/ToolBar.qml</file>

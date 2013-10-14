@@ -4,7 +4,8 @@
  * See the LICENSE file for terms of use.
  */
 
-import QtQuick 2.0
+import QtQuick 2.1
+import QtQuick.Controls 1.0
 import board.core 2.0
 import "keyboard.js" as Script
 
@@ -54,7 +55,7 @@ Item {
                         anchors.bottom: parent.bottom
                         anchors.bottomMargin: 2
                         text: modelData.button[keyboard.layout][keyboard.shift]
-                        image: modelData.image ? "qrc:/core/res/" + modelData.image : ""
+                        iconSource: modelData.image ? "qrc:/core/res/" + modelData.image : ""
                         onClicked: Script.click(button, modelData)
                     }
                 }

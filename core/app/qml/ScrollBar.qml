@@ -4,7 +4,7 @@
  * See the LICENSE file for terms of use.
  */
 
-import QtQuick 2.0
+import QtQuick 2.1
 
 Rectangle {
     id: scrollBar

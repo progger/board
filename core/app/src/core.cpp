@@ -215,7 +215,7 @@ void Core::emulateKeyPress(int key, int modifiers, const QString &text) const
 {
   Qt::KeyboardModifiers md(modifiers);
   QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, key, md, text);
-  QGuiApplication::postEvent(parent(), event);
+  QGuiApplication::postEvent(_main_window, event);
 }
 
 void Core::quitButton()

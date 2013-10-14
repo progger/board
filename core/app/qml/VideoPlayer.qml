@@ -4,7 +4,8 @@
  * See the LICENSE file for terms of use.
  */
 
-import QtQuick 2.0
+import QtQuick 2.1
+import QtQuick.Controls 1.0
 import QtMultimedia 5.0
 import board.core 2.0
 import board.core.paint 2.0
@@ -46,11 +47,10 @@ VideoPlayer {
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 width: height
-                radius: height / 2
-                style: Style.normalButton
-                image: mediaPlayer.playbackState == MediaPlayer.PlayingState
-                       ? "qrc:/core/res/pause.svg"
-                       : "qrc:/core/res/play.svg"
+                style: Style.roundButton
+                iconSource: mediaPlayer.playbackState == MediaPlayer.PlayingState
+                            ? "qrc:/core/res/pause.svg"
+                            : "qrc:/core/res/play.svg"
                 enabled: parent.enabled
                 onClicked: playPause()
 
@@ -69,9 +69,8 @@ VideoPlayer {
                 anchors.bottom: parent.bottom
                 anchors.leftMargin: 4
                 width: height
-                radius: height / 2
-                style: Style.normalButton
-                image: "qrc:/core/res/stop.svg"
+                style: Style.roundButton
+                iconSource: "qrc:/core/res/stop.svg"
                 enabled: parent.enabled
                 onClicked: mediaPlayer.stop()
             }

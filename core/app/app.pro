@@ -87,7 +87,6 @@ HEADERS += \
 
 OTHER_FILES += \
     qml/Board.qml \
-    qml/Button.qml \
     qml/CloseCaution.qml\
     qml/ImageWrapper.qml \
     qml/keyboard.js \
@@ -97,8 +96,8 @@ OTHER_FILES += \
     qml/ScrollBar.qml \
     qml/ScrollButton.qml \
     qml/sheet.js \
+    qml/SpinBoxEx.qml \
     qml/Sheet.qml \
-    qml/SpinBox.qml \
     qml/StyleQml.qml \
     qml/TextWrapper.qml \
     qml/ToolBar.qml \

@@ -4,7 +4,8 @@
  * See the LICENSE file for terms of use.
  */
 
-import QtQuick 2.0
+import QtQuick 2.1
+import QtQuick.Controls 1.0
 import board.core 2.0
 
 Rectangle {
@@ -48,24 +49,22 @@ Rectangle {
         width: parent.height / 2
 
         Button {
-            style: Style.normalButton
+            style: Style.spinBoxButton
             anchors.right: parent.right
             anchors.top: parent.top
             anchors.bottom: parent.verticalCenter
             width: height
-            radius: 4
-            image: "qrc:/core/res/up_arrow.svg"
+            iconSource: "qrc:/core/res/up_arrow.svg"
             onClicked: value = Math.min(value + step, maxValue)
         }
 
         Button {
-            style: Style.normalButton
+            style: Style.spinBoxButton
             anchors.right: parent.right
             anchors.top: parent.verticalCenter
             anchors.bottom: parent.bottom
             width: height
-            radius: 4
-            image: "qrc:/core/res/down_arrow.svg"
+            iconSource: "qrc:/core/res/down_arrow.svg"
             onClicked: value = Math.max(value - step, minValue)
         }
     }

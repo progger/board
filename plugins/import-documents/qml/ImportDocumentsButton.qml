@@ -4,10 +4,10 @@
  * See the LICENSE file for terms of use.
  */
 
-import QtQuick 2.0
+import QtQuick 2.1
+import QtQuick.Controls 1.0
 import board.core 2.0
 import board.importdocuments 2.0
-import "qrc:/core/qml"
 
 Item {
     width: button.width
@@ -18,8 +18,8 @@ Item {
         style: Style.normalButton
         width: height
         height: parent.height - 6
-        hint: "импорт документа"
-        image: "qrc:/import-documents/res/import.svg"
+        tooltip: "импорт документа"
+        iconSource: "qrc:/import-documents/res/import.svg"
         onClicked: ImportDoc.importDoc()
     }
 }

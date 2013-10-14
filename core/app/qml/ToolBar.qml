@@ -4,7 +4,8 @@
  * See the LICENSE file for terms of use.
  */
 
-import QtQuick 2.0
+import QtQuick 2.1
+import QtQuick.Controls 1.0
 import board.core 2.0
 
 Rectangle {
@@ -108,8 +109,8 @@ Rectangle {
             style: Style.normalButton
             width: buttonSize
             height: buttonSize
-            hint: "отменить"
-            image: "qrc:/core/res/undo.svg"
+            tooltip: "отменить"
+            iconSource: "qrc:/core/res/undo.svg"
             enabled: Paint.canUndo
             onClicked: Paint.undo()
         }
@@ -119,8 +120,8 @@ Rectangle {
             style: Style.normalButton
             width: buttonSize
             height: buttonSize
-            hint: "вернуть"
-            image: "qrc:/core/res/redo.svg"
+            tooltip: "вернуть"
+            iconSource: "qrc:/core/res/redo.svg"
             enabled: Paint.canRedo
             onClicked: Paint.redo()
         }
@@ -131,8 +132,8 @@ Rectangle {
             enabled: Paint.selected;
             width: buttonSize
             height: buttonSize
-            hint: "удалить"
-            image: "qrc:/core/res/delete.svg"
+            tooltip: "удалить"
+            iconSource: "qrc:/core/res/delete.svg"
             onClicked: Paint.del()
         }
 
@@ -142,8 +143,8 @@ Rectangle {
             enabled: Paint.selected;
             width: buttonSize
             height: buttonSize
-            hint: "дублировать"
-            image: "qrc:/core/res/duplicate.svg"
+            tooltip: "дублировать"
+            iconSource: "qrc:/core/res/duplicate.svg"
             onClicked: Paint.duplicate()
         }
 
@@ -153,8 +154,8 @@ Rectangle {
             enabled: Paint.selected;
             width: buttonSize
             height: buttonSize
-            hint: "на передний план"
-            image: "qrc:/core/res/to_front.svg"
+            tooltip: "на передний план"
+            iconSource: "qrc:/core/res/to_front.svg"
             onClicked: Paint.toFront()
         }
 
@@ -164,8 +165,8 @@ Rectangle {
             enabled: Paint.selected;
             width: buttonSize
             height: buttonSize
-            hint: "на задний план"
-            image: "qrc:/core/res/to_back.svg"
+            tooltip: "на задний план"
+            iconSource: "qrc:/core/res/to_back.svg"
             onClicked: Paint.toBack()
         }
     }
@@ -178,8 +179,8 @@ Rectangle {
         anchors.rightMargin: 4
         width: buttonSize
         height: buttonSize
-        hint: "сохранить"
-        image: "qrc:/core/res/save.svg"
+        tooltip: "сохранить"
+        iconSource: "qrc:/core/res/save.svg"
         onClicked: Core.saveBook()
     }
 
@@ -191,8 +192,8 @@ Rectangle {
         anchors.rightMargin: 12
         width: buttonSize
         height: buttonSize
-        hint: "открыть"
-        image: "qrc:/core/res/open.svg"
+        tooltip: "открыть"
+        iconSource: "qrc:/core/res/open.svg"
         onClicked: Core.openBook()
     }
 
@@ -216,19 +217,19 @@ Rectangle {
         smooth: true
     }
 
-    SpinBox {
-        id: thicknessSpinBox
-        anchors.right: fontSizeImage.left
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.rightMargin: 12
-        width: 60
-        height: buttonSize
-        onValueChanged: Paint.thickness = value
-        step: 1
-        minValue: 1
-        maxValue: 10
-        Component.onCompleted: value = Paint.thickness
-    }
+    SpinBoxEx {
+            id: thicknessSpinBox
+            anchors.right: fontSizeImage.left
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.rightMargin: 12
+            width: 60
+            height: buttonSize
+            onValueChanged: Paint.thickness = value
+            step: 1
+            minValue: 1
+            maxValue: 10
+            Component.onCompleted: value = Paint.thickness
+        }
 
     Image {
         id: fontSizeImage
@@ -241,7 +242,7 @@ Rectangle {
         smooth: true
     }
 
-    SpinBox {
+    SpinBoxEx {
         id: fontSizeSpinBox
         width: 60
         anchors.right: transparentButton.left
@@ -263,9 +264,9 @@ Rectangle {
         anchors.rightMargin: 4
         width: buttonSize
         height: buttonSize
-        hint: "рабочий стол"
-        image: "qrc:/core/res/desktop.svg"
-        toggled: Core.transparent
+        tooltip: "рабочий стол"
+        iconSource: "qrc:/core/res/desktop.svg"
+        checked: Core.transparent
         onClicked: Core.transparent = !Core.transparent
     }
 
@@ -277,7 +278,7 @@ Rectangle {
         anchors.rightMargin: 4
         width: buttonSize
         height: buttonSize
-        image: "qrc:/core/res/minimize.svg"
+        iconSource: "qrc:/core/res/minimize.svg"
         onClicked: Core.minimizeButton()
         visible: !Core.windowMode
     }
@@ -290,7 +291,7 @@ Rectangle {
         anchors.rightMargin: 6
         width: buttonSize
         height: buttonSize
-        image: "qrc:/core/res/close.svg"
+        iconSource: "qrc:/core/res/close.svg"
         onClicked: Core.quitButton()
         visible: !Core.windowMode
     }

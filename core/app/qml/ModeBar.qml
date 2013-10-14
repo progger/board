@@ -4,7 +4,8 @@
  * See the LICENSE file for terms of use.
  */
 
-import QtQuick 2.0
+import QtQuick 2.1
+import QtQuick.Controls 1.0
 import board.core 2.0
 
 Rectangle {
@@ -46,13 +47,11 @@ Rectangle {
                 Button {
                     anchors.horizontalCenter: parent.horizontalCenter
                     style: Style.normalButton
-                    border.color: "silver"
-                    border.width: 2
                     width: buttonSize
                     height: buttonSize
-                    hint: modelData.hint
-                    image: modelData.image
-                    toggled: Paint.mode == modelData.mode
+                    tooltip: modelData.hint
+                    iconSource: modelData.image
+                    checked: Paint.mode == modelData.mode
                     onClicked: Paint.mode = modelData.mode
                 }
             }
@@ -61,26 +60,22 @@ Rectangle {
         Button {
             anchors.horizontalCenter: parent.horizontalCenter
             style: Style.normalButton
-            border.color: "silver"
-            border.width: 2
             width: buttonSize
             height: buttonSize
-            hint: "картинка"
-            image: "qrc:/core/res/image.svg"
-            toggled: Paint.mode == "image"
+            tooltip: "картинка"
+            iconSource: "qrc:/core/res/image.svg"
+            checked: Paint.mode == "image"
             onClicked: Paint.selectImage()
         }
 
         Button {
             anchors.horizontalCenter: parent.horizontalCenter
             style: Style.normalButton
-            border.color: "silver"
-            border.width: 2
             width: buttonSize
             height: buttonSize
-            hint: "видео"
-            image: "qrc:/core/res/video.svg"
-            toggled: Paint.mode == "video"
+            tooltip: "видео"
+            iconSource: "qrc:/core/res/video.svg"
+            checked: Paint.mode == "video"
             onClicked: Paint.selectVideo()
         }
 
@@ -88,13 +83,11 @@ Rectangle {
             id: colorButton
             anchors.horizontalCenter: parent.horizontalCenter
             style: Style.normalButton
-            border.color: "silver"
-            border.width: 2
             width: buttonSize
             height: buttonSize
-            hint: "выбор цвета"
-            image: "qrc:/core/res/color.svg"
-            toggled: colorGridRect.opacity
+            tooltip: "выбор цвета"
+            iconSource: "qrc:/core/res/color.svg"
+            checked: colorGridRect.opacity
             onClicked: colorGridRect.opacity = !colorGridRect.opacity
         }
     }

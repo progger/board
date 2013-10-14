@@ -4,10 +4,10 @@
  * See the LICENSE file for terms of use.
  */
 
-import QtQuick 2.0
+import QtQuick 2.1
+import QtQuick.Controls 1.0
 import board.core 2.0
 import board.importdocuments 2.0
-import "qrc:/core/qml"
 
 PdfViewer {
     id: pdfViewer
@@ -49,9 +49,8 @@ PdfViewer {
                 Button {
                     width: height
                     height: parent.height
-                    radius: height / 2
-                    style: Style.normalButton
-                    image: "qrc:/core/res/left_arrow.svg"
+                    style: Style.roundButton
+                    iconSource: "qrc:/core/res/left_arrow.svg"
                     enabled: panel.enabled && pdfViewer.page > 0
                     onClicked: --pdfViewer.page
                 }
@@ -65,9 +64,8 @@ PdfViewer {
                 Button {
                     width: height
                     height: parent.height
-                    radius: height / 2
-                    style: Style.normalButton
-                    image: "qrc:/core/res/right_arrow.svg"
+                    style: Style.roundButton
+                    iconSource: "qrc:/core/res/right_arrow.svg"
                     enabled: panel.enabled && pdfViewer.page < pdfViewer.pageCount - 1
                     onClicked: ++pdfViewer.page
                 }

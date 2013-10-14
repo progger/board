@@ -8,8 +8,6 @@ import QtQuick 2.1
 import QtQuick.Window 2.1
 import board.core 2.0
 
-import QtQuick.Dialogs 1.0
-
 Window {
     id: board
     color: Core.transparent ? "transparent" : "white"
@@ -51,7 +49,7 @@ Window {
         anchors.horizontalCenter: parent.horizontalCenter
         height: board.height / 4
         opacity: Core.keyboard
-        enabled: Core.keyboard
+        enabled: Component.status !== Component.Ready || Core.keyboard  //TODO: разобраться почему без этого завершается некорректно
         Behavior on opacity {
             NumberAnimation { duration: 500 }
         }

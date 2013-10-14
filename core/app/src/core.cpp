@@ -9,7 +9,6 @@
 #include <QKeyEvent>
 #include <QtQml>
 #include <QMessageBox>
-#include <QFileDialog>
 #include "global.h"
 #include "quazipfile.h"
 #include "brd/brdstore.h"
@@ -228,37 +227,20 @@ void Core::minimizeButton()
   _main_window->showMinimized();
 }
 
-void Core::saveBook()
-{
-  QFileDialog dialog;
-  dialog.setAcceptMode(QFileDialog::AcceptSave);
-  dialog.setNameFilter("Book files (*.brd)");
-  dialog.setDefaultSuffix("brd");
-  if (!dialog.exec()) return;
-  QString file_name = dialog.selectedFiles().first();
-  saveBook(file_name);
-}
-
 void Core::saveBook(const QString &file_name)
 {
-  QuaZip zip(file_name);
+  QFileInfo file_info(file_name);
+  if (file_info.suffix().isEmpty())
+  {
+    file_info.setFile(file_info.filePath() + ".brd");
+  }
+  QuaZip zip(file_info.filePath());
   if (!zip.open(QuaZip::mdCreate))
   {
     showError(QString("Не удалось открыть %1: error %2").arg(file_name).arg(zip.getZipError()));
     return;
   }
   saveBookFiles(&zip);
-}
-
-void Core::openBook()
-{
-  QFileDialog dialog;
-  dialog.setAcceptMode(QFileDialog::AcceptOpen);
-  dialog.setNameFilter("Book files (*.brd)");
-  dialog.setDefaultSuffix("brd");
-  if (!dialog.exec()) return;
-  QString file_name = dialog.selectedFiles().first();
-  openBook(file_name);
 }
 
 void Core::openBook(const QString &file_name)

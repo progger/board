@@ -74,9 +74,7 @@ public slots:
   void emulateKeyPress(int key, int modifiers, const QString & text = "") const;
   void quitButton();
   void minimizeButton();
-  void saveBook();
   void saveBook(const QString &file_name);
-  void openBook();
   void openBook(const QString &file_name);
   void insertSheet(int index);
   void deleteSheet(int index);

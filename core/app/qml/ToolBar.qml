@@ -6,6 +6,7 @@
 
 import QtQuick 2.1
 import QtQuick.Controls 1.0
+import QtQuick.Dialogs 1.0
 import board.core 2.0
 
 Rectangle {
@@ -181,7 +182,7 @@ Rectangle {
         height: buttonSize
         tooltip: "сохранить"
         iconSource: "qrc:/core/res/save.svg"
-        onClicked: Core.saveBook()
+        onClicked: saveBookDialog.open()
     }
 
     Button {
@@ -194,7 +195,7 @@ Rectangle {
         height: buttonSize
         tooltip: "открыть"
         iconSource: "qrc:/core/res/open.svg"
-        onClicked: Core.openBook()
+        onClicked: openBookDialog.open()
     }
 
     Row {
@@ -294,5 +295,23 @@ Rectangle {
         iconSource: "qrc:/core/res/close.svg"
         onClicked: Core.quitButton()
         visible: !Core.windowMode
+    }
+
+    FileDialog {
+        id: saveBookDialog
+        modality: Qt.ApplicationModal
+        nameFilters: ["Book files (*.brd)"]
+        selectExisting: false
+        title: "Сохранить книгу"
+        onAccepted: Core.saveBook(fileUrl.toString().replace("file://", ""))
+    }
+
+    FileDialog {
+        id: openBookDialog
+        modality: Qt.ApplicationModal
+        nameFilters: ["Book files (*.brd)"]
+        selectExisting: true
+        title: "Открыть книгу"
+        onAccepted: Core.openBook(fileUrl.toString().replace("file://", ""))
     }
 }

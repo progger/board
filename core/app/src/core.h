@@ -67,6 +67,7 @@ signals:
   void sheetIndexChanged();
   void sheetsChanged();
   void hasChangesChanged();
+  void errorMessageBox(const QString &error);
 public slots:
   void setKeyboard(bool keyboard);
   void setTransparent(bool transparent);

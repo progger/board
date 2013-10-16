@@ -55,6 +55,16 @@ Window {
         }
     }
 
+    ErrorMessageBox {
+        id: errorMessageBox
+        Component.onCompleted: Core.errorMessageBox.connect(openErrorMessageBox)
+
+        function openErrorMessageBox(error) {
+            errorMessageBox.error = error
+            errorMessageBox.show()
+        }
+    }
+
     CloseCaution {
         id: closeCaution
         onCloseApp: board.close()

@@ -122,7 +122,7 @@ ISheet *Core::sheet(int index)
 void Core::showError(const QString &error)
 {
   logError(error);
-  QMessageBox::critical(nullptr, "Error", error);
+  emit errorMessageBox(error);
 }
 
 void Core::addPluginRowItem(const QString &url_string)
@@ -253,6 +253,7 @@ void Core::openBook(const QString &file_name)
   }
   for (QQuickItem *sheet : _sheets)
   {
+    sheet->setVisible(false);
     sheet->deleteLater();
   }
   _sheets.clear();

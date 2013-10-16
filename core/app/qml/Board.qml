@@ -49,10 +49,11 @@ Window {
         anchors.horizontalCenter: parent.horizontalCenter
         height: board.height / 4
         opacity: Core.keyboard
-        enabled: Component.status !== Component.Ready || Core.keyboard  //TODO: разобраться почему без этого завершается некорректно
         Behavior on opacity {
             NumberAnimation { duration: 500 }
         }
+
+        Component.onCompleted: enabled = Qt.binding(function() { return Core.keyboard })
     }
 
     ErrorMessageBox {

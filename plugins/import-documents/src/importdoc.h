@@ -17,7 +17,7 @@ class ImportDoc : public QObject
 public:
   explicit ImportDoc(QObject *parent = 0);
 public slots:
-  void importDoc();
+  void importDoc(QString file_name);
 private:
   QString convert(const QString &file_name, std::shared_ptr<QTemporaryDir> dir);
 };

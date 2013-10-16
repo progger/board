@@ -1,4 +1,4 @@
-QT += core gui widgets qml quick
+QT += core gui qml quick
 
 TARGET = import-documents
 TEMPLATE = lib

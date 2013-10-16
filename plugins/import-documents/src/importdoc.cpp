@@ -4,7 +4,6 @@
  * See the LICENSE file for terms of use.
  */
 
-#include <QFileDialog>
 #include <QProcess>
 #ifdef Q_OS_WIN
 #include <poppler-qt5.h>
@@ -20,12 +19,8 @@ ImportDoc::ImportDoc(QObject *parent) :
 {
 }
 
-void ImportDoc::importDoc()
+void ImportDoc::importDoc(QString file_name)
 {
-  QFileDialog dialog;
-  dialog.setAcceptMode(QFileDialog::AcceptOpen);
-  if (!dialog.exec()) return;
-  QString file_name = dialog.selectedFiles().first();
   std::shared_ptr<QTemporaryDir> dir = nullptr;
   if (QFileInfo(file_name).suffix().compare("pdf", Qt::CaseInsensitive) != 0)
   {

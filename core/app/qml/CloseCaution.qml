@@ -14,7 +14,7 @@ Window {
     id: dialog
     signal closeApp
     signal save
-    width: 420
+    width: 480
     height: 80
     minimumWidth: width
     maximumWidth: width

@@ -74,8 +74,8 @@ public slots:
   void setSelected(bool selected);
   void setCanUndo(bool can_undo);
   void setCanRedo(bool can_redo);
-  void selectImage();
-  void selectVideo();
+  void selectImage(const QString &file_name);
+  void selectVideo(const QString &url);
 private:
   QString _mode;
   float _thickness;

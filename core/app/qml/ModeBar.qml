@@ -6,6 +6,7 @@
 
 import QtQuick 2.1
 import QtQuick.Controls 1.0
+import QtQuick.Dialogs 1.0
 import board.core 2.0
 
 Rectangle {
@@ -65,7 +66,7 @@ Rectangle {
             tooltip: "картинка"
             iconSource: "qrc:/core/res/image.svg"
             checked: Paint.mode == "image"
-            onClicked: Paint.selectImage()
+            onClicked: openImageDialog.open()
         }
 
         Button {
@@ -76,7 +77,7 @@ Rectangle {
             tooltip: "видео"
             iconSource: "qrc:/core/res/video.svg"
             checked: Paint.mode == "video"
-            onClicked: Paint.selectVideo()
+            onClicked: openVideoDialog.open()
         }
 
         Button {
@@ -150,5 +151,23 @@ Rectangle {
         drag.maximumX: board.width - width
         drag.minimumY: 0
         drag.maximumY: board.height - height
+    }
+
+    FileDialog {
+        id: openImageDialog
+        modality: Qt.ApplicationModal
+        nameFilters: ["Image files (*.png *.jpg *.jpeg *.tif *.tiff *.gif *.svg)"]
+        selectExisting: true
+        title: "Открыть изображение"
+        onAccepted: Paint.selectImage(fileUrl.toString().replace("file://", ""))
+    }
+
+    FileDialog {
+        id: openVideoDialog
+        modality: Qt.ApplicationModal
+        //nameFilters: ["Video files (*.avi)"] //TODO
+        selectExisting: true
+        title: "Открыть видео"
+        onAccepted: Paint.selectVideo(fileUrl)
     }
 }

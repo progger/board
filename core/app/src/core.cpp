@@ -8,7 +8,6 @@
 #include <QGuiApplication>
 #include <QKeyEvent>
 #include <QtQml>
-#include <QMessageBox>
 #include "global.h"
 #include "quazipfile.h"
 #include "brd/brdstore.h"

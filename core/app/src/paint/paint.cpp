@@ -4,7 +4,6 @@
  * See the LICENSE file for terms of use.
  */
 
-#include <QFileDialog>
 #include <QImage>
 #include "global.h"
 #include "../core.h"
@@ -145,14 +144,8 @@ void Paint::setCanRedo(bool can_redo)
   emit canRedoChanged();
 }
 
-void Paint::selectImage()
+void Paint::selectImage(const QString &file_name)
 {
-  QFileDialog dialog;
-  dialog.setAcceptMode(QFileDialog::AcceptOpen);
-  dialog.setNameFilter("Image files (*.png *.jpg *.jpeg *.tif *.tiff *.gif *.svg)");
-  if (!dialog.exec()) return;
-  QString file_name = dialog.selectedFiles().first();
-
   QString hash = g_core->brdStore()->addFromFile(file_name);
   if (hash.isEmpty()) return;
   QImage image = QImage::fromData(g_core->brdStore()->getObject(hash));
@@ -161,14 +154,9 @@ void Paint::selectImage()
   setMode("image");
 }
 
-void Paint::selectVideo()
+void Paint::selectVideo(const QString &url)
 {
-  QFileDialog dialog;
-  dialog.setAcceptMode(QFileDialog::AcceptOpen);
-  //dialog.setNameFilter("Video files (*.avi)");  //TODO
-  if (!dialog.exec()) return;
-  QString file_name = dialog.selectedFiles().first();
-  _video_source = "file:///" + file_name;
+  _video_source = url;
   setMode("video");
 }
 

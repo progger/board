@@ -13,7 +13,8 @@ class Line : public Shape
 {
   Q_OBJECT
 public:
-  explicit Line(QQuickItem *parent = 0, float thinkness = 0, QColor color = QColor());
+  explicit Line(QQuickItem *parent = 0, float thinkness = 0, QColor color = QColor(),
+                QColor background = QColor(Qt::transparent));
   QPointF p1() { return _p1; }
   QPointF p2() { return _p2; }
   virtual bool checkIntersect(const QRectF &rect) override;

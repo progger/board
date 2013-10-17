@@ -7,15 +7,17 @@
 #ifndef RECTANGLE_H
 #define RECTANGLE_H
 
-#include "shape.h"
+#include "commonshape.h"
 
-class Rectangle : public Shape
+class Rectangle : public CommonShape
 {
   Q_OBJECT
 public:
-  explicit Rectangle(QQuickItem *parent = 0, float thinkness = 0, QColor color = QColor());
+  explicit Rectangle(QQuickItem *parent = 0, float thinkness = 0, QColor color = QColor(),
+                     QColor background = QColor(Qt::transparent));
 protected:
-  virtual QSGNode *updatePaintNode(QSGNode *old_node, UpdatePaintNodeData *) override;
+  virtual void updateMainNode(QSGGeometryNode *node) override;
+  virtual void updateBackgroundNode(QSGGeometryNode *node) override;
   virtual QString elementName() const override;
 };
 

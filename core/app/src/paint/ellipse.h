@@ -7,16 +7,18 @@
 #ifndef ELLIPSE_H
 #define ELLIPSE_H
 
-#include "shape.h"
+#include "commonshape.h"
 
-class Ellipse : public Shape
+class Ellipse : public CommonShape
 {
   Q_OBJECT
 public:
-  explicit Ellipse(QQuickItem *parent = 0, float thinkness = 0, QColor color = QColor());
+  explicit Ellipse(QQuickItem *parent = 0, float thinkness = 0, QColor color = QColor(),
+                   QColor background = QColor(Qt::transparent));
   virtual bool checkIntersect(const QRectF &rect) override;
 protected:
-  virtual QSGNode *updatePaintNode(QSGNode *old_node, UpdatePaintNodeData *) override;
+  virtual void updateMainNode(QSGGeometryNode *node) override;
+  virtual void updateBackgroundNode(QSGGeometryNode *node) override;
   virtual QString elementName() const override;
 };
 

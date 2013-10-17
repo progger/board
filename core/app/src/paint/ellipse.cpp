@@ -10,10 +10,9 @@
 #include "paintutils.h"
 #include "ellipse.h"
 
-Ellipse::Ellipse(QQuickItem *parent, float thinkness, QColor color) :
-  Shape(parent, thinkness, color)
+Ellipse::Ellipse(QQuickItem *parent, float thinkness, QColor color, QColor background) :
+  CommonShape(parent, thinkness, color, background)
 {
-  setFlag(ItemHasContents);
 }
 
 bool Ellipse::checkIntersect(const QRectF &rect)
@@ -49,25 +48,15 @@ bool Ellipse::checkIntersect(const QRectF &rect)
   return xx1 + yy1 < r || xx1 + yy2 < r || yy2 + xx1 < r || yy2 + xx2 < r;
 }
 
-QSGNode *Ellipse::updatePaintNode(QSGNode *old_node, QQuickItem::UpdatePaintNodeData *)
+void Ellipse::updateMainNode(QSGGeometryNode *node)
 {
-  QSGGeometryNode *node = static_cast<QSGGeometryNode *>(old_node);
-  QSGGeometry *g;
-  if (node)
-  {
-    g = node->geometry();
-  }
-  else
+  QSGGeometry *g = node->geometry();
+  if (!g)
   {
     g = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(), 0);
     g->setDrawingMode(GL_TRIANGLE_STRIP);
-    QSGFlatColorMaterial *m = new QSGFlatColorMaterial;
-    m->setColor(color());
-    node = new QSGGeometryNode();
     node->setGeometry(g);
     node->setFlag(QSGNode::OwnsGeometry);
-    node->setMaterial(m);
-    node->setFlag(QSGNode::OwnsMaterial);
   }
   float r1 = width() / 2;
   float r2 = height() / 2;
@@ -92,8 +81,37 @@ QSGNode *Ellipse::updatePaintNode(QSGNode *old_node, QQuickItem::UpdatePaintNode
     y = r2 + (r2 - ty) * ky;
     p[i * 2 + 1].set(x, y);
   }
-  node->markDirty(QSGNode::DirtyGeometry);
-  return node;
+}
+
+void Ellipse::updateBackgroundNode(QSGGeometryNode *node)
+{
+  QSGGeometry *g = node->geometry();
+  if (!g)
+  {
+    g = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(), 0);
+    g->setDrawingMode(GL_TRIANGLE_FAN);
+    node->setGeometry(g);
+    node->setFlag(QSGNode::OwnsGeometry);
+  }
+  float r1 = width() / 2;
+  float r2 = height() / 2;
+  int seg_count = getSegCount(qMax(r1, r2));
+  int vertex_count = seg_count + 2;
+  if (g->vertexCount() != vertex_count)
+  {
+    g->allocate(vertex_count);
+  }
+  auto p = g->vertexDataAsPoint2D();
+  p[0].set(r1, r2);
+  for (int i = 0; i <= seg_count;)
+  {
+    qreal a = 2 * M_PI / seg_count * i;
+    qreal kx = sin(a);
+    qreal ky = cos(a);
+    qreal x = r1 * (1 + kx);
+    qreal y = r2 * (1 + ky);
+    p[++i].set(x, y);
+  }
 }
 
 QString Ellipse::elementName() const

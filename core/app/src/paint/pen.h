@@ -17,7 +17,8 @@ class Pen : public Shape
 {
   Q_OBJECT
 public:
-  explicit Pen(QQuickItem *parent = 0, float thinkness = 0, QColor color = QColor());
+  explicit Pen(QQuickItem *parent = 0, float thinkness = 0, QColor color = QColor(),
+               QColor background = QColor(Qt::transparent));
   Points &points() { return _points; }
   void savePoints();
   virtual bool checkIntersect(const QRectF &rect) override;

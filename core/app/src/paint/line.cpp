@@ -18,8 +18,8 @@ static bool cmpIntr(qreal Ax, qreal Ay, qreal Bx, qreal By,
   return r >= 0 && r <= 1 && s >= 0 && s <= 1;
 }
 
-Line::Line(QQuickItem *parent, float thinkness, QColor color) :
-  Shape(parent, thinkness, color),
+Line::Line(QQuickItem *parent, float thinkness, QColor color, QColor background) :
+  Shape(parent, thinkness, color, background),
   _p1(),
   _p2()
 {

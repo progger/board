@@ -11,7 +11,7 @@ import "keyboard.js" as Script
 
 Item {
     id: keyboard
-    property int layout: 0
+    property int layout: 1
     property int shift: 0
     property int rowHeight: keyboard.height / Script.keys.length
     width: rowHeight * Script.getMaxLength()

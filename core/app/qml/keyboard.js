@@ -82,7 +82,7 @@ function layoutClick(button, data) {
 
 function shiftClick(button, data) {
     keyboard.shift = !keyboard.shift;
-    button.toggled = keyboard.shift
+    button.checked = keyboard.shift
 }
 
 function click(button, data) {

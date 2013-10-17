@@ -36,6 +36,7 @@ Paint::Paint(Core *parent) :
   _mode("pen"),
   _thickness(3),
   _color("#000000"),
+  _background(Qt::transparent),
   _font_size(42),
   _selected(false),
   _can_undo(false),
@@ -83,6 +84,11 @@ QColor Paint::color()
   return _color;
 }
 
+QColor Paint::background()
+{
+  return _background;
+}
+
 int Paint::fontSize()
 {
   return _font_size;
@@ -118,6 +124,12 @@ void Paint::setColor(const QColor &color)
 {
   _color = color;
   emit colorChanged();
+}
+
+void Paint::setBackground(const QColor &background)
+{
+  _background = background;
+  emit backgroundChanged();
 }
 
 void Paint::setFontSize(int font_size)

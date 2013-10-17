@@ -6,10 +6,11 @@
 
 #include "shape.h"
 
-Shape::Shape(QQuickItem *parent, float thickness, QColor color) :
+Shape::Shape(QQuickItem *parent, float thickness, QColor color, QColor background) :
   QQuickItem(parent),
   _thickness(thickness),
-  _color(color)
+  _color(color),
+  _background(background)
 {
   connect(this, SIGNAL(widthChanged()), SLOT(onWidthChanged()));
   connect(this, SIGNAL(heightChanged()), SLOT(onHeightChanged()));
@@ -74,7 +75,15 @@ void Shape::setThickness(int thickness)
 void Shape::setColor(const QColor &color)
 {
   _color = color;
+  update();
   emit colorChanged();
+}
+
+void Shape::setBackground(const QColor &background)
+{
+  _background = background;
+  update();
+  emit backgroundChanged();
 }
 
 void Shape::onWidthChanged()

@@ -10,11 +10,13 @@ LIBSDIR = ../../bin
 include(../../main.pri)
 
 SOURCES += \
+    src/commonshape.cpp \
     src/global.cpp \
     src/shape.cpp \
     src/shapegen.cpp
 
 HEADERS += \
+    ../../shared/core/commonshape.h \
     ../../shared/core/global.h \
     ../../shared/core/ibrdstore.h \
     ../../shared/core/icore.h \

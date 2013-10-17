@@ -111,6 +111,7 @@ QSGNode *Line::updatePaintNode(QSGNode *old_node, QQuickItem::UpdatePaintNodeDat
   p[1].set(x1 - nx, y1 - ny);
   p[2].set(x2 + nx, y2 + ny);
   p[3].set(x2 - nx, y2 - ny);
+  node->markDirty(QSGNode::DirtyGeometry);
   return node;
 }
 

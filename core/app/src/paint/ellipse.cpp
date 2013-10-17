@@ -92,6 +92,7 @@ QSGNode *Ellipse::updatePaintNode(QSGNode *old_node, QQuickItem::UpdatePaintNode
     y = r2 + (r2 - ty) * ky;
     p[i * 2 + 1].set(x, y);
   }
+  node->markDirty(QSGNode::DirtyGeometry);
   return node;
 }
 

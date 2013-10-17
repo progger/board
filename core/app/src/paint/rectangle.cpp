@@ -47,6 +47,7 @@ QSGNode *Rectangle::updatePaintNode(QSGNode *old_node, QQuickItem::UpdatePaintNo
   p[7].set(tx, height() - ty);
   p[8].set(-tx, -ty);
   p[9].set(tx, ty);
+  node->markDirty(QSGNode::DirtyGeometry);
   return node;
 }
 

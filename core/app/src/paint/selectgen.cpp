@@ -50,16 +50,13 @@ void SelectGen::end(const QPointF &p)
   QRectF select(_select_rect->x(), _select_rect->y(),_select_rect->width(), _select_rect->height());
   bool click = select.width() < 8 && select.height() < 8;
   auto items = _canvas->container()->childItems();
-  auto it = items.cend();
-  while (it != items.cbegin())
+  for (auto item : items)
   {
-    --it;
-    Shape *shape = qobject_cast<Shape*>(*it);
+    Shape *shape = qobject_cast<Shape*>(item);
     if (!shape) continue;
     if (shape->checkIntersect(select))
     {
       _selected.push_back(shape);
-      if (click) break;
     }
   }
   if (_selected.empty())
@@ -69,6 +66,11 @@ void SelectGen::end(const QPointF &p)
   }
   else
   {
+    if (click)
+    {
+      sortSelected();
+      _selected.erase(_selected.begin(), --_selected.end());
+    }
     _select_rect->setProperty("bobberVisible", true);
     updateRoundRect();
     _canvas_obj->paintObj()->setSelected(true);

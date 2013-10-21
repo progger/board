@@ -27,7 +27,8 @@ void Shape::serialize(QXmlStreamWriter *writer, ISheetCanvas *canvas, std::set<Q
   writer->writeAttribute("innerWidth", QString::number(_inner_size.width()));
   writer->writeAttribute("innerHeight", QString::number(_inner_size.height()));
   writer->writeAttribute("thickness", QString::number(_thickness));
-  writer->writeAttribute("color", _color.name());
+  writer->writeAttribute("color", QString("#%1").arg(_color.rgba(), 8, 16, QLatin1Char('0')));
+  writer->writeAttribute("background", QString("#%1").arg(_background.rgba(), 8, 16, QLatin1Char('0')));
   innerSerialize(writer, canvas, brd_objects);
   writer->writeEndElement();
 }
@@ -44,6 +45,11 @@ void Shape::deserialize(QXmlStreamReader *reader, ISheetCanvas *canvas)
                       attrs.value("innerHeight").toString().toDouble()));
   setThickness(attrs.value("thickness").toString().toDouble());
   setColor(attrs.value("color").toString());
+  QString background = attrs.value("background").toString();
+  if (!background.isEmpty())
+  {
+    setBackground(background);
+  }
   innerDeserialize(reader, canvas);
   reader->readNext();
 }

@@ -93,55 +93,13 @@ Rectangle {
         }
     }
 
-    Rectangle {
+    ColorGrid {
         id: colorGridRect
         z: 1
         x: parent.width
         y: colorButton.y + colorButton.height + column.y - height
-        border.color: "#404040"
-        border.width: 2
-        width: colorGrid.width + 4
-        height: colorGrid.height + 4
-        color: "#E0E0E0"
-        opacity: 0
-        enabled: opacity
-        Behavior on opacity {
-            NumberAnimation { duration: 500 }
-        }
-
-        GridView {
-            id: colorGrid
-            x: 4
-            y: 4
-            cellWidth: buttonSize + 4
-            cellHeight: buttonSize + 4
-            model: [
-                "#000000", "#ff0000", "#00ff00", "#0000ff",
-                "#ffff00", "#ff00ff", "#00ffff", "#800000",
-                "#008000", "#000080", "#808000", "#800080",
-                "#008080", "#808080"
-            ]
-            width: cellWidth * 4
-            height: cellHeight * 4
-            delegate: colorGridDelegate
-
-            Component {
-                id: colorGridDelegate
-                Rectangle {
-                    height: buttonSize
-                    width: buttonSize
-                    color: modelData
-
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: {
-                            Paint.color = modelData;
-                            colorGridRect.opacity = 0;
-                        }
-                    }
-                }
-            }
-        }
+        cellSize: buttonSize
+        onSelect: Paint.color = color
     }
 
     MouseArea {

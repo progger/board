@@ -88,6 +88,7 @@ HEADERS += \
 OTHER_FILES += \
     qml/Board.qml \
     qml/CloseCaution.qml\
+    qml/ColorGrid.qml \
     qml/ErrorMessageBox.qml \
     qml/ImageWrapper.qml \
     qml/keyboard.js \

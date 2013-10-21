@@ -97,6 +97,56 @@ Rectangle {
         }
     }
 
+    Rectangle {
+        id: colorRect
+        anchors.right: backgroundRect.left
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.rightMargin: 4
+        width: buttonSize
+        height: buttonSize
+        color: Paint.color
+        border.width: 2
+        border.color: "black"
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: colorGridRect.opacity = !colorGridRect.opacity
+        }
+
+        ColorGrid {
+            id: colorGridRect
+            x: 0
+            y: parent.height
+            cellSize: buttonSize
+            onSelect: Paint.color = color
+        }
+    }
+
+    Rectangle {
+        id: backgroundRect
+        anchors.right: operationButtons.left
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.rightMargin: 12
+        width: buttonSize
+        height: buttonSize
+        color: Paint.background
+        border.width: 2
+        border.color: "black"
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: backgroundGridRect.opacity = !backgroundGridRect.opacity
+        }
+
+        ColorGrid {
+            id: backgroundGridRect
+            x: 0
+            y: parent.height
+            cellSize: buttonSize
+            onSelect: Paint.background = color
+        }
+    }
+
     Row {
         id: operationButtons
         anchors.right: saveBookButton.left

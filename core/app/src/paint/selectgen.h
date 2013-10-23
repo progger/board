@@ -33,6 +33,8 @@ public slots:
   void onDuplicate();
   void onToFront();
   void onToBack();
+  void onColorChanged();
+  void onBgcolorChanged();
 private:
   SheetCanvas *_canvas_obj;
   QQuickItem *_select_rect;

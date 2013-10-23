@@ -26,6 +26,8 @@ SelectGen::SelectGen(ISheetCanvas *canvas) :
   connect(_canvas_obj->paintObj(), SIGNAL(duplicate()), SLOT(onDuplicate()));
   connect(_canvas_obj->paintObj(), SIGNAL(toFront()), SLOT(onToFront()));
   connect(_canvas_obj->paintObj(), SIGNAL(toBack()), SLOT(onToBack()));
+  connect(_canvas_obj->paintObj(), SIGNAL(colorChanged()), SLOT(onColorChanged()));
+  connect(_canvas_obj->paintObj(), SIGNAL(bgcolorChanged()), SLOT(onBgcolorChanged()));
 }
 
 SelectGen::~SelectGen()
@@ -219,6 +221,26 @@ void SelectGen::onToBack()
   for (Shape *shape : _selected)
   {
     shape->setZ(--z);
+  }
+  _canvas->pushState();
+}
+
+void SelectGen::onColorChanged()
+{
+  if (_selected.empty()) return;
+  for (Shape *shape : _selected)
+  {
+    shape->setColor(_canvas_obj->paintObj()->color());
+  }
+  _canvas->pushState();
+}
+
+void SelectGen::onBgcolorChanged()
+{
+  if (_selected.empty()) return;
+  for (Shape *shape : _selected)
+  {
+    shape->setBgcolor(_canvas_obj->paintObj()->bgcolor());
   }
   _canvas->pushState();
 }

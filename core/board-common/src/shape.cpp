@@ -6,11 +6,11 @@
 
 #include "shape.h"
 
-Shape::Shape(QQuickItem *parent, float thickness, QColor color, QColor background) :
+Shape::Shape(QQuickItem *parent, float thickness, QColor color, QColor bgcolor) :
   QQuickItem(parent),
   _thickness(thickness),
   _color(color),
-  _background(background)
+  _bgcolor(bgcolor)
 {
   connect(this, SIGNAL(widthChanged()), SLOT(onWidthChanged()));
   connect(this, SIGNAL(heightChanged()), SLOT(onHeightChanged()));
@@ -28,7 +28,7 @@ void Shape::serialize(QXmlStreamWriter *writer, ISheetCanvas *canvas, std::set<Q
   writer->writeAttribute("innerHeight", QString::number(_inner_size.height()));
   writer->writeAttribute("thickness", QString::number(_thickness));
   writer->writeAttribute("color", QString("#%1").arg(_color.rgba(), 8, 16, QLatin1Char('0')));
-  writer->writeAttribute("background", QString("#%1").arg(_background.rgba(), 8, 16, QLatin1Char('0')));
+  writer->writeAttribute("bgcolor", QString("#%1").arg(_bgcolor.rgba(), 8, 16, QLatin1Char('0')));
   innerSerialize(writer, canvas, brd_objects);
   writer->writeEndElement();
 }
@@ -45,10 +45,10 @@ void Shape::deserialize(QXmlStreamReader *reader, ISheetCanvas *canvas)
                       attrs.value("innerHeight").toString().toDouble()));
   setThickness(attrs.value("thickness").toString().toDouble());
   setColor(attrs.value("color").toString());
-  QString background = attrs.value("background").toString();
-  if (!background.isEmpty())
+  QString bgcolor = attrs.value("bgcolor").toString();
+  if (!bgcolor.isEmpty())
   {
-    setBackground(background);
+    setBgcolor(bgcolor);
   }
   innerDeserialize(reader, canvas);
   reader->readNext();
@@ -85,11 +85,11 @@ void Shape::setColor(const QColor &color)
   emit colorChanged();
 }
 
-void Shape::setBackground(const QColor &background)
+void Shape::setBgcolor(const QColor &bgcolor)
 {
-  _background = background;
+  _bgcolor = bgcolor;
   update();
-  emit backgroundChanged();
+  emit bgcolorChanged();
 }
 
 void Shape::onWidthChanged()

@@ -12,8 +12,8 @@
 
 using namespace std;
 
-Pen::Pen(QQuickItem *parent, float thinkness, QColor color, QColor background) :
-  Shape(parent, thinkness, color, background),
+Pen::Pen(QQuickItem *parent, float thinkness, QColor color, QColor bgcolor) :
+  Shape(parent, thinkness, color, bgcolor),
   _points(),
   _hash()
 {

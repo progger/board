@@ -14,7 +14,7 @@ class Rectangle : public CommonShape
   Q_OBJECT
 public:
   explicit Rectangle(QQuickItem *parent = 0, float thinkness = 0, QColor color = QColor(),
-                     QColor background = QColor(Qt::transparent));
+                     QColor bgcolor = QColor(Qt::transparent));
 protected:
   virtual void updateMainNode(QSGGeometryNode *node) override;
   virtual void updateBackgroundNode(QSGGeometryNode *node) override;

@@ -10,8 +10,8 @@
 #include "paintutils.h"
 #include "ellipse.h"
 
-Ellipse::Ellipse(QQuickItem *parent, float thinkness, QColor color, QColor background) :
-  CommonShape(parent, thinkness, color, background)
+Ellipse::Ellipse(QQuickItem *parent, float thinkness, QColor color, QColor bgcolor) :
+  CommonShape(parent, thinkness, color, bgcolor)
 {
 }
 

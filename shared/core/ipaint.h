@@ -24,12 +24,12 @@ public:
   virtual QString mode() = 0;
   virtual float thickness() = 0;
   virtual QColor color() = 0;
-  virtual QColor background() = 0;
+  virtual QColor bgcolor() = 0;
   virtual int fontSize() = 0;
   virtual void setMode(const QString &mode) = 0;
   virtual void setThickness(float thickness) = 0;
   virtual void setColor(const QColor &color) = 0;
-  virtual void setBackground(const QColor &background) = 0;
+  virtual void setBgcolor(const QColor &bgcolor) = 0;
   virtual void setFontSize(int font_size) = 0;
 };
 

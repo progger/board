@@ -26,7 +26,7 @@ class Paint : public QObject, public IPaint
   Q_PROPERTY(QString mode READ mode WRITE setMode NOTIFY modeChanged)
   Q_PROPERTY(float thickness READ thickness WRITE setThickness NOTIFY thicknessChanged)
   Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
-  Q_PROPERTY(QColor background READ background WRITE setBackground NOTIFY backgroundChanged)
+  Q_PROPERTY(QColor bgcolor READ bgcolor WRITE setBgcolor NOTIFY bgcolorChanged)
   Q_PROPERTY(int fontSize READ fontSize WRITE setFontSize NOTIFY fontSizeChanged)
   Q_PROPERTY(bool selected READ selected WRITE setSelected NOTIFY selectedChanged)
   Q_PROPERTY(bool canUndo READ canUndo WRITE setCanUndo NOTIFY canUndoChanged)
@@ -38,7 +38,7 @@ public:
   virtual QString mode() override;
   virtual float thickness() override;
   virtual QColor color() override;
-  virtual QColor background() override;
+  virtual QColor bgcolor() override;
   virtual int fontSize() override;
 
   bool selected() const { return _selected; }
@@ -53,7 +53,7 @@ signals:
   void modeChanged();
   void thicknessChanged();
   void colorChanged();
-  void backgroundChanged();
+  void bgcolorChanged();
   void fontSizeChanged();
   void selectedChanged();
   void canUndoChanged();
@@ -72,7 +72,7 @@ public slots:
   virtual void setMode(const QString &mode) override;
   virtual void setThickness(float thickness) override;
   virtual void setColor(const QColor &color) override;
-  virtual void setBackground(const QColor &background) override;
+  virtual void setBgcolor(const QColor &bgcolor) override;
   virtual void setFontSize(int font_size) override;
 
   void setSelected(bool selected);
@@ -84,7 +84,7 @@ private:
   QString _mode;
   float _thickness;
   QColor _color;
-  QColor _background;
+  QColor _bgcolor;
   int _font_size;
   bool _selected;
   bool _can_undo;

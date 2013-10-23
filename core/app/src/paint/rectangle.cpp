@@ -8,8 +8,8 @@
 #include <QSGFlatColorMaterial>
 #include "rectangle.h"
 
-Rectangle::Rectangle(QQuickItem *parent, float thinkness, QColor color, QColor background) :
-  CommonShape(parent, thinkness, color, background)
+Rectangle::Rectangle(QQuickItem *parent, float thinkness, QColor color, QColor bgcolor) :
+  CommonShape(parent, thinkness, color, bgcolor)
 {
 }
 

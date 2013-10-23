@@ -19,12 +19,12 @@ class Shape : public QQuickItem
   Q_PROPERTY(QSizeF innerSize READ innerSize WRITE setInnerSize NOTIFY innerSizeChanged)
   Q_PROPERTY(int thickness READ thickness WRITE setThickness NOTIFY thicknessChanged)
   Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
-  Q_PROPERTY(QColor background READ background WRITE setBackground NOTIFY backgroundChanged)
+  Q_PROPERTY(QColor bgcolor READ bgcolor WRITE setBgcolor NOTIFY bgcolorChanged)
   Q_PROPERTY(qreal scalex READ scalex NOTIFY scalexChanged)
   Q_PROPERTY(qreal scaley READ scaley NOTIFY scaleyChanged)
 public:
   explicit Shape(QQuickItem *parent = 0, float thickness = 0, QColor color = QColor(),
-                 QColor background = QColor(Qt::transparent));
+                 QColor bgcolor = QColor(Qt::transparent));
   void serialize(QXmlStreamWriter *writer, ISheetCanvas *canvas, std::set<QString> *brd_objects = nullptr) const;
   void deserialize(QXmlStreamReader *reader, ISheetCanvas *canvas);
   QSizeF innerSize() const { return _inner_size; }
@@ -32,18 +32,18 @@ public:
   qreal scaley() const;
   int thickness() const { return _thickness; }
   QColor color() const { return _color; }
-  QColor background() const { return _background; }
+  QColor bgcolor() const { return _bgcolor; }
   virtual bool checkIntersect(const QRectF &rect);
 public slots:
   void setInnerSize(const QSizeF &size);
   void setThickness(int thickness);
   void setColor(const QColor &color);
-  void setBackground(const QColor &background);
+  void setBgcolor(const QColor &bgcolor);
 signals:
   void innerSizeChanged();
   void thicknessChanged();
   void colorChanged();
-  void backgroundChanged();
+  void bgcolorChanged();
   void scalexChanged();
   void scaleyChanged();
 protected:
@@ -57,7 +57,7 @@ private:
   QSizeF _inner_size;
   float _thickness;
   QColor _color;
-  QColor _background;
+  QColor _bgcolor;
 };
 
 #endif // SHAPE_H

@@ -129,7 +129,7 @@ Rectangle {
         anchors.rightMargin: 12
         width: buttonSize
         height: buttonSize
-        color: Paint.background
+        color: Paint.bgcolor
         border.width: 2
         border.color: "black"
 
@@ -143,7 +143,7 @@ Rectangle {
             x: 0
             y: parent.height
             cellSize: buttonSize
-            onSelect: Paint.background = color
+            onSelect: Paint.bgcolor = color
         }
     }
 

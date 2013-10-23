@@ -15,7 +15,7 @@ class CommonShape : public Shape
   Q_OBJECT
 public:
   explicit CommonShape(QQuickItem *parent = 0, float thickness = 0, QColor color = QColor(),
-                       QColor background = QColor(Qt::transparent));
+                       QColor bgcolor = QColor(Qt::transparent));
 protected:
   virtual QSGNode *updatePaintNode(QSGNode *node, UpdatePaintNodeData *) override;
   virtual void updateMainNode(QSGGeometryNode *node) = 0;

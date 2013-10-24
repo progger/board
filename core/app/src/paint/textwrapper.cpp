@@ -6,8 +6,11 @@
 
 #include "textwrapper.h"
 
+static QString DefaultFontFamily = "Arial";
+
 TextWrapper::TextWrapper(QQuickItem *parent) :
   Shape(parent),
+  _font_family(DefaultFontFamily),
   _font_size()
 {
 }
@@ -25,6 +28,12 @@ void TextWrapper::setText(const QString &text)
   updateInnerSize();
 }
 
+void TextWrapper::setFontFamily(const QString &font_family)
+{
+  _font_family = font_family;
+  emit fontFamilyChanged();
+}
+
 void TextWrapper::setFontSize(int font_size)
 {
   _font_size = font_size;
@@ -40,6 +49,7 @@ QString TextWrapper::elementName() const
 void TextWrapper::innerSerialize(QXmlStreamWriter *writer, ISheetCanvas *, std::set<QString> *) const
 {
   writer->writeAttribute("text", _text);
+  writer->writeAttribute("font_family", _font_family);
   writer->writeAttribute("font_size", QString::number(_font_size));
 }
 
@@ -47,6 +57,12 @@ void TextWrapper::innerDeserialize(QXmlStreamReader *reader, ISheetCanvas *)
 {
   QXmlStreamAttributes attrs = reader->attributes();
   setText(attrs.value("text").toString());
+  QString font_family = attrs.value("font_family").toString();
+  if (font_family.isEmpty())
+  {
+    font_family = DefaultFontFamily;
+  }
+  setFontFamily(font_family);
   setFontSize(attrs.value("font_size").toString().toInt());
 }
 

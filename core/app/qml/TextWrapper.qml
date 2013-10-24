@@ -13,6 +13,7 @@ TextWrapper {
         anchors.fill: parent
         text: textWrapper.text
         color: textWrapper.color
+        font.family: textWrapper.fontFamily
         font.pixelSize: textWrapper.fontSize
         transform: Scale {
             xScale: textWrapper.scalex

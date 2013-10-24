@@ -131,6 +131,7 @@ Sheet {
                 if (textItem)
                 {
                     visible = true;
+                    font.family = textItem.fontFamily;
                     font.pixelSize = textItem.fontSize;
                     color = textItem.color;
                     textInputScale.xScale = textItem.scalex;

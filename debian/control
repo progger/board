@@ -2,15 +2,29 @@ Source: board
 Section: misc
 Priority: optional
 Maintainer: Michael Kulabuhov <progger.ru@gmail.com>
-Build-Depends: debhelper (>= 8.0.0), qt5-qmake, qt5-default, qtchooser,
- qtbase5-dev, qtdeclarative5-dev, qtdeclarative5-qtquick2-plugin,
- qtdeclarative5-qtmultimedia-plugin, zlib1g-dev, libpoppler-qt5-dev
+Build-Depends: debhelper (>= 8.0.0),
+ qt5-qmake (>= 5.1),
+ qt5-default (>= 5.1),
+ qtchooser,
+ qtbase5-dev (>= 5.1),
+ qtdeclarative5-dev (>= 5.1),
+ qtdeclarative5-qtquick2-plugin (>= 5.1),
+ qtdeclarative5-window-plugin (>= 5.1),
+ qtdeclarative5-qtmultimedia-plugin (>= 5.1),
+ zlib1g-dev,
+ libpoppler-qt5-dev
 Standards-Version: 3.9.4
 Homepage: https://progger.dyndns.info/
 
 Package: board
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, qtdeclarative5-qtquick2-plugin,  qtdeclarative5-window-plugin, qtdeclarative5-dialogs-plugin, qtdeclarative5-quicklayouts-plugin, qtdeclarative5-qtmultimedia-plugin, libqt5qml-quickcontrols
+Depends: ${shlibs:Depends}, ${misc:Depends},
+ qtdeclarative5-qtquick2-plugin (>= 5.1),
+ qtdeclarative5-window-plugin (>= 5.1),
+ qtdeclarative5-dialogs-plugin (>= 5.1),
+ qtdeclarative5-quicklayouts-plugin (>= 5.1),
+ qtdeclarative5-qtmultimedia-plugin (>= 5.1),
+ libqt5qml-quickcontrols (>= 5.1)
 Recommends: board-import-documenets
 Description: board graphics program
  Extendable vector graphics program

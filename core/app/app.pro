@@ -108,7 +108,6 @@ OTHER_FILES += \
     res/back.svg \
     res/circle.svg \
     res/close.svg \
-    res/color.svg \
     res/delete.svg \
     res/desktop.svg \
     res/down_arrow.svg \

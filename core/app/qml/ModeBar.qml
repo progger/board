@@ -79,27 +79,6 @@ Rectangle {
             checked: Paint.mode == "video"
             onClicked: openVideoDialog.open()
         }
-
-        Button {
-            id: colorButton
-            anchors.horizontalCenter: parent.horizontalCenter
-            style: Style.normalButton
-            width: buttonSize
-            height: buttonSize
-            tooltip: "выбор цвета"
-            iconSource: "qrc:/core/res/color.svg"
-            checked: colorGridRect.opacity
-            onClicked: colorGridRect.opacity = !colorGridRect.opacity
-        }
-    }
-
-    ColorGrid {
-        id: colorGridRect
-        z: 1
-        x: parent.width
-        y: colorButton.y + colorButton.height + column.y - height
-        cellSize: buttonSize
-        onSelect: Paint.color = color
     }
 
     MouseArea {

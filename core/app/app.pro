@@ -1,4 +1,4 @@
-QT += core gui qml quick
+QT += core gui qml quick widgets
 
 TARGET = board
 TEMPLATE = app

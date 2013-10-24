@@ -4,7 +4,7 @@
  * See the LICENSE file for terms of use.
  */
 
-#include <QGuiApplication>
+#include <QApplication>
 #include <QQmlEngine>
 #include <QQuickWindow>
 #include <QTextStream>
@@ -64,7 +64,7 @@ void parseCmd()
 
 int main(int argc, char *argv[])
 {
-  QGuiApplication app(argc, argv);
+  QApplication app(argc, argv);
   parseCmd();
 
   QQmlEngine engine;

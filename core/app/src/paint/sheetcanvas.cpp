@@ -4,7 +4,6 @@
  * See the LICENSE file for terms of use.
  */
 
-#include <QCursor>
 #include "global.h"
 #include "../core.h"
 #include "../str_stack/strstack.h"

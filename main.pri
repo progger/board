@@ -1,4 +1,4 @@
-VERSION = 2.1.0
+VERSION = 2.2.0
 QMAKE_CXXFLAGS += -std=c++11
 
 OBJECTS_DIR = ./build

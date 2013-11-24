@@ -41,6 +41,7 @@ QSGNode *CommonShape::updatePaintNode(QSGNode *node, QQuickItem::UpdatePaintNode
       _main_node = new QSGGeometryNode();
       _main_node->setMaterial(m);
       _main_node->setFlag(QSGNode::OwnsMaterial);
+      updateMainNode(_main_node);
       if (_background_node)
       {
         node->insertChildNodeAfter(_main_node, _background_node);
@@ -54,8 +55,8 @@ QSGNode *CommonShape::updatePaintNode(QSGNode *node, QQuickItem::UpdatePaintNode
     {
       QSGFlatColorMaterial *m = static_cast<QSGFlatColorMaterial*>(_main_node->material());
       m->setColor(color());
+      updateMainNode(_main_node);
     }
-    updateMainNode(_main_node);
     _main_node->markDirty(QSGNode::DirtyGeometry | QSGNode::DirtyMaterial);
   }
   if (bgcolor() == g_transparent_color)
@@ -76,6 +77,7 @@ QSGNode *CommonShape::updatePaintNode(QSGNode *node, QQuickItem::UpdatePaintNode
       _background_node = new QSGGeometryNode();
       _background_node->setMaterial(m);
       _background_node->setFlag(QSGNode::OwnsMaterial);
+      updateBackgroundNode(_background_node);
       if (_main_node)
       {
         node->insertChildNodeBefore(_background_node, _main_node);
@@ -89,8 +91,8 @@ QSGNode *CommonShape::updatePaintNode(QSGNode *node, QQuickItem::UpdatePaintNode
     {
       QSGFlatColorMaterial *m = static_cast<QSGFlatColorMaterial*>(_background_node->material());
       m->setColor(bgcolor());
+      updateBackgroundNode(_background_node);
     }
-    updateBackgroundNode(_background_node);
     _background_node->markDirty(QSGNode::DirtyGeometry | QSGNode::DirtyMaterial);
   }
   return node;

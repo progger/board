@@ -9,6 +9,7 @@
 
 #include <memory>
 #include <set>
+#include <map>
 #include <QXmlStreamWriter>
 #include <QXmlStreamReader>
 #include <QQuickItem>
@@ -67,14 +68,15 @@ private:
   QQuickItem *_container;
   QQuickItem *_select_rect;
   QQuickItem *_text_input;
-  std::shared_ptr<ShapeGen> _shape_gen;
+  std::map<int, std::shared_ptr<ShapeGen>> _shape_gen;
   std::shared_ptr<StrStack> _undo_stack;
   std::shared_ptr<StrStack> _redo_stack;
   QByteArray _cur_state;
-  bool _start_move;
+  std::set<int> _start_move;
   qreal _z_min;
   qreal _z_max;
   void updateZMinMax();
+  std::shared_ptr<ShapeGen> getShapeGen(int id);
 };
 
 #endif // SHEETCANVAS_H

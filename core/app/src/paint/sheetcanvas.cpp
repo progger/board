@@ -18,11 +18,11 @@ SheetCanvas::SheetCanvas(QQuickItem *parent) :
   QQuickItem(parent),
   _sheet_point(),
   _sheet_rect(0, 0, 1, 1),
-  _shape_gen(nullptr),
+  _shape_gen(),
   _undo_stack(make_shared<StrStack>()),
   _redo_stack(make_shared<StrStack>()),
   _cur_state(),
-  _start_move(false),
+  _start_move(),
   _z_min(0),
   _z_max(-1)
 {
@@ -159,43 +159,50 @@ void SheetCanvas::onEnabledChanged()
 {
   if (isEnabled())
   {
-    onModeChanged();
     _paint->setCanUndo(!_undo_stack->empty());
     _paint->setCanRedo(!_redo_stack->empty());
   }
   else
   {
-    _shape_gen = nullptr;
+    _shape_gen.clear();
+    _start_move.clear();
   }
 }
 
 void SheetCanvas::onModeChanged()
 {
   if (!isEnabled()) return;
-  _shape_gen = _paint->createShapeGen(this);
+  _shape_gen.clear();
 }
 
 void SheetCanvas::onMousePress(QObject *event)
 {
-  if (!_shape_gen) return;
+  if (!isEnabled()) return;
+  int id = event->property("id").toInt();
+  auto shape_gen = getShapeGen(id);
   QPointF p(event->property("x").toInt(), event->property("y").toInt());
-  _shape_gen->begin(p);
-  _start_move = true;
+  shape_gen->begin(p);
+  _start_move.insert(id);
 }
 
 void SheetCanvas::onMouseRelease(QObject *event)
 {
-  if (!_shape_gen) return;
+  if (!isEnabled()) return;
+  int id = event->property("id").toInt();
+  auto shape_gen = getShapeGen(id);
   QPointF p(event->property("x").toInt(), event->property("y").toInt());
-  _shape_gen->end(p);
-  _start_move = false;
+  shape_gen->end(p);
+  _start_move.erase(id);
 }
 
 void SheetCanvas::onMouseMove(QObject *event)
 {
-  if (!_shape_gen || !_start_move) return;
+  if (!isEnabled()) return;
+  int id = event->property("id").toInt();
+  if (!_start_move.count(id)) return;
+  auto shape_gen = getShapeGen(id);
   QPointF p(event->property("x").toInt(), event->property("y").toInt());
-  _shape_gen->move(p);
+  shape_gen->move(p);
 }
 
 void SheetCanvas::onUndo()
@@ -208,7 +215,8 @@ void SheetCanvas::onUndo()
   deserializeSheet(&reader);
   _paint->setCanUndo(!_undo_stack->empty());
   _paint->setCanRedo(true);
-  _shape_gen = _paint->createShapeGen(this);
+  _shape_gen.clear();
+  _start_move.clear();
   updateSheetRect();
   updateZMinMax();
   g_core->setChanges();
@@ -224,7 +232,8 @@ void SheetCanvas::onRedo()
   deserializeSheet(&reader);
   _paint->setCanUndo(true);
   _paint->setCanRedo(!_redo_stack->empty());
-  _shape_gen = _paint->createShapeGen(this);
+  _shape_gen.clear();
+  _start_move.clear();
   updateSheetRect();
   updateZMinMax();
   g_core->setChanges();
@@ -259,6 +268,16 @@ void SheetCanvas::updateZMinMax()
     if (z < _z_min) _z_min = z;
     if (z > _z_max) _z_max = z;
   }
+}
+
+std::shared_ptr<ShapeGen> SheetCanvas::getShapeGen(int id)
+{
+  std::shared_ptr<ShapeGen> &shape_gen = _shape_gen[id];
+  if (!shape_gen)
+  {
+    shape_gen = _paint->createShapeGen(this);
+  }
+  return shape_gen;
 }
 
 QPointF SheetCanvas::sheetPoint()

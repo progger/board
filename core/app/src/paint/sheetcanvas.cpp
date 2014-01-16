@@ -26,9 +26,11 @@ SheetCanvas::SheetCanvas(QQuickItem *parent) :
   _z_min(0),
   _z_max(-1)
 {
-  connect(this, SIGNAL(enabledChanged()), SLOT(onEnabledChanged()));
   Core *core = static_cast<Core*>(g_core);
   _paint = core->paintObj();
+  setAcceptedMouseButtons(Qt::LeftButton);
+  setAcceptHoverEvents(true);
+  connect(this, SIGNAL(enabledChanged()), SLOT(onEnabledChanged()));
   connect(_paint, SIGNAL(modeChanged()), SLOT(onModeChanged()));
   connect(_paint, SIGNAL(undo()), SLOT(onUndo()));
   connect(_paint, SIGNAL(redo()), SLOT(onRedo()));
@@ -175,36 +177,6 @@ void SheetCanvas::onModeChanged()
   _shape_gen.clear();
 }
 
-void SheetCanvas::onMousePress(QObject *event)
-{
-  if (!isEnabled()) return;
-  int id = event->property("id").toInt();
-  auto shape_gen = getShapeGen(id);
-  QPointF p(event->property("x").toInt(), event->property("y").toInt());
-  shape_gen->begin(p);
-  _start_move.insert(id);
-}
-
-void SheetCanvas::onMouseRelease(QObject *event)
-{
-  if (!isEnabled()) return;
-  int id = event->property("id").toInt();
-  auto shape_gen = getShapeGen(id);
-  QPointF p(event->property("x").toInt(), event->property("y").toInt());
-  shape_gen->end(p);
-  _start_move.erase(id);
-}
-
-void SheetCanvas::onMouseMove(QObject *event)
-{
-  if (!isEnabled()) return;
-  int id = event->property("id").toInt();
-  if (!_start_move.count(id)) return;
-  auto shape_gen = getShapeGen(id);
-  QPointF p(event->property("x").toInt(), event->property("y").toInt());
-  shape_gen->move(p);
-}
-
 void SheetCanvas::onUndo()
 {
   if (!isEnabled()) return;
@@ -256,6 +228,36 @@ void SheetCanvas::geometryChanged(const QRectF &newGeometry, const QRectF &oldGe
 {
   QQuickItem::geometryChanged(newGeometry, oldGeometry);
   updateSheetRect();
+}
+
+void SheetCanvas::mousePressEvent(QMouseEvent *event)
+{
+  if (!isEnabled()) return;
+  quint16 id = event->modifiers() & 0xffff;
+  auto shape_gen = getShapeGen(id);
+  QPointF p(event->x(), event->y());
+  shape_gen->begin(p);
+  _start_move.insert(id);
+}
+
+void SheetCanvas::mouseReleaseEvent(QMouseEvent *event)
+{
+  if (!isEnabled()) return;
+  quint16 id = event->modifiers() & 0xffff;
+  auto shape_gen = getShapeGen(id);
+  QPointF p(event->x(), event->y());
+  shape_gen->end(p);
+  _start_move.erase(id);
+}
+
+void SheetCanvas::mouseMoveEvent(QMouseEvent *event)
+{
+  if (!isEnabled()) return;
+  quint16 id = event->modifiers() & 0xffff;
+  if (!_start_move.count(id)) return;
+  auto shape_gen = getShapeGen(id);
+  QPointF p(event->x(), event->y());
+  shape_gen->move(p);
 }
 
 void SheetCanvas::updateZMinMax()

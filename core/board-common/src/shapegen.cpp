@@ -8,7 +8,9 @@
 #include "shapegen.h"
 
 ShapeGen::ShapeGen(ISheetCanvas *canvas) :
-  _canvas(canvas)
+  _start(),
+  _canvas(canvas),
+  _item(nullptr)
 {
 }
 

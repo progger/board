@@ -34,9 +34,7 @@ Sheet {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Js.cursors[Paint.mode]
-            onPressed: parent.onMousePress(mouse)
-            onReleased: parent.onMouseRelease(mouse)
-            onPositionChanged: parent.onMouseMove(mouse)
+            acceptedButtons: Qt.NoButton
         }
 
         Rectangle {

@@ -50,9 +50,6 @@ public:
 public slots:
   void onEnabledChanged();
   void onModeChanged();
-  void onMousePress(QObject *event);
-  void onMouseRelease(QObject *event);
-  void onMouseMove(QObject *event);
   void onUndo();
   void onRedo();
 signals:
@@ -61,6 +58,9 @@ signals:
 protected:
   virtual void componentComplete() override;
   virtual void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry) override;
+  virtual void mousePressEvent(QMouseEvent *event) override;
+  virtual void mouseReleaseEvent(QMouseEvent *event) override;
+  virtual void mouseMoveEvent(QMouseEvent *event) override;
 private:
   Paint *_paint;
   QPointF _sheet_point;
@@ -68,11 +68,11 @@ private:
   QQuickItem *_container;
   QQuickItem *_select_rect;
   QQuickItem *_text_input;
-  std::map<int, std::shared_ptr<ShapeGen>> _shape_gen;
+  std::map<quint16, std::shared_ptr<ShapeGen>> _shape_gen;
   std::shared_ptr<StrStack> _undo_stack;
   std::shared_ptr<StrStack> _redo_stack;
   QByteArray _cur_state;
-  std::set<int> _start_move;
+  std::set<quint16> _start_move;
   qreal _z_min;
   qreal _z_max;
   void updateZMinMax();

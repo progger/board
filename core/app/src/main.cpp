@@ -9,8 +9,12 @@
 #include <QQuickWindow>
 #include <QTextStream>
 #include <QFile>
+#include <qpa/qplatformnativeinterface.h>
 #include "global.h"
+#include "mpxeventfilter.h"
 #include "core.h"
+#include <X11/X.h>
+#include <X11/extensions/XInput2.h>
 
 void help()
 {
@@ -81,6 +85,19 @@ int main(int argc, char *argv[])
   Q_ASSERT(obj);
   QQuickWindow *main_window = qobject_cast<QQuickWindow*>(obj);
   Q_ASSERT(main_window);
+
+  Display *display = static_cast<Display *>(app.platformNativeInterface()->nativeResourceForWindow("display", main_window));
+  app.installNativeEventFilter(new MpxEventFilter(main_window));
+  XIEventMask eventmask;
+  unsigned char mask[1] = { 0 };
+  eventmask.deviceid = XIAllMasterDevices;
+  eventmask.mask_len = sizeof(mask);
+  eventmask.mask = mask;
+  XISetMask(mask, XI_Motion);
+  XISetMask(mask, XI_ButtonPress);
+  XISetMask(mask, XI_ButtonRelease);
+  XISelectEvents(display, main_window->winId(), &eventmask, 1);
+
   core->init(main_window);
   if (g_window_mode)
     main_window->showMaximized();

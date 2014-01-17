@@ -8,10 +8,12 @@
 #define GLOBAL_H
 
 #include <QString>
+#include <QWindow>
 #include "icore.h"
 
 extern bool g_window_mode;
 extern QString g_brd_file;
 extern ICore *g_core;
+extern QWindow *g_main_window;
 
 #endif // GLOBAL_H

@@ -146,7 +146,7 @@ bool Core::hasChanges()
   return _changes;
 }
 
-void Core::init(QQuickWindow *main_window)
+void Core::init(QWindow *main_window)
 {
   Q_ASSERT(main_window);
   _main_window = main_window;

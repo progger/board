@@ -54,7 +54,7 @@ public:
   virtual void setChanges() override;
   virtual bool hasChanges() override;
 
-  void init(QQuickWindow *main_window);
+  void init(QWindow *main_window);
   bool windowMode() const;
   bool keyboard() const { return _keyboard; }
   bool transparent() const { return _transparent; }
@@ -81,7 +81,7 @@ public slots:
   void deleteSheet(int index);
 private:
   QQmlEngine *_engine;
-  QQuickWindow *_main_window;
+  QWindow *_main_window;
   bool _keyboard;
   bool _transparent;
   int _sheet_index;

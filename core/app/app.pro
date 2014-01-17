@@ -2,15 +2,13 @@ QT += core gui qml quick widgets
 
 TARGET = board
 TEMPLATE = app
-LIBS += -lz -lX11 -lXi -lxcb -lxcb-xinput
+LIBS += -lz
 DESTDIR =  ../../bin
 LIBSDIR = ../../bin
 DEPENDENCY_LIBRARIES = board-common
 
 include(../../main.pri)
 include(../../third-party/quazip-0.5.1/quazip/quazip.pri)
-
-INCLUDEPATH += /usr/include/qt5/QtGui/5.1.1/QtGui/
 
 SOURCES += \
     src/brd/brdnetworkaccessmanager.cpp \
@@ -19,7 +17,6 @@ SOURCES += \
     src/brd/brdstore.cpp \
     src/core.cpp \
     src/main.cpp \
-    src/mpxeventfilter.cpp \
     src/paint/circlegen.cpp \
     src/paint/ellipse.cpp \
     src/paint/ellipsegen.cpp \
@@ -56,7 +53,6 @@ HEADERS += \
     src/brd/brdreply.h \
     src/brd/brdstore.h \
     src/core.h \
-    src/mpxeventfilter.h \
     src/paint/circlegen.h \
     src/paint/ellipse.h \
     src/paint/ellipsegen.h \

@@ -12,6 +12,7 @@ Shape::Shape(QQuickItem *parent, float thickness, QColor color, QColor bgcolor) 
   _color(color),
   _bgcolor(bgcolor)
 {
+  setFlag(QQuickItem::ItemHasContents);
   connect(this, SIGNAL(widthChanged()), SLOT(onWidthChanged()));
   connect(this, SIGNAL(heightChanged()), SLOT(onHeightChanged()));
 }
@@ -77,7 +78,7 @@ void Shape::setThickness(int thickness)
   _thickness = thickness;
   emit thicknessChanged();
 }
-
+#include <QDebug>
 void Shape::setColor(const QColor &color)
 {
   _color = color;

@@ -23,7 +23,6 @@ Line::Line(QQuickItem *parent, float thinkness, QColor color, QColor bgcolor) :
   _p1(),
   _p2()
 {
-  setFlag(ItemHasContents);
 }
 
 bool Line::checkIntersect(const QRectF &rect)

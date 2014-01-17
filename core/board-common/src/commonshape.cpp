@@ -14,7 +14,6 @@ CommonShape::CommonShape(QQuickItem *parent, float thickness, QColor color, QCol
   _main_node(nullptr),
   _background_node(nullptr)
 {
-  setFlag(ItemHasContents);
 }
 
 QSGNode *CommonShape::updatePaintNode(QSGNode *node, QQuickItem::UpdatePaintNodeData *)

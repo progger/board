@@ -17,7 +17,6 @@ Pen::Pen(QQuickItem *parent, float thinkness, QColor color, QColor bgcolor) :
   _points(),
   _hash()
 {
-  setFlag(ItemHasContents);
 }
 
 void Pen::savePoints()

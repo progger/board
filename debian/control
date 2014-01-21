@@ -12,7 +12,13 @@ Build-Depends: debhelper (>= 8.0.0),
  qtdeclarative5-window-plugin (>= 5.1),
  qtdeclarative5-qtmultimedia-plugin (>= 5.1),
  zlib1g-dev,
- libpoppler-qt5-dev
+ libpoppler-qt5-dev,
+ libx11-dev,
+ libxi-dev,
+ libxcb1-dev,
+ libxcb-xinput0-dev,
+ libxcb-xfixes0-dev,
+ qtbase5-private-dev
 Standards-Version: 3.9.4
 Homepage: https://progger.dyndns.info/
 
@@ -54,4 +60,12 @@ Description: board graphics program
  Extendable vector graphics program
  .
  This package contains import documents plugin
+
+Package: board-mpx
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: board graphics program
+ Extendable vector graphics program
+ .
+ This package contains multipoint extension
 

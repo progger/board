@@ -37,7 +37,7 @@ QQuickItem *sheetsAtFunction(QQmlListProperty<QQuickItem> *list, int index)
 }
 
 Core::Core(QQmlEngine *engine) :
-  QObject(engine),
+  QObject(),
   _engine(engine),
   _main_window(nullptr),
   _keyboard(false),
@@ -78,9 +78,9 @@ Core::Core(QQmlEngine *engine) :
   loadPlugins();
 }
 
-QObject *Core::mainView()
+QWindow *Core::mainWindow()
 {
-  return parent();
+  return _main_window;
 }
 
 QDir Core::rootDir()

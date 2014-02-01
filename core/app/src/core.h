@@ -38,7 +38,7 @@ public:
   explicit Core(QQmlEngine *engine);
 
   // ICore
-  virtual QObject *mainView() override;
+  virtual QWindow *mainWindow() override;
   virtual QDir rootDir() override;
   virtual QSettings *settings() override;
   virtual IPaint *paint() override;

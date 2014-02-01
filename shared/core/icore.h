@@ -7,6 +7,7 @@
 #ifndef ICORE_H
 #define ICORE_H
 
+#include <QWindow>
 #include <QQmlComponent>
 #include <QDir>
 #include <QSettings>
@@ -17,7 +18,7 @@
 class ICore {
 public:
   virtual ~ICore() {}
-  virtual QObject *mainView() = 0;
+  virtual QWindow *mainWindow() = 0;
   virtual QDir rootDir() = 0;
   virtual QSettings *settings() = 0;
   virtual IPaint *paint() = 0;

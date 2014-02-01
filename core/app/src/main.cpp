@@ -67,8 +67,8 @@ int main(int argc, char *argv[])
   QApplication app(argc, argv);
   parseCmd();
 
-  QQmlEngine engine;
-  Core *core = new Core(&engine);
+  QQmlEngine *engine = new QQmlEngine();
+  Core *core = new Core(engine);
   g_core = core;
   QQuickWindow::setDefaultAlphaBuffer(true);
   QQmlComponent *component = core->getComponent("qrc:/core/qml/Board.qml");
@@ -77,7 +77,6 @@ int main(int argc, char *argv[])
     return EXIT_FAILURE;
   }
   QObject *obj = component->create();
-  obj->setParent(core);
   Q_ASSERT(obj);
   g_main_window = qobject_cast<QWindow*>(obj);
   Q_ASSERT(g_main_window);
@@ -88,6 +87,8 @@ int main(int argc, char *argv[])
   else
     g_main_window->showFullScreen();
   int result = app.exec();
-  delete obj;  //TODO: разобраться почему без этого завершается некорректно
+  delete obj;
+  delete engine;
+  delete core;
   return result;
 }

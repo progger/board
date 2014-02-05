@@ -28,6 +28,7 @@ class Paint : public QObject, public IPaint
   Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
   Q_PROPERTY(QColor bgcolor READ bgcolor WRITE setBgcolor NOTIFY bgcolorChanged)
   Q_PROPERTY(int fontSize READ fontSize WRITE setFontSize NOTIFY fontSizeChanged)
+  Q_PROPERTY(float eraserSize READ eraserSize WRITE setEraserSize NOTIFY eraserSizeChanged)
   Q_PROPERTY(bool selected READ selected WRITE setSelected NOTIFY selectedChanged)
   Q_PROPERTY(bool canUndo READ canUndo WRITE setCanUndo NOTIFY canUndoChanged)
   Q_PROPERTY(bool canRedo READ canRedo WRITE setCanRedo NOTIFY canRedoChanged)
@@ -40,6 +41,7 @@ public:
   virtual QColor color() override;
   virtual QColor bgcolor() override;
   virtual int fontSize() override;
+  virtual float eraserSize() override;
 
   bool selected() const { return _selected; }
   bool canUndo() const { return _can_undo; }
@@ -55,6 +57,7 @@ signals:
   void colorChanged();
   void bgcolorChanged();
   void fontSizeChanged();
+  void eraserSizeChanged();
   void selectedChanged();
   void canUndoChanged();
   void canRedoChanged();
@@ -74,6 +77,7 @@ public slots:
   virtual void setColor(const QColor &color) override;
   virtual void setBgcolor(const QColor &bgcolor) override;
   virtual void setFontSize(int font_size) override;
+  virtual void setEraserSize(float eraser_size) override;
 
   void setSelected(bool selected);
   void setCanUndo(bool can_undo);
@@ -86,6 +90,7 @@ private:
   QColor _color;
   QColor _bgcolor;
   int _font_size;
+  float _eraser_size;
   bool _selected;
   bool _can_undo;
   bool _can_redo;

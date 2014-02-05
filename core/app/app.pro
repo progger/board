@@ -20,6 +20,7 @@ SOURCES += \
     src/paint/circlegen.cpp \
     src/paint/ellipse.cpp \
     src/paint/ellipsegen.cpp \
+    src/paint/erasergen.cpp \
     src/paint/imagegen.cpp \
     src/paint/imagewrapper.cpp \
     src/paint/line.cpp \
@@ -56,6 +57,7 @@ HEADERS += \
     src/paint/circlegen.h \
     src/paint/ellipse.h \
     src/paint/ellipsegen.h \
+    src/paint/erasergen.h \
     src/paint/imagegen.h \
     src/paint/imagewrapper.h \
     src/paint/line.h \

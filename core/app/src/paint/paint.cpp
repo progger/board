@@ -20,6 +20,7 @@
 #include "movegen.h"
 #include "imagegen.h"
 #include "videogen.h"
+#include "erasergen.h"
 #include "pen.h"
 #include "line.h"
 #include "rectangle.h"
@@ -38,6 +39,7 @@ Paint::Paint(Core *parent) :
   _color("#000000"),
   _bgcolor(Qt::transparent),
   _font_size(42),
+  _eraser_size(24),
   _selected(false),
   _can_undo(false),
   _can_redo(false),
@@ -48,7 +50,7 @@ Paint::Paint(Core *parent) :
   _map_shape()
 {
   RegisterShapeGen("select",    [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<SelectGen>(canvas); });
-  RegisterShapeGen("select",    [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<SelectGen>(canvas); });
+  RegisterShapeGen("eraser",    [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<EraserGen>(canvas); });
   RegisterShapeGen("pen",       [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<PenGen>(canvas); });
   RegisterShapeGen("magic_pen", [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<MagicPenGen>(canvas); });
   RegisterShapeGen("line",      [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<LineGen>(canvas); });
@@ -94,6 +96,11 @@ int Paint::fontSize()
   return _font_size;
 }
 
+float Paint::eraserSize()
+{
+  return _eraser_size;
+}
+
 std::shared_ptr<ShapeGen> Paint::createShapeGen(ISheetCanvas *canvas) const
 {
   auto it = _map_shape_gen.find(_mode);
@@ -136,6 +143,12 @@ void Paint::setFontSize(int font_size)
 {
   _font_size = font_size;
   emit fontSizeChanged();
+}
+
+void Paint::setEraserSize(float eraser_size)
+{
+  _eraser_size = eraser_size;
+  emit eraserSizeChanged();
 }
 
 void Paint::setSelected(bool selected)

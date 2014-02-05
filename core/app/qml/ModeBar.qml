@@ -31,6 +31,7 @@ Rectangle {
         Repeater {
             model: [
                 {"mode": "select", "image": "qrc:/core/res/select.svg", "hint": "выбор"},
+                {"mode": "eraser", "image": "", "hint": "резинка"},
                 {"mode": "pen", "image": "qrc:/core/res/pen.svg", "hint": "карандаш"},
                 {"mode": "line", "image": "qrc:/core/res/line.svg", "hint": "линия"},
                 {"mode": "rectangle", "image": "qrc:/core/res/rectangle.svg", "hint": "прямоугольник"},

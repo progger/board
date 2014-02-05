@@ -22,15 +22,17 @@ public:
   virtual void RegisterShapeGen(const QString &name, ShapeGenFunc func) = 0;
   virtual void RegisterShape(const QString &name, ShapeFunc func) = 0;
   virtual QString mode() = 0;
-  virtual float thickness() = 0;
-  virtual QColor color() = 0;
-  virtual QColor bgcolor() = 0;
-  virtual int fontSize() = 0;
   virtual void setMode(const QString &mode) = 0;
+  virtual float thickness() = 0;
   virtual void setThickness(float thickness) = 0;
+  virtual QColor color() = 0;
   virtual void setColor(const QColor &color) = 0;
+  virtual QColor bgcolor() = 0;
   virtual void setBgcolor(const QColor &bgcolor) = 0;
+  virtual int fontSize() = 0;
   virtual void setFontSize(int font_size) = 0;
+  virtual float eraserSize() = 0;
+  virtual void setEraserSize(float eraser_size) = 0;
 };
 
 Q_DECLARE_INTERFACE(IPaint, "board.core.IPaint")

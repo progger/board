@@ -19,7 +19,7 @@ static bool cmpIntr(qreal Ax, qreal Ay, qreal Bx, qreal By,
 }
 
 Line::Line(QQuickItem *parent, float thinkness, QColor color, QColor bgcolor) :
-  Shape(parent, thinkness, color, bgcolor),
+  CommonShape(parent, thinkness, color, bgcolor),
   _p1(),
   _p2()
 {
@@ -74,25 +74,15 @@ void Line::setP2(const QPointF &p)
   update();
 }
 
-QSGNode *Line::updatePaintNode(QSGNode *old_node, QQuickItem::UpdatePaintNodeData *)
+void Line::updateMainNode(QSGGeometryNode *node)
 {
-  QSGGeometryNode *node = static_cast<QSGGeometryNode *>(old_node);
-  QSGGeometry *g;
-  if (node)
-  {
-    g = node->geometry();
-  }
-  else
+  QSGGeometry *g = node->geometry();
+  if (!g)
   {
     g = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(), 4);
     g->setDrawingMode(GL_TRIANGLE_STRIP);
-    QSGFlatColorMaterial *m = new QSGFlatColorMaterial;
-    m->setColor(color());
-    node = new QSGGeometryNode();
     node->setGeometry(g);
     node->setFlag(QSGNode::OwnsGeometry);
-    node->setMaterial(m);
-    node->setFlag(QSGNode::OwnsMaterial);
   }
   auto p = g->vertexDataAsPoint2D();
   float tx = thickness() * scalex() / 2;
@@ -110,8 +100,6 @@ QSGNode *Line::updatePaintNode(QSGNode *old_node, QQuickItem::UpdatePaintNodeDat
   p[1].set(x1 - nx, y1 - ny);
   p[2].set(x2 + nx, y2 + ny);
   p[3].set(x2 - nx, y2 - ny);
-  node->markDirty(QSGNode::DirtyGeometry);
-  return node;
 }
 
 QString Line::elementName() const

@@ -13,7 +13,7 @@
 using namespace std;
 
 Pen::Pen(QQuickItem *parent, float thinkness, QColor color, QColor bgcolor) :
-  Shape(parent, thinkness, color, bgcolor),
+  CommonShape(parent, thinkness, color, bgcolor),
   _points(),
   _hash()
 {
@@ -45,25 +45,15 @@ bool Pen::checkIntersect(const QRectF &rect)
   return false;
 }
 
-QSGNode *Pen::updatePaintNode(QSGNode *old_node, QQuickItem::UpdatePaintNodeData *)
+void Pen::updateMainNode(QSGGeometryNode *node)
 {
-  QSGGeometryNode *node = static_cast<QSGGeometryNode *>(old_node);
-  QSGGeometry *g;
-  if (node)
-  {
-    g = node->geometry();
-  }
-  else
+  QSGGeometry *g = node->geometry();
+  if (!g)
   {
     g = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(), 0);
     g->setDrawingMode(GL_TRIANGLE_STRIP);
-    QSGFlatColorMaterial *m = new QSGFlatColorMaterial;
-    m->setColor(color());
-    node = new QSGGeometryNode();
     node->setGeometry(g);
     node->setFlag(QSGNode::OwnsGeometry);
-    node->setMaterial(m);
-    node->setFlag(QSGNode::OwnsMaterial);
   }
   int count = _points.size();
   int vertex_count = qMax((count - 1) * 4, 0);
@@ -91,8 +81,6 @@ QSGNode *Pen::updatePaintNode(QSGNode *old_node, QQuickItem::UpdatePaintNodeData
     p[n + 2].set(x2 + nx, y2 + ny);
     p[n + 3].set(x2 - nx, y2 - ny);
   }
-  node->markDirty(QSGNode::DirtyGeometry);
-  return node;
 }
 
 QString Pen::elementName() const

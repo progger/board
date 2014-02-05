@@ -9,11 +9,11 @@
 
 #include <memory>
 #include <vector>
-#include "shape.h"
+#include "commonshape.h"
 
 typedef std::vector<QPointF> Points;
 
-class Pen : public Shape
+class Pen : public CommonShape
 {
   Q_OBJECT
 public:
@@ -23,7 +23,8 @@ public:
   void savePoints();
   virtual bool checkIntersect(const QRectF &rect) override;
 protected:
-  virtual QSGNode *updatePaintNode(QSGNode *old_node, UpdatePaintNodeData *) override;
+  virtual bool hasBackgroundNode() override { return false; }
+  virtual void updateMainNode(QSGGeometryNode *node) override;
   virtual QString elementName() const override;
   virtual void innerSerialize(QXmlStreamWriter *writer, ISheetCanvas *, std::set<QString> *brd_objects) const override;
   virtual void innerDeserialize(QXmlStreamReader *reader, ISheetCanvas *) override;

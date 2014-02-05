@@ -20,8 +20,10 @@ public:
   void erase(const QRectF &beg, const QRectF &end);
 protected:
   virtual QSGNode *updatePaintNode(QSGNode *node, UpdatePaintNodeData *) override;
-  virtual void updateMainNode(QSGGeometryNode *node) = 0;
-  virtual void updateBackgroundNode(QSGGeometryNode *node) = 0;
+  virtual bool hasMainNode() { return true; }
+  virtual bool hasBackgroundNode() { return true; }
+  virtual void updateMainNode(QSGGeometryNode *) {}
+  virtual void updateBackgroundNode(QSGGeometryNode *) {}
   virtual QRectF getFullInnerRect() const;
   virtual void innerSerialize(QXmlStreamWriter *writer, ISheetCanvas *, std::set<QString> *brd_objects) const override;
   virtual void innerDeserialize(QXmlStreamReader *reader, ISheetCanvas *) override;

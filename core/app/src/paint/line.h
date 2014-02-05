@@ -7,9 +7,9 @@
 #ifndef LINE_H
 #define LINE_H
 
-#include "shape.h"
+#include "commonshape.h"
 
-class Line : public Shape
+class Line : public CommonShape
 {
   Q_OBJECT
 public:
@@ -24,7 +24,8 @@ public slots:
   void setP1(const QPointF &p);
   void setP2(const QPointF &p);
 protected:
-  virtual QSGNode *updatePaintNode(QSGNode *old_node, UpdatePaintNodeData *) override;
+  virtual bool hasBackgroundNode() override { return false; }
+  virtual void updateMainNode(QSGGeometryNode *node) override;
   virtual QString elementName() const override;
   virtual void innerSerialize(QXmlStreamWriter *writer, ISheetCanvas *, std::set<QString> *) const override;
   virtual void innerDeserialize(QXmlStreamReader *reader, ISheetCanvas *) override;

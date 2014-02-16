@@ -107,16 +107,18 @@ QString Line::elementName() const
   return "line";
 }
 
-void Line::innerSerialize(QXmlStreamWriter *writer, ISheetCanvas *, std::set<QString> *) const
+void Line::innerSerialize(QXmlStreamWriter *writer, ISheetCanvas *canvas, std::set<QString> *brd_objects) const
 {
+  CommonShape::innerSerialize(writer, canvas, brd_objects);
   writer->writeAttribute("x1", QString::number(_p1.x()));
   writer->writeAttribute("y1", QString::number(_p1.y()));
   writer->writeAttribute("x2", QString::number(_p2.x()));
   writer->writeAttribute("y2", QString::number(_p2.y()));
 }
 
-void Line::innerDeserialize(QXmlStreamReader *reader, ISheetCanvas *)
+void Line::innerDeserialize(QXmlStreamReader *reader, ISheetCanvas *canvas)
 {
+  CommonShape::innerDeserialize(reader, canvas);
   if (reader->attributes().hasAttribute("ltrb"))
   {
     // Убрать через некоторое время

@@ -26,8 +26,8 @@ protected:
   virtual bool hasBackgroundNode() override { return false; }
   virtual void updateMainNode(QSGGeometryNode *node) override;
   virtual QString elementName() const override;
-  virtual void innerSerialize(QXmlStreamWriter *writer, ISheetCanvas *, std::set<QString> *brd_objects) const override;
-  virtual void innerDeserialize(QXmlStreamReader *reader, ISheetCanvas *) override;
+  virtual void innerSerialize(QXmlStreamWriter *writer, ISheetCanvas *canvas, std::set<QString> *brd_objects) const override;
+  virtual void innerDeserialize(QXmlStreamReader *reader, ISheetCanvas *canvas) override;
 private:
   Points _points;
   QString _hash;

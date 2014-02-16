@@ -27,14 +27,17 @@ void CommonShape::erase(const QRectF &beg, const QRectF &end)
   qreal sy = scaley();
   QRectF rect((beg.x() - x()) / sx, (beg.y() - y()) / sy, beg.width() / sx, beg.height() / sy);
   int steps = qMax(qAbs(end.x() - beg.x()), qAbs(end.y() - beg.y())) + 0.1;
+  if (steps == 0)
+  {
+    steps = 1;
+  }
   qreal dx = (end.x() - beg.x()) / steps / sx;
   qreal dy = (end.y() - beg.y()) / steps / sy;
   bool need_update = false;
-  for (int i = 0; i < steps; ++i)
+  for (int i = 0; i <= steps; ++i)
   {
     need_update = eraseRect(rect) || need_update;
-    rect.setX(rect.x() + dx);
-    rect.setY(rect.y() + dy);
+    rect.translate(dx, dy);
   }
   if (need_update)
   {

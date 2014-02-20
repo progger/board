@@ -27,24 +27,10 @@ Sheet {
             anchors.fill: parent
         }
 
-        MouseArea {
-            id: mouseArea
-            z: -1
-            objectName: "mouseArea"
-            anchors.fill: parent
-            hoverEnabled: true
-            cursorShape: Js.cursors[Paint.mode]
-            acceptedButtons: Qt.NoButton
-        }
-
         Rectangle {
             id: selectRect
             objectName: "selectRect"
             z: 1
-            x: 100
-            y: 100
-            width: 200
-            height: 200
             color: "yellow"
             border.color: "black"
             border.width: 2
@@ -96,10 +82,10 @@ Sheet {
                         cursorShape: modelData[2]
                         onPressed: if (selectRect.selectGen)
                                        selectRect.selectGen.onScaleBegin(mouse.x, mouse.y,
-                                                                         modelData[0] == 0,
-                                                                         modelData[1] == 0,
-                                                                         modelData[0] == 1,
-                                                                         modelData[1] == 1)
+                                                                         modelData[0] === 0,
+                                                                         modelData[1] === 0,
+                                                                         modelData[0] === 1,
+                                                                         modelData[1] === 1)
                         onReleased: if (selectRect.selectGen)
                                         selectRect.selectGen.onScaleEnd()
                         onPositionChanged: if (selectRect.selectGen)
@@ -107,6 +93,19 @@ Sheet {
                     }
                 }
             }
+        }
+
+        Rectangle {
+            id: eraseRect
+            z: 1
+            x: sheetCanvas.mouseX - Paint.eraserSize
+            y: sheetCanvas.mouseY - Paint.eraserSize
+            width: Paint.eraserSize * 2
+            height: Paint.eraserSize * 2
+            color: "transparent"
+            border.width: 1
+            border.color: "black"
+            visible: Paint.mode == "eraser" && sheetCanvas.containsMouse
         }
 
         TextEdit {
@@ -135,8 +134,8 @@ Sheet {
                     textInputScale.xScale = textItem.scalex;
                     textInputScale.yScale = textItem.scaley;
                     text = textItem.text;
-                    cursorPosition = positionAt((mouseArea.mouseX - textItem.x) / textItem.scalex,
-                                                (mouseArea.mouseY - textItem.y) / textItem.scaley);
+                    cursorPosition = positionAt((sheetCanvas.mouseX - textItem.x) / textItem.scalex,
+                                                (sheetCanvas.mouseY - textItem.y) / textItem.scaley);
                     Core.keyboard = true;
                 }
                 else

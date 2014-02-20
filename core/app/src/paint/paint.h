@@ -50,7 +50,8 @@ public:
   QString imageHash() const { return _image_hash; }
   QString videoSource() const { return _video_source; }
   std::shared_ptr<ShapeGen> createShapeGen(ISheetCanvas *canvas) const;
-  Shape *createShape(const QString &name);
+  Shape *createShape(const QString &name) const;
+  QCursor getCursor() const;
 signals:
   void modeChanged();
   void thicknessChanged();
@@ -72,6 +73,7 @@ public slots:
   // IPaint
   virtual void RegisterShapeGen(const QString &name, ShapeGenFunc func) override;
   virtual void RegisterShape(const QString &name, ShapeFunc func) override;
+  virtual void RegisterCursor(const QString &name, const QCursor &cursor) override;
   virtual void setMode(const QString &mode) override;
   virtual void setThickness(float thickness) override;
   virtual void setColor(const QColor &color) override;
@@ -99,6 +101,7 @@ private:
   QString _video_source;
   std::map<QString, ShapeGenFunc> _map_shape_gen;
   std::map<QString, ShapeFunc> _map_shape;
+  std::map<QString, QCursor> _map_cursor;
 };
 
 #endif // PAINT_H

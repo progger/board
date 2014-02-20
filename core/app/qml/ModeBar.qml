@@ -31,7 +31,7 @@ Rectangle {
         Repeater {
             model: [
                 {"mode": "select", "image": "qrc:/core/res/select.svg", "hint": "выбор"},
-                {"mode": "eraser", "image": "", "hint": "резинка"},
+                {"mode": "eraser", "image": "qrc:/core/res/eraser.png", "hint": "резинка"},
                 {"mode": "pen", "image": "qrc:/core/res/pen.svg", "hint": "карандаш"},
                 {"mode": "line", "image": "qrc:/core/res/line.svg", "hint": "линия"},
                 {"mode": "rectangle", "image": "qrc:/core/res/rectangle.svg", "hint": "прямоугольник"},
@@ -53,7 +53,7 @@ Rectangle {
                     height: buttonSize
                     tooltip: modelData.hint
                     iconSource: modelData.image
-                    checked: Paint.mode == modelData.mode
+                    checked: Paint.mode === modelData.mode
                     onClicked: Paint.mode = modelData.mode
                 }
             }

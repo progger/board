@@ -24,7 +24,10 @@ SheetCanvas::SheetCanvas(QQuickItem *parent) :
   _cur_state(),
   _start_move(),
   _z_min(0),
-  _z_max(-1)
+  _z_max(-1),
+  _mouse_x(0),
+  _mouse_y(0),
+  _contains_mouse(false)
 {
   Core *core = static_cast<Core*>(g_core);
   _paint = core->paintObj();
@@ -169,12 +172,14 @@ void SheetCanvas::onEnabledChanged()
     _shape_gen.clear();
     _start_move.clear();
   }
+  setCursor(_paint->getCursor());
 }
 
 void SheetCanvas::onModeChanged()
 {
   if (!isEnabled()) return;
   _shape_gen.clear();
+  setCursor(_paint->getCursor());
 }
 
 void SheetCanvas::onUndo()
@@ -253,11 +258,33 @@ void SheetCanvas::mouseReleaseEvent(QMouseEvent *event)
 void SheetCanvas::mouseMoveEvent(QMouseEvent *event)
 {
   if (!isEnabled()) return;
+  _mouse_x = event->x();
+  _mouse_y = event->y();
+  emit mousePositionChanged();
   quint16 id = event->modifiers() & 0xffff;
   if (!_start_move.count(id)) return;
   auto shape_gen = getShapeGen(id);
   QPointF p(event->x(), event->y());
   shape_gen->move(p);
+}
+
+void SheetCanvas::hoverEnterEvent(QHoverEvent *)
+{
+  _contains_mouse = true;
+  emit containsMouseChanged();
+}
+
+void SheetCanvas::hoverLeaveEvent(QHoverEvent *)
+{
+  _contains_mouse = false;
+  emit containsMouseChanged();
+}
+
+void SheetCanvas::hoverMoveEvent(QHoverEvent *event)
+{
+  _mouse_x = event->pos().x();
+  _mouse_y = event->pos().y();
+  emit mousePositionChanged();
 }
 
 void SheetCanvas::updateZMinMax()

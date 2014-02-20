@@ -47,7 +47,8 @@ Paint::Paint(Core *parent) :
   _image_hash(),
   _video_source(),
   _map_shape_gen(),
-  _map_shape()
+  _map_shape(),
+  _map_cursor()
 {
   RegisterShapeGen("select",    [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<SelectGen>(canvas); });
   RegisterShapeGen("eraser",    [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<EraserGen>(canvas); });
@@ -69,6 +70,17 @@ Paint::Paint(Core *parent) :
   RegisterShape("text",      []() -> Shape* { return static_cast<Shape*>(g_core->getComponent("qrc:/core/qml/TextWrapper.qml")->create()); });
   RegisterShape("image",     []() -> Shape* { return static_cast<Shape*>(g_core->getComponent("qrc:/core/qml/ImageWrapper.qml")->create()); });
   RegisterShape("video",     []() -> Shape* { return static_cast<Shape*>(g_core->getComponent("qrc:/core/qml/VideoPlayer.qml")->create()); });
+
+  RegisterCursor("eraser", Qt::BlankCursor);
+  RegisterCursor("pen", Qt::CrossCursor);
+  RegisterCursor("magic_pen", Qt::CrossCursor);
+  RegisterCursor("line", Qt::CrossCursor);
+  RegisterCursor("rectangle", Qt::CrossCursor);
+  RegisterCursor("circle", Qt::CrossCursor);
+  RegisterCursor("ellipse", Qt::CrossCursor);
+  RegisterCursor("text", Qt::IBeamCursor);
+  RegisterCursor("move", Qt::OpenHandCursor);
+  RegisterCursor("text", Qt::IBeamCursor);
 }
 
 QString Paint::mode()
@@ -108,11 +120,18 @@ std::shared_ptr<ShapeGen> Paint::createShapeGen(ISheetCanvas *canvas) const
   return (*it).second(canvas);
 }
 
-Shape *Paint::createShape(const QString &name)
+Shape *Paint::createShape(const QString &name) const
 {
   auto it = _map_shape.find(name);
   if (it == _map_shape.cend()) return nullptr;
   return (*it).second();
+}
+
+QCursor Paint::getCursor() const
+{
+  auto it = _map_cursor.find(_mode);
+  if (it == _map_cursor.cend()) return Qt::ArrowCursor;
+  return (*it).second;
 }
 
 void Paint::setMode(const QString &mode)
@@ -194,4 +213,9 @@ void Paint::RegisterShapeGen(const QString &name, ShapeGenFunc func)
 void Paint::RegisterShape(const QString &name, ShapeFunc func)
 {
   _map_shape[name] = func;
+}
+
+void Paint::RegisterCursor(const QString &name, const QCursor &cursor)
+{
+  _map_cursor[name] = cursor;
 }

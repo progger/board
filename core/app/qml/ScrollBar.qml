@@ -25,8 +25,8 @@ Rectangle {
         anchors.top: parent.top
         anchors.right: !scrollBar.horizontal ? parent.right : undefined
         anchors.bottom: scrollBar.horizontal ? parent.bottom : undefined
-        width: scrollBar.horizontal ? height : undefined
-        height: !scrollBar.horizontal ? width : undefined
+        width: scrollBar.horizontal ? parent.height : undefined
+        height: !scrollBar.horizontal ? parent.width : undefined
         source: scrollBar.horizontal
                 ? "qrc:/core/res/left_arrow.svg"
                 : "qrc:/core/res/up_arrow.svg"
@@ -39,8 +39,8 @@ Rectangle {
         anchors.top: scrollBar.horizontal ? parent.top : undefined
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        width: scrollBar.horizontal ? height : undefined
-        height: !scrollBar.horizontal ? width : undefined
+        width: scrollBar.horizontal ? parent.height : undefined
+        height: !scrollBar.horizontal ? parent.width : undefined
         source: scrollBar.horizontal
                 ? "qrc:/core/res/right_arrow.svg"
                 : "qrc:/core/res/down_arrow.svg"

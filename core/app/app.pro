@@ -116,6 +116,7 @@ OTHER_FILES += \
     res/duplicate.svg \
     res/ellipse.svg \
     res/enter.svg \
+    res/eraser.png \
     res/font_size.svg \
     res/help \
     res/image.svg \

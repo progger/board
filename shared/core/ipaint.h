@@ -9,6 +9,7 @@
 
 #include <QString>
 #include <QColor>
+#include <QCursor>
 #include <memory>
 #include "shapegen.h"
 #include "isheetcanvas.h"
@@ -21,6 +22,7 @@ public:
   virtual ~IPaint() {}
   virtual void RegisterShapeGen(const QString &name, ShapeGenFunc func) = 0;
   virtual void RegisterShape(const QString &name, ShapeFunc func) = 0;
+  virtual void RegisterCursor(const QString &name, const QCursor &cursor) = 0;
   virtual QString mode() = 0;
   virtual void setMode(const QString &mode) = 0;
   virtual float thickness() = 0;

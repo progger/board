@@ -21,7 +21,7 @@ CommonShape::CommonShape(QQuickItem *parent, float thickness, QColor color, QCol
   connect(this, SIGNAL(thicknessChanged()), SLOT(onInnerRectChanged()));
 }
 
-void CommonShape::erase(const QRectF &beg, const QRectF &end)
+bool CommonShape::erase(const QRectF &beg, const QRectF &end)
 {
   qreal sx = scalex();
   qreal sy = scaley();
@@ -41,15 +41,20 @@ void CommonShape::erase(const QRectF &beg, const QRectF &end)
   }
   if (need_update)
   {
-    QByteArray data;
-    QDataStream stream(&data, QIODevice::WriteOnly);
-    for (const QRectF &clip : _clips)
-    {
-      stream << clip.x() << clip.y() << clip.width() << clip.height();
-    }
-    _clips_hash = g_core->brdStore()->addObject(data);
     update();
   }
+  return need_update;
+}
+
+void CommonShape::updateClipHash()
+{
+  QByteArray data;
+  QDataStream stream(&data, QIODevice::WriteOnly);
+  for (const QRectF &clip : _clips)
+  {
+    stream << clip.x() << clip.y() << clip.width() << clip.height();
+  }
+  _clips_hash = g_core->brdStore()->addObject(data);
 }
 
 QSGNode *CommonShape::updatePaintNode(QSGNode *node, QQuickItem::UpdatePaintNodeData *)

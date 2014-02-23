@@ -17,7 +17,8 @@ class CommonShape : public Shape
 public:
   explicit CommonShape(QQuickItem *parent = 0, float thickness = 0, QColor color = QColor(),
                        QColor bgcolor = QColor(Qt::transparent));
-  void erase(const QRectF &beg, const QRectF &end);
+  bool erase(const QRectF &beg, const QRectF &end);
+  void updateClipHash();
 protected:
   virtual QSGNode *updatePaintNode(QSGNode *node, UpdatePaintNodeData *) override;
   virtual bool hasMainNode() { return true; }

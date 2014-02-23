@@ -4,17 +4,20 @@
  * See the LICENSE file for terms of use.
  */
 
+#include <set>
 #include "commonshape.h"
 #include "global.h"
 #include "erasergen.h"
 
 EraserGen::EraserGen(ISheetCanvas *canvas) :
-  ShapeGen(canvas)
+  ShapeGen(canvas),
+  _shape_set()
 {
 }
 
 void EraserGen::begin(const QPointF &p)
 {
+  _shape_set.clear();
   ShapeGen::begin(p);
   move(p);
 }
@@ -22,8 +25,13 @@ void EraserGen::begin(const QPointF &p)
 void EraserGen::end(const QPointF &p)
 {
   move(p);
+  for (CommonShape *shape : _shape_set)
+  {
+    shape->updateClipHash();
+  }
   _canvas->pushState();
   _canvas->updateSheetRect();
+  _shape_set.clear();
 }
 
 void EraserGen::move(const QPointF &p)
@@ -37,7 +45,10 @@ void EraserGen::move(const QPointF &p)
     CommonShape *shape = qobject_cast<CommonShape*>(item);
     if (shape)
     {
-      shape->erase(beg, end);
+      if (shape->erase(beg, end))
+      {
+        _shape_set.insert(shape);
+      }
     }
   }
   _start = p;

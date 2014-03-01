@@ -1,3 +1,10 @@
+board (2.4.0) stable; urgency=low
+
+  * Переход на Qt 5.2
+  * Добавлена резинка
+
+ -- Michael Kulabuhov <progger.ru@gmail.com>  Sat, 01 Mar 2014 16:21:04 +0700
+
 board (2.3.0) stable; urgency=low
 
   * Поддержка multipoint

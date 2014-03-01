@@ -141,12 +141,9 @@ OTHER_FILES += \
     res/to_back.svg \
     res/undo.svg \
     res/up_arrow.svg \
-    res/video.svg \
-    board.desktop
+    res/video.svg
 
 RESOURCES += app.qrc
 
-target.path=$$PREFIX/bin
-shortcut.path=$$PREFIX/share/applications
-shortcut.files=board.desktop
-INSTALLS += target shortcut
+target.path=/opt/board
+INSTALLS += target

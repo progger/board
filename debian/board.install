@@ -1,3 +1,4 @@
-usr/bin/board
-usr/share/applications/board.desktop
+debian/board.desktop usr/share/applications/
+debian/board-wrapper opt/board/
+opt/board/board
 

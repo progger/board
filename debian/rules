@@ -1,8 +1,10 @@
 #!/usr/bin/make -f
-# -*- makefile -*-
 
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
+
+export PATH := /opt/qt52/bin:$(PATH)
+export LD_LIBRARY_PATH := /opt/board:/opt/qt52/lib:/opt/qt52/lib/$(shell dpkg-architecture -qDEB_BUILD_MULTIARCH):$(LD_LIBRARY_PATH)
 
 %:
 	dh $@ --buildsystem=qmake

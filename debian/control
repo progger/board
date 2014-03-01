@@ -3,14 +3,9 @@ Section: misc
 Priority: optional
 Maintainer: Michael Kulabuhov <progger.ru@gmail.com>
 Build-Depends: debhelper (>= 8.0.0),
- qt5-qmake (>= 5.1),
- qt5-default (>= 5.1),
- qtchooser,
- qtbase5-dev (>= 5.1),
- qtdeclarative5-dev (>= 5.1),
- qtdeclarative5-qtquick2-plugin (>= 5.1),
- qtdeclarative5-window-plugin (>= 5.1),
- qtdeclarative5-qtmultimedia-plugin (>= 5.1),
+ libgl1-mesa-dev,
+ qt52base,
+ qt52declarative,
  zlib1g-dev,
  libpoppler-qt5-dev,
  libx11-dev,
@@ -18,19 +13,16 @@ Build-Depends: debhelper (>= 8.0.0),
  libxcb1-dev,
  libxcb-xinput0-dev,
  libxcb-xfixes0-dev,
- qtbase5-private-dev
 Standards-Version: 3.9.4
 Homepage: https://progger.dyndns.info/
 
 Package: board
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends},
- qtdeclarative5-qtquick2-plugin (>= 5.1),
- qtdeclarative5-window-plugin (>= 5.1),
- qtdeclarative5-dialogs-plugin (>= 5.1),
- qtdeclarative5-quicklayouts-plugin (>= 5.1),
- qtdeclarative5-qtmultimedia-plugin (>= 5.1),
- libqt5qml-quickcontrols (>= 5.1)
+ qt52imageformats,
+ qt52multimedia,
+ qt52quickcontrols,
+ qt52svg
 Recommends: board-import-documenets
 Description: board graphics program
  Extendable vector graphics program

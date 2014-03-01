@@ -1,1 +1,2 @@
-usr/lib/libboard-common.so.*
+opt/board/libboard-common.so.*
+

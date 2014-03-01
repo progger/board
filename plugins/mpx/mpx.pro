@@ -21,5 +21,5 @@ HEADERS += \
     src/mpxeventfilter.h \
     src/plugin.h
 
-target.path=$$PREFIX/lib/board
+target.path=/opt/board/plugins
 INSTALLS += target

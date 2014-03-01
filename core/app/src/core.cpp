@@ -372,12 +372,8 @@ error:
 
 void Core::loadPlugins()
 {
-#if defined(Q_OS_LINUX) && !defined(QT_DEBUG)
-  QDir dir("/usr/lib/board");
-#else
   QDir dir = QDir(QCoreApplication::applicationDirPath());
   dir.cd("plugins");
-#endif
   QStringList files = dir.entryList(QDir::Files);
   for (QString file_name : files)
   {

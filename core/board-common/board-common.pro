@@ -27,7 +27,7 @@ HEADERS += \
     ../../shared/core/shape.h \
     ../../shared/core/shapegen.h
 
-headers.path=$$PREFIX/include/board
+headers.path=/opt/board/include/board
 headers.files=$$HEADERS
-target.path=$$PREFIX/lib
+target.path=/opt/board
 INSTALLS += headers target

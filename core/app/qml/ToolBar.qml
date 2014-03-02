@@ -353,7 +353,7 @@ Rectangle {
         nameFilters: ["Book files (*.brd)"]
         selectExisting: false
         title: "Сохранить книгу"
-        onAccepted: Core.saveBook(fileUrl.toString().replace("file://", ""))
+        onAccepted: Core.saveBook(fileUrl)
     }
 
     FileDialog {
@@ -362,6 +362,6 @@ Rectangle {
         nameFilters: ["Book files (*.brd)"]
         selectExisting: true
         title: "Открыть книгу"
-        onAccepted: Core.openBook(fileUrl.toString().replace("file://", ""))
+        onAccepted: Core.openBook(fileUrl)
     }
 }

@@ -226,8 +226,9 @@ void Core::minimizeButton()
   _main_window->showMinimized();
 }
 
-void Core::saveBook(const QString &file_name)
+void Core::saveBook(const QUrl &file_url)
 {
+  QString file_name = file_url.toLocalFile();
   QFileInfo file_info(file_name);
   if (file_info.suffix().isEmpty())
   {
@@ -242,8 +243,9 @@ void Core::saveBook(const QString &file_name)
   saveBookFiles(&zip);
 }
 
-void Core::openBook(const QString &file_name)
+void Core::openBook(const QUrl &file_url)
 {
+  QString file_name = file_url.toLocalFile();
   QuaZip zip(file_name);
   if (!zip.open(QuaZip::mdUnzip))
   {

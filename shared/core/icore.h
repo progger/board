@@ -30,7 +30,7 @@ public:
   virtual void logMessage(const QString &message) = 0;
   virtual void logError(const QString &error) = 0;
   virtual void showError(const QString &error) = 0;
-  virtual void addPluginRowItem(const QString &url_string) = 0;
+  virtual void registerPanelAction(const QString &section, const QString &url_string) = 0;
   virtual void setChanges() = 0;
   virtual bool hasChanges() = 0;
 };

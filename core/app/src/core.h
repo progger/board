@@ -17,6 +17,7 @@
 #include "quazip.h"
 #include "icore.h"
 #include "iplugin.h"
+#include "panel.h"
 #include "paint/sheet.h"
 
 class BrdStore;
@@ -50,7 +51,7 @@ public:
   virtual void logMessage(const QString &message) override;
   virtual void logError(const QString &error) override;
   virtual void showError(const QString &error) override;
-  virtual void addPluginRowItem(const QString &url_string) override;
+  virtual void registerPanelAction(const QString &section, const QString &url_string) override;
   virtual void setChanges() override;
   virtual bool hasChanges() override;
 
@@ -93,7 +94,8 @@ private:
   QQmlComponent *_comp_sheet;
   QQmlComponent *_comp_panel;
   QQuickItem *_sheet_place;
-  QQuickItem *_plugin_row;
+  std::vector<Panel*> _panels;
+  std::multimap<QString, QQmlComponent*> _actions;
   std::vector<Sheet*> _sheets;
   std::vector<IPlugin*> _plugins;
   bool _changes;

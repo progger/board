@@ -18,7 +18,6 @@
 #include "paint/imagewrapper.h"
 #include "paint/videoplayer.h"
 #include "style.h"
-#include "panel.h"
 #include "core.h"
 
 Core::Core(QQmlEngine *engine) :
@@ -28,6 +27,8 @@ Core::Core(QQmlEngine *engine) :
   _keyboard(false),
   _transparent(false),
   _map_componenet(),
+  _panels(),
+  _actions(),
   _sheets(),
   _changes(false)
 {
@@ -113,15 +114,11 @@ void Core::showError(const QString &error)
   emit errorMessageBox(error);
 }
 
-void Core::addPluginRowItem(const QString &url_string)
+void Core::registerPanelAction(const QString &section, const QString &url_string)
 {
   QQmlComponent *component = getComponent(url_string);
   if (!component) return;
-  QQuickItem *item = qobject_cast<QQuickItem*>(component->create());
-  if (!item) return;
-  item->setParent(_plugin_row);
-  item->setParentItem(_plugin_row);
-  item->setHeight(_plugin_row->height());
+  _actions.emplace(section, component);
 }
 
 void Core::setChanges()
@@ -141,8 +138,6 @@ void Core::init(QWindow *main_window)
   _main_window = main_window;
   _sheet_place = _main_window->findChild<QQuickItem*>("sheetPlace");
   Q_ASSERT(_sheet_place);
-  _plugin_row = _main_window->findChild<QQuickItem*>("pluginRow");
-  Q_ASSERT(_plugin_row);
   initPlugins();
   if (!g_brd_file.isEmpty())
   {

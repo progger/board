@@ -238,7 +238,7 @@ Rectangle {
     Button {
         id: openBookButton
         style: Style.normalButton
-        anchors.right: pluginsRow.left
+        anchors.right: thicknessImage.left
         anchors.verticalCenter: parent.verticalCenter
         anchors.rightMargin: 12
         width: buttonSize
@@ -246,15 +246,6 @@ Rectangle {
         tooltip: "открыть"
         iconSource: "qrc:/core/res/open.svg"
         onClicked: openBookDialog.open()
-    }
-
-    Row {
-        id: pluginsRow
-        objectName: "pluginRow"
-        anchors.right: thicknessImage.left
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.rightMargin: 12
-        height: parent.height
     }
 
     Image {

@@ -45,6 +45,7 @@ SOURCES += \
     src/paint/textwrapper.cpp \
     src/paint/videogen.cpp \
     src/paint/videoplayer.cpp \
+    src/panel.cpp \
     src/str_stack/strstack.cpp \
     src/style.cpp
 
@@ -84,6 +85,7 @@ HEADERS += \
     src/paint/textwrapper.h \
     src/paint/videogen.h \
     src/paint/videoplayer.h \
+    src/panel.h \
     src/str_stack/strstack.h \
     src/style.h
 
@@ -141,7 +143,8 @@ OTHER_FILES += \
     res/to_back.svg \
     res/undo.svg \
     res/up_arrow.svg \
-    res/video.svg
+    res/video.svg \
+    qml/Panel.qml
 
 RESOURCES += app.qrc
 

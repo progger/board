@@ -18,23 +18,8 @@
 #include "paint/imagewrapper.h"
 #include "paint/videoplayer.h"
 #include "style.h"
+#include "panel.h"
 #include "core.h"
-
-using namespace std;
-
-int sheetsCountFunction(QQmlListProperty<QQuickItem> *list)
-{
-  Core *core = qobject_cast<Core*>(list->object);
-  Q_ASSERT(core);
-  return core->sheets()->size();
-}
-
-QQuickItem *sheetsAtFunction(QQmlListProperty<QQuickItem> *list, int index)
-{
-  Core *core = qobject_cast<Core*>(list->object);
-  Q_ASSERT(core);
-  return core->sheets()->at(index);
-}
 
 Core::Core(QQmlEngine *engine) :
   QObject(),
@@ -56,6 +41,8 @@ Core::Core(QQmlEngine *engine) :
   qmlRegisterType<Core>();
   qmlRegisterType<Paint>();
   qmlRegisterType<Style>("board.core", 2, 0, "StyleQml");
+  qmlRegisterType<Panel>("board.core", 2, 0, "Panel");
+  qmlRegisterType<PanelAction>("board.core", 2, 0, "PanelAction");
   qmlRegisterType<Sheet>("board.core.paint", 2, 0, "Sheet");
   qmlRegisterType<SheetCanvas>("board.core.paint", 2, 0, "SheetCanvas");
   qmlRegisterType<TextWrapper>("board.core.paint", 2, 0, "TextWrapper");
@@ -74,6 +61,8 @@ Core::Core(QQmlEngine *engine) :
 
   _comp_sheet = getComponent("qrc:/core/qml/Sheet.qml");
   Q_ASSERT(_comp_sheet);
+  _comp_panel = getComponent("qrc:/core/qml/Panel.qml");
+  Q_ASSERT(_comp_panel);
 
   loadPlugins();
 }
@@ -204,9 +193,23 @@ void Core::logError(const QString &error)
   cerr << error << endl;
 }
 
-QQmlListProperty<QQuickItem> Core::sheetsProperty()
+QQmlListProperty<Sheet> Core::sheetsProperty()
 {
-  return QQmlListProperty<QQuickItem>(this, nullptr, sheetsCountFunction, sheetsAtFunction);
+  return QQmlListProperty<Sheet>(this, nullptr,
+
+    [](QQmlListProperty<Sheet> *list) -> int
+    {
+      Core *core = qobject_cast<Core*>(list->object);
+      Q_ASSERT(core);
+      return core->sheets()->size();
+    },
+
+    [](QQmlListProperty<Sheet> *list, int index) -> Sheet*
+    {
+      Core *core = qobject_cast<Core*>(list->object);
+      Q_ASSERT(core);
+      return core->sheets()->at(index);
+    });
 }
 
 void Core::emulateKeyPress(int key, int modifiers, const QString &text) const
@@ -272,7 +275,7 @@ void Core::insertSheet(int index)
 
 void Core::deleteSheet(int index)
 {
-  QQuickItem *sheet = _sheets[index];
+  Sheet *sheet = _sheets[index];
   sheet->deleteLater();
   _sheets.erase(_sheets.begin() + index);
   emit sheetsChanged();
@@ -296,7 +299,7 @@ void Core::saveBookFiles(QuaZip *zip)
     showError(QString("Не удалось соханить книгу: %1").arg(zip_file.getZipError()));
     return;
   }
-  set<QString> brd_objects;
+  std::set<QString> brd_objects;
   QXmlStreamWriter writer(&zip_file);
   writer.writeStartDocument();
   writer.writeStartElement("book");

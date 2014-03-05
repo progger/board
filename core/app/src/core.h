@@ -33,7 +33,7 @@ class Core : public QObject, public ICore
   Q_PROPERTY(bool hasChanges READ hasChanges NOTIFY hasChangesChanged FINAL)
   Q_PROPERTY(int sheetIndex READ sheetIndex WRITE setSheetIndex NOTIFY sheetIndexChanged FINAL)
   Q_PROPERTY(Paint paint READ paintObj CONSTANT FINAL)
-  Q_PROPERTY(QQmlListProperty<QQuickItem> sheets READ sheetsProperty NOTIFY sheetsChanged FINAL)
+  Q_PROPERTY(QQmlListProperty<Sheet> sheets READ sheetsProperty NOTIFY sheetsChanged FINAL)
 public:
   explicit Core(QQmlEngine *engine);
 
@@ -59,8 +59,8 @@ public:
   bool keyboard() const { return _keyboard; }
   bool transparent() const { return _transparent; }
   Paint *paintObj() const { return _paint; }
-  std::vector<Sheet*> *sheets() { return &_sheets; }
-  QQmlListProperty<QQuickItem> sheetsProperty();
+  const std::vector<Sheet*> *sheets() const { return &_sheets; }
+  QQmlListProperty<Sheet> sheetsProperty();
 signals:
   void keyboardChanged();
   void transparentChanged();
@@ -91,6 +91,7 @@ private:
   Paint *_paint;
   std::map<QString, QQmlComponent*> _map_componenet;
   QQmlComponent *_comp_sheet;
+  QQmlComponent *_comp_panel;
   QQuickItem *_sheet_place;
   QQuickItem *_plugin_row;
   std::vector<Sheet*> _sheets;

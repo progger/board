@@ -12,6 +12,7 @@ import board.core 2.0
 StyleQml {
     property color panelColor: "#E0E0E0"
     property int panelSize: 40
+    property int buttonSize: 32
 
     property Component normalButton: ButtonStyle {
         background: Rectangle {

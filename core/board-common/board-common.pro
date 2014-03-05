@@ -13,7 +13,8 @@ SOURCES += \
     src/commonshape.cpp \
     src/global.cpp \
     src/shape.cpp \
-    src/shapegen.cpp
+    src/shapegen.cpp \
+    src/panelaction.cpp
 
 HEADERS += \
     ../../shared/core/commonshape.h \
@@ -25,7 +26,8 @@ HEADERS += \
     ../../shared/core/isheetcanvas.h \
     ../../shared/core/isheet.h \
     ../../shared/core/shape.h \
-    ../../shared/core/shapegen.h
+    ../../shared/core/shapegen.h \
+    ../../shared/core/panelaction.h
 
 headers.path=/opt/board/include/board
 headers.files=$$HEADERS

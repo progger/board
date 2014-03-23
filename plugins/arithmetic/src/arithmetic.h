@@ -19,14 +19,18 @@ public:
   explicit Arithmetic(QQuickItem *parent = 0);
   std::vector<ArithmeticItem*> *items() { return &_items; }
   QQmlListProperty<ArithmeticItem> itemsProperty();
+  void saveItems();
 signals:
   void itemsChanged();
 public slots:
   void generate();
 protected:
   virtual QString elementName() const override;
+  virtual void innerSerialize(QXmlStreamWriter *writer, ISheetCanvas *canvas, std::set<QString> *brd_objects) const override;
+  virtual void innerDeserialize(QXmlStreamReader *reader, ISheetCanvas *canvas) override;
 private:
   std::vector<ArithmeticItem*> _items;
+  QString _hash;
 };
 
 #endif // ARITHMETIC_H

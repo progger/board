@@ -29,6 +29,7 @@ void ArithmeticButton::placeArithmetic()
                                   (canvas->container()->height() - size.height()) / 2));
   arithmetic->setSize(size);
   arithmetic->generate();
+  arithmetic->saveItems();
   canvas->pushState();
   canvas->updateSheetRect();
 }

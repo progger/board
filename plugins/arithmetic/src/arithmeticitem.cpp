@@ -77,7 +77,7 @@ void ArithmeticItem::updateResult()
     _result = _left - _right;
   else if (_operation == "*")
     _result = _left * _right;
-  else if (_operation == "/")
+  else if (_operation == "/" && _right != 0)
     _result = _left / _right;
   else
     _result = 0;

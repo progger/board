@@ -66,6 +66,7 @@ int main(int argc, char *argv[])
 {
   QApplication app(argc, argv);
   parseCmd();
+  qsrand(QDateTime::currentMSecsSinceEpoch());
 
   QQmlEngine *engine = new QQmlEngine();
   Core *core = new Core(engine);

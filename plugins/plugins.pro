@@ -2,4 +2,5 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     import-documents \
-    mpx
+    mpx \
+    arithmetic

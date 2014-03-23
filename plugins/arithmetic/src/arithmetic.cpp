@@ -55,6 +55,21 @@ void Arithmetic::generate()
   emit itemsChanged();
 }
 
+void Arithmetic::addItem()
+{
+  ArithmeticItem *item = new ArithmeticItem(this);
+  item->generate();
+  _items.push_back(item);
+  emit itemsChanged();
+}
+
+void Arithmetic::removeItem(int index)
+{
+  _items[index]->deleteLater();
+  _items.erase(_items.begin() + index);
+  emit itemsChanged();
+}
+
 QString Arithmetic::elementName() const
 {
   return "arithmetic";

@@ -24,6 +24,8 @@ signals:
   void itemsChanged();
 public slots:
   void generate();
+  void addItem();
+  void removeItem(int index);
 protected:
   virtual QString elementName() const override;
   virtual void innerSerialize(QXmlStreamWriter *writer, ISheetCanvas *canvas, std::set<QString> *brd_objects) const override;

@@ -26,8 +26,8 @@ protected:
   virtual void updateMainNode(QSGGeometryNode *) {}
   virtual void updateBackgroundNode(QSGGeometryNode *) {}
   virtual QRectF getFullInnerRect() const;
-  virtual void innerSerialize(QXmlStreamWriter *writer, ISheetCanvas *, std::set<QString> *brd_objects) const override;
-  virtual void innerDeserialize(QXmlStreamReader *reader, ISheetCanvas *) override;
+  virtual void innerSerialize(QXmlStreamWriter *writer, std::set<QString> *brd_objects) const override;
+  virtual void innerDeserialize(QXmlStreamReader *reader) override;
 private slots:
   void onInnerRectChanged();
 private:

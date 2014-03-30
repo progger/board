@@ -162,13 +162,13 @@ QRectF CommonShape::getFullInnerRect() const
   return QRectF(-t / 2, -t / 2, size.width() + t, size.height() + t);
 }
 
-void CommonShape::innerSerialize(QXmlStreamWriter *writer, ISheetCanvas *, std::set<QString> *brd_objects) const
+void CommonShape::innerSerialize(QXmlStreamWriter *writer, std::set<QString> *brd_objects) const
 {
   writer->writeAttribute("clips_hash", _clips_hash);
   if (brd_objects) brd_objects->insert(_clips_hash);
 }
 
-void CommonShape::innerDeserialize(QXmlStreamReader *reader, ISheetCanvas *)
+void CommonShape::innerDeserialize(QXmlStreamReader *reader)
 {
   _clips_hash = reader->attributes().value("clips_hash").toString();
   if (_clips_hash.isEmpty()) return;

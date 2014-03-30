@@ -16,9 +16,7 @@ PenGen::PenGen(ISheetCanvas *canvas) :
 void PenGen::begin(const QPointF &p)
 {
   ShapeGen::begin(p);
-  Pen *pen = new Pen(_canvas->container(), g_core->paint()->thickness(), g_core->paint()->color());
-  pen->setPosition(p);
-  pen->setZ(_canvas->getZNext());
+  Pen *pen = createItem<Pen>(_canvas, p);
   pen->points().push_back(QPointF(0, 0));
   _item = pen;
 }

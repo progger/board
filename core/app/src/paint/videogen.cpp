@@ -22,8 +22,7 @@ void VideoGen::begin(const QPointF &p)
   QObject *obj = g_core->getComponent("qrc:/core/qml/VideoPlayer.qml")->create();
   VideoPlayer *video = qobject_cast<VideoPlayer*>(obj);
   Q_ASSERT(video);
-  video->setParent(_canvas->container());
-  video->setParentItem(_canvas->container());
+  video->init(_canvas);
   video->setZ(_canvas->getZNext());
   QSizeF size(_canvas->canvasSize().width() / 2, _canvas->canvasSize().width() / 8 * 3);
   video->setSize(size);

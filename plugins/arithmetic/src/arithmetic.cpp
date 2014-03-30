@@ -31,17 +31,6 @@ QQmlListProperty<ArithmeticItem> Arithmetic::itemsProperty()
 });
 }
 
-void Arithmetic::saveItems()
-{
-  QByteArray data;
-  QTextStream stream(&data, QIODevice::WriteOnly);
-  for (ArithmeticItem *item : _items)
-  {
-    stream << item->left() << " " << item->operation() << " " << item->right() << endl;
-  }
-  _hash = g_core->brdStore()->addObject(data);
-}
-
 void Arithmetic::generate()
 {
   while (_items.size() < 5)
@@ -60,6 +49,7 @@ void Arithmetic::addItem()
   ArithmeticItem *item = new ArithmeticItem(this);
   item->generate();
   _items.push_back(item);
+  saveItems();
   emit itemsChanged();
 }
 
@@ -67,7 +57,20 @@ void Arithmetic::removeItem(int index)
 {
   _items[index]->deleteLater();
   _items.erase(_items.begin() + index);
+  saveItems();
   emit itemsChanged();
+}
+
+void Arithmetic::saveItems()
+{
+  QByteArray data;
+  QTextStream stream(&data, QIODevice::WriteOnly);
+  for (ArithmeticItem *item : _items)
+  {
+    stream << item->left() << " " << item->operation() << " " << item->right() << endl;
+  }
+  _hash = g_core->brdStore()->addObject(data);
+  canvas()->pushState();
 }
 
 QString Arithmetic::elementName() const
@@ -75,16 +78,16 @@ QString Arithmetic::elementName() const
   return "arithmetic";
 }
 
-void Arithmetic::innerSerialize(QXmlStreamWriter *writer, ISheetCanvas *canvas, std::set<QString> *brd_objects) const
+void Arithmetic::innerSerialize(QXmlStreamWriter *writer, std::set<QString> *brd_objects) const
 {
-  Shape::innerSerialize(writer, canvas, brd_objects);
+  Shape::innerSerialize(writer, brd_objects);
   writer->writeAttribute("hash", _hash);
   if (brd_objects) brd_objects->insert(_hash);
 }
 
-void Arithmetic::innerDeserialize(QXmlStreamReader *reader, ISheetCanvas *canvas)
+void Arithmetic::innerDeserialize(QXmlStreamReader *reader)
 {
-  Shape::innerDeserialize(reader, canvas);
+  Shape::innerDeserialize(reader);
   _items.clear();
   _hash = reader->attributes().value("hash").toString();
   QByteArray data = g_core->brdStore()->getObject(_hash);

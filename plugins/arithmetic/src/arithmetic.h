@@ -19,17 +19,17 @@ public:
   explicit Arithmetic(QQuickItem *parent = 0);
   std::vector<ArithmeticItem*> *items() { return &_items; }
   QQmlListProperty<ArithmeticItem> itemsProperty();
-  void saveItems();
 signals:
   void itemsChanged();
 public slots:
   void generate();
   void addItem();
   void removeItem(int index);
+  void saveItems();
 protected:
   virtual QString elementName() const override;
-  virtual void innerSerialize(QXmlStreamWriter *writer, ISheetCanvas *canvas, std::set<QString> *brd_objects) const override;
-  virtual void innerDeserialize(QXmlStreamReader *reader, ISheetCanvas *canvas) override;
+  virtual void innerSerialize(QXmlStreamWriter *writer, std::set<QString> *brd_objects) const override;
+  virtual void innerDeserialize(QXmlStreamReader *reader) override;
 private:
   std::vector<ArithmeticItem*> _items;
   QString _hash;

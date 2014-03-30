@@ -25,8 +25,10 @@ class Shape : public QQuickItem
 public:
   explicit Shape(QQuickItem *parent = 0, float thickness = 0, QColor color = QColor(),
                  QColor bgcolor = QColor(Qt::transparent));
-  void serialize(QXmlStreamWriter *writer, ISheetCanvas *canvas, std::set<QString> *brd_objects = nullptr) const;
-  void deserialize(QXmlStreamReader *reader, ISheetCanvas *canvas);
+  void init(ISheetCanvas *canvas);
+  ISheetCanvas *canvas() const { return _canvas; }
+  void serialize(QXmlStreamWriter *writer, std::set<QString> *brd_objects = nullptr) const;
+  void deserialize(QXmlStreamReader *reader);
   QSizeF innerSize() const { return _inner_size; }
   qreal scalex() const;
   qreal scaley() const;
@@ -48,12 +50,13 @@ signals:
   void scaleyChanged();
 protected:
   virtual QString elementName() const = 0;
-  virtual void innerSerialize(QXmlStreamWriter *, ISheetCanvas *, std::set<QString> *) const {}
-  virtual void innerDeserialize(QXmlStreamReader *, ISheetCanvas *) {}
+  virtual void innerSerialize(QXmlStreamWriter *writer, std::set<QString> *brd_objects) const;
+  virtual void innerDeserialize(QXmlStreamReader *reader);
 private slots:
   void onWidthChanged();
   void onHeightChanged();
 private:
+  ISheetCanvas *_canvas;
   QSizeF _inner_size;
   float _thickness;
   QColor _color;

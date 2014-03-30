@@ -21,8 +21,7 @@ void ArithmeticButton::placeArithmetic()
   QQmlComponent *component = g_core->getComponent("qrc:/arithmetic/qml/Arithmetic.qml");
   Arithmetic *arithmetic = qobject_cast<Arithmetic*>(component->create());
   Q_ASSERT(arithmetic);
-  arithmetic->setParent(canvas->container());
-  arithmetic->setParentItem(canvas->container());
+  arithmetic->init(canvas);
   arithmetic->setZ(canvas->getZNext());
   QSizeF size = QSizeF(canvas->container()->width() / 2, canvas->container()->height() / 1.5);
   arithmetic->setPosition(QPointF((canvas->container()->width() - size.width()) / 2,
@@ -30,6 +29,5 @@ void ArithmeticButton::placeArithmetic()
   arithmetic->setSize(size);
   arithmetic->generate();
   arithmetic->saveItems();
-  canvas->pushState();
   canvas->updateSheetRect();
 }

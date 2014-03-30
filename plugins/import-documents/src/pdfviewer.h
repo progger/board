@@ -45,8 +45,8 @@ signals:
   void imageHeightChanged();
 protected:
   virtual QString elementName() const override;
-  virtual void innerSerialize(QXmlStreamWriter *writer, ISheetCanvas *, std::set<QString> *brd_objects) const override;
-  virtual void innerDeserialize(QXmlStreamReader *reader, ISheetCanvas *) override;
+  virtual void innerSerialize(QXmlStreamWriter *writer, std::set<QString> *brd_objects) const override;
+  virtual void innerDeserialize(QXmlStreamReader *reader) override;
 private slots:
   void onImageSizeChanged();
 private:

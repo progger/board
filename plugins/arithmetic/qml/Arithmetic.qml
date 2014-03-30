@@ -50,7 +50,10 @@ Arithmetic {
                             bottom: -1000000
                             top: 1000000
                         }
-                        onEditingFinished: model.left = text
+                        onEditingFinished: {
+                            model.left = text
+                            arithmetic.saveItems()
+                        }
                     }
 
                     TextInput {
@@ -66,7 +69,10 @@ Arithmetic {
                         validator: RegExpValidator {
                             regExp: /[+/-*/]/
                         }
-                        onEditingFinished: model.operation = text
+                        onEditingFinished: {
+                            model.operation = text
+                            arithmetic.saveItems()
+                        }
                     }
 
                     TextInput {
@@ -83,7 +89,10 @@ Arithmetic {
                             bottom: -1000000
                             top: 1000000
                         }
-                        onEditingFinished: model.right = text
+                        onEditingFinished: {
+                            model.right = text
+                            arithmetic.saveItems()
+                        }
                     }
 
                     Text {

@@ -64,7 +64,7 @@ void SheetCanvas::serializeSheet(QXmlStreamWriter *writer, set<QString> *brd_obj
     Shape *shape = qobject_cast<Shape*>(item);
     if (shape)
     {
-      shape->serialize(writer, this, brd_objects);
+      shape->serialize(writer, brd_objects);
     }
   }
   writer->writeEndElement();
@@ -88,9 +88,8 @@ void SheetCanvas::deserializeShapes(QXmlStreamReader *reader, std::vector<Shape*
     Shape *shape = _paint->createShape(name);
     if (shape)
     {
-      shape->setParent(_container);
-      shape->setParentItem(_container);
-      shape->deserialize(reader, this);
+      shape->init(this);
+      shape->deserialize(reader);
       if (shapes)
       {
         shapes->push_back(shape);

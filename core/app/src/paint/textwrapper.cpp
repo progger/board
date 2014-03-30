@@ -46,14 +46,15 @@ QString TextWrapper::elementName() const
   return "text";
 }
 
-void TextWrapper::innerSerialize(QXmlStreamWriter *writer, ISheetCanvas *, std::set<QString> *) const
+void TextWrapper::innerSerialize(QXmlStreamWriter *writer, std::set<QString> *brd_objects) const
 {
+  Q_UNUSED(brd_objects);
   writer->writeAttribute("text", _text);
   writer->writeAttribute("font_family", _font_family);
   writer->writeAttribute("font_size", QString::number(_font_size));
 }
 
-void TextWrapper::innerDeserialize(QXmlStreamReader *reader, ISheetCanvas *)
+void TextWrapper::innerDeserialize(QXmlStreamReader *reader)
 {
   QXmlStreamAttributes attrs = reader->attributes();
   setText(attrs.value("text").toString());

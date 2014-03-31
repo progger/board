@@ -20,6 +20,7 @@ ArithmeticButton {
         width: height
         height: parent.height - 6
         tooltip: "Арифметика"
+        iconSource: "qrc:/arithmetic/res/arithmetic.svg"
         onClicked: arithmeticButton.placeArithmetic()
     }
 }

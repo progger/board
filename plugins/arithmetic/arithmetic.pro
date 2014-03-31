@@ -24,7 +24,8 @@ HEADERS +=\
 
 OTHER_FILES += \
     qml/Arithmetic.qml \
-    qml/ArithmeticButton.qml
+    qml/ArithmeticButton.qml \
+    res/arithmetic.svg
 
 RESOURCES += arithmetic.qrc
 

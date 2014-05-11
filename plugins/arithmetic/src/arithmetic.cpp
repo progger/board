@@ -28,7 +28,7 @@ QQmlListProperty<ArithmeticItem> Arithmetic::itemsProperty()
       Arithmetic *arithmetic = qobject_cast<Arithmetic*>(list->object);
       Q_ASSERT(arithmetic);
       return arithmetic->items()->at(index);
-});
+    });
 }
 
 void Arithmetic::generate()

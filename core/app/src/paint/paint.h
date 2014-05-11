@@ -42,6 +42,7 @@ public:
   virtual QColor bgcolor() override;
   virtual int fontSize() override;
   virtual float eraserSize() override;
+  virtual Shape *createShape(const QString &name) override;
 
   bool selected() const { return _selected; }
   bool canUndo() const { return _can_undo; }
@@ -50,7 +51,6 @@ public:
   QString imageHash() const { return _image_hash; }
   QString videoSource() const { return _video_source; }
   std::shared_ptr<ShapeGen> createShapeGen(ISheetCanvas *canvas) const;
-  Shape *createShape(const QString &name) const;
   QCursor getCursor() const;
 signals:
   void modeChanged();

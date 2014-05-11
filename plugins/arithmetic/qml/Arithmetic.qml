@@ -11,7 +11,6 @@ import board.arithmetic 2.0
 
 Arithmetic {
     id: arithmetic
-    property bool editMode: false
 
     Rectangle {
         anchors.fill: parent

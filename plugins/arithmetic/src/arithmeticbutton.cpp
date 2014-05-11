@@ -18,8 +18,7 @@ void ArithmeticButton::placeArithmetic()
 {
   ISheet *sheet = g_core->sheet(g_core->sheetIndex());
   ISheetCanvas *canvas = sheet->canvas();
-  QQmlComponent *component = g_core->getComponent("qrc:/arithmetic/qml/Arithmetic.qml");
-  Arithmetic *arithmetic = qobject_cast<Arithmetic*>(component->create());
+  Arithmetic *arithmetic = qobject_cast<Arithmetic*>(g_core->paint()->createShape("arithmetic"));
   Q_ASSERT(arithmetic);
   arithmetic->init(canvas);
   arithmetic->setZ(canvas->getZNext());

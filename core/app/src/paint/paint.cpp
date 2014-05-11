@@ -120,7 +120,7 @@ std::shared_ptr<ShapeGen> Paint::createShapeGen(ISheetCanvas *canvas) const
   return (*it).second(canvas);
 }
 
-Shape *Paint::createShape(const QString &name) const
+Shape *Paint::createShape(const QString &name)
 {
   auto it = _map_shape.find(name);
   if (it == _map_shape.cend()) return nullptr;

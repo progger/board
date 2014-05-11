@@ -89,7 +89,7 @@ void Categories::generate()
   Category *cat2 = new Category(this);
   cat2->setName("Нечётные числа");
   _categories.append(cat2);
-  for (int i = 1; i <= 4; ++i)
+  for (int i = 1; i <= 8; ++i)
   {
     QString file_name = QString(":/categories/res/card%1.svg").arg(i);
     QString hash = g_core->brdStore()->addFromFile(file_name);
@@ -180,11 +180,76 @@ void Categories::updateRemainingItems()
 
 void Categories::saveItems()
 {
-  //
+  QByteArray data;
+  QTextStream stream(&data, QIODevice::WriteOnly);
+  for (Category *category : _categories)
+  {
+    stream << category->name() << endl;
+    QStringList list;
+    for (CategoryItem *item : _items)
+    {
+      if (item->category() == category)
+      {
+        list.append(item->hash());
+      }
+    }
+    stream << list.join(" ") << endl;
+  }
+  _hash = g_core->brdStore()->addObject(data);
   canvas()->pushState();
 }
 
 QString Categories::elementName() const
 {
   return "categories";
+}
+
+void Categories::innerSerialize(QXmlStreamWriter *writer, std::set<QString> *brd_objects) const
+{
+  Shape::innerSerialize(writer, brd_objects);
+  writer->writeAttribute("hash", _hash);
+  if (brd_objects)
+  {
+    brd_objects->insert(_hash);
+    for (CategoryItem *item : _items)
+    {
+      brd_objects->insert(item->hash());
+    }
+  }
+}
+
+void Categories::innerDeserialize(QXmlStreamReader *reader)
+{
+  Shape::innerDeserialize(reader);
+  for (Category *category : _categories)
+  {
+    category->deleteLater();
+  }
+  for (CategoryItem *item : _items)
+  {
+    item->deleteLater();
+  }
+  _categories.clear();
+  _items.clear();
+  _hash = reader->attributes().value("hash").toString();
+  QByteArray data = g_core->brdStore()->getObject(_hash);
+  QTextStream stream(data);
+  while (!stream.atEnd())
+  {
+    Category *cat = new Category(this);
+    cat->setName(stream.readLine());
+    _categories.append(cat);
+    QString line = stream.readLine();
+    QStringList hashes = line.split(" ", QString::SkipEmptyParts);
+    for (QString hash : hashes)
+    {
+      CategoryItem *item = new CategoryItem(this);
+      item->setCategory(cat);
+      item->setHash(hash);
+      _items.append(item);
+    }
+  }
+  shuffle();
+  emit itemsChanged();
+  emit categoriesChanged();
 }

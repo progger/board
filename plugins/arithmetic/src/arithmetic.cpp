@@ -88,6 +88,10 @@ void Arithmetic::innerSerialize(QXmlStreamWriter *writer, std::set<QString> *brd
 void Arithmetic::innerDeserialize(QXmlStreamReader *reader)
 {
   Shape::innerDeserialize(reader);
+  for (ArithmeticItem *item : _items)
+  {
+    item->deleteLater();
+  }
   _items.clear();
   _hash = reader->attributes().value("hash").toString();
   QByteArray data = g_core->brdStore()->getObject(_hash);

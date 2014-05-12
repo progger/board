@@ -1,3 +1,9 @@
+/*
+ * Copyright (C) 2014 Michael Kulabuhov, Kemerovo, Russia.
+ *
+ * See the LICENSE file for terms of use.
+ */
+
 #ifndef ERASERGEN_H
 #define ERASERGEN_H
 

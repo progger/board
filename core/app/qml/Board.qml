@@ -5,6 +5,7 @@
  */
 
 import QtQuick 2.1
+import QtQuick.Dialogs 1.0
 import QtQuick.Window 2.1
 import board.core 2.0
 
@@ -69,7 +70,16 @@ Window {
     CloseCaution {
         id: closeCaution
         onCloseApp: board.close()
-        onSave: Core.saveBook()
+        onSave: saveBookDialog.open()
+    }
+
+    FileDialog {
+        id: saveBookDialog
+        modality: Qt.ApplicationModal
+        nameFilters: ["Book files (*.brd)"]
+        selectExisting: false
+        title: "Сохранить книгу"
+        onAccepted: Core.saveBook(fileUrl)
     }
 
     onClosing: {

@@ -49,3 +49,9 @@ void Category::removeItem(CategoryItem *item)
     emit itemsChanged();
   }
 }
+
+void Category::clearItems()
+{
+  _items.clear();
+  emit itemsChanged();
+}

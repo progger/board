@@ -188,8 +188,9 @@ void Paint::setCanRedo(bool can_redo)
   emit canRedoChanged();
 }
 
-void Paint::selectImage(const QString &file_name)
+void Paint::selectImage(const QUrl &file_url)
 {
+  QString file_name = file_url.toLocalFile();
   QString hash = g_core->brdStore()->addFromFile(file_name);
   if (hash.isEmpty()) return;
   QImage image = QImage::fromData(g_core->brdStore()->getObject(hash));

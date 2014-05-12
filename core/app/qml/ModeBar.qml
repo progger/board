@@ -97,7 +97,7 @@ Rectangle {
         nameFilters: ["Image files (*.png *.jpg *.jpeg *.tif *.tiff *.gif *.svg)"]
         selectExisting: true
         title: "Открыть изображение"
-        onAccepted: Paint.selectImage(fileUrl.toString().replace("file://", ""))
+        onAccepted: Paint.selectImage(fileUrl)
     }
 
     FileDialog {

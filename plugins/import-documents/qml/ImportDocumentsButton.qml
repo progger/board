@@ -29,6 +29,6 @@ Item {
         modality: Qt.ApplicationModal
         selectExisting: true
         title: "Открыть документ"
-        onAccepted: ImportDoc.importDoc(fileUrl.toString().replace("file://", ""))
+        onAccepted: ImportDoc.importDoc(fileUrl)
     }
 }

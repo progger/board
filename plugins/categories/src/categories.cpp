@@ -94,7 +94,6 @@ void Categories::generate()
     QString file_name = QString(":/categories/res/card%1.svg").arg(i);
     QString hash = g_core->brdStore()->addFromFile(file_name);
     CategoryItem *item = new CategoryItem(this);
-    item->setCategory(0);
     item->setHash(hash);
     if (i % 2)
       item->setCategory(cat2);
@@ -102,6 +101,7 @@ void Categories::generate()
       item->setCategory(cat1);
     _items.append(item);
   }
+  updateRemainingItems();
   shuffle();
   saveItems();
   emit itemsChanged();
@@ -110,17 +110,18 @@ void Categories::generate()
 
 void Categories::shuffle()
 {
-  int count = _items.size();
+  int count = _remaining_items.size();
   for (int i = 0; i < count; ++i)
   {
-    _items.swap(i, qrand() % count);
+    _remaining_items.swap(i, qrand() % count);
   }
-  updateRemainingItems();
+  emit remainingItemsChanged();
 }
 
 void Categories::addCategory()
 {
   Category *category = new Category(this);
+  category->setName("Новая категория");
   _categories.append(category);
   saveItems();
   emit categoriesChanged();
@@ -146,10 +147,14 @@ void Categories::removeCategory(Category *category)
   emit categoriesChanged();
 }
 
-void Categories::addItem(const QString &hash)
+void Categories::addItem(Category *category, const QUrl &file_url)
 {
+  QString file_name = file_url.toLocalFile();
+  QString hash = g_core->brdStore()->addFromFile(file_name);
+  if (hash.isEmpty()) return;
   CategoryItem *item = new CategoryItem(this);
   item->setHash(hash);
+  item->setCategory(category);
   _items.append(item);
   saveItems();
   updateRemainingItems();
@@ -159,6 +164,10 @@ void Categories::addItem(const QString &hash)
 void Categories::removeItem(CategoryItem *item)
 {
   item->deleteLater();
+  for (Category *category : _categories)
+  {
+    category->removeItem(item);
+  }
   _items.removeOne(item);
   saveItems();
   updateRemainingItems();
@@ -167,7 +176,13 @@ void Categories::removeItem(CategoryItem *item)
 
 void Categories::updateRemainingItems()
 {
-  _remaining_items = _items;
+  for (CategoryItem *item : _items)
+  {
+    if (!_remaining_items.contains(item))
+    {
+      _remaining_items.append(item);
+    }
+  }
   for (Category *category : _categories)
   {
     for (CategoryItem *item : *category->items())
@@ -176,6 +191,25 @@ void Categories::updateRemainingItems()
     }
   }
   emit remainingItemsChanged();
+}
+
+void Categories::clearCategoriesItems()
+{
+  for (Category *category : _categories)
+  {
+    category->clearItems();
+  }
+  updateRemainingItems();
+}
+
+void Categories::fillCategoriesItems()
+{
+  clearCategoriesItems();
+  for (CategoryItem *item : _items)
+  {
+    item->category()->addItem(item);
+  }
+  updateRemainingItems();
 }
 
 void Categories::saveItems()
@@ -249,6 +283,7 @@ void Categories::innerDeserialize(QXmlStreamReader *reader)
       _items.append(item);
     }
   }
+  updateRemainingItems();
   shuffle();
   emit itemsChanged();
   emit categoriesChanged();

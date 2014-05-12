@@ -19,8 +19,9 @@ ImportDoc::ImportDoc(QObject *parent) :
 {
 }
 
-void ImportDoc::importDoc(QString file_name)
+void ImportDoc::importDoc(const QUrl &file_url)
 {
+  QString file_name = file_url.toLocalFile();
   std::shared_ptr<QTemporaryDir> dir = nullptr;
   if (QFileInfo(file_name).suffix().compare("pdf", Qt::CaseInsensitive) != 0)
   {

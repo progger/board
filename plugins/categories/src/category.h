@@ -27,6 +27,7 @@ public slots:
   void setName(const QString &name);
   void addItem(CategoryItem* item);
   void removeItem(CategoryItem *item);
+  void clearItems();
 private:
   QString _name;
   QList<CategoryItem*> _items;

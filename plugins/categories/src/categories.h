@@ -34,9 +34,11 @@ public slots:
   void shuffle();
   void addCategory();
   void removeCategory(Category *category);
-  void addItem(const QString &hash);
+  void addItem(Category *category, const QUrl &file_url);
   void removeItem(CategoryItem *item);
   void updateRemainingItems();
+  void clearCategoriesItems();
+  void fillCategoriesItems();
   void saveItems();
 protected:
   virtual QString elementName() const override;

@@ -4,8 +4,10 @@ Priority: optional
 Maintainer: Michael Kulabuhov <progger.ru@gmail.com>
 Build-Depends: debhelper (>= 8.0.0),
  libgl1-mesa-dev,
- qt52base,
- qt52declarative,
+ qt5-default,
+ qtbase5-dev,
+ qtbase5-private-dev,
+ qtdeclarative5-dev,
  zlib1g-dev,
  libpoppler-qt5-dev,
  libx11-dev,
@@ -19,11 +21,12 @@ Homepage: https://progger.dyndns.info/
 Package: board
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends},
- qt52imageformats,
- qt52multimedia,
- qt52quickcontrols,
- qt52svg
-Recommends: board-import-documenets
+ qml-module-qtquick2,
+ qml-module-qtquick-controls,
+ qml-module-qtquick-dialogs,
+ qml-module-qtquick-layouts,
+ qml-module-qtquick-window2
+Recommends: board-import-documents, board-arithmetic, board-categories
 Description: board graphics program
  Extendable vector graphics program
 
@@ -47,11 +50,27 @@ Description: board graphics program
 
 Package: board-import-documents
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, qtdeclarative5-qtquick2-plugin
+Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: board graphics program
  Extendable vector graphics program
  .
  This package contains import documents plugin
+
+Package: board-arithmetic
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: board graphics program
+ Extendable vector graphics program
+ .
+ This package contains arithmetic plugin
+
+Package: board-categories
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: board graphics program
+ Extendable vector graphics program
+ .
+ This package contains categories plugin
 
 Package: board-mpx
 Architecture: any
@@ -60,4 +79,3 @@ Description: board graphics program
  Extendable vector graphics program
  .
  This package contains multipoint extension
-

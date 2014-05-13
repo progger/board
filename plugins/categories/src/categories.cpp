@@ -135,6 +135,7 @@ void Categories::removeCategory(Category *category)
     CategoryItem *item = _items[i];
     if (item->category() == category)
     {
+      category->removeItem(item);
       item->deleteLater();
       _items.removeAt(i);
     }

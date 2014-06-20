@@ -22,7 +22,7 @@ void ArithmeticButton::placeArithmetic()
   Q_ASSERT(arithmetic);
   arithmetic->init(canvas);
   arithmetic->setZ(canvas->getZNext());
-  QSizeF size = QSizeF(canvas->container()->width() / 2, canvas->container()->height() / 1.5);
+  QSizeF size = QSizeF(canvas->container()->width() * 0.75, canvas->container()->height() * 0.85);
   arithmetic->setPosition(QPointF((canvas->container()->width() - size.width()) / 2,
                                   (canvas->container()->height() - size.height()) / 2));
   arithmetic->setSize(size);

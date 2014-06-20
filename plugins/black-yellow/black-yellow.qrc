@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/black-yellow/">
+        <file>qml/BlackYellow.qml</file>
+        <file>qml/BlackYellowButton.qml</file>
+        <file>res/black-yellow.svg</file>
+    </qresource>
+</RCC>

@@ -26,7 +26,7 @@ Depends: ${shlibs:Depends}, ${misc:Depends},
  qtdeclarative5-dialogs-plugin,
  qtdeclarative5-quicklayouts-plugin,
  qtdeclarative5-window-plugin
-Recommends: board-import-documents, board-arithmetic, board-categories
+Recommends: board-arithmetic, board-black-yellow, board-categories, board-import-documents
 Description: board graphics program
  Extendable vector graphics program
 
@@ -48,14 +48,6 @@ Description: board graphics program
  .
  This package contains the common library development files
 
-Package: board-import-documents
-Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: board graphics program
- Extendable vector graphics program
- .
- This package contains import documents plugin
-
 Package: board-arithmetic
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
@@ -64,6 +56,14 @@ Description: board graphics program
  .
  This package contains arithmetic plugin
 
+Package: board-black-yellow
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: board graphics program
+ Extendable vector graphics program
+ .
+ This package contains black-yellow plugin
+
 Package: board-categories
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
@@ -71,6 +71,14 @@ Description: board graphics program
  Extendable vector graphics program
  .
  This package contains categories plugin
+
+Package: board-import-documents
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: board graphics program
+ Extendable vector graphics program
+ .
+ This package contains import documents plugin
 
 Package: board-mpx
 Architecture: any

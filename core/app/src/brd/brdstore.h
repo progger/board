@@ -34,6 +34,7 @@ public:
   // IBrdStore
   virtual QString addObject(const QByteArray &data) override;
   virtual QString addFromFile(const QString &file_name) override;
+  virtual QString addFromUrl(const QUrl &url) override;
   virtual QByteArray getObject(const QString &hash) override;
   virtual QString getUrlString(const QString &hash) override;
   virtual int addTempObject(const QByteArray &data) override;

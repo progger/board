@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/transform/">
+        <file>qml/CardTransform.qml</file>
+        <file>qml/TransformButton.qml</file>
+        <file>res/cardQ.svg</file>
+        <file>res/cardX.svg</file>
+        <file>res/cardY.svg</file>
+        <file>res/transform.svg</file>
+    </qresource>
+</RCC>

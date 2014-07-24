@@ -8,12 +8,14 @@
 #define IBRDSTORE_H
 
 #include <QString>
+#include <QUrl>
 
 class IBrdStore {
 public:
   virtual ~IBrdStore() {}
   virtual QString addObject(const QByteArray &data) = 0;
   virtual QString addFromFile(const QString &file_name) = 0;
+  virtual QString addFromUrl(const QUrl &url) = 0;
   virtual QByteArray getObject(const QString &hash) = 0;
   virtual QString getUrlString(const QString &hash) = 0;
   virtual int addTempObject(const QByteArray &data) = 0;

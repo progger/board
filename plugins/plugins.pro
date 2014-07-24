@@ -4,6 +4,7 @@ SUBDIRS += \
     arithmetic \
     black-yellow \
     categories \
-    import-documents
+    import-documents \
+    transform
 
 linux: SUBDIRS += mpx

@@ -26,7 +26,7 @@ Depends: ${shlibs:Depends}, ${misc:Depends},
  qtdeclarative5-dialogs-plugin,
  qtdeclarative5-quicklayouts-plugin,
  qtdeclarative5-window-plugin
-Recommends: board-arithmetic, board-black-yellow, board-categories, board-import-documents
+Recommends: board-arithmetic, board-black-yellow, board-categories, board-import-documents, board-transform
 Description: board graphics program
  Extendable vector graphics program
 
@@ -87,3 +87,12 @@ Description: board graphics program
  Extendable vector graphics program
  .
  This package contains multipoint extension
+
+Package: board-transform
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: board graphics program
+ Extendable vector graphics program
+ .
+ This package contains transform plugin
+

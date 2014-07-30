@@ -45,8 +45,7 @@ void TextGen::end(const QPointF &p)
     QObject *obj = g_core->getComponent("qrc:/core/qml/TextWrapper.qml")->create();
     TextWrapper *text = qobject_cast<TextWrapper*>(obj);
     Q_ASSERT(text);
-    text->setParent(_canvas->container());
-    text->setParentItem(_canvas->container());
+    text->init(_canvas);
     text->setZ(_canvas->getZNext());
     int font_size = g_core->paint()->fontSize();
     text->setColor(g_core->paint()->color());

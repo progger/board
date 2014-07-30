@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/arithmetic/">
+        <file>qml/Arithmetic.qml</file>
+        <file>qml/ArithmeticButton.qml</file>
+        <file>res/arithmetic.svg</file>
+    </qresource>
+</RCC>

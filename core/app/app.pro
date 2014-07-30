@@ -108,6 +108,7 @@ OTHER_FILES += \
     qml/TextWrapper.qml \
     qml/ToolBar.qml \
     qml/VideoPlayer.qml \
+    res/add.svg \
     res/backspace.svg \
     res/back.svg \
     res/circle.svg \

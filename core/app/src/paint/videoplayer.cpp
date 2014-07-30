@@ -23,12 +23,13 @@ QString VideoPlayer::elementName() const
   return "video";
 }
 
-void VideoPlayer::innerSerialize(QXmlStreamWriter *writer, ISheetCanvas *, std::set<QString> *) const
+void VideoPlayer::innerSerialize(QXmlStreamWriter *writer, std::set<QString> *brd_objects) const
 {
+  Q_UNUSED(brd_objects);
   writer->writeAttribute("source", _source);
 }
 
-void VideoPlayer::innerDeserialize(QXmlStreamReader *reader, ISheetCanvas *)
+void VideoPlayer::innerDeserialize(QXmlStreamReader *reader)
 {
   setSource(reader->attributes().value("source").toString());
 }

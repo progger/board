@@ -186,7 +186,7 @@ void SelectGen::onDuplicate()
   writer.writeStartElement("dup");
   for (Shape *shape : _selected)
   {
-    shape->serialize(&writer, _canvas);
+    shape->serialize(&writer);
   }
   writer.writeEndElement();
   QXmlStreamReader reader(data);

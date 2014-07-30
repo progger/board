@@ -6,4 +6,3 @@ Name[ru]=board
 GenericName=Vector graphic editor
 GenericName[ru]=Векторный графический редактор
 Exec=/opt/board/board-wrapper %f
-

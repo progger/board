@@ -88,16 +88,16 @@ QString Pen::elementName() const
   return "pen";
 }
 
-void Pen::innerSerialize(QXmlStreamWriter *writer, ISheetCanvas *canvas, std::set<QString> *brd_objects) const
+void Pen::innerSerialize(QXmlStreamWriter *writer, std::set<QString> *brd_objects) const
 {
-  CommonShape::innerSerialize(writer, canvas, brd_objects);
+  CommonShape::innerSerialize(writer, brd_objects);
   writer->writeAttribute("hash", _hash);
   if (brd_objects) brd_objects->insert(_hash);
 }
 
-void Pen::innerDeserialize(QXmlStreamReader *reader, ISheetCanvas *canvas)
+void Pen::innerDeserialize(QXmlStreamReader *reader)
 {
-  CommonShape::innerDeserialize(reader, canvas);
+  CommonShape::innerDeserialize(reader);
   _points.clear();
   _hash = reader->attributes().value("hash").toString();
   QByteArray data = g_core->brdStore()->getObject(_hash);

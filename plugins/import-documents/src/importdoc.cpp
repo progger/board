@@ -19,8 +19,9 @@ ImportDoc::ImportDoc(QObject *parent) :
 {
 }
 
-void ImportDoc::importDoc(QString file_name)
+void ImportDoc::importDoc(const QUrl &file_url)
 {
+  QString file_name = file_url.toLocalFile();
   std::shared_ptr<QTemporaryDir> dir = nullptr;
   if (QFileInfo(file_name).suffix().compare("pdf", Qt::CaseInsensitive) != 0)
   {
@@ -48,8 +49,7 @@ void ImportDoc::importDoc(QString file_name)
   QQmlComponent *component = g_core->getComponent("qrc:/import-documents/qml/PdfViewer.qml");
   PdfViewer *viewer = qobject_cast<PdfViewer*>(component->create());
   Q_ASSERT(viewer);
-  viewer->setParent(canvas->container());
-  viewer->setParentItem(canvas->container());
+  viewer->init(canvas);
   viewer->setZ(canvas->getZNext());
   QSizeF size = QSizeF(canvas->container()->width() / 2, canvas->container()->height() / 1.5);
   viewer->setPosition(QPointF((canvas->container()->width() - size.width()) / 2,

@@ -1,5 +1,10 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
+    arithmetic \
+    black-yellow \
+    categories \
     import-documents \
-    mpx
+    transform
+
+linux: SUBDIRS += mpx

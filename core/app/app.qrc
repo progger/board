@@ -19,6 +19,7 @@
         <file>qml/TextWrapper.qml</file>
         <file>qml/ToolBar.qml</file>
         <file>qml/VideoPlayer.qml</file>
+        <file>res/add.svg</file>
         <file>res/backspace.svg</file>
         <file>res/back.svg</file>
         <file>res/circle.svg</file>

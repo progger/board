@@ -11,7 +11,8 @@ DEPENDENCY_LIBRARIES = board-common
 
 include(../../main.pri)
 
-INCLUDEPATH += /opt/qt52/include/QtGui/5.2.1/QtGui
+INCLUDEPATH += /usr/include/qt5/QtGui/5.2.1/QtGui
+INCLUDEPATH += /usr/include/x86_64-linux-gnu/qt5/QtGui/5.3.0/QtGui
 
 SOURCES += \
     src/mpxeventfilter.cpp \

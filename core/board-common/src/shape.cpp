@@ -17,11 +17,18 @@ Shape::Shape(QQuickItem *parent, float thickness, QColor color, QColor bgcolor) 
   connect(this, SIGNAL(heightChanged()), SLOT(onHeightChanged()));
 }
 
-void Shape::serialize(QXmlStreamWriter *writer, ISheetCanvas *canvas, std::set<QString> *brd_objects) const
+void Shape::init(ISheetCanvas *canvas)
+{
+  _canvas = canvas;
+  setParent(canvas->container());
+  setParentItem(canvas->container());
+}
+
+void Shape::serialize(QXmlStreamWriter *writer, std::set<QString> *brd_objects) const
 {
   writer->writeStartElement(elementName());
-  writer->writeAttribute("x", QString::number(x() + canvas->sheetPoint().x()));
-  writer->writeAttribute("y", QString::number(y() + canvas->sheetPoint().y()));
+  writer->writeAttribute("x", QString::number(x() + _canvas->sheetPoint().x()));
+  writer->writeAttribute("y", QString::number(y() + _canvas->sheetPoint().y()));
   writer->writeAttribute("z", QString::number(z()));
   writer->writeAttribute("width", QString::number(width()));
   writer->writeAttribute("height", QString::number(height()));
@@ -30,15 +37,15 @@ void Shape::serialize(QXmlStreamWriter *writer, ISheetCanvas *canvas, std::set<Q
   writer->writeAttribute("thickness", QString::number(_thickness));
   writer->writeAttribute("color", QString("#%1").arg(_color.rgba(), 8, 16, QLatin1Char('0')));
   writer->writeAttribute("bgcolor", QString("#%1").arg(_bgcolor.rgba(), 8, 16, QLatin1Char('0')));
-  innerSerialize(writer, canvas, brd_objects);
+  innerSerialize(writer, brd_objects);
   writer->writeEndElement();
 }
 
-void Shape::deserialize(QXmlStreamReader *reader, ISheetCanvas *canvas)
+void Shape::deserialize(QXmlStreamReader *reader)
 {
   auto attrs = reader->attributes();
-  setX(attrs.value("x").toString().toDouble() - canvas->sheetPoint().x());
-  setY(attrs.value("y").toString().toDouble() - canvas->sheetPoint().y());
+  setX(attrs.value("x").toString().toDouble() - _canvas->sheetPoint().x());
+  setY(attrs.value("y").toString().toDouble() - _canvas->sheetPoint().y());
   setZ(attrs.value("z").toString().toDouble());
   setSize(QSizeF(attrs.value("width").toString().toDouble(),
                  attrs.value("height").toString().toDouble()));
@@ -51,7 +58,7 @@ void Shape::deserialize(QXmlStreamReader *reader, ISheetCanvas *canvas)
   {
     setBgcolor(bgcolor);
   }
-  innerDeserialize(reader, canvas);
+  innerDeserialize(reader);
   reader->readNext();
 }
 
@@ -91,6 +98,17 @@ void Shape::setBgcolor(const QColor &bgcolor)
   _bgcolor = bgcolor;
   update();
   emit bgcolorChanged();
+}
+
+void Shape::innerSerialize(QXmlStreamWriter *writer, std::set<QString> *brd_objects) const
+{
+  Q_UNUSED(writer);
+  Q_UNUSED(brd_objects);
+}
+
+void Shape::innerDeserialize(QXmlStreamReader *reader)
+{
+  Q_UNUSED(reader);
 }
 
 void Shape::onWidthChanged()

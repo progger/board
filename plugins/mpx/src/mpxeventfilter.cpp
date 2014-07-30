@@ -1,3 +1,9 @@
+/*
+ * Copyright (C) 2014 Michael Kulabuhov, Kemerovo, Russia.
+ *
+ * See the LICENSE file for terms of use.
+ */
+
 #include <QGuiApplication>
 #include <QMouseEvent>
 #include <xcb/xcb.h>

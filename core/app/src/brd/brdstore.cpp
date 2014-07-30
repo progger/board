@@ -39,7 +39,7 @@ QByteArray BrdStore::getObject(const QString &hash)
 
 QString BrdStore::getUrlString(const QString &hash)
 {
-  return "brd:" + hash;
+  return !hash.isEmpty() ? "brd:" + hash : hash;
 }
 
 int BrdStore::addTempObject(const QByteArray &data)
@@ -96,6 +96,17 @@ QString BrdStore::addFromFile(const QString &file_name)
   }
   QByteArray data = file.readAll();
   return addObject(data);
+}
+
+QString BrdStore::addFromUrl(const QUrl &url)
+{
+  if (url.isLocalFile())
+  {
+    QString file_name = url.toLocalFile();
+    return addFromFile(file_name);
+  }
+  //TODO
+  return QString();
 }
 
 void BrdStore::clear()

@@ -1,4 +1,3 @@
 debian/board.desktop usr/share/applications/
 debian/board-wrapper opt/board/
 opt/board/board
-

@@ -4,8 +4,10 @@ Priority: optional
 Maintainer: Michael Kulabuhov <progger.ru@gmail.com>
 Build-Depends: debhelper (>= 8.0.0),
  libgl1-mesa-dev,
- qt52base,
- qt52declarative,
+ qt5-default,
+ qtbase5-dev,
+ qtbase5-private-dev,
+ qtdeclarative5-dev,
  zlib1g-dev,
  libpoppler-qt5-dev,
  libx11-dev,
@@ -19,11 +21,12 @@ Homepage: https://progger.dyndns.info/
 Package: board
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends},
- qt52imageformats,
- qt52multimedia,
- qt52quickcontrols,
- qt52svg
-Recommends: board-import-documenets
+ qtdeclarative5-qtquick2-plugin,
+ qtdeclarative5-controls-plugin,
+ qtdeclarative5-dialogs-plugin,
+ qtdeclarative5-quicklayouts-plugin,
+ qtdeclarative5-window-plugin
+Recommends: board-arithmetic, board-black-yellow, board-categories, board-import-documents, board-transform
 Description: board graphics program
  Extendable vector graphics program
 
@@ -45,9 +48,33 @@ Description: board graphics program
  .
  This package contains the common library development files
 
+Package: board-arithmetic
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: board graphics program
+ Extendable vector graphics program
+ .
+ This package contains arithmetic plugin
+
+Package: board-black-yellow
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: board graphics program
+ Extendable vector graphics program
+ .
+ This package contains black-yellow plugin
+
+Package: board-categories
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: board graphics program
+ Extendable vector graphics program
+ .
+ This package contains categories plugin
+
 Package: board-import-documents
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, qtdeclarative5-qtquick2-plugin
+Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: board graphics program
  Extendable vector graphics program
  .
@@ -60,4 +87,12 @@ Description: board graphics program
  Extendable vector graphics program
  .
  This package contains multipoint extension
+
+Package: board-transform
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: board graphics program
+ Extendable vector graphics program
+ .
+ This package contains transform plugin
 

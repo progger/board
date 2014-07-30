@@ -63,14 +63,14 @@ QString PdfViewer::elementName() const
   return "PdfViewer";
 }
 
-void PdfViewer::innerSerialize(QXmlStreamWriter *writer, ISheetCanvas *, std::set<QString> *brd_objects) const
+void PdfViewer::innerSerialize(QXmlStreamWriter *writer, std::set<QString> *brd_objects) const
 {
   writer->writeAttribute("hash", _hash);
   writer->writeAttribute("page", QString::number(_page));
   if (brd_objects) brd_objects->insert(_hash);
 }
 
-void PdfViewer::innerDeserialize(QXmlStreamReader *reader, ISheetCanvas *)
+void PdfViewer::innerDeserialize(QXmlStreamReader *reader)
 {
   _hash = reader->attributes().value("hash").toString();
   QByteArray pdf_content = g_core->brdStore()->getObject(_hash);

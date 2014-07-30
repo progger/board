@@ -59,11 +59,11 @@ void Polygon::fillPoints(Points *points)
 {
   for (int i = 0; i < _num_points; i++)
   {
-    points->push_back(_points[i]);
+    points->append(_points[i]);
   }
   if (_num_points > 2)
   {
-    points->push_back(_points[0]);
+    points->append(_points[0]);
   }
 }
 

@@ -7,18 +7,18 @@
 #ifndef SHEETCANVAS_H
 #define SHEETCANVAS_H
 
-#include <memory>
-#include <set>
-#include <map>
+#include <QSet>
+#include <QMap>
+#include <QSharedPointer>
 #include <QXmlStreamWriter>
 #include <QXmlStreamReader>
 #include <QQuickItem>
+#include "../str_stack/strstack.h"
 #include "isheetcanvas.h"
 
 class Paint;
 class Shape;
 class ShapeGen;
-class StrStack;
 
 class SheetCanvas : public QQuickItem, public ISheetCanvas
 {
@@ -47,9 +47,9 @@ public:
   Q_INVOKABLE void moveSheet(qreal dx, qreal dy);
   QQuickItem *selectRect() const { return _select_rect; }
   QQuickItem *textInput() const { return _text_input; }
-  void serializeSheet(QXmlStreamWriter *writer, std::set<QString> *brd_objects = nullptr);
+  void serializeSheet(QXmlStreamWriter *writer, QSet<QString> *brd_objects = nullptr);
   void deserializeSheet(QXmlStreamReader *reader);
-  void deserializeShapes(QXmlStreamReader *reader, std::vector<Shape*> *shapes = nullptr);
+  void deserializeShapes(QXmlStreamReader *reader, QList<Shape*> *shapes = nullptr);
   int mouseX() { return _mouse_x; }
   int mouseY() { return _mouse_y; }
   bool containsMouse() { return _contains_mouse; }
@@ -79,18 +79,18 @@ private:
   QQuickItem *_container;
   QQuickItem *_select_rect;
   QQuickItem *_text_input;
-  std::map<quint16, std::shared_ptr<ShapeGen>> _shape_gen;
-  std::shared_ptr<StrStack> _undo_stack;
-  std::shared_ptr<StrStack> _redo_stack;
+  QMap<quint16, QSharedPointer<ShapeGen>> _shape_gen;
+  StrStack _undo_stack;
+  StrStack _redo_stack;
   QByteArray _cur_state;
-  std::set<quint16> _start_move;
+  QSet<quint16> _start_move;
   qreal _z_min;
   qreal _z_max;
   int _mouse_x;
   int _mouse_y;
   bool _contains_mouse;
   void updateZMinMax();
-  std::shared_ptr<ShapeGen> getShapeGen(int id);
+  QSharedPointer<ShapeGen> getShapeGen(int id);
 };
 
 #endif // SHEETCANVAS_H

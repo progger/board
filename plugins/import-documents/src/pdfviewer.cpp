@@ -63,7 +63,7 @@ QString PdfViewer::elementName() const
   return "PdfViewer";
 }
 
-void PdfViewer::innerSerialize(QXmlStreamWriter *writer, std::set<QString> *brd_objects) const
+void PdfViewer::innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const
 {
   writer->writeAttribute("hash", _hash);
   writer->writeAttribute("page", QString::number(_page));
@@ -85,7 +85,7 @@ void PdfViewer::onImageSizeChanged()
 
 void PdfViewer::createDocument(const QByteArray &pdf_content)
 {
-  _document = std::shared_ptr<Poppler::Document>(Poppler::Document::loadFromData(pdf_content));
+  _document = QSharedPointer<Poppler::Document>(Poppler::Document::loadFromData(pdf_content));
   if (_document)
   {
     _document->setRenderHint(Poppler::Document::Antialiasing);

@@ -8,9 +8,25 @@
 #include <QCryptographicHash>
 #include "brdstore.h"
 
-using namespace std;
+class BrdStore::BrdObject
+{
+public:
+  BrdObject();
+  BrdObject(const QByteArray &data);
+  QByteArray data() const { return _data; }
+  QString hash() const { return _hash; }
+private:
+  QByteArray _data;
+  QString _hash;
+};
 
-BrdObject::BrdObject(const QByteArray &data) :
+BrdStore::BrdObject::BrdObject() :
+  _data(),
+  _hash()
+{
+}
+
+BrdStore::BrdObject::BrdObject(const QByteArray &data) :
   _data(data)
 {
   QByteArray hash = QCryptographicHash::hash(data, QCryptographicHash::Md5);
@@ -29,12 +45,12 @@ BrdStore::BrdStore(QObject *parent) :
 
 QByteArray BrdStore::getObject(const QString &hash)
 {
-  auto it = _store.find(hash);
-  if (it == _store.cend())
+  QSharedPointer<BrdObject> obj = _store.value(hash);
+  if (!obj)
   {
     return QByteArray();
   }
-  return (*it).second->data();
+  return obj->data();
 }
 
 QString BrdStore::getUrlString(const QString &hash)
@@ -51,7 +67,7 @@ int BrdStore::addTempObject(const QByteArray &data)
   }
   else
   {
-    id = *(_tmp_free.erase(_tmp_free.cbegin()));
+    id = *(_tmp_free.erase(_tmp_free.begin()));
   }
   _tmp_store[id] = data;
   _tmp_used.insert(id);
@@ -61,18 +77,13 @@ int BrdStore::addTempObject(const QByteArray &data)
 void BrdStore::removeTempObject(int id)
 {
   _tmp_store[id] = QByteArray();
-  _tmp_used.erase(id);
+  _tmp_used.remove(id);
   _tmp_free.insert(id);
 }
 
 QByteArray BrdStore::getTempObject(int id)
 {
-  auto it = _tmp_store.find(id);
-  if (it == _tmp_store.cend())
-  {
-    return QByteArray();
-  }
-  return (*it).second;
+  return _tmp_store.value(id);
 }
 
 QString BrdStore::getTempUrl(int id)
@@ -82,7 +93,7 @@ QString BrdStore::getTempUrl(int id)
 
 QString BrdStore::addObject(const QByteArray &data)
 {
-  shared_ptr<BrdObject> obj = make_shared<BrdObject>(data);
+  QSharedPointer<BrdObject> obj = QSharedPointer<BrdObject>::create(data);
   _store[obj->hash()] = obj;
   return obj->hash();
 }

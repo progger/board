@@ -24,7 +24,7 @@ signals:
   void hashChanged();
 protected:
   virtual QString elementName() const override;
-  virtual void innerSerialize(QXmlStreamWriter *writer, std::set<QString> *brd_objects) const override;
+  virtual void innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const override;
   virtual void innerDeserialize(QXmlStreamReader *reader) override;
 private:
   QString _hash;

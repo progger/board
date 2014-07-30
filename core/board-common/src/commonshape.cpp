@@ -162,7 +162,7 @@ QRectF CommonShape::getFullInnerRect() const
   return QRectF(-t / 2, -t / 2, size.width() + t, size.height() + t);
 }
 
-void CommonShape::innerSerialize(QXmlStreamWriter *writer, std::set<QString> *brd_objects) const
+void CommonShape::innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const
 {
   writer->writeAttribute("clips_hash", _clips_hash);
   if (brd_objects) brd_objects->insert(_clips_hash);

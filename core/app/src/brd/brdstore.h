@@ -7,22 +7,11 @@
 #ifndef BRDSTORE_H
 #define BRDSTORE_H
 
-#include <memory>
-#include <map>
-#include <set>
+#include <QMap>
+#include <QSet>
+#include <QSharedPointer>
 #include <QObject>
 #include "ibrdstore.h"
-
-class BrdObject
-{
-public:
-  BrdObject(const QByteArray &data);
-  QByteArray data() const { return _data; }
-  QString hash() const { return _hash; }
-private:
-  QByteArray _data;
-  QString _hash;
-};
 
 class BrdStore : public QObject, public IBrdStore
 {
@@ -44,10 +33,11 @@ public:
 
   void clear();
 private:
-  std::map<QString, std::shared_ptr<BrdObject>> _store;
-  std::map<int, QByteArray> _tmp_store;
-  std::set<int> _tmp_free;
-  std::set<int> _tmp_used;
+  class BrdObject;
+  QMap<QString, QSharedPointer<BrdObject>> _store;
+  QMap<int, QByteArray> _tmp_store;
+  QSet<int> _tmp_free;
+  QSet<int> _tmp_used;
   int _tmp_next;
 };
 

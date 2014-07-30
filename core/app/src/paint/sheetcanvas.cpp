@@ -6,21 +6,18 @@
 
 #include "global.h"
 #include "../core.h"
-#include "../str_stack/strstack.h"
 #include "paint.h"
 #include "shape.h"
 #include "shapegen.h"
 #include "sheetcanvas.h"
-
-using namespace std;
 
 SheetCanvas::SheetCanvas(QQuickItem *parent) :
   QQuickItem(parent),
   _sheet_point(),
   _sheet_rect(0, 0, 1, 1),
   _shape_gen(),
-  _undo_stack(make_shared<StrStack>()),
-  _redo_stack(make_shared<StrStack>()),
+  _undo_stack(),
+  _redo_stack(),
   _cur_state(),
   _start_move(),
   _z_min(0),
@@ -56,7 +53,7 @@ void SheetCanvas::moveSheet(qreal dx, qreal dy)
   emit sheetPointChanged();
 }
 
-void SheetCanvas::serializeSheet(QXmlStreamWriter *writer, set<QString> *brd_objects)
+void SheetCanvas::serializeSheet(QXmlStreamWriter *writer, QSet<QString> *brd_objects)
 {
   writer->writeStartElement("sheet");
   for (QQuickItem *item : _container->childItems())
@@ -80,7 +77,7 @@ void SheetCanvas::deserializeSheet(QXmlStreamReader *reader)
   deserializeShapes(reader);
 }
 
-void SheetCanvas::deserializeShapes(QXmlStreamReader *reader, std::vector<Shape*> *shapes)
+void SheetCanvas::deserializeShapes(QXmlStreamReader *reader, QList<Shape*> *shapes)
 {
   while (reader->readNextStartElement())
   {
@@ -92,7 +89,7 @@ void SheetCanvas::deserializeShapes(QXmlStreamReader *reader, std::vector<Shape*
       shape->deserialize(reader);
       if (shapes)
       {
-        shapes->push_back(shape);
+        shapes->append(shape);
       }
     }
     else
@@ -114,8 +111,8 @@ void SheetCanvas::pushState()
   serializeSheet(&writer);
   if (data != _cur_state)
   {
-    _undo_stack->push(_cur_state);
-    _redo_stack->clear();
+    _undo_stack.push(_cur_state);
+    _redo_stack.clear();
     _cur_state = data;
     _paint->setCanUndo(true);
     _paint->setCanRedo(false);
@@ -163,8 +160,8 @@ void SheetCanvas::onEnabledChanged()
 {
   if (isEnabled())
   {
-    _paint->setCanUndo(!_undo_stack->empty());
-    _paint->setCanRedo(!_redo_stack->empty());
+    _paint->setCanUndo(!_undo_stack.empty());
+    _paint->setCanRedo(!_redo_stack.empty());
   }
   else
   {
@@ -184,12 +181,12 @@ void SheetCanvas::onModeChanged()
 void SheetCanvas::onUndo()
 {
   if (!isEnabled()) return;
-  _redo_stack->push(_cur_state);
-  _cur_state = _undo_stack->pop();
+  _redo_stack.push(_cur_state);
+  _cur_state = _undo_stack.pop();
   QXmlStreamReader reader(_cur_state);
   reader.readNextStartElement();
   deserializeSheet(&reader);
-  _paint->setCanUndo(!_undo_stack->empty());
+  _paint->setCanUndo(!_undo_stack.empty());
   _paint->setCanRedo(true);
   _shape_gen.clear();
   _start_move.clear();
@@ -201,13 +198,13 @@ void SheetCanvas::onUndo()
 void SheetCanvas::onRedo()
 {
   if (!isEnabled()) return;
-  _undo_stack->push(_cur_state);
-  _cur_state = _redo_stack->pop();
+  _undo_stack.push(_cur_state);
+  _cur_state = _redo_stack.pop();
   QXmlStreamReader reader(_cur_state);
   reader.readNextStartElement();
   deserializeSheet(&reader);
   _paint->setCanUndo(true);
-  _paint->setCanRedo(!_redo_stack->empty());
+  _paint->setCanRedo(!_redo_stack.empty());
   _shape_gen.clear();
   _start_move.clear();
   updateSheetRect();
@@ -251,7 +248,7 @@ void SheetCanvas::mouseReleaseEvent(QMouseEvent *event)
   auto shape_gen = getShapeGen(id);
   QPointF p(event->x(), event->y());
   shape_gen->end(p);
-  _start_move.erase(id);
+  _start_move.remove(id);
 }
 
 void SheetCanvas::mouseMoveEvent(QMouseEvent *event)
@@ -261,7 +258,7 @@ void SheetCanvas::mouseMoveEvent(QMouseEvent *event)
   _mouse_y = event->y();
   emit mousePositionChanged();
   quint16 id = event->modifiers() & 0xffff;
-  if (!_start_move.count(id)) return;
+  if (!_start_move.contains(id)) return;
   auto shape_gen = getShapeGen(id);
   QPointF p(event->x(), event->y());
   shape_gen->move(p);
@@ -298,9 +295,9 @@ void SheetCanvas::updateZMinMax()
   }
 }
 
-std::shared_ptr<ShapeGen> SheetCanvas::getShapeGen(int id)
+QSharedPointer<ShapeGen> SheetCanvas::getShapeGen(int id)
 {
-  std::shared_ptr<ShapeGen> &shape_gen = _shape_gen[id];
+  QSharedPointer<ShapeGen> &shape_gen = _shape_gen[id];
   if (!shape_gen)
   {
     shape_gen = _paint->createShapeGen(this);

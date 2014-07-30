@@ -17,7 +17,7 @@ void PenGen::begin(const QPointF &p)
 {
   ShapeGen::begin(p);
   Pen *pen = createItem<Pen>(_canvas, p);
-  pen->points().push_back(QPointF(0, 0));
+  pen->points().append(QPointF(0, 0));
   _item = pen;
 }
 
@@ -25,7 +25,7 @@ void PenGen::end(const QPointF &)
 {
   //move(p);  //TODO: Почему-то это приводит к глюку на винде (полосы влево вверх)
   Pen *pen = static_cast<Pen*>(_item);
-  pen->points().shrink_to_fit();
+  pen->points().squeeze();
   pen->savePoints();
   _canvas->pushState();
   _canvas->updateSheetRect();
@@ -57,7 +57,7 @@ void PenGen::move(const QPointF &p)
   }
   width = qMax(width, dx);
   height = qMax(height, dy);
-  pen->points().push_back(QPointF(dx, dy));
+  pen->points().append(QPointF(dx, dy));
   QSizeF size(width, height);
   pen->setSize(size);
   pen->setInnerSize(size);

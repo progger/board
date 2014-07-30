@@ -10,8 +10,6 @@
 #include "imagewrapper.h"
 #include "imagegen.h"
 
-using namespace std;
-
 ImageGen::ImageGen(ISheetCanvas *canvas) :
   ShapeGen(canvas)
 {

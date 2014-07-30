@@ -10,8 +10,6 @@
 #include "line.h"
 #include "pen.h"
 
-using namespace std;
-
 Pen::Pen(QQuickItem *parent, float thinkness, QColor color, QColor bgcolor) :
   CommonShape(parent, thinkness, color, bgcolor),
   _points(),
@@ -88,7 +86,7 @@ QString Pen::elementName() const
   return "pen";
 }
 
-void Pen::innerSerialize(QXmlStreamWriter *writer, std::set<QString> *brd_objects) const
+void Pen::innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const
 {
   CommonShape::innerSerialize(writer, brd_objects);
   writer->writeAttribute("hash", _hash);
@@ -106,7 +104,7 @@ void Pen::innerDeserialize(QXmlStreamReader *reader)
   {
     qreal x, y;
     stream >> x >> y;
-    _points.push_back(QPointF(x, y));
+    _points.append(QPointF(x, y));
   }
-  _points.shrink_to_fit();
+  _points.squeeze();
 }

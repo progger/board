@@ -7,10 +7,9 @@
 #ifndef POINTARRAY_H
 #define POINTARRAY_H
 
-#include <vector>
+#include <QVector>
 #include <QPointF>
 
-using namespace std;
-typedef vector<QPointF> Points;
+typedef QVector<QPointF> Points;
 
 #endif // POINTARRAY_H

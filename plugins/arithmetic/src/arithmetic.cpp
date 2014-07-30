@@ -21,13 +21,13 @@ QQmlListProperty<ArithmeticItem> Arithmetic::itemsProperty()
     {
       Arithmetic *arithmetic = qobject_cast<Arithmetic*>(list->object);
       Q_ASSERT(arithmetic);
-      return arithmetic->items()->size();
+      return arithmetic->items().size();
     },
     [](QQmlListProperty<ArithmeticItem> *list, int index) -> ArithmeticItem*
     {
       Arithmetic *arithmetic = qobject_cast<Arithmetic*>(list->object);
       Q_ASSERT(arithmetic);
-      return arithmetic->items()->at(index);
+      return arithmetic->items().at(index);
     });
 }
 
@@ -35,7 +35,7 @@ void Arithmetic::generate()
 {
   while (_items.size() < 5)
   {
-    _items.push_back(new ArithmeticItem(this));
+    _items.append(new ArithmeticItem(this));
   }
   for (auto item : _items)
   {
@@ -48,7 +48,7 @@ void Arithmetic::addItem()
 {
   ArithmeticItem *item = new ArithmeticItem(this);
   item->generate();
-  _items.push_back(item);
+  _items.append(item);
   saveItems();
   emit itemsChanged();
 }
@@ -78,7 +78,7 @@ QString Arithmetic::elementName() const
   return "arithmetic";
 }
 
-void Arithmetic::innerSerialize(QXmlStreamWriter *writer, std::set<QString> *brd_objects) const
+void Arithmetic::innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const
 {
   Shape::innerSerialize(writer, brd_objects);
   writer->writeAttribute("hash", _hash);
@@ -106,8 +106,7 @@ void Arithmetic::innerDeserialize(QXmlStreamReader *reader)
     item->setLeft(left);
     item->setRight(right);
     item->setOperation(operation);
-    _items.push_back(item);
+    _items.append(item);
   }
-  _items.shrink_to_fit();
   emit itemsChanged();
 }

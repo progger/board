@@ -8,6 +8,7 @@
 #define STRSTACK_H
 
 #include <stack>
+#include <QStack>
 #include <QByteArray>
 
 class StrStack
@@ -20,7 +21,7 @@ public:
   void clear();
   bool empty() const;
 private:
-  std::stack<QByteArray> _stack;
+  QStack<QByteArray> _stack;
 };
 
 #endif // STRSTACK_H

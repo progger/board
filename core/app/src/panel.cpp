@@ -21,14 +21,14 @@ QQmlListProperty<PanelAction> Panel::actionsProperty()
     {
       Panel *panel = qobject_cast<Panel*>(list->object);
       Q_ASSERT(panel);
-      return panel->actions()->size();
+      return panel->actions().size();
     },
 
     [](QQmlListProperty<PanelAction> *list, int index) -> PanelAction*
     {
       Panel *panel = qobject_cast<Panel*>(list->object);
       Q_ASSERT(panel);
-      return panel->actions()->at(index);
+      return panel->actions().at(index);
     });
 }
 
@@ -40,17 +40,12 @@ void Panel::setColor(QColor color)
 
 void Panel::addAction(PanelAction *action)
 {
-  _actions.push_back(action);
+  _actions.append(action);
   emit actionsChanged();
 }
 
 void Panel::removeAction(PanelAction *action)
 {
-  auto it = std::find(_actions.begin(), _actions.end(), action);
-  if (it != _actions.end())
-  {
-    (*it)->deleteLater();
-    _actions.erase(it);
-  }
+  _actions.removeAll(action);
   emit actionsChanged();
 }

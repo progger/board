@@ -41,7 +41,7 @@ void MagicPenGen::end(const QPointF &p)
     pnt.ry() += dy;
   }
   processPath(&points);
-  points.shrink_to_fit();
+  points.squeeze();
   pnt = points[0];
   x1 = pnt.x();
   y1 = pnt.y();

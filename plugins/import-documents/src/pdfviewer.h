@@ -7,7 +7,7 @@
 #ifndef PDFVIEWER_H
 #define PDFVIEWER_H
 
-#include <memory>
+#include <QSharedPointer>
 #include <QtGlobal>
 #ifdef Q_OS_WIN
 #include <poppler-qt5.h>
@@ -45,7 +45,7 @@ signals:
   void imageHeightChanged();
 protected:
   virtual QString elementName() const override;
-  virtual void innerSerialize(QXmlStreamWriter *writer, std::set<QString> *brd_objects) const override;
+  virtual void innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const override;
   virtual void innerDeserialize(QXmlStreamReader *reader) override;
 private slots:
   void onImageSizeChanged();
@@ -57,7 +57,7 @@ private:
   QString _image_source;
   qreal _image_width;
   qreal _image_height;
-  std::shared_ptr<Poppler::Document> _document;
+  QSharedPointer<Poppler::Document> _document;
   void createDocument(const QByteArray &pdf_content);
   void createImage();
 };

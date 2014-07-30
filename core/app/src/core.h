@@ -7,8 +7,7 @@
 #ifndef CORE_H
 #define CORE_H
 
-#include <vector>
-#include <map>
+#include <QMap>
 #include <QQmlEngine>
 #include <QQuickWindow>
 #include <QDir>
@@ -60,7 +59,7 @@ public:
   bool keyboard() const { return _keyboard; }
   bool transparent() const { return _transparent; }
   Paint *paintObj() const { return _paint; }
-  const std::vector<Sheet*> *sheets() const { return &_sheets; }
+  QList<Sheet*> sheets() const { return _sheets; }
   QQmlListProperty<Sheet> sheetsProperty();
 signals:
   void keyboardChanged();
@@ -90,14 +89,14 @@ private:
   QSettings *_settings;
   BrdStore *_brdStore;
   Paint *_paint;
-  std::map<QString, QQmlComponent*> _map_componenet;
+  QMap<QString, QQmlComponent*> _map_componenet;
   QQmlComponent *_comp_sheet;
   QQmlComponent *_comp_panel;
   QQuickItem *_sheet_place;
-  std::vector<Panel*> _panels;
-  std::multimap<QString, QQmlComponent*> _actions;
-  std::vector<Sheet*> _sheets;
-  std::vector<IPlugin*> _plugins;
+  QList<Panel*> _panels;
+  QMap<QString, QList<QQmlComponent*>> _actions;
+  QList<Sheet*> _sheets;
+  QList<IPlugin*> _plugins;
   bool _changes;
   Sheet *createSheet();
   void saveBookFiles(QuaZip *zip);

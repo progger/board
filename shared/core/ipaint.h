@@ -10,11 +10,11 @@
 #include <QString>
 #include <QColor>
 #include <QCursor>
-#include <memory>
+#include <QSharedPointer>
 #include "shapegen.h"
 #include "isheetcanvas.h"
 
-typedef std::shared_ptr<ShapeGen>(*ShapeGenFunc)(ISheetCanvas *);
+typedef QSharedPointer<ShapeGen>(*ShapeGenFunc)(ISheetCanvas *);
 typedef Shape *(*ShapeFunc)();
 
 class IPaint {

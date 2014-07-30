@@ -7,7 +7,7 @@
 #ifndef SHAPE_H
 #define SHAPE_H
 
-#include <set>
+#include <QSet>
 #include <QXmlStreamWriter>
 #include <QXmlStreamReader>
 #include <QQuickItem>
@@ -27,7 +27,7 @@ public:
                  QColor bgcolor = QColor(Qt::transparent));
   void init(ISheetCanvas *canvas);
   ISheetCanvas *canvas() const { return _canvas; }
-  void serialize(QXmlStreamWriter *writer, std::set<QString> *brd_objects = nullptr) const;
+  void serialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects = nullptr) const;
   void deserialize(QXmlStreamReader *reader);
   QSizeF innerSize() const { return _inner_size; }
   qreal scalex() const;
@@ -50,7 +50,7 @@ signals:
   void scaleyChanged();
 protected:
   virtual QString elementName() const = 0;
-  virtual void innerSerialize(QXmlStreamWriter *writer, std::set<QString> *brd_objects) const;
+  virtual void innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const;
   virtual void innerDeserialize(QXmlStreamReader *reader);
 private slots:
   void onWidthChanged();

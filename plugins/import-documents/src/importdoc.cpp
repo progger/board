@@ -22,10 +22,10 @@ ImportDoc::ImportDoc(QObject *parent) :
 void ImportDoc::importDoc(const QUrl &file_url)
 {
   QString file_name = file_url.toLocalFile();
-  std::shared_ptr<QTemporaryDir> dir = nullptr;
+  QSharedPointer<QTemporaryDir> dir = QSharedPointer<QTemporaryDir>();
   if (QFileInfo(file_name).suffix().compare("pdf", Qt::CaseInsensitive) != 0)
   {
-    dir = std::make_shared<QTemporaryDir>();
+    dir = QSharedPointer<QTemporaryDir>::create();
     file_name = convert(file_name, dir);
     if (file_name.isEmpty()) return;
   }
@@ -60,7 +60,7 @@ void ImportDoc::importDoc(const QUrl &file_url)
   canvas->updateSheetRect();
 }
 
-QString ImportDoc::convert(const QString &file_name, std::shared_ptr<QTemporaryDir> dir)
+QString ImportDoc::convert(const QString &file_name, QSharedPointer<QTemporaryDir> dir)
 {
   QProcess process;
 #ifdef Q_OS_WIN

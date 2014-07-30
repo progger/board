@@ -118,7 +118,7 @@ void Core::registerPanelAction(const QString &section, const QString &url_string
 {
   QQmlComponent *component = getComponent(url_string);
   if (!component) return;
-  _actions.emplace(section, component);
+  _actions[section].append(component);
 }
 
 void Core::setChanges()
@@ -148,7 +148,7 @@ void Core::init(QWindow *main_window)
     for (int i = 0; i < 5; ++i)
     {
       Sheet *sheet = createSheet();
-      _sheets.push_back(sheet);
+      _sheets.append(sheet);
     }
   }
   emit sheetsChanged();
@@ -173,7 +173,7 @@ QQmlComponent *Core::getComponent(const QString &url_string)
     _map_componenet[url_string] = component;
     return component;
   }
-  return (*it).second;
+  return it.value();
 }
 
 void Core::logMessage(const QString &message)
@@ -196,14 +196,14 @@ QQmlListProperty<Sheet> Core::sheetsProperty()
     {
       Core *core = qobject_cast<Core*>(list->object);
       Q_ASSERT(core);
-      return core->sheets()->size();
+      return core->sheets().size();
     },
 
     [](QQmlListProperty<Sheet> *list, int index) -> Sheet*
     {
       Core *core = qobject_cast<Core*>(list->object);
       Q_ASSERT(core);
-      return core->sheets()->at(index);
+      return core->sheets().at(index);
     });
 }
 
@@ -264,7 +264,7 @@ void Core::openBook(const QUrl &file_url)
 void Core::insertSheet(int index)
 {
   Sheet *sheet = createSheet();
-  _sheets.insert(_sheets.begin() + index, sheet);
+  _sheets.insert(index, sheet);
   emit sheetsChanged();
 }
 
@@ -272,7 +272,7 @@ void Core::deleteSheet(int index)
 {
   Sheet *sheet = _sheets[index];
   sheet->deleteLater();
-  _sheets.erase(_sheets.begin() + index);
+  _sheets.removeAt(index);
   emit sheetsChanged();
 }
 
@@ -294,7 +294,7 @@ void Core::saveBookFiles(QuaZip *zip)
     showError(QString("Не удалось соханить книгу: %1").arg(zip_file.getZipError()));
     return;
   }
-  std::set<QString> brd_objects;
+  QSet<QString> brd_objects;
   QXmlStreamWriter writer(&zip_file);
   writer.writeStartDocument();
   writer.writeStartElement("book");
@@ -361,7 +361,7 @@ void Core::openBookFiles(QuaZip *zip)
   {
     if (reader.name() != "sheet") goto error;
     Sheet *sheet = createSheet();
-    _sheets.push_back(sheet);
+    _sheets.append(sheet);
     SheetCanvas *canvas = sheet->canvasObj();
     canvas->deserializeSheet(&reader);
   }
@@ -385,7 +385,7 @@ void Core::loadPlugins()
       IPlugin *plugin = qobject_cast<IPlugin*>(plugin_obj);
       if (plugin)
       {
-        _plugins.push_back(plugin);
+        _plugins.append(plugin);
       }
       else
       {

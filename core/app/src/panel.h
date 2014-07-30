@@ -7,7 +7,6 @@
 #ifndef PANEL_H
 #define PANEL_H
 
-#include <vector>
 #include "panelaction.h"
 
 class Panel : public QQuickItem
@@ -18,7 +17,7 @@ class Panel : public QQuickItem
 public:
   explicit Panel(QQuickItem *parent = 0);
   QColor color() const { return _color; }
-  const std::vector<PanelAction*> *actions() const { return &_actions; }
+  QList<PanelAction*> actions() const { return _actions; }
   QQmlListProperty<PanelAction> actionsProperty();
 signals:
   void colorChanged();
@@ -29,7 +28,7 @@ public slots:
   void removeAction(PanelAction *action);
 private:
   QColor _color;
-  std::vector<PanelAction*> _actions;
+  QList<PanelAction*> _actions;
 };
 
 #endif // PANEL_H

@@ -7,8 +7,8 @@
 #ifndef PAINT_H
 #define PAINT_H
 
-#include <memory>
-#include <map>
+#include <QMap>
+#include <QSharedPointer>
 #include <QObject>
 #include <QColor>
 #include <QSize>
@@ -50,7 +50,7 @@ public:
   QSize imageSize() const { return _image_size; }
   QString imageHash() const { return _image_hash; }
   QString videoSource() const { return _video_source; }
-  std::shared_ptr<ShapeGen> createShapeGen(ISheetCanvas *canvas) const;
+  QSharedPointer<ShapeGen> createShapeGen(ISheetCanvas *canvas) const;
   QCursor getCursor() const;
 signals:
   void modeChanged();
@@ -99,9 +99,9 @@ private:
   QSize _image_size;
   QString _image_hash;
   QString _video_source;
-  std::map<QString, ShapeGenFunc> _map_shape_gen;
-  std::map<QString, ShapeFunc> _map_shape;
-  std::map<QString, QCursor> _map_cursor;
+  QMap<QString, ShapeGenFunc> _map_shape_gen;
+  QMap<QString, ShapeFunc> _map_shape;
+  QMap<QString, QCursor> _map_cursor;
 };
 
 #endif // PAINT_H

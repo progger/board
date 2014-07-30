@@ -239,7 +239,7 @@ QString Categories::elementName() const
   return "categories";
 }
 
-void Categories::innerSerialize(QXmlStreamWriter *writer, std::set<QString> *brd_objects) const
+void Categories::innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const
 {
   Shape::innerSerialize(writer, brd_objects);
   writer->writeAttribute("hash", _hash);

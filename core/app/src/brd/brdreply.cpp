@@ -8,8 +8,6 @@
 #include "brdstore.h"
 #include "brdreply.h"
 
-using namespace std;
-
 BrdReply::BrdReply(const QByteArray &data, QObject *parent) :
   QNetworkReply(parent),
   _data(data),

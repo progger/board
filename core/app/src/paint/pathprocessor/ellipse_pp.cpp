@@ -74,7 +74,7 @@ void Ellipse::fillPoints(Points *points)
   {
     qreal fi = 2 * M_PI * i / seg_count;
     QPointF p(_center.x() + _rx * sin(fi), _center.y() + _ry * cos(fi));
-    points->push_back(p);
+    points->append(p);
   }
 }
 

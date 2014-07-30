@@ -7,7 +7,7 @@
 #ifndef COMMONSHAPE_H
 #define COMMONSHAPE_H
 
-#include <list>
+#include <QLinkedList>
 #include <QSGNode>
 #include "shape.h"
 
@@ -26,14 +26,14 @@ protected:
   virtual void updateMainNode(QSGGeometryNode *) {}
   virtual void updateBackgroundNode(QSGGeometryNode *) {}
   virtual QRectF getFullInnerRect() const;
-  virtual void innerSerialize(QXmlStreamWriter *writer, std::set<QString> *brd_objects) const override;
+  virtual void innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const override;
   virtual void innerDeserialize(QXmlStreamReader *reader) override;
 private slots:
   void onInnerRectChanged();
 private:
   QSGGeometryNode *_main_node;
   QSGGeometryNode *_background_node;
-  std::list<QRectF> _clips;
+  QLinkedList<QRectF> _clips;
   QString _clips_hash;
   bool eraseRect(const QRectF &rect);
   void updateClipNode(QSGClipNode *node);

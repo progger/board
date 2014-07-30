@@ -58,7 +58,7 @@ void SelectGen::end(const QPointF &p)
     if (!shape) continue;
     if (shape->checkIntersect(select))
     {
-      _selected.push_back(shape);
+      _selected.append(shape);
     }
   }
   if (_selected.empty())
@@ -71,7 +71,9 @@ void SelectGen::end(const QPointF &p)
     if (click)
     {
       sortSelected();
-      _selected.erase(_selected.begin(), --_selected.end());
+      Shape *shape = _selected.back();
+      _selected.clear();
+      _selected.append(shape);
     }
     _select_rect->setProperty("bobberVisible", true);
     updateRoundRect();

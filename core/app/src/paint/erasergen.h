@@ -7,7 +7,7 @@
 #ifndef ERASERGEN_H
 #define ERASERGEN_H
 
-#include <set>
+#include <QSet>
 #include "commonshape.h"
 #include "shapegen.h"
 
@@ -19,7 +19,7 @@ public:
   virtual void end(const QPointF &p) override;
   virtual void move(const QPointF &p) override;
 private:
-  std::set<CommonShape*> _shape_set;
+  QSet<CommonShape*> _shape_set;
 };
 
 #endif // ERASERGEN_H

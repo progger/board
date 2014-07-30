@@ -7,11 +7,9 @@
 #ifndef PEN_H
 #define PEN_H
 
-#include <memory>
-#include <vector>
 #include "commonshape.h"
 
-typedef std::vector<QPointF> Points;
+typedef QVector<QPointF> Points;
 
 class Pen : public CommonShape
 {
@@ -26,7 +24,7 @@ protected:
   virtual bool hasBackgroundNode() override { return false; }
   virtual void updateMainNode(QSGGeometryNode *node) override;
   virtual QString elementName() const override;
-  virtual void innerSerialize(QXmlStreamWriter *writer, std::set<QString> *brd_objects) const override;
+  virtual void innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const override;
   virtual void innerDeserialize(QXmlStreamReader *reader) override;
 private:
   Points _points;

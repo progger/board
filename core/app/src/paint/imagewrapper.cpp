@@ -28,7 +28,7 @@ QString ImageWrapper::elementName() const
   return "image";
 }
 
-void ImageWrapper::innerSerialize(QXmlStreamWriter *writer, std::set<QString> *brd_objects) const
+void ImageWrapper::innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const
 {
   writer->writeAttribute("hash", _hash);
   if (brd_objects) brd_objects->insert(_hash);

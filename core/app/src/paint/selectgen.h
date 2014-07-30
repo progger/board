@@ -7,7 +7,6 @@
 #ifndef SELECTGEN_H
 #define SELECTGEN_H
 
-#include <vector>
 #include "shapegen.h"
 
 class SheetCanvas;
@@ -38,7 +37,7 @@ public slots:
 private:
   SheetCanvas *_canvas_obj;
   QQuickItem *_select_rect;
-  std::vector<Shape*> _selected;
+  QList<Shape*> _selected;
   int _mx1;
   int _my1;
   int _mx2;

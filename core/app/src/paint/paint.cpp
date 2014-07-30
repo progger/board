@@ -30,8 +30,6 @@
 #include "videoplayer.h"
 #include "paint.h"
 
-using namespace std;
-
 Paint::Paint(Core *parent) :
   QObject(parent),
   _mode("pen"),
@@ -50,18 +48,18 @@ Paint::Paint(Core *parent) :
   _map_shape(),
   _map_cursor()
 {
-  RegisterShapeGen("select",    [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<SelectGen>(canvas); });
-  RegisterShapeGen("eraser",    [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<EraserGen>(canvas); });
-  RegisterShapeGen("pen",       [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<PenGen>(canvas); });
-  RegisterShapeGen("magic_pen", [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<MagicPenGen>(canvas); });
-  RegisterShapeGen("line",      [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<LineGen>(canvas); });
-  RegisterShapeGen("rectangle", [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<RectangleGen>(canvas); });
-  RegisterShapeGen("circle",    [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<CircleGen>(canvas); });
-  RegisterShapeGen("ellipse",   [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<EllipseGen>(canvas); });
-  RegisterShapeGen("text",      [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<TextGen>(canvas); });
-  RegisterShapeGen("move",      [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<MoveGen>(canvas); });
-  RegisterShapeGen("image",     [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<ImageGen>(canvas); });
-  RegisterShapeGen("video",     [](ISheetCanvas *canvas) -> shared_ptr<ShapeGen> { return make_shared<VideoGen>(canvas); });
+  RegisterShapeGen("select",    [](ISheetCanvas *canvas) -> QSharedPointer<ShapeGen> { return QSharedPointer<SelectGen>::create(canvas); });
+  RegisterShapeGen("eraser",    [](ISheetCanvas *canvas) -> QSharedPointer<ShapeGen> { return QSharedPointer<EraserGen>::create(canvas); });
+  RegisterShapeGen("pen",       [](ISheetCanvas *canvas) -> QSharedPointer<ShapeGen> { return QSharedPointer<PenGen>::create(canvas); });
+  RegisterShapeGen("magic_pen", [](ISheetCanvas *canvas) -> QSharedPointer<ShapeGen> { return QSharedPointer<MagicPenGen>::create(canvas); });
+  RegisterShapeGen("line",      [](ISheetCanvas *canvas) -> QSharedPointer<ShapeGen> { return QSharedPointer<LineGen>::create(canvas); });
+  RegisterShapeGen("rectangle", [](ISheetCanvas *canvas) -> QSharedPointer<ShapeGen> { return QSharedPointer<RectangleGen>::create(canvas); });
+  RegisterShapeGen("circle",    [](ISheetCanvas *canvas) -> QSharedPointer<ShapeGen> { return QSharedPointer<CircleGen>::create(canvas); });
+  RegisterShapeGen("ellipse",   [](ISheetCanvas *canvas) -> QSharedPointer<ShapeGen> { return QSharedPointer<EllipseGen>::create(canvas); });
+  RegisterShapeGen("text",      [](ISheetCanvas *canvas) -> QSharedPointer<ShapeGen> { return QSharedPointer<TextGen>::create(canvas); });
+  RegisterShapeGen("move",      [](ISheetCanvas *canvas) -> QSharedPointer<ShapeGen> { return QSharedPointer<MoveGen>::create(canvas); });
+  RegisterShapeGen("image",     [](ISheetCanvas *canvas) -> QSharedPointer<ShapeGen> { return QSharedPointer<ImageGen>::create(canvas); });
+  RegisterShapeGen("video",     [](ISheetCanvas *canvas) -> QSharedPointer<ShapeGen> { return QSharedPointer<VideoGen>::create(canvas); });
 
   RegisterShape("pen",       []() -> Shape* { return new Pen(); });
   RegisterShape("line",      []() -> Shape* { return new Line(); });
@@ -113,25 +111,25 @@ float Paint::eraserSize()
   return _eraser_size;
 }
 
-std::shared_ptr<ShapeGen> Paint::createShapeGen(ISheetCanvas *canvas) const
+QSharedPointer<ShapeGen> Paint::createShapeGen(ISheetCanvas *canvas) const
 {
   auto it = _map_shape_gen.find(_mode);
-  if (it == _map_shape_gen.cend()) return nullptr;
-  return (*it).second(canvas);
+  if (it == _map_shape_gen.cend()) return QSharedPointer<ShapeGen>();
+  return it.value()(canvas);
 }
 
 Shape *Paint::createShape(const QString &name)
 {
   auto it = _map_shape.find(name);
   if (it == _map_shape.cend()) return nullptr;
-  return (*it).second();
+  return it.value()();
 }
 
 QCursor Paint::getCursor() const
 {
   auto it = _map_cursor.find(_mode);
   if (it == _map_cursor.cend()) return Qt::ArrowCursor;
-  return (*it).second;
+  return it.value();
 }
 
 void Paint::setMode(const QString &mode)

@@ -46,7 +46,7 @@ QString TextWrapper::elementName() const
   return "text";
 }
 
-void TextWrapper::innerSerialize(QXmlStreamWriter *writer, std::set<QString> *brd_objects) const
+void TextWrapper::innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const
 {
   Q_UNUSED(brd_objects);
   writer->writeAttribute("text", _text);

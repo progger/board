@@ -107,7 +107,7 @@ QString Line::elementName() const
   return "line";
 }
 
-void Line::innerSerialize(QXmlStreamWriter *writer, std::set<QString> *brd_objects) const
+void Line::innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const
 {
   CommonShape::innerSerialize(writer, brd_objects);
   writer->writeAttribute("x1", QString::number(_p1.x()));

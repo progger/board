@@ -24,7 +24,7 @@ void Shape::init(ISheetCanvas *canvas)
   setParentItem(canvas->container());
 }
 
-void Shape::serialize(QXmlStreamWriter *writer, std::set<QString> *brd_objects) const
+void Shape::serialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const
 {
   writer->writeStartElement(elementName());
   writer->writeAttribute("x", QString::number(x() + _canvas->sheetPoint().x()));
@@ -100,7 +100,7 @@ void Shape::setBgcolor(const QColor &bgcolor)
   emit bgcolorChanged();
 }
 
-void Shape::innerSerialize(QXmlStreamWriter *writer, std::set<QString> *brd_objects) const
+void Shape::innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const
 {
   Q_UNUSED(writer);
   Q_UNUSED(brd_objects);

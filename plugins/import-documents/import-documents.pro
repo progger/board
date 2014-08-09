@@ -26,10 +26,5 @@ HEADERS += \
 
 RESOURCES += import-documents.qrc
 
-OTHER_FILES += \
-    qml/ImportDocumentsButton.qml \
-    qml/PdfViewer.qml \
-    res/import.svg
-
 target.path=/opt/board/plugins
 INSTALLS += target

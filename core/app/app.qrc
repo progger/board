@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/core/">
+    <qresource prefix="/core">
         <file>qml/Board.qml</file>
         <file>qml/CloseCaution.qml</file>
         <file>qml/ColorGrid.qml</file>

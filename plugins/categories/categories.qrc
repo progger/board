@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/categories/">
+    <qresource prefix="/categories">
         <file>qml/Categories.qml</file>
         <file>qml/CategoriesButton.qml</file>
         <file>res/card1.svg</file>

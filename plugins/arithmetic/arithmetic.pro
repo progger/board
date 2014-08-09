@@ -22,11 +22,6 @@ HEADERS +=\
     src/arithmeticbutton.h \
     src/arithmeticitem.h
 
-OTHER_FILES += \
-    qml/Arithmetic.qml \
-    qml/ArithmeticButton.qml \
-    res/arithmetic.svg
-
 RESOURCES += arithmetic.qrc
 
 target.path=/opt/board/plugins

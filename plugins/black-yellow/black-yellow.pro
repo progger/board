@@ -22,11 +22,6 @@ HEADERS +=\
     src/blackyellow.h \
     src/blackyellowitem.h
 
-OTHER_FILES += \
-    qml/BlackYellow.qml \
-    qml/BlackYellowButton.qml \
-    res/black-yellow.svg
-
 RESOURCES += black-yellow.qrc
 
 target.path=/opt/board/plugins

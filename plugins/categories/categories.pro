@@ -24,19 +24,6 @@ HEADERS +=\
     src/category.h \
     src/categoryitem.h
 
-OTHER_FILES += \
-    qml/Categories.qml \
-    qml/CategoriesButton.qml \
-    res/card1.svg \
-    res/card2.svg \
-    res/card3.svg \
-    res/card4.svg \
-    res/card5.svg \
-    res/card6.svg \
-    res/card7.svg \
-    res/card8.svg \
-    res/categories.svg
-
 RESOURCES += categories.qrc
 
 target.path=/opt/board/plugins

@@ -22,16 +22,7 @@ HEADERS +=\
     src/cardtransform.h \
     src/transformbutton.h
 
-OTHER_FILES += \
-    qml/CardTransform.qml \
-    qml/TransformButton.qml \
-    res/cardQ.svg \
-    res/cardX.svg \
-    res/cardY.svg \
-    res/transform.svg
-
-RESOURCES += \
-    transform.qrc
+RESOURCES += transform.qrc
 
 target.path=/opt/board/plugins
 INSTALLS += target

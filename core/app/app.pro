@@ -89,64 +89,6 @@ HEADERS += \
     src/str_stack/strstack.h \
     src/style.h
 
-OTHER_FILES += \
-    qml/Board.qml \
-    qml/CloseCaution.qml\
-    qml/ColorGrid.qml \
-    qml/ErrorMessageBox.qml \
-    qml/ImageWrapper.qml \
-    qml/keyboard.js \
-    qml/Keyboard.qml \
-    qml/ModeBar.qml \
-    qml/PopupMenu.qml \
-    qml/ScrollBar.qml \
-    qml/ScrollButton.qml \
-    qml/sheet.js \
-    qml/SpinBoxEx.qml \
-    qml/Sheet.qml \
-    qml/StyleQml.qml \
-    qml/TextWrapper.qml \
-    qml/ToolBar.qml \
-    qml/VideoPlayer.qml \
-    res/add.svg \
-    res/backspace.svg \
-    res/back.svg \
-    res/circle.svg \
-    res/close.svg \
-    res/delete.svg \
-    res/desktop.svg \
-    res/down_arrow.svg \
-    res/duplicate.svg \
-    res/ellipse.svg \
-    res/enter.svg \
-    res/eraser.png \
-    res/font_size.svg \
-    res/help \
-    res/image.svg \
-    res/left_arrow.svg \
-    res/line.svg \
-    res/magic_pen.svg \
-    res/minimize.svg \
-    res/move.svg \
-    res/open.svg \
-    res/pause.svg \
-    res/pen.svg \
-    res/play.svg \
-    res/rectangle.svg \
-    res/redo.svg \
-    res/right_arrow.svg \
-    res/save.svg \
-    res/select.svg \
-    res/stop.svg \
-    res/text.svg \
-    res/thickness.svg \
-    res/to_front.svg \
-    res/to_back.svg \
-    res/undo.svg \
-    res/up_arrow.svg \
-    res/video.svg \
-    qml/Panel.qml
-
 RESOURCES += app.qrc
 
 target.path=/opt/board

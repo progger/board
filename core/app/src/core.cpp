@@ -49,16 +49,17 @@ Core::Core(QQmlEngine *engine) :
   qmlRegisterType<TextWrapper>("board.core.paint", 2, 0, "TextWrapper");
   qmlRegisterType<ImageWrapper>("board.core.paint", 2, 0, "ImageWrapper");
   qmlRegisterType<VideoPlayer>("board.core.paint", 2, 0, "VideoPlayer");
-  qmlRegisterSingletonType<Style>("board.core", 2, 0, "Style",
-                                  [](QQmlEngine *, QJSEngine *)
-  {
-    return g_core->getComponent("qrc:/core/qml/StyleQml.qml")->create();
-  });
 
   _paint = new Paint(this);
   auto context = engine->rootContext();
   context->setContextProperty("Core", this);
   context->setContextProperty("Paint", _paint);
+
+  QQmlComponent *comp_style = getComponent("qrc:/core/qml/StyleQml.qml");
+  Q_ASSERT(comp_style);
+  QObject *style = comp_style->create();
+  Q_ASSERT(style);
+  context->setContextProperty("Style", style);
 
   _comp_sheet = getComponent("qrc:/core/qml/Sheet.qml");
   Q_ASSERT(_comp_sheet);

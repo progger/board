@@ -28,7 +28,7 @@ Core::Core(QQmlEngine *engine) :
   _transparent(false),
   _map_componenet(),
   _panels(),
-  _actions(),
+  _tools(),
   _sheets(),
   _changes(false)
 {
@@ -43,7 +43,7 @@ Core::Core(QQmlEngine *engine) :
   qmlRegisterType<Paint>();
   qmlRegisterType<Style>("board.core", 2, 0, "StyleQml");
   qmlRegisterType<Panel>("board.core", 2, 0, "Panel");
-  qmlRegisterType<PanelAction>("board.core", 2, 0, "PanelAction");
+  qmlRegisterType<PanelTool>("board.core", 2, 0, "PanelTool");
   qmlRegisterType<Sheet>("board.core.paint", 2, 0, "Sheet");
   qmlRegisterType<SheetCanvas>("board.core.paint", 2, 0, "SheetCanvas");
   qmlRegisterType<TextWrapper>("board.core.paint", 2, 0, "TextWrapper");
@@ -115,11 +115,9 @@ void Core::showError(const QString &error)
   emit errorMessageBox(error);
 }
 
-void Core::registerPanelAction(const QString &section, const QString &url_string)
+void Core::registerTool(Tool tool)
 {
-  QQmlComponent *component = getComponent(url_string);
-  if (!component) return;
-  _actions[section].append(component);
+  _tools[tool.section].append(tool);
 }
 
 void Core::setChanges()

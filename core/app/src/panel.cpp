@@ -9,26 +9,26 @@
 Panel::Panel(QQuickItem *parent) :
   QQuickItem(parent),
   _color(),
-  _actions()
+  _tools()
 {
 }
 
-QQmlListProperty<PanelAction> Panel::actionsProperty()
+QQmlListProperty<PanelTool> Panel::toolsProperty()
 {
-  return QQmlListProperty<PanelAction>(this, nullptr,
+  return QQmlListProperty<PanelTool>(this, nullptr,
 
-    [](QQmlListProperty<PanelAction> *list) -> int
+    [](QQmlListProperty<PanelTool> *list) -> int
     {
       Panel *panel = qobject_cast<Panel*>(list->object);
       Q_ASSERT(panel);
-      return panel->actions().size();
+      return panel->tools().size();
     },
 
-    [](QQmlListProperty<PanelAction> *list, int index) -> PanelAction*
+    [](QQmlListProperty<PanelTool> *list, int index) -> PanelTool*
     {
       Panel *panel = qobject_cast<Panel*>(list->object);
       Q_ASSERT(panel);
-      return panel->actions().at(index);
+      return panel->tools().at(index);
     });
 }
 
@@ -38,14 +38,14 @@ void Panel::setColor(QColor color)
   emit colorChanged();
 }
 
-void Panel::addAction(PanelAction *action)
+void Panel::addTool(PanelTool *tool)
 {
-  _actions.append(action);
-  emit actionsChanged();
+  _tools.append(tool);
+  emit toolsChanged();
 }
 
-void Panel::removeAction(PanelAction *action)
+void Panel::removeTool(PanelTool *tool)
 {
-  _actions.removeAll(action);
-  emit actionsChanged();
+  _tools.removeAll(tool);
+  emit toolsChanged();
 }

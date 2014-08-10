@@ -12,9 +12,9 @@ include(../../main.pri)
 SOURCES += \
     src/commonshape.cpp \
     src/global.cpp \
+    src/paneltool.cpp \
     src/shape.cpp \
-    src/shapegen.cpp \
-    src/panelaction.cpp
+    src/shapegen.cpp
 
 HEADERS += \
     ../../shared/core/commonshape.h \
@@ -25,9 +25,10 @@ HEADERS += \
     ../../shared/core/iplugin.h \
     ../../shared/core/isheetcanvas.h \
     ../../shared/core/isheet.h \
+    ../../shared/core/paneltool.h \
     ../../shared/core/shape.h \
     ../../shared/core/shapegen.h \
-    ../../shared/core/panelaction.h
+    ../../shared/core/tool.h
 
 headers.path=/opt/board/include/board
 headers.files=$$HEADERS

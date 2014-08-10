@@ -7,28 +7,28 @@
 #ifndef PANEL_H
 #define PANEL_H
 
-#include "panelaction.h"
+#include "paneltool.h"
 
 class Panel : public QQuickItem
 {
   Q_OBJECT
   Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
-  Q_PROPERTY(QQmlListProperty<PanelAction> actions READ actionsProperty NOTIFY actionsChanged)
+  Q_PROPERTY(QQmlListProperty<PanelTool> tools READ toolsProperty NOTIFY toolsChanged)
 public:
   explicit Panel(QQuickItem *parent = 0);
   QColor color() const { return _color; }
-  QList<PanelAction*> actions() const { return _actions; }
-  QQmlListProperty<PanelAction> actionsProperty();
+  QList<PanelTool*> tools() const { return _tools; }
+  QQmlListProperty<PanelTool> toolsProperty();
 signals:
   void colorChanged();
-  void actionsChanged();
+  void toolsChanged();
 public slots:
   void setColor(QColor color);
-  void addAction(PanelAction *action);
-  void removeAction(PanelAction *action);
+  void addTool(PanelTool *tool);
+  void removeTool(PanelTool *tool);
 private:
   QColor _color;
-  QList<PanelAction*> _actions;
+  QList<PanelTool*> _tools;
 };
 
 #endif // PANEL_H

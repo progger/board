@@ -4,12 +4,12 @@
  * See the LICENSE file for terms of use.
  */
 
-#ifndef PANELACTION_H
-#define PANELACTION_H
+#ifndef PANELTOOL_H
+#define PANELTOOL_H
 
 #include <QQuickItem>
 
-class PanelAction : public QQuickItem
+class PanelTool : public QQuickItem
 {
   Q_OBJECT
   Q_PROPERTY(int buttonX READ buttonX WRITE setButtonX NOTIFY buttonXChanged)
@@ -17,7 +17,7 @@ class PanelAction : public QQuickItem
   Q_PROPERTY(int buttonWidth READ buttonWidth WRITE setButtonWidth NOTIFY buttonWidthChanged)
   Q_PROPERTY(int buttonHeight READ buttonHeight WRITE setButtonHeight NOTIFY buttonHeightChanged)
 public:
-  explicit PanelAction(QQuickItem *parent = 0);
+  explicit PanelTool(QQuickItem *parent = 0);
   int buttonX() const { return _button_x; }
   int buttonY() const { return _button_y; }
   int buttonWidth() const { return _button_width; }
@@ -39,4 +39,4 @@ private:
   int _button_height;
 };
 
-#endif // PANELACTION_H
+#endif // PANELTOOL_H

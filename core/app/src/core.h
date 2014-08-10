@@ -50,7 +50,7 @@ public:
   virtual void logMessage(const QString &message) override;
   virtual void logError(const QString &error) override;
   virtual void showError(const QString &error) override;
-  virtual void registerPanelAction(const QString &section, const QString &url_string) override;
+  virtual void registerTool(Tool tool) override;
   virtual void setChanges() override;
   virtual bool hasChanges() override;
 
@@ -94,7 +94,7 @@ private:
   QQmlComponent *_comp_panel;
   QQuickItem *_sheet_place;
   QList<Panel*> _panels;
-  QMap<QString, QList<QQmlComponent*>> _actions;
+  QMap<QString, QList<Tool>> _tools;
   QList<Sheet*> _sheets;
   QList<IPlugin*> _plugins;
   bool _changes;

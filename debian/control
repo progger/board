@@ -25,7 +25,8 @@ Depends: ${shlibs:Depends}, ${misc:Depends},
  qtdeclarative5-controls-plugin,
  qtdeclarative5-dialogs-plugin,
  qtdeclarative5-quicklayouts-plugin,
- qtdeclarative5-window-plugin
+ qtdeclarative5-window-plugin,
+ libqt5svg5
 Recommends: board-arithmetic, board-black-yellow, board-categories, board-import-documents, board-transform
 Description: board graphics program
  Extendable vector graphics program

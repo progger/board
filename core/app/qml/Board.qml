@@ -35,6 +35,16 @@ Window {
     }
 
     Item {
+        id: panelPlace
+        objectName: "panelPlace"
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: toolBar.bottom
+        anchors.bottom: parent.bottom
+        z: 2
+    }
+
+    Item {
         id: sheetPlace
         objectName: "sheetPlace"
         anchors.left: parent.left

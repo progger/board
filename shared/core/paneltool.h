@@ -18,6 +18,8 @@ class PanelTool : public QQuickItem
   Q_PROPERTY(int buttonHeight READ buttonHeight WRITE setButtonHeight NOTIFY buttonHeightChanged)
 public:
   explicit PanelTool(QQuickItem *parent = 0);
+  QString name() const { return _name; }
+  void setName(const QString &name);
   int buttonX() const { return _button_x; }
   int buttonY() const { return _button_y; }
   int buttonWidth() const { return _button_width; }
@@ -33,6 +35,7 @@ public slots:
   void setButtonWidth(int width);
   void setButtonHeight(int height);
 private:
+  QString _name;
   int _button_x;
   int _button_y;
   int _button_width;

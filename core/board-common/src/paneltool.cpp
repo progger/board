@@ -8,9 +8,17 @@
 
 PanelTool::PanelTool(QQuickItem *parent) :
   QQuickItem(parent),
+  _name(),
+  _button_x(0),
+  _button_y(0),
   _button_width(1),
   _button_height(1)
 {
+}
+
+void PanelTool::setName(const QString &name)
+{
+  _name = name;
 }
 
 void PanelTool::setButtonX(int x)

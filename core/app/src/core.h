@@ -79,6 +79,7 @@ public slots:
   void openBook(const QUrl &file_url);
   void insertSheet(int index);
   void deleteSheet(int index);
+  void quitActions();
 private:
   QQmlEngine *_engine;
   QWindow *_main_window;
@@ -92,9 +93,10 @@ private:
   QMap<QString, QQmlComponent*> _map_componenet;
   QQmlComponent *_comp_sheet;
   QQmlComponent *_comp_panel;
+  QQuickItem *_panel_place;
   QQuickItem *_sheet_place;
   QList<Panel*> _panels;
-  QMap<QString, QList<Tool>> _tools;
+  QMap<QString, Tool> _tools;
   QList<Sheet*> _sheets;
   QList<IPlugin*> _plugins;
   bool _changes;
@@ -103,6 +105,8 @@ private:
   void openBookFiles(QuaZip *zip);
   void loadPlugins();
   void initPlugins();
+  void savePanels();
+  void loadPanels();
 };
 
 #endif // CORE_H

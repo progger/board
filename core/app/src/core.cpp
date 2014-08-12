@@ -117,7 +117,7 @@ void Core::showError(const QString &error)
 
 void Core::registerTool(Tool tool)
 {
-  _tools[tool.section].append(tool);
+  _tools.insert(tool.name, tool);
 }
 
 void Core::setChanges()
@@ -135,9 +135,12 @@ void Core::init(QWindow *main_window)
 {
   Q_ASSERT(main_window);
   _main_window = main_window;
+  _panel_place = _main_window->findChild<QQuickItem*>("panelPlace");
+  Q_ASSERT(_panel_place);
   _sheet_place = _main_window->findChild<QQuickItem*>("sheetPlace");
   Q_ASSERT(_sheet_place);
   initPlugins();
+  loadPanels();
   if (!g_brd_file.isEmpty())
   {
     openBook(g_brd_file);
@@ -275,6 +278,11 @@ void Core::deleteSheet(int index)
   emit sheetsChanged();
 }
 
+void Core::quitActions()
+{
+  savePanels();
+}
+
 Sheet *Core::createSheet()
 {
   Sheet *sheet = qobject_cast<Sheet*>(_comp_sheet->create());
@@ -404,6 +412,73 @@ void Core::initPlugins()
   {
     plugin->init();
   }
+}
+
+void Core::savePanels()
+{
+  int panel_count = _panels.size();
+  _settings->beginWriteArray("Panel", panel_count);
+  for (int i = 0; i < panel_count; ++i)
+  {
+    Panel *panel = _panels[i];
+    _settings->setArrayIndex(i);
+    _settings->setValue("x", panel->x());
+    _settings->setValue("y", panel->y());
+    _settings->setValue("color", panel->color());
+
+    int tool_count = panel->tools().size();
+    _settings->beginWriteArray("Tool", tool_count);
+    for (int j = 0; j < tool_count; ++j)
+    {
+      PanelTool *tool = panel->tools()[j];
+      _settings->setArrayIndex(j);
+      _settings->setValue("name", tool->name());
+      _settings->setValue("x", tool->buttonX());
+      _settings->setValue("y", tool->buttonY());
+    }
+    _settings->endArray();
+  }
+  _settings->endArray();
+}
+
+void Core::loadPanels()
+{
+  int panel_count = _settings->beginReadArray("Panel");
+  for (int i = 0; i < panel_count; ++i)
+  {
+    QObject *panel_obj = _comp_panel->create();
+    Q_ASSERT(panel_obj);
+    Panel *panel = qobject_cast<Panel*>(panel_obj);
+    Q_ASSERT(panel);
+    panel->setParent(_panel_place);
+    panel->setParentItem(_panel_place);
+    _settings->setArrayIndex(i);
+    panel->setX(_settings->value("x").toReal());
+    panel->setY(_settings->value("y").toReal());
+    panel->setColor(_settings->value("color").value<QColor>());
+    _panels.append(panel);
+
+    int tool_count = _settings->beginReadArray("Tool");
+    for (int j = 0; j < tool_count; ++j)
+    {
+      _settings->setArrayIndex(j);
+      QString name = _settings->value("name").toString();
+      auto it = _tools.find(name);
+      if (it != _tools.cend())
+      {
+        QQmlComponent *comp = getComponent(it.value().url_string);
+        Q_ASSERT(comp);
+        QObject *tool_obj = comp->create();
+        Q_ASSERT(tool_obj);
+        PanelTool *tool = qobject_cast<PanelTool*>(tool_obj);
+        Q_ASSERT(tool);
+        tool->setParent(panel);
+        panel->addTool(tool);
+      }
+    }
+    _settings->endArray();
+  }
+  _settings->endArray();
 }
 
 void Core::setKeyboard(bool keyboard)

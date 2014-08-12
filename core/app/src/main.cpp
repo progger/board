@@ -88,6 +88,7 @@ int main(int argc, char *argv[])
   else
     g_main_window->showFullScreen();
   int result = app.exec();
+  core->quitActions();
   delete obj;
   delete engine;
   delete core;

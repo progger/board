@@ -32,7 +32,7 @@ Core::Core(QQmlEngine *engine) :
   _sheets(),
   _changes(false)
 {
-  _root_dir = QDir::home();
+  _root_dir = QDir(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation));
   _root_dir.mkdir("board");
   _root_dir.cd("board");
   _settings = new QSettings(_root_dir.filePath("settings.ini"), QSettings::IniFormat, this);

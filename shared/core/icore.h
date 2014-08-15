@@ -14,7 +14,6 @@
 #include "ipaint.h"
 #include "isheet.h"
 #include "ibrdstore.h"
-#include "tool.h"
 
 class ICore {
 public:
@@ -31,7 +30,7 @@ public:
   virtual void logMessage(const QString &message) = 0;
   virtual void logError(const QString &error) = 0;
   virtual void showError(const QString &error) = 0;
-  virtual void registerTool(Tool tool) = 0;
+  virtual void registerTool(const QString &name, const QString &section, const QString &url_string) = 0;
   virtual void setChanges() = 0;
   virtual bool hasChanges() = 0;
 };

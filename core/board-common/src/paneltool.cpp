@@ -8,39 +8,19 @@
 
 PanelTool::PanelTool(QQuickItem *parent) :
   QQuickItem(parent),
-  _name(),
-  _button_x(0),
-  _button_y(0),
-  _button_width(1),
-  _button_height(1)
+  _tool_width(1),
+  _tool_height(1)
 {
 }
 
-void PanelTool::setName(const QString &name)
+void PanelTool::setToolWidth(int width)
 {
-  _name = name;
+  _tool_width = width;
+  emit toolWidthChanged();
 }
 
-void PanelTool::setButtonX(int x)
+void PanelTool::setToolHeight(int height)
 {
-  _button_x = x;
-  emit buttonXChanged();
-}
-
-void PanelTool::setButtonY(int y)
-{
-  _button_y = y;
-  emit buttonYChanged();
-}
-
-void PanelTool::setButtonWidth(int width)
-{
-  _button_width = width;
-  emit buttonWidthChanged();
-}
-
-void PanelTool::setButtonHeight(int height)
-{
-  _button_height = height;
-  emit buttonHeightChanged();
+  _tool_height = height;
+  emit toolHeightChanged();
 }

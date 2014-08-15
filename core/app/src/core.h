@@ -18,6 +18,7 @@
 #include "iplugin.h"
 #include "panel.h"
 #include "paint/sheet.h"
+#include "tool.h"
 
 class BrdStore;
 class Paint;
@@ -50,7 +51,7 @@ public:
   virtual void logMessage(const QString &message) override;
   virtual void logError(const QString &error) override;
   virtual void showError(const QString &error) override;
-  virtual void registerTool(Tool tool) override;
+  virtual void registerTool(const QString &name, const QString &section, const QString &url_string) override;
   virtual void setChanges() override;
   virtual bool hasChanges() override;
 
@@ -96,7 +97,7 @@ private:
   QQuickItem *_panel_place;
   QQuickItem *_sheet_place;
   QList<Panel*> _panels;
-  QMap<QString, Tool> _tools;
+  QMap<QString, Tool*> _tools;
   QList<Sheet*> _sheets;
   QList<IPlugin*> _plugins;
   bool _changes;

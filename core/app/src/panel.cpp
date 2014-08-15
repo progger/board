@@ -13,18 +13,18 @@ Panel::Panel(QQuickItem *parent) :
 {
 }
 
-QQmlListProperty<PanelTool> Panel::toolsProperty()
+QQmlListProperty<Tool> Panel::toolsProperty()
 {
-  return QQmlListProperty<PanelTool>(this, nullptr,
+  return QQmlListProperty<Tool>(this, nullptr,
 
-    [](QQmlListProperty<PanelTool> *list) -> int
+    [](QQmlListProperty<Tool> *list) -> int
     {
       Panel *panel = qobject_cast<Panel*>(list->object);
       Q_ASSERT(panel);
       return panel->tools().size();
     },
 
-    [](QQmlListProperty<PanelTool> *list, int index) -> PanelTool*
+    [](QQmlListProperty<Tool> *list, int index) -> Tool*
     {
       Panel *panel = qobject_cast<Panel*>(list->object);
       Q_ASSERT(panel);
@@ -38,14 +38,15 @@ void Panel::setColor(QColor color)
   emit colorChanged();
 }
 
-void Panel::addTool(PanelTool *tool)
+void Panel::addTool(Tool *tool)
 {
   _tools.append(tool);
   emit toolsChanged();
 }
 
-void Panel::removeTool(PanelTool *tool)
+void Panel::removeTool(Tool *tool)
 {
   _tools.removeAll(tool);
+  tool->deleteLater();
   emit toolsChanged();
 }

@@ -12,34 +12,21 @@
 class PanelTool : public QQuickItem
 {
   Q_OBJECT
-  Q_PROPERTY(int buttonX READ buttonX WRITE setButtonX NOTIFY buttonXChanged)
-  Q_PROPERTY(int buttonY READ buttonY WRITE setButtonY NOTIFY buttonYChanged)
-  Q_PROPERTY(int buttonWidth READ buttonWidth WRITE setButtonWidth NOTIFY buttonWidthChanged)
-  Q_PROPERTY(int buttonHeight READ buttonHeight WRITE setButtonHeight NOTIFY buttonHeightChanged)
+  Q_PROPERTY(int toolWidth READ toolWidth WRITE setToolWidth NOTIFY toolWidthChanged)
+  Q_PROPERTY(int toolHeight READ toolHeight WRITE setToolHeight NOTIFY toolHeightChanged)
 public:
   explicit PanelTool(QQuickItem *parent = 0);
-  QString name() const { return _name; }
-  void setName(const QString &name);
-  int buttonX() const { return _button_x; }
-  int buttonY() const { return _button_y; }
-  int buttonWidth() const { return _button_width; }
-  int buttonHeight() const { return _button_height; }
+  int toolWidth() const { return _tool_width; }
+  int toolHeight() const { return _tool_height; }
 signals:
-  void buttonXChanged();
-  void buttonYChanged();
-  void buttonWidthChanged();
-  void buttonHeightChanged();
+  void toolWidthChanged();
+  void toolHeightChanged();
 public slots:
-  void setButtonX(int x);
-  void setButtonY(int y);
-  void setButtonWidth(int width);
-  void setButtonHeight(int height);
+  void setToolWidth(int width);
+  void setToolHeight(int height);
 private:
-  QString _name;
-  int _button_x;
-  int _button_y;
-  int _button_width;
-  int _button_height;
+  int _tool_width;
+  int _tool_height;
 };
 
 #endif // PANELTOOL_H

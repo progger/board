@@ -18,6 +18,7 @@
 #include "paint/imagewrapper.h"
 #include "paint/videoplayer.h"
 #include "style.h"
+#include "paneltool.h"
 #include "core.h"
 
 Core::Core(QQmlEngine *engine) :
@@ -41,6 +42,7 @@ Core::Core(QQmlEngine *engine) :
   engine->setNetworkAccessManagerFactory(new BrdNetworkAccessManagerFactory(_brdStore, this));
   qmlRegisterType<Core>();
   qmlRegisterType<Paint>();
+  qmlRegisterType<Tool>();
   qmlRegisterType<Style>("board.core", 2, 0, "StyleQml");
   qmlRegisterType<Panel>("board.core", 2, 0, "Panel");
   qmlRegisterType<PanelTool>("board.core", 2, 0, "PanelTool");
@@ -115,9 +117,9 @@ void Core::showError(const QString &error)
   emit errorMessageBox(error);
 }
 
-void Core::registerTool(Tool tool)
+void Core::registerTool(const QString &name, const QString &section, const QString &url_string)
 {
-  _tools.insert(tool.name, tool);
+  _tools.insert(name, new Tool(name, section, url_string));
 }
 
 void Core::setChanges()
@@ -430,11 +432,11 @@ void Core::savePanels()
     _settings->beginWriteArray("Tool", tool_count);
     for (int j = 0; j < tool_count; ++j)
     {
-      PanelTool *tool = panel->tools()[j];
+      Tool *tool = panel->tools()[j];
       _settings->setArrayIndex(j);
       _settings->setValue("name", tool->name());
-      _settings->setValue("x", tool->buttonX());
-      _settings->setValue("y", tool->buttonY());
+      _settings->setValue("x", tool->x());
+      _settings->setValue("y", tool->y());
     }
     _settings->endArray();
   }
@@ -466,13 +468,9 @@ void Core::loadPanels()
       auto it = _tools.find(name);
       if (it != _tools.cend())
       {
-        QQmlComponent *comp = getComponent(it.value().url_string);
-        Q_ASSERT(comp);
-        QObject *tool_obj = comp->create();
-        Q_ASSERT(tool_obj);
-        PanelTool *tool = qobject_cast<PanelTool*>(tool_obj);
-        Q_ASSERT(tool);
-        tool->setParent(panel);
+        Tool *tool = new Tool(it.value(), panel);
+        tool->setX(_settings->value("x").toInt());
+        tool->setY(_settings->value("y").toInt());
         panel->addTool(tool);
       }
     }

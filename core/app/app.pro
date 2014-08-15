@@ -47,7 +47,8 @@ SOURCES += \
     src/paint/videoplayer.cpp \
     src/panel.cpp \
     src/str_stack/strstack.cpp \
-    src/style.cpp
+    src/style.cpp \
+    src/tool.cpp
 
 HEADERS += \
     src/brd/brdnetworkaccessmanager.h \
@@ -87,7 +88,8 @@ HEADERS += \
     src/paint/videoplayer.h \
     src/panel.h \
     src/str_stack/strstack.h \
-    src/style.h
+    src/style.h \
+    src/tool.h
 
 RESOURCES += app.qrc
 

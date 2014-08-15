@@ -27,8 +27,7 @@ HEADERS += \
     ../../shared/core/isheet.h \
     ../../shared/core/paneltool.h \
     ../../shared/core/shape.h \
-    ../../shared/core/shapegen.h \
-    ../../shared/core/tool.h
+    ../../shared/core/shapegen.h
 
 headers.path=/opt/board/include/board
 headers.files=$$HEADERS

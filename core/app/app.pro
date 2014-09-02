@@ -41,12 +41,13 @@ SOURCES += \
     src/paint/selectgen.cpp \
     src/paint/sheet.cpp \
     src/paint/sheetcanvas.cpp \
-    src/paint/textgen.cpp \
     src/paint/textwrapper.cpp \
     src/paint/videogen.cpp \
     src/paint/videoplayer.cpp \
     src/str_stack/strstack.cpp \
-    src/style.cpp
+    src/style.cpp \
+    src/paint/textgen.cpp \
+    src/paint/textedittool.cpp
 
 HEADERS += \
     src/brd/brdnetworkaccessmanager.h \
@@ -85,7 +86,8 @@ HEADERS += \
     src/paint/videogen.h \
     src/paint/videoplayer.h \
     src/str_stack/strstack.h \
-    src/style.h
+    src/style.h \
+    src/paint/textedittool.h
 
 OTHER_FILES += \
     qml/Board.qml \

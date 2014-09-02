@@ -15,6 +15,7 @@
 #include "paint/paint.h"
 #include "paint/sheetcanvas.h"
 #include "paint/textwrapper.h"
+#include "paint/textedittool.h"
 #include "paint/imagewrapper.h"
 #include "paint/videoplayer.h"
 #include "style.h"
@@ -55,6 +56,7 @@ Core::Core(QQmlEngine *engine) :
   engine->setNetworkAccessManagerFactory(new BrdNetworkAccessManagerFactory(_brdStore, this));
   qmlRegisterType<Core>();
   qmlRegisterType<Paint>();
+  qmlRegisterType<TextEditTool>();
   qmlRegisterType<Style>("board.core", 2, 0, "StyleQml");
   qmlRegisterType<Sheet>("board.core.paint", 2, 0, "Sheet");
   qmlRegisterType<SheetCanvas>("board.core.paint", 2, 0, "SheetCanvas");
@@ -68,9 +70,11 @@ Core::Core(QQmlEngine *engine) :
   });
 
   _paint = new Paint(this);
+  TextEditTool *text_edit_tool = new TextEditTool(this);
   auto context = engine->rootContext();
   context->setContextProperty("Core", this);
   context->setContextProperty("Paint", _paint);
+  context->setContextProperty("TextEditTool", text_edit_tool);
 
   _comp_sheet = getComponent("qrc:/core/qml/Sheet.qml");
   Q_ASSERT(_comp_sheet);

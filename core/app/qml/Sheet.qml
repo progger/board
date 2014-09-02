@@ -5,6 +5,8 @@
  */
 
 import QtQuick 2.1
+import QtQuick.Controls 1.1
+import board.core 2.0
 import board.core.paint 2.0
 import "sheet.js" as Js
 
@@ -118,32 +120,39 @@ Sheet {
             visible: false
             width: contentWidth
             height: contentHeight
+            textFormat: TextEdit.RichText
+            selectByMouse: true
             transform: Scale {
                 id: textInputScale
             }
 
-            onTextItemChanged: updateTextInput()
-            function updateTextInput()
-            {
-                if (textItem)
-                {
-                    visible = true;
-                    font.family = textItem.fontFamily;
-                    font.pixelSize = textItem.fontSize;
-                    color = textItem.color;
-                    textInputScale.xScale = textItem.scalex;
-                    textInputScale.yScale = textItem.scaley;
-                    text = textItem.text;
+            onTextItemChanged: {
+                if (textItem) {
+                    visible = true
+                    font.family = textItem.fontFamily
+                    font.pixelSize = textItem.fontSize
+                    color = textItem.color
+                    textInputScale.xScale = textItem.scalex
+                    textInputScale.yScale = textItem.scaley
+                    text = textItem.text
                     cursorPosition = positionAt((sheetCanvas.mouseX - textItem.x) / textItem.scalex,
-                                                (sheetCanvas.mouseY - textItem.y) / textItem.scaley);
-                    Core.keyboard = true;
+                                                (sheetCanvas.mouseY - textItem.y) / textItem.scaley)
+                    TextEditTool.init(textInput.textDocument)
+                    TextEditTool.selectionStart = textInput.selectionStart
+                    TextEditTool.selectionEnd = textInput.selectionEnd
+                    TextEditTool.bold = boldButton.checked
+                    TextEditTool.italic = italicButton.checked
+                    TextEditTool.underline = underlineButton.checked
+                    Core.keyboard = true
                 }
-                else
-                {
+                else {
                     visible = false;
                     Core.keyboard = false;
                 }
             }
+
+            onSelectionStartChanged: TextEditTool.selectionStart = selectionStart
+            onSelectionEndChanged: TextEditTool.selectionEnd = selectionEnd
 
             Rectangle {
                 anchors.fill: parent
@@ -151,6 +160,42 @@ Sheet {
                 border.color: "black"
                 border.width: 2
                 anchors.margins: -5
+            }
+
+            Row {
+                x: 0
+                y: -Style.buttonSize - 4
+                spacing: 4
+
+                Button {
+                    id: boldButton
+                    width: Style.buttonSize
+                    height: Style.buttonSize
+                    style: Style.normalButton
+                    checkable: true
+                    text: "B"
+                    onCheckedChanged: TextEditTool.bold = checked
+                }
+
+                Button {
+                    id: italicButton
+                    width: Style.buttonSize
+                    height: Style.buttonSize
+                    style: Style.normalButton
+                    checkable: true
+                    text: "I"
+                    onCheckedChanged: TextEditTool.italic = checked
+                }
+
+                Button {
+                    id: underlineButton
+                    width: Style.buttonSize
+                    height: Style.buttonSize
+                    style: Style.normalButton
+                    checkable: true
+                    text: "U"
+                    onCheckedChanged: TextEditTool.underline = checked
+                }
             }
         }
     }

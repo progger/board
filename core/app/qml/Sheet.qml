@@ -173,7 +173,7 @@ Sheet {
                     height: Style.buttonSize
                     style: Style.normalButton
                     checkable: true
-                    text: "B"
+                    iconSource: "qrc:/core/res/bold.svg"
                     onCheckedChanged: TextEditTool.bold = checked
                 }
 
@@ -183,7 +183,7 @@ Sheet {
                     height: Style.buttonSize
                     style: Style.normalButton
                     checkable: true
-                    text: "I"
+                    iconSource: "qrc:/core/res/italic.svg"
                     onCheckedChanged: TextEditTool.italic = checked
                 }
 
@@ -193,7 +193,7 @@ Sheet {
                     height: Style.buttonSize
                     style: Style.normalButton
                     checkable: true
-                    text: "U"
+                    iconSource: "qrc:/core/res/underline.svg"
                     onCheckedChanged: TextEditTool.underline = checked
                 }
             }

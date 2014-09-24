@@ -70,7 +70,7 @@ Core::Core(QQmlEngine *engine) :
   });
 
   _paint = new Paint(this);
-  TextEditTool *text_edit_tool = new TextEditTool(this);
+  TextEditTool *text_edit_tool = new TextEditTool(_paint, this);
   auto context = engine->rootContext();
   context->setContextProperty("Core", this);
   context->setContextProperty("Paint", _paint);

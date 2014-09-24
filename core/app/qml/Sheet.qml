@@ -148,6 +148,7 @@ Sheet {
                 else {
                     visible = false;
                     Core.keyboard = false;
+                    TextEditTool.init(null);
                 }
             }
 

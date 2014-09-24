@@ -5,13 +5,14 @@
  */
 
 #include <QTextCursor>
-#include "global.h"
 #include "textedittool.h"
 
-TextEditTool::TextEditTool(QObject *parent) :
+TextEditTool::TextEditTool(Paint *paint, QObject *parent) :
   QObject(parent),
+  _paint(paint),
   _selection_start(0),
   _selection_end(0),
+  _lock(false),
   _bold(false),
   _italic(false),
   _underline(false)
@@ -20,8 +21,19 @@ TextEditTool::TextEditTool(QObject *parent) :
 
 void TextEditTool::init(QQuickTextDocument *doc)
 {
-  _doc = doc->textDocument();
-  connect(_doc, SIGNAL(contentsChange(int,int,int)), SLOT(onContentChange(int,int,int)));
+  if (doc)
+  {
+    _doc = doc->textDocument();
+    connect(_doc, SIGNAL(contentsChange(int,int,int)), SLOT(onContentChange(int,int,int)));
+    connect(_paint, SIGNAL(colorChanged()), SLOT(onColorChanged()));
+    connect(_paint, SIGNAL(fontSizeChanged()), SLOT(onFontSizeChanged()));
+  }
+  else
+  {
+    _doc = nullptr;
+    disconnect(_paint, SIGNAL(colorChanged()));
+    disconnect(_paint, SIGNAL(fontSizeChanged()));
+  }
 }
 
 void TextEditTool::setSelectionStart(int selection_start)
@@ -39,28 +51,67 @@ void TextEditTool::setSelectionEnd(int selection_end)
 void TextEditTool::setBold(bool bold)
 {
   _bold = bold;
-  applyFormat();
+  _lock = true;
+  QTextCursor cursor(_doc);
+  for (int i = _selection_start; i < _selection_end; ++i)
+  {
+    cursor.setPosition(i);
+    cursor.setPosition(i + 1, QTextCursor::KeepAnchor);
+    QTextCharFormat fmt = cursor.charFormat();
+    QFont font = fmt.font();
+    font.setBold(_bold);
+    fmt.setFont(font);
+    cursor.setCharFormat(fmt);
+  }
+  _lock = false;
   emit boldChanged();
 }
 
 void TextEditTool::setItalic(bool italic)
 {
   _italic = italic;
-  applyFormat();
+  _lock = true;
+  QTextCursor cursor(_doc);
+  for (int i = _selection_start; i < _selection_end; ++i)
+  {
+    cursor.setPosition(i);
+    cursor.setPosition(i + 1, QTextCursor::KeepAnchor);
+    QTextCharFormat fmt = cursor.charFormat();
+    QFont font = fmt.font();
+    font.setItalic(_italic);
+    fmt.setFont(font);
+    cursor.setCharFormat(fmt);
+  }
+  _lock = false;
   emit italicChanged();
 }
 
 void TextEditTool::setUnderline(bool underline)
 {
   _underline = underline;
-  applyFormat();
+  _lock = true;
+  QTextCursor cursor(_doc);
+  for (int i = _selection_start; i < _selection_end; ++i)
+  {
+    cursor.setPosition(i);
+    cursor.setPosition(i + 1, QTextCursor::KeepAnchor);
+    QTextCharFormat fmt = cursor.charFormat();
+    QFont font = fmt.font();
+    font.setUnderline(_underline);
+    fmt.setFont(font);
+    cursor.setCharFormat(fmt);
+  }
+  _lock = false;
   emit underlineChanged();
 }
 
 void TextEditTool::onContentChange(int position, int chars_removed, int chars_added)
 {
   Q_UNUSED(chars_removed);
+  if (_lock) return;
+  if (!_doc) return;
   if (!chars_added) return;
+  if (position == 0 && chars_added >= _doc->characterCount()) return;
   QTextCursor cursor(_doc);
   cursor.setPosition(position);
   cursor.setPosition(position + chars_added, QTextCursor::KeepAnchor);
@@ -69,13 +120,40 @@ void TextEditTool::onContentChange(int position, int chars_removed, int chars_ad
   font.setBold(_bold);
   font.setItalic(_italic);
   font.setUnderline(_underline);
-  font.setPixelSize(g_core->paint()->fontSize());
+  font.setPixelSize(_paint->fontSize());
   fmt.setFont(font);
-  fmt.setForeground(QBrush(g_core->paint()->color()));
+  fmt.setForeground(QBrush(_paint->color()));
   cursor.mergeCharFormat(fmt);
 }
 
-void TextEditTool::applyFormat()
+void TextEditTool::onColorChanged()
 {
-  onContentChange(_selection_start, 0, _selection_end - _selection_start);
+  _lock = true;
+  QTextCursor cursor(_doc);
+  for (int i = _selection_start; i < _selection_end; ++i)
+  {
+    cursor.setPosition(i);
+    cursor.setPosition(i + 1, QTextCursor::KeepAnchor);
+    QTextCharFormat fmt = cursor.charFormat();
+    fmt.setForeground(QBrush(_paint->color()));
+    cursor.setCharFormat(fmt);
+  }
+  _lock = false;
+}
+
+void TextEditTool::onFontSizeChanged()
+{
+  _lock = true;
+  QTextCursor cursor(_doc);
+  for (int i = _selection_start; i < _selection_end; ++i)
+  {
+    cursor.setPosition(i);
+    cursor.setPosition(i + 1, QTextCursor::KeepAnchor);
+    QTextCharFormat fmt = cursor.charFormat();
+    QFont font = fmt.font();
+    font.setPixelSize(_paint->fontSize());
+    fmt.setFont(font);
+    cursor.setCharFormat(fmt);
+  }
+  _lock = false;
 }

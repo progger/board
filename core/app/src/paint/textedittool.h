@@ -8,6 +8,7 @@
 #define TEXTEDITTOOL_H
 
 #include <QQuickTextDocument>
+#include "paint.h"
 
 class TextEditTool : public QObject
 {
@@ -18,7 +19,7 @@ class TextEditTool : public QObject
   Q_PROPERTY(bool italic READ italic WRITE setItalic NOTIFY italicChanged)
   Q_PROPERTY(bool underline READ underline WRITE setUnderline NOTIFY underlineChanged)
 public:
-  explicit TextEditTool(QObject *parent = 0);
+  explicit TextEditTool(Paint *paint, QObject *parent = 0);
   int selectionStart() const { return _selection_start; }
   int selectionEnd() const { return _selection_end; }
   bool bold() const { return _bold; }
@@ -38,11 +39,14 @@ public slots:
   void setItalic(bool italic);
   void setUnderline(bool underline);
   void onContentChange(int position, int chars_removed, int chars_added);
+  void onColorChanged();
+  void onFontSizeChanged();
 private:
-  void applyFormat();
+  Paint *_paint;
   QTextDocument *_doc;
   int _selection_start;
   int _selection_end;
+  bool _lock;
   bool _bold;
   bool _italic;
   bool _underline;

@@ -30,9 +30,10 @@ void TextEditTool::init(QQuickTextDocument *doc)
   }
   else
   {
-    _doc = nullptr;
+    disconnect(_doc, SIGNAL(contentsChange(int,int,int)));
     disconnect(_paint, SIGNAL(colorChanged()));
     disconnect(_paint, SIGNAL(fontSizeChanged()));
+    _doc = nullptr;
   }
 }
 
@@ -128,6 +129,7 @@ void TextEditTool::onContentChange(int position, int chars_removed, int chars_ad
 
 void TextEditTool::onColorChanged()
 {
+  if (!_doc) return;
   _lock = true;
   QTextCursor cursor(_doc);
   for (int i = _selection_start; i < _selection_end; ++i)
@@ -143,6 +145,7 @@ void TextEditTool::onColorChanged()
 
 void TextEditTool::onFontSizeChanged()
 {
+  if (!_doc) return;
   _lock = true;
   QTextCursor cursor(_doc);
   for (int i = _selection_start; i < _selection_end; ++i)

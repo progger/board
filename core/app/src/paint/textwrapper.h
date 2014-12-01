@@ -38,7 +38,6 @@ private:
   QString _text;
   QString _font_family;
   int _font_size;
-  void updateInnerSize();
 };
 
 #endif // TEXTWRAPPER_H

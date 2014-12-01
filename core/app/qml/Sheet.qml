@@ -110,50 +110,57 @@ Sheet {
             visible: Paint.mode == "eraser" && sheetCanvas.containsMouse
         }
 
-        TextEdit {
-            id: textInput
-            objectName: "textInput"
-            property variant textGen
-            property variant textItem
+        Item {
+            id: textInputItem
+            property variant textItem: textInput.textItem
             x: textItem ? textItem.x : 0
             y: textItem ? textItem.y : 0
+            width: textInput.width * textInputScale.xScale
+            height: textInput.height * textInputScale.yScale
             visible: false
-            width: contentWidth
-            height: contentHeight
-            textFormat: TextEdit.RichText
-            selectByMouse: true
-            transform: Scale {
-                id: textInputScale
-            }
 
-            onTextItemChanged: {
-                if (textItem) {
-                    visible = true
-                    font.family = textItem.fontFamily
-                    font.pixelSize = textItem.fontSize
-                    color = textItem.color
-                    textInputScale.xScale = textItem.scalex
-                    textInputScale.yScale = textItem.scaley
-                    text = textItem.text
-                    cursorPosition = positionAt((sheetCanvas.mouseX - textItem.x) / textItem.scalex,
-                                                (sheetCanvas.mouseY - textItem.y) / textItem.scaley)
-                    TextEditTool.init(textInput.textDocument)
-                    TextEditTool.selectionStart = textInput.selectionStart
-                    TextEditTool.selectionEnd = textInput.selectionEnd
-                    TextEditTool.bold = boldButton.checked
-                    TextEditTool.italic = italicButton.checked
-                    TextEditTool.underline = underlineButton.checked
-                    Core.keyboard = true
+            TextEdit {
+                id: textInput
+                objectName: "textInput"
+                property variant textGen
+                property variant textItem
+                width: contentWidth
+                height: contentHeight
+                textFormat: TextEdit.RichText
+                selectByMouse: true
+                transform: Scale {
+                    id: textInputScale
                 }
-                else {
-                    visible = false;
-                    Core.keyboard = false;
-                    TextEditTool.init(null);
-                }
-            }
 
-            onSelectionStartChanged: TextEditTool.selectionStart = selectionStart
-            onSelectionEndChanged: TextEditTool.selectionEnd = selectionEnd
+                onTextItemChanged: {
+                    if (textItem) {
+                        textInputItem.visible = true
+                        font.family = textItem.fontFamily
+                        font.pixelSize = textItem.fontSize
+                        color = textItem.color
+                        textInputScale.xScale = textItem.scalex
+                        textInputScale.yScale = textItem.scaley
+                        text = textItem.text
+                        cursorPosition = positionAt((sheetCanvas.mouseX - textItem.x) / textItem.scalex,
+                                                    (sheetCanvas.mouseY - textItem.y) / textItem.scaley)
+                        TextEditTool.init(textInput.textDocument)
+                        TextEditTool.selectionStart = textInput.selectionStart
+                        TextEditTool.selectionEnd = textInput.selectionEnd
+                        TextEditTool.bold = boldButton.checked
+                        TextEditTool.italic = italicButton.checked
+                        TextEditTool.underline = underlineButton.checked
+                        Core.keyboard = true
+                    }
+                    else {
+                        textInputItem.visible = false;
+                        Core.keyboard = false;
+                        TextEditTool.init(null);
+                    }
+                }
+
+                onSelectionStartChanged: TextEditTool.selectionStart = selectionStart
+                onSelectionEndChanged: TextEditTool.selectionEnd = selectionEnd
+            }
 
             Rectangle {
                 anchors.fill: parent

@@ -5,6 +5,8 @@
  */
 
 import QtQuick 2.1
+import QtQuick.Controls 1.1
+import board.core 2.0
 import board.core.paint 2.0
 import "sheet.js" as Js
 
@@ -108,41 +110,56 @@ Sheet {
             visible: Paint.mode == "eraser" && sheetCanvas.containsMouse
         }
 
-        TextEdit {
-            id: textInput
-            objectName: "textInput"
-            property variant textGen
-            property variant textItem
+        Item {
+            id: textInputItem
+            property variant textItem: textInput.textItem
             x: textItem ? textItem.x : 0
             y: textItem ? textItem.y : 0
+            width: textInput.width * textInputScale.xScale
+            height: textInput.height * textInputScale.yScale
             visible: false
-            width: contentWidth
-            height: contentHeight
-            transform: Scale {
-                id: textInputScale
-            }
 
-            onTextItemChanged: updateTextInput()
-            function updateTextInput()
-            {
-                if (textItem)
-                {
-                    visible = true;
-                    font.family = textItem.fontFamily;
-                    font.pixelSize = textItem.fontSize;
-                    color = textItem.color;
-                    textInputScale.xScale = textItem.scalex;
-                    textInputScale.yScale = textItem.scaley;
-                    text = textItem.text;
-                    cursorPosition = positionAt((sheetCanvas.mouseX - textItem.x) / textItem.scalex,
-                                                (sheetCanvas.mouseY - textItem.y) / textItem.scaley);
-                    Core.keyboard = true;
+            TextEdit {
+                id: textInput
+                objectName: "textInput"
+                property variant textGen
+                property variant textItem
+                width: contentWidth
+                height: contentHeight
+                textFormat: TextEdit.RichText
+                selectByMouse: true
+                transform: Scale {
+                    id: textInputScale
                 }
-                else
-                {
-                    visible = false;
-                    Core.keyboard = false;
+
+                onTextItemChanged: {
+                    if (textItem) {
+                        textInputItem.visible = true
+                        font.family = textItem.fontFamily
+                        font.pixelSize = textItem.fontSize
+                        color = textItem.color
+                        textInputScale.xScale = textItem.scalex
+                        textInputScale.yScale = textItem.scaley
+                        text = textItem.text
+                        cursorPosition = positionAt((sheetCanvas.mouseX - textItem.x) / textItem.scalex,
+                                                    (sheetCanvas.mouseY - textItem.y) / textItem.scaley)
+                        TextEditTool.init(textInput.textDocument)
+                        TextEditTool.selectionStart = textInput.selectionStart
+                        TextEditTool.selectionEnd = textInput.selectionEnd
+                        TextEditTool.bold = boldButton.checked
+                        TextEditTool.italic = italicButton.checked
+                        TextEditTool.underline = underlineButton.checked
+                        Core.keyboard = true
+                    }
+                    else {
+                        textInputItem.visible = false;
+                        Core.keyboard = false;
+                        TextEditTool.init(null);
+                    }
                 }
+
+                onSelectionStartChanged: TextEditTool.selectionStart = selectionStart
+                onSelectionEndChanged: TextEditTool.selectionEnd = selectionEnd
             }
 
             Rectangle {
@@ -151,6 +168,42 @@ Sheet {
                 border.color: "black"
                 border.width: 2
                 anchors.margins: -5
+            }
+
+            Row {
+                x: 0
+                y: -Style.buttonSize - 4
+                spacing: 4
+
+                Button {
+                    id: boldButton
+                    width: Style.buttonSize
+                    height: Style.buttonSize
+                    style: Style.normalButton
+                    checkable: true
+                    iconSource: "qrc:/core/res/bold.svg"
+                    onCheckedChanged: TextEditTool.bold = checked
+                }
+
+                Button {
+                    id: italicButton
+                    width: Style.buttonSize
+                    height: Style.buttonSize
+                    style: Style.normalButton
+                    checkable: true
+                    iconSource: "qrc:/core/res/italic.svg"
+                    onCheckedChanged: TextEditTool.italic = checked
+                }
+
+                Button {
+                    id: underlineButton
+                    width: Style.buttonSize
+                    height: Style.buttonSize
+                    style: Style.normalButton
+                    checkable: true
+                    iconSource: "qrc:/core/res/underline.svg"
+                    onCheckedChanged: TextEditTool.underline = checked
+                }
             }
         }
     }

@@ -15,6 +15,7 @@
 #include "paint/paint.h"
 #include "paint/sheetcanvas.h"
 #include "paint/textwrapper.h"
+#include "paint/textedittool.h"
 #include "paint/imagewrapper.h"
 #include "paint/videoplayer.h"
 #include "style.h"
@@ -43,6 +44,7 @@ Core::Core(QQmlEngine *engine) :
   qmlRegisterType<Core>();
   qmlRegisterType<Paint>();
   qmlRegisterType<Tool>();
+  qmlRegisterType<TextEditTool>();
   qmlRegisterType<Style>("board.core", 2, 0, "StyleQml");
   qmlRegisterType<Panel>("board.core", 2, 0, "Panel");
   qmlRegisterType<PanelTool>("board.core", 2, 0, "PanelTool");
@@ -53,9 +55,11 @@ Core::Core(QQmlEngine *engine) :
   qmlRegisterType<VideoPlayer>("board.core.paint", 2, 0, "VideoPlayer");
 
   _paint = new Paint(this);
+  TextEditTool *text_edit_tool = new TextEditTool(_paint, this);
   auto context = engine->rootContext();
   context->setContextProperty("Core", this);
   context->setContextProperty("Paint", _paint);
+  context->setContextProperty("TextEditTool", text_edit_tool);
 
   QQmlComponent *comp_style = getComponent("qrc:/core/qml/StyleQml.qml");
   Q_ASSERT(comp_style);

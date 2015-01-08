@@ -15,6 +15,7 @@ TextWrapper {
         color: textWrapper.color
         font.family: textWrapper.fontFamily
         font.pixelSize: textWrapper.fontSize
+        textFormat: TextEdit.RichText
         transform: Scale {
             xScale: textWrapper.scalex
             yScale: textWrapper.scaley

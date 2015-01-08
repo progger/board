@@ -22,6 +22,7 @@
         <file>res/add.svg</file>
         <file>res/backspace.svg</file>
         <file>res/back.svg</file>
+        <file>res/bold.svg</file>
         <file>res/circle.svg</file>
         <file>res/close.svg</file>
         <file>res/delete.svg</file>
@@ -34,6 +35,7 @@
         <file>res/font_size.svg</file>
         <file>res/help</file>
         <file>res/image.svg</file>
+        <file>res/italic.svg</file>
         <file>res/left_arrow.svg</file>
         <file>res/line.svg</file>
         <file>res/magic_pen.svg</file>
@@ -53,6 +55,7 @@
         <file>res/thickness.svg</file>
         <file>res/to_front.svg</file>
         <file>res/to_back.svg</file>
+        <file>res/underline.svg</file>
         <file>res/undo.svg</file>
         <file>res/up_arrow.svg</file>
         <file>res/video.svg</file>

@@ -75,6 +75,7 @@ void TextGen::endEdit()
     {
       _item->setWidth(_text_input->width() * _item->scalex());
       _item->setHeight(_text_input->height() * _item->scaley());
+      _item->setInnerSize(QSizeF(_text_input->width(), _text_input->height()));
       _item->setProperty("text", _text_input->property("text"));
       _item->setVisible(true);
     }

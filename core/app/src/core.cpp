@@ -22,10 +22,11 @@
 #include "paneltool.h"
 #include "core.h"
 
-Core::Core(QQmlEngine *engine) :
+Core::Core(QQmlEngine *engine, bool window_mode) :
   QObject(),
   _engine(engine),
   _main_window(nullptr),
+  _window_mode(window_mode),
   _keyboard(false),
   _transparent(false),
   _map_componenet(),
@@ -137,7 +138,7 @@ bool Core::hasChanges()
   return _changes;
 }
 
-void Core::init(QWindow *main_window)
+void Core::init(QWindow *main_window, const QString &brd_file)
 {
   Q_ASSERT(main_window);
   _main_window = main_window;
@@ -147,9 +148,9 @@ void Core::init(QWindow *main_window)
   Q_ASSERT(_sheet_place);
   initPlugins();
   loadPanels();
-  if (!g_brd_file.isEmpty())
+  if (!brd_file.isEmpty())
   {
-    openBook(g_brd_file);
+    openBook(brd_file);
   }
   else
   {
@@ -164,7 +165,7 @@ void Core::init(QWindow *main_window)
 
 bool Core::windowMode() const
 {
-  return g_window_mode;
+  return _window_mode;
 }
 
 QQmlComponent *Core::getComponent(const QString &url_string)

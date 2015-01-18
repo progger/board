@@ -24,7 +24,7 @@ void help()
   exit(EXIT_SUCCESS);
 }
 
-void parseCmd()
+void parseCmd(QString &brd_file, bool &window_mode)
 {
   QStringList args = QCoreApplication::arguments();
   int count = args.count();
@@ -39,11 +39,11 @@ void parseCmd()
       }
       else if (param == "--window" || param == "-w")
       {
-        g_window_mode = true;
+        window_mode = true;
       }
       else if (param == "--fullscreen" || param == "-f")
       {
-        g_window_mode = false;
+        window_mode = false;
       }
       else
       {
@@ -54,9 +54,9 @@ void parseCmd()
     }
     else
     {
-      if (g_brd_file.isEmpty())
+      if (brd_file.isEmpty())
       {
-        g_brd_file = param;
+        brd_file = param;
       }
     }
   }
@@ -65,11 +65,13 @@ void parseCmd()
 int main(int argc, char *argv[])
 {
   QApplication app(argc, argv);
-  parseCmd();
+  QString brd_file;
+  bool window_mode = true;
+  parseCmd(brd_file, window_mode);
   qsrand(QDateTime::currentMSecsSinceEpoch());
 
   QQmlEngine *engine = new QQmlEngine();
-  Core *core = new Core(engine);
+  Core *core = new Core(engine, window_mode);
   g_core = core;
   QQuickWindow::setDefaultAlphaBuffer(true);
   QQmlComponent *component = core->getComponent("qrc:/core/qml/Board.qml");
@@ -79,14 +81,14 @@ int main(int argc, char *argv[])
   }
   QObject *obj = component->create();
   Q_ASSERT(obj);
-  g_main_window = qobject_cast<QWindow*>(obj);
-  Q_ASSERT(g_main_window);
+  QWindow *main_window = qobject_cast<QWindow*>(obj);
+  Q_ASSERT(main_window);
 
-  core->init(g_main_window);
-  if (g_window_mode)
-    g_main_window->showMaximized();
+  core->init(main_window, brd_file);
+  if (window_mode)
+    main_window->showMaximized();
   else
-    g_main_window->showFullScreen();
+    main_window->showFullScreen();
   int result = app.exec();
   core->quitActions();
   delete obj;

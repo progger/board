@@ -6,7 +6,4 @@
 
 #include "global.h"
 
-bool g_window_mode = true;
-QString g_brd_file;
 ICore *g_core;
-QWindow *g_main_window;

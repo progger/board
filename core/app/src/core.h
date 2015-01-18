@@ -36,7 +36,7 @@ class Core : public QObject, public ICore
   Q_PROPERTY(Paint paint READ paintObj CONSTANT FINAL)
   Q_PROPERTY(QQmlListProperty<Sheet> sheets READ sheetsProperty NOTIFY sheetsChanged FINAL)
 public:
-  explicit Core(QQmlEngine *engine);
+  explicit Core(QQmlEngine *engine, bool window_mode);
 
   // ICore
   virtual QWindow *mainWindow() override;
@@ -55,7 +55,7 @@ public:
   virtual void setChanges() override;
   virtual bool hasChanges() override;
 
-  void init(QWindow *main_window);
+  void init(QWindow *main_window, const QString &brd_file);
   bool windowMode() const;
   bool keyboard() const { return _keyboard; }
   bool transparent() const { return _transparent; }
@@ -84,6 +84,7 @@ public slots:
 private:
   QQmlEngine *_engine;
   QWindow *_main_window;
+  bool _window_mode;
   bool _keyboard;
   bool _transparent;
   int _sheet_index;

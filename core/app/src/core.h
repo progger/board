@@ -13,7 +13,7 @@
 #include <QDir>
 #include <QSettings>
 #include <QQmlListProperty>
-#include "quazip.h"
+#include <quazip/quazip.h>
 #include "icore.h"
 #include "iplugin.h"
 #include "panel.h"

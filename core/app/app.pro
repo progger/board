@@ -2,13 +2,12 @@ QT += core gui qml quick widgets
 
 TARGET = board
 TEMPLATE = app
-LIBS += -lz
+LIBS += -lquazip-qt5
 DESTDIR =  ../../bin
 LIBSDIR = ../../bin
 DEPENDENCY_LIBRARIES = board-common
 
 include(../../main.pri)
-include(../../third-party/quazip-0.5.1/quazip/quazip.pri)
 
 SOURCES += \
     src/brd/brdnetworkaccessmanager.cpp \

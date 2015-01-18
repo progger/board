@@ -45,10 +45,10 @@ SOURCES += \
     src/paint/textwrapper.cpp \
     src/paint/videogen.cpp \
     src/paint/videoplayer.cpp \
-    src/panel.cpp \
+    src/panel/panel.cpp \
+    src/panel/tool.cpp \
     src/str_stack/strstack.cpp \
-    src/style.cpp \
-    src/tool.cpp
+    src/style.cpp
 
 HEADERS += \
     src/brd/brdnetworkaccessmanager.h \
@@ -87,10 +87,10 @@ HEADERS += \
     src/paint/textwrapper.h \
     src/paint/videogen.h \
     src/paint/videoplayer.h \
-    src/panel.h \
+    src/panel/panel.h \
+    src/panel/tool.h \
     src/str_stack/strstack.h \
-    src/style.h \
-    src/tool.h
+    src/style.h
 
 RESOURCES += app.qrc
 

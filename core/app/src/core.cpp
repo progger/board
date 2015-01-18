@@ -432,11 +432,12 @@ void Core::savePanels()
     _settings->setValue("y", panel->y());
     _settings->setValue("color", panel->color());
 
-    int tool_count = panel->tools().size();
+    QList<Tool*> tools = panel->tools();
+    int tool_count = tools.size();
     _settings->beginWriteArray("Tool", tool_count);
     for (int j = 0; j < tool_count; ++j)
     {
-      Tool *tool = panel->tools()[j];
+      Tool *tool = tools[j];
       _settings->setArrayIndex(j);
       _settings->setValue("name", tool->name());
       _settings->setValue("x", tool->x());

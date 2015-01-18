@@ -16,9 +16,9 @@
 #include <quazip/quazip.h>
 #include "icore.h"
 #include "iplugin.h"
-#include "panel.h"
 #include "paint/sheet.h"
-#include "tool.h"
+#include "panel/panel.h"
+#include "panel/tool.h"
 
 class BrdStore;
 class Paint;

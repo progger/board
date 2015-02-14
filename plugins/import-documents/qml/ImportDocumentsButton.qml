@@ -11,14 +11,12 @@ import board.core 2.0
 import board.importdocuments 2.0
 
 Item {
-    width: button.width
+    anchors.fill: parent
 
     Button {
         id: button
-        anchors.verticalCenter: parent.verticalCenter
         style: Style.normalButton
-        width: height
-        height: parent.height - 6
+        anchors.fill: parent
         tooltip: "импорт документа"
         iconSource: "qrc:/import-documents/res/import.svg"
         onClicked: openDialog.open()

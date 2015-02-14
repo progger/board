@@ -44,10 +44,11 @@ Core::Core(QQmlEngine *engine, bool window_mode) :
   engine->setNetworkAccessManagerFactory(new BrdNetworkAccessManagerFactory(_brdStore, this));
   qmlRegisterType<Core>();
   qmlRegisterType<Paint>();
+  qmlRegisterType<ToolInfo>();
   qmlRegisterType<Tool>();
+  qmlRegisterType<Panel>();
   qmlRegisterType<TextEditTool>();
   qmlRegisterType<Style>("board.core", 2, 0, "StyleQml");
-  qmlRegisterType<Panel>("board.core", 2, 0, "Panel");
   qmlRegisterType<PanelTool>("board.core", 2, 0, "PanelTool");
   qmlRegisterType<Sheet>("board.core.paint", 2, 0, "Sheet");
   qmlRegisterType<SheetCanvas>("board.core.paint", 2, 0, "SheetCanvas");
@@ -70,8 +71,6 @@ Core::Core(QQmlEngine *engine, bool window_mode) :
 
   _comp_sheet = getComponent("qrc:/core/qml/Sheet.qml");
   Q_ASSERT(_comp_sheet);
-  _comp_panel = getComponent("qrc:/core/qml/Panel.qml");
-  Q_ASSERT(_comp_panel);
 
   loadPlugins();
 }
@@ -122,9 +121,9 @@ void Core::showError(const QString &error)
   emit errorMessageBox(error);
 }
 
-void Core::registerTool(const QString &name, const QString &section, const QString &url_string)
+void Core::registerTool(const QString &name, const QString &section, QQmlComponent *component, int width, int height)
 {
-  _tools.insert(name, new Tool(name, section, url_string));
+  _tools.insert(name, new ToolInfo(name, section, component, width, height));
 }
 
 void Core::setChanges()
@@ -142,8 +141,6 @@ void Core::init(QWindow *main_window, const QString &brd_file)
 {
   Q_ASSERT(main_window);
   _main_window = main_window;
-  _panel_place = _main_window->findChild<QQuickItem*>("panelPlace");
-  Q_ASSERT(_panel_place);
   _sheet_place = _main_window->findChild<QQuickItem*>("sheetPlace");
   Q_ASSERT(_sheet_place);
   initPlugins();
@@ -199,21 +196,36 @@ void Core::logError(const QString &error)
 
 QQmlListProperty<Sheet> Core::sheetsProperty()
 {
-  return QQmlListProperty<Sheet>(this, nullptr,
+  auto count_func = [](QQmlListProperty<Sheet> *list)
+  {
+    Core *core = qobject_cast<Core*>(list->object);
+    Q_ASSERT(core);
+    return core->sheets().size();
+  };
+  auto at_func = [](QQmlListProperty<Sheet> *list, int index)
+  {
+    Core *core = qobject_cast<Core*>(list->object);
+    Q_ASSERT(core);
+    return core->sheets().at(index);
+  };
+  return QQmlListProperty<Sheet>(this, nullptr, count_func, at_func);
+}
 
-    [](QQmlListProperty<Sheet> *list) -> int
-    {
-      Core *core = qobject_cast<Core*>(list->object);
-      Q_ASSERT(core);
-      return core->sheets().size();
-    },
-
-    [](QQmlListProperty<Sheet> *list, int index) -> Sheet*
-    {
-      Core *core = qobject_cast<Core*>(list->object);
-      Q_ASSERT(core);
-      return core->sheets().at(index);
-    });
+QQmlListProperty<Panel> Core::panelsProperty()
+{
+  auto count_func = [](QQmlListProperty<Panel> *list)
+  {
+    Core *core = qobject_cast<Core*>(list->object);
+    Q_ASSERT(core);
+    return core->panels().size();
+  };
+  auto at_func = [](QQmlListProperty<Panel> *list, int index)
+  {
+    Core *core = qobject_cast<Core*>(list->object);
+    Q_ASSERT(core);
+    return core->panels().at(index);
+  };
+  return QQmlListProperty<Panel>(this, nullptr, count_func, at_func);
 }
 
 void Core::emulateKeyPress(int key, int modifiers, const QString &text) const
@@ -454,12 +466,7 @@ void Core::loadPanels()
   int panel_count = _settings->beginReadArray("Panel");
   for (int i = 0; i < panel_count; ++i)
   {
-    QObject *panel_obj = _comp_panel->create();
-    Q_ASSERT(panel_obj);
-    Panel *panel = qobject_cast<Panel*>(panel_obj);
-    Q_ASSERT(panel);
-    panel->setParent(_panel_place);
-    panel->setParentItem(_panel_place);
+    Panel *panel = new Panel(this);
     _settings->setArrayIndex(i);
     panel->setX(_settings->value("x").toReal());
     panel->setY(_settings->value("y").toReal());
@@ -483,6 +490,7 @@ void Core::loadPanels()
     _settings->endArray();
   }
   _settings->endArray();
+  emit panelsChanged();
 }
 
 void Core::setKeyboard(bool keyboard)

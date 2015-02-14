@@ -6,8 +6,12 @@
 
 #include "panel.h"
 
-Panel::Panel(QQuickItem *parent) :
-  QQuickItem(parent),
+Panel::Panel(QObject *parent) :
+  QObject(parent),
+  _x(0),
+  _y(0),
+  _width(0),
+  _height(0),
   _color(),
   _tools()
 {
@@ -15,21 +19,31 @@ Panel::Panel(QQuickItem *parent) :
 
 QQmlListProperty<Tool> Panel::toolsProperty()
 {
-  return QQmlListProperty<Tool>(this, nullptr,
+  auto count_func = [](QQmlListProperty<Tool> *list)
+  {
+    Panel *panel = qobject_cast<Panel*>(list->object);
+    Q_ASSERT(panel);
+    return panel->tools().size();
+  };
+  auto at_func =  [](QQmlListProperty<Tool> *list, int index)
+  {
+    Panel *panel = qobject_cast<Panel*>(list->object);
+    Q_ASSERT(panel);
+    return panel->tools().at(index);
+  };
+  return QQmlListProperty<Tool>(this, nullptr, count_func, at_func);
+}
 
-    [](QQmlListProperty<Tool> *list) -> int
-    {
-      Panel *panel = qobject_cast<Panel*>(list->object);
-      Q_ASSERT(panel);
-      return panel->tools().size();
-    },
+void Panel::setX(int x)
+{
+  _x = x;
+  emit xChanged();
+}
 
-    [](QQmlListProperty<Tool> *list, int index) -> Tool*
-    {
-      Panel *panel = qobject_cast<Panel*>(list->object);
-      Q_ASSERT(panel);
-      return panel->tools().at(index);
-    });
+void Panel::setY(int y)
+{
+  _y = y;
+  emit yChanged();
 }
 
 void Panel::setColor(QColor color)
@@ -41,6 +55,7 @@ void Panel::setColor(QColor color)
 void Panel::addTool(Tool *tool)
 {
   _tools.append(tool);
+  updateSize();
   emit toolsChanged();
 }
 
@@ -48,5 +63,19 @@ void Panel::removeTool(Tool *tool)
 {
   _tools.removeAll(tool);
   tool->deleteLater();
+  updateSize();
   emit toolsChanged();
+}
+
+void Panel::updateSize()
+{
+  _width = 0;
+  _height = 0;
+  for (Tool *tool : _tools)
+  {
+    int w = tool->x() + tool->width();
+    if (_width < w) _width = w;
+    int h = tool->y() + tool->height();
+    if (_height < h) _height = h;
+  }
 }

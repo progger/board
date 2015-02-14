@@ -13,6 +13,7 @@ StyleQml {
     property color panelColor: "#E0E0E0"
     property int panelSize: 40
     property int buttonSize: 36
+    property int buttonSpacing: 4
 
     property Component normalButton: ButtonStyle {
         background: Rectangle {

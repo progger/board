@@ -47,6 +47,7 @@ SOURCES += \
     src/paint/videoplayer.cpp \
     src/panel/panel.cpp \
     src/panel/tool.cpp \
+    src/panel/toolinfo.cpp \
     src/str_stack/strstack.cpp \
     src/style.cpp
 
@@ -89,6 +90,7 @@ HEADERS += \
     src/paint/videoplayer.h \
     src/panel/panel.h \
     src/panel/tool.h \
+    src/panel/toolinfo.h \
     src/str_stack/strstack.h \
     src/style.h
 

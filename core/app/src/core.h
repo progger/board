@@ -18,7 +18,6 @@
 #include "iplugin.h"
 #include "paint/sheet.h"
 #include "panel/panel.h"
-#include "panel/tool.h"
 
 class BrdStore;
 class Paint;
@@ -35,6 +34,7 @@ class Core : public QObject, public ICore
   Q_PROPERTY(int sheetIndex READ sheetIndex WRITE setSheetIndex NOTIFY sheetIndexChanged FINAL)
   Q_PROPERTY(Paint paint READ paintObj CONSTANT FINAL)
   Q_PROPERTY(QQmlListProperty<Sheet> sheets READ sheetsProperty NOTIFY sheetsChanged FINAL)
+  Q_PROPERTY(QQmlListProperty<Panel> panels READ panelsProperty NOTIFY panelsChanged FINAL)
 public:
   explicit Core(QQmlEngine *engine, bool window_mode);
 
@@ -51,7 +51,7 @@ public:
   virtual void logMessage(const QString &message) override;
   virtual void logError(const QString &error) override;
   virtual void showError(const QString &error) override;
-  virtual void registerTool(const QString &name, const QString &section, const QString &url_string) override;
+  virtual void registerTool(const QString &name, const QString &section, QQmlComponent *component, int width, int height) override;
   virtual void setChanges() override;
   virtual bool hasChanges() override;
 
@@ -62,11 +62,14 @@ public:
   Paint *paintObj() const { return _paint; }
   QList<Sheet*> sheets() const { return _sheets; }
   QQmlListProperty<Sheet> sheetsProperty();
+  QList<Panel*> panels() const { return _panels; }
+  QQmlListProperty<Panel> panelsProperty();
 signals:
   void keyboardChanged();
   void transparentChanged();
   void sheetIndexChanged();
   void sheetsChanged();
+  void panelsChanged();
   void hasChangesChanged();
   void errorMessageBox(const QString &error);
 public slots:
@@ -94,11 +97,9 @@ private:
   Paint *_paint;
   QMap<QString, QQmlComponent*> _map_componenet;
   QQmlComponent *_comp_sheet;
-  QQmlComponent *_comp_panel;
-  QQuickItem *_panel_place;
   QQuickItem *_sheet_place;
   QList<Panel*> _panels;
-  QMap<QString, Tool*> _tools;
+  QMap<QString, ToolInfo*> _tools;
   QList<Sheet*> _sheets;
   QList<IPlugin*> _plugins;
   bool _changes;

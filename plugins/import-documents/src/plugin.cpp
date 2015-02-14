@@ -22,6 +22,7 @@ void Plugin::init()
   {
     return new ImportDoc();
   });
-  g_core->registerTool("import-documents", "Импорт", "qrc:/import-documents/qml/ImportDocumentsButton.qml");
+  QQmlComponent *component = g_core->getComponent("qrc:/import-documents/qml/ImportDocumentsButton.qml");
+  g_core->registerTool("import-documents", "Импорт", component, 1, 1);
   g_core->paint()->RegisterShape("PdfViewer", []() -> Shape* { return static_cast<Shape*>(g_core->getComponent("qrc:/import-documents/qml/PdfViewer.qml")->create()); });
 }

@@ -6,24 +6,20 @@
 
 #include "tool.h"
 
-Tool::Tool(const QString &name, const QString &section, const QString &url_string, QObject *parent) :
-  QObject(parent),
-  _name(name),
-  _section(section),
-  _url_string(url_string),
+Tool::Tool(ToolInfo *tool_info, QObject *parent) :
+  ToolInfo(tool_info->name(), tool_info->section(), tool_info->component(), tool_info->width(), tool_info->height(), parent),
   _x(0),
   _y(0)
 {
 }
 
-Tool::Tool(Tool *tool, QObject *parent) :
-  QObject(parent),
-  _name(tool->name()),
-  _section(tool->section()),
-  _url_string(tool->urlString()),
-  _x(0),
-  _y(0)
+void Tool::create(QQuickItem *parent)
 {
+  QObject *obj = component()->create();
+  QQuickItem *item = qobject_cast<QQuickItem*>(obj);
+  Q_ASSERT(item);
+  item->setParent(parent);
+  item->setParentItem(parent);
 }
 
 void Tool::setX(int x)

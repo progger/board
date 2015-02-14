@@ -29,19 +29,17 @@ Window {
     }
 
     ModeBar {
-        z:2
+        z: 2
         x: 10
         y: (parent.height - height) / 2
     }
 
-    Item {
-        id: panelPlace
-        objectName: "panelPlace"
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: toolBar.bottom
-        anchors.bottom: parent.bottom
-        z: 2
+    Repeater {
+        model: Core.panels
+        PanelQml {
+            z: 2
+            panel: modelData
+        }
     }
 
     Item {

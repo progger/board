@@ -301,7 +301,7 @@ Rectangle {
     Button {
         id: transparentButton
         style: Style.normalButton
-        anchors.right: Core.windowMode ? parent.right : minimizeButton.left
+        anchors.right: settingsButton.left
         anchors.verticalCenter: parent.verticalCenter
         anchors.rightMargin: 4
         width: buttonSize
@@ -310,6 +310,20 @@ Rectangle {
         iconSource: "qrc:/core/res/desktop.svg"
         checked: Core.transparent
         onClicked: Core.transparent = !Core.transparent
+    }
+
+    Button {
+        id: settingsButton
+        style: Style.normalButton
+        anchors.right: Core.windowMode ? parent.right : minimizeButton.left
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.rightMargin: 4
+        width: buttonSize
+        height: buttonSize
+        tooltip: "Натройки"
+        iconSource: "qrc:/core/res/settings.svg"
+        checked: settings.opacity
+        onClicked: settings.opacity = !settings.opacity
     }
 
     Button {

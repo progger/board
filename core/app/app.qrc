@@ -12,6 +12,7 @@
         <file>qml/PopupMenu.qml</file>
         <file>qml/ScrollBar.qml</file>
         <file>qml/ScrollButton.qml</file>
+        <file>qml/Settings.qml</file>
         <file>qml/sheet.js</file>
         <file>qml/Sheet.qml</file>
         <file>qml/SpinBoxEx.qml</file>
@@ -50,6 +51,7 @@
         <file>res/right_arrow.svg</file>
         <file>res/save.svg</file>
         <file>res/select.svg</file>
+        <file>res/settings.svg</file>
         <file>res/stop.svg</file>
         <file>res/text.svg</file>
         <file>res/thickness.svg</file>

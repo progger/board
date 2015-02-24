@@ -28,6 +28,20 @@ Window {
         height: Style.panelSize
     }
 
+    Settings {
+        id: settings
+        z: 3
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: toolBar.bottom
+        anchors.bottom: parent.bottom
+        opacity: 0
+        enabled: opacity
+        Behavior on opacity {
+            NumberAnimation { duration: 500 }
+        }
+    }
+
     ModeBar {
         z: 2
         x: 10

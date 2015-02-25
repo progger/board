@@ -53,8 +53,8 @@ Window {
             style: Style.normalButton
             text: "Закрыть без сохранения"
             onClicked: {
-                closeApp()
                 dialog.close()
+                closeApp()
             }
         }
 
@@ -66,8 +66,8 @@ Window {
             style: Style.normalButton
             text: "Сохранить"
             onClicked: {
-                save()
                 dialog.close()
+                save()
             }
         }
 

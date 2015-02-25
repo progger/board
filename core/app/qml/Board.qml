@@ -89,9 +89,14 @@ Window {
         }
     }
 
+    property bool closeQuestion: true
+
     CloseCaution {
         id: closeCaution
-        onCloseApp: board.close()
+        onCloseApp: {
+            closeQuestion = false
+            board.close()
+        }
         onSave: saveBookDialog.open()
     }
 
@@ -105,7 +110,7 @@ Window {
     }
 
     onClosing: {
-        if (Core.hasChanges) {
+        if (closeQuestion && Core.hasChanges) {
             closeCaution.show()
             close.accepted = false
         }

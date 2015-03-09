@@ -15,6 +15,12 @@ Sheet {
     anchors.fill: parent
     enabled: visible
 
+    Rectangle {
+        z: -1
+        anchors.fill: parent
+        color: sheet.color
+    }
+
     SheetCanvas {
         id: sheetCanvas
         objectName: "sheetCanvas"

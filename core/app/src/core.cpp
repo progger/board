@@ -328,8 +328,7 @@ void Core::saveBookFiles(QuaZip *zip)
   writer.writeStartElement("sheets");
   for (Sheet *sheet : _sheets)
   {
-    SheetCanvas *canvas = sheet->canvasObj();;
-    canvas->serializeSheet(&writer, &brd_objects);
+    sheet->serialize(&writer, &brd_objects);
   }
   writer.writeEndElement();
   writer.writeEndElement();
@@ -388,8 +387,7 @@ void Core::openBookFiles(QuaZip *zip)
     if (reader.name() != "sheet") goto error;
     Sheet *sheet = createSheet();
     _sheets.append(sheet);
-    SheetCanvas *canvas = sheet->canvasObj();
-    canvas->deserializeSheet(&reader);
+    sheet->deserialize(&reader);
   }
   return;
 error:

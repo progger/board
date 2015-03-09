@@ -11,6 +11,7 @@ import board.core.paint 2.0
 import "sheet.js" as Js
 
 Sheet {
+    id: sheet
     anchors.fill: parent
     enabled: visible
 
@@ -19,8 +20,8 @@ Sheet {
         objectName: "sheetCanvas"
         anchors.left: parent.left
         anchors.top: parent.top
-        anchors.right: vscroll.left
-        anchors.bottom: hscroll.top
+        anchors.right: vscroll.visible ? vscroll.left : parent.right
+        anchors.bottom: hscroll.visible ? hscroll.top : parent.bottom
         clip: true
 
         Item {
@@ -215,6 +216,7 @@ Sheet {
         anchors.top: parent.top
         anchors.right: parent.right
         anchors.bottom: hscroll.top
+        visible: sheet.scrollable
         width: 20
         onLeftButton: sheetCanvas.moveSheet(0, -10)
         onRightButton: sheetCanvas.moveSheet(0, 10)
@@ -236,6 +238,7 @@ Sheet {
         anchors.left: parent.left
         anchors.right: vscroll.left
         anchors.bottom: parent.bottom
+        visible: sheet.scrollable
         height: 20
         onLeftButton: sheetCanvas.moveSheet(-10, 0)
         onRightButton: sheetCanvas.moveSheet(10, 0)

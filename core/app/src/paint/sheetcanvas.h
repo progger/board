@@ -47,8 +47,8 @@ public:
   Q_INVOKABLE void moveSheet(qreal dx, qreal dy);
   QQuickItem *selectRect() const { return _select_rect; }
   QQuickItem *textInput() const { return _text_input; }
-  void serializeSheet(QXmlStreamWriter *writer, QSet<QString> *brd_objects = nullptr);
-  void deserializeSheet(QXmlStreamReader *reader);
+  void serialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects = nullptr);
+  void deserialize(QXmlStreamReader *reader);
   void deserializeShapes(QXmlStreamReader *reader, QList<Shape*> *shapes = nullptr);
   int mouseX() { return _mouse_x; }
   int mouseY() { return _mouse_y; }

@@ -56,9 +56,8 @@ void SheetCanvas::moveSheet(qreal dx, qreal dy)
   emit sheetPointChanged();
 }
 
-void SheetCanvas::serializeSheet(QXmlStreamWriter *writer, QSet<QString> *brd_objects)
+void SheetCanvas::serialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects)
 {
-  writer->writeStartElement("sheet");
   for (QQuickItem *item : _container->childItems())
   {
     Shape *shape = qobject_cast<Shape*>(item);
@@ -67,16 +66,14 @@ void SheetCanvas::serializeSheet(QXmlStreamWriter *writer, QSet<QString> *brd_ob
       shape->serialize(writer, brd_objects);
     }
   }
-  writer->writeEndElement();
 }
 
-void SheetCanvas::deserializeSheet(QXmlStreamReader *reader)
+void SheetCanvas::deserialize(QXmlStreamReader *reader)
 {
   for (QQuickItem *item : _container->childItems())
   {
     delete item;
   }
-  if (reader->tokenType() != QXmlStreamReader::StartElement || reader->name() != "sheet") return;
   deserializeShapes(reader);
 }
 
@@ -111,7 +108,9 @@ void SheetCanvas::pushState()
 {
   QByteArray data;
   QXmlStreamWriter writer(&data);
-  serializeSheet(&writer);
+  writer.writeStartElement("sheet");
+  serialize(&writer);
+  writer.writeEndElement();
   if (data != _cur_state)
   {
     _undo_stack.push(_cur_state);
@@ -188,7 +187,7 @@ void SheetCanvas::onUndo()
   _cur_state = _undo_stack.pop();
   QXmlStreamReader reader(_cur_state);
   reader.readNextStartElement();
-  deserializeSheet(&reader);
+  deserialize(&reader);
   _paint->setCanUndo(!_undo_stack.empty());
   _paint->setCanRedo(true);
   _shape_gen.clear();
@@ -205,7 +204,7 @@ void SheetCanvas::onRedo()
   _cur_state = _redo_stack.pop();
   QXmlStreamReader reader(_cur_state);
   reader.readNextStartElement();
-  deserializeSheet(&reader);
+  deserialize(&reader);
   _paint->setCanUndo(true);
   _paint->setCanRedo(!_redo_stack.empty());
   _shape_gen.clear();

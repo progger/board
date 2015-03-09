@@ -124,6 +124,7 @@ void Core::showError(const QString &error)
 void Core::registerTool(const QString &name, const QString &section, QQmlComponent *component, int width, int height)
 {
   _tools.insert(name, new ToolInfo(name, section, component, width, height));
+  emit toolsChanged();
 }
 
 void Core::setChanges()
@@ -209,6 +210,28 @@ QQmlListProperty<Sheet> Core::sheetsProperty()
     return core->sheets().at(index);
   };
   return QQmlListProperty<Sheet>(this, nullptr, count_func, at_func);
+}
+
+QList<ToolInfo *> Core::tools() const
+{
+  return _tools.values();
+}
+
+QQmlListProperty<ToolInfo> Core::toolsProperty()
+{
+  auto count_func = [](QQmlListProperty<ToolInfo> *list)
+  {
+    Core *core = qobject_cast<Core*>(list->object);
+    Q_ASSERT(core);
+    return core->tools().size();
+  };
+  auto at_func = [](QQmlListProperty<ToolInfo> *list, int index)
+  {
+    Core *core = qobject_cast<Core*>(list->object);
+    Q_ASSERT(core);
+    return core->tools().at(index);
+  };
+  return QQmlListProperty<ToolInfo>(this, nullptr, count_func, at_func);
 }
 
 QQmlListProperty<Panel> Core::panelsProperty()

@@ -15,3 +15,12 @@ ToolInfo::ToolInfo(const QString &name, const QString &section, QQmlComponent *c
   _height(height)
 {
 }
+
+void ToolInfo::create(QQuickItem *parent)
+{
+  QObject *obj = component()->create();
+  QQuickItem *item = qobject_cast<QQuickItem*>(obj);
+  Q_ASSERT(item);
+  item->setParent(parent);
+  item->setParentItem(parent);
+}

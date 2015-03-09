@@ -13,15 +13,6 @@ Tool::Tool(ToolInfo *tool_info, QObject *parent) :
 {
 }
 
-void Tool::create(QQuickItem *parent)
-{
-  QObject *obj = component()->create();
-  QQuickItem *item = qobject_cast<QQuickItem*>(obj);
-  Q_ASSERT(item);
-  item->setParent(parent);
-  item->setParentItem(parent);
-}
-
 void Tool::setX(int x)
 {
   _x = x;

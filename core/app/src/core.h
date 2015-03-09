@@ -34,6 +34,7 @@ class Core : public QObject, public ICore
   Q_PROPERTY(int sheetIndex READ sheetIndex WRITE setSheetIndex NOTIFY sheetIndexChanged FINAL)
   Q_PROPERTY(Paint paint READ paintObj CONSTANT FINAL)
   Q_PROPERTY(QQmlListProperty<Sheet> sheets READ sheetsProperty NOTIFY sheetsChanged FINAL)
+  Q_PROPERTY(QQmlListProperty<ToolInfo> tools READ toolsProperty NOTIFY toolsChanged)
   Q_PROPERTY(QQmlListProperty<Panel> panels READ panelsProperty NOTIFY panelsChanged FINAL)
 public:
   explicit Core(QQmlEngine *engine, bool window_mode);
@@ -62,6 +63,8 @@ public:
   Paint *paintObj() const { return _paint; }
   QList<Sheet*> sheets() const { return _sheets; }
   QQmlListProperty<Sheet> sheetsProperty();
+  QList<ToolInfo*> tools() const;
+  QQmlListProperty<ToolInfo> toolsProperty();
   QList<Panel*> panels() const { return _panels; }
   QQmlListProperty<Panel> panelsProperty();
 signals:
@@ -69,6 +72,7 @@ signals:
   void transparentChanged();
   void sheetIndexChanged();
   void sheetsChanged();
+  void toolsChanged();
   void panelsChanged();
   void hasChangesChanged();
   void errorMessageBox(const QString &error);

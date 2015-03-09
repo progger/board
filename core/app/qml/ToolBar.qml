@@ -238,7 +238,7 @@ Rectangle {
     Button {
         id: openBookButton
         style: Style.normalButton
-        anchors.right: thicknessImage.left
+        anchors.right: pluginsRow.left
         anchors.verticalCenter: parent.verticalCenter
         anchors.rightMargin: 12
         width: buttonSize
@@ -246,6 +246,27 @@ Rectangle {
         tooltip: "открыть"
         iconSource: "qrc:/core/res/open.svg"
         onClicked: openBookDialog.open()
+    }
+
+    Row {
+        id: pluginsRow
+        anchors.right: thicknessImage.left
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.rightMargin: 12
+        height: parent.height
+        spacing: 4
+
+        Repeater {
+            model: Core.tools
+
+            Item {
+                id: toolItem
+                anchors.verticalCenter: parent.verticalCenter
+                width: buttonSize
+                height: buttonSize
+                Component.onCompleted: modelData.create(toolItem)
+            }
+        }
     }
 
     Image {

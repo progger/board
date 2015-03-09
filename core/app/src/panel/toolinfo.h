@@ -7,6 +7,7 @@
 #ifndef TOOLINFO_H
 #define TOOLINFO_H
 
+#include <QQuickItem>
 #include <QQmlComponent>
 
 class ToolInfo : public QObject
@@ -23,6 +24,7 @@ public:
   QQmlComponent *component() const  { return _component; }
   int width() const { return _width; }
   int height() const { return _height; }
+  Q_INVOKABLE void create(QQuickItem *parent);
 private:
   const QString _name;
   const QString _section;

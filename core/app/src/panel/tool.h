@@ -7,7 +7,6 @@
 #ifndef TOOL_H
 #define TOOL_H
 
-#include <QQuickItem>
 #include "toolinfo.h"
 
 class Tool : public ToolInfo
@@ -19,7 +18,6 @@ public:
   Tool(ToolInfo *tool_info, QObject *parent = 0);
   int x() const { return _x; }
   int y() const { return _y; }
-  Q_INVOKABLE void create(QQuickItem *parent);
 signals:
   void xChanged();
   void yChanged();

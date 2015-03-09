@@ -19,6 +19,13 @@ Sheet {
         z: -1
         anchors.fill: parent
         color: sheet.color
+
+        Image {
+            anchors.fill: parent
+            source: sheet.imageSource
+            visible: sheet.imageSource ? true : false
+            fillMode: sheet.imageMode == 1 ? Image.Stretch : sheet.imageMode == 2 ? Image.Tile : Image.PreserveAspectFit
+        }
     }
 
     SheetCanvas {

@@ -30,6 +30,8 @@ public:
   void setColor(QColor color);
   void serialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects = nullptr);
   void deserialize(QXmlStreamReader *reader);
+public slots:
+  void copySettings(Sheet *sheet);
 signals:
   void scrollableChanged();
   void colorChanged();

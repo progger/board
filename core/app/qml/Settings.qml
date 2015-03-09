@@ -6,6 +6,7 @@
 
 import QtQuick 2.0
 import QtQuick.Controls 1.3
+import QtQuick.Dialogs 1.0
 import board.core 2.0
 
 Rectangle {
@@ -45,18 +46,31 @@ Rectangle {
 
                     MouseArea {
                         anchors.fill: parent
-                        onClicked: colorGridRect.opacity = !colorGridRect.opacity
+                        onClicked: colorDialog.open()
                     }
 
-                    ColorGrid {
-                        id: colorGridRect
-                        x: 0
-                        y: parent.height
-                        cellSize: Style.buttonSize
-                        onSelect: {
+                    ColorDialog {
+                        id: colorDialog
+                        color: colorRect.color
+                        onAccepted: {
                             Core.sheets[Core.sheetIndex].color = color
                             colorRect.color = color
                         }
+                    }
+                }
+            }
+
+            Button {
+                width: 200
+                height: 28
+                style: Style.normalButton
+                text: "Применить ко всем"
+                onClicked: {
+                    var cur = Core.sheets[Core.sheetIndex]
+                    for (var i in Core.sheets)
+                    {
+                        var sheet = Core.sheets[i]
+                        sheet.copySettings(cur)
                     }
                 }
             }

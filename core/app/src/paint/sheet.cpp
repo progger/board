@@ -46,6 +46,13 @@ void Sheet::deserialize(QXmlStreamReader *reader)
   _canvas->deserialize(reader);
 }
 
+void Sheet::copySettings(Sheet *sheet)
+{
+  if (sheet == this) return;
+  setScrollable(sheet->scrollable());
+  setColor(sheet->color());
+}
+
 ISheetCanvas *Sheet::canvas()
 {
   return _canvas;

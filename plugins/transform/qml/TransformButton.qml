@@ -11,14 +11,12 @@ import board.transform 2.0
 
 TransformButton {
     id: transformButton
-    width: button.width
+    anchors.fill: parent
 
     Button {
         id: button
-        anchors.verticalCenter: parent.verticalCenter
         style: Style.normalButton
-        width: height
-        height: parent.height - 6
+        anchors.fill: parent
         tooltip: "Преобразование"
         iconSource: "qrc:/transform/res/transform.svg"
         onClicked: transformButton.placeTransform()

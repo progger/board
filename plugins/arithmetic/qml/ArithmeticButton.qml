@@ -11,14 +11,12 @@ import board.arithmetic 2.0
 
 ArithmeticButton {
     id: arithmeticButton
-    width: button.width
+    anchors.fill: parent
 
     Button {
         id: button
-        anchors.verticalCenter: parent.verticalCenter
         style: Style.normalButton
-        width: height
-        height: parent.height - 6
+        anchors.fill: parent
         tooltip: "Арифметика"
         iconSource: "qrc:/arithmetic/res/arithmetic.svg"
         onClicked: arithmeticButton.placeArithmetic()

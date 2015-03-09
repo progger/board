@@ -11,14 +11,12 @@ import board.categories 2.0
 
 CategoriesButton {
     id: categoriesButton
-    width: button.width
+    anchors.fill: parent
 
     Button {
         id: button
-        anchors.verticalCenter: parent.verticalCenter
         style: Style.normalButton
-        width: height
-        height: parent.height - 6
+        anchors.fill: parent
         tooltip: "Категории"
         iconSource: "qrc:/categories/res/categories.svg"
         onClicked: categoriesButton.placeCategories()

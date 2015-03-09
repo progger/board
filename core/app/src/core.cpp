@@ -124,7 +124,6 @@ void Core::showError(const QString &error)
 void Core::registerTool(const QString &name, const QString &section, QQmlComponent *component, int width, int height)
 {
   _tools.insert(name, new ToolInfo(name, section, component, width, height));
-  emit toolsChanged();
 }
 
 void Core::setChanges()
@@ -452,6 +451,7 @@ void Core::initPlugins()
   {
     plugin->init();
   }
+  emit toolsChanged();
 }
 
 void Core::savePanels()

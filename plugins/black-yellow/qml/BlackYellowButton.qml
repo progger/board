@@ -11,14 +11,12 @@ import board.blackyellow 2.0
 
 BlackYellowButton {
     id: blackYellowButton
-    width: button.width
+    anchors.fill: parent
 
     Button {
         id: button
-        anchors.verticalCenter: parent.verticalCenter
         style: Style.normalButton
-        width: height
-        height: parent.height - 6
+        anchors.fill: parent
         tooltip: "Чёрное-желтое"
         iconSource: "qrc:/black-yellow/res/black-yellow.svg"
         onClicked: blackYellowButton.placeBlackYellow()

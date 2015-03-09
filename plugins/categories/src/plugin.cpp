@@ -20,6 +20,7 @@ void Plugin::init()
   qmlRegisterType<CategoriesButton>("board.categories", 2, 0, "CategoriesButton");
   qmlRegisterType<Category>();
   qmlRegisterType<CategoryItem>();
-  //g_core->addPluginRowItem("qrc:/categories/qml/CategoriesButton.qml");
+  QQmlComponent *component = g_core->getComponent("qrc:/categories/qml/CategoriesButton.qml");
+  g_core->registerTool("categories", "common", component, 1, 1);
   g_core->paint()->RegisterShape("categories", []() -> Shape* { return static_cast<Shape*>(g_core->getComponent("qrc:/categories/qml/Categories.qml")->create()); });
 }

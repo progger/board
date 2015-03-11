@@ -41,6 +41,11 @@ Sheet {
             id: container
             objectName: "container"
             anchors.fill: parent
+
+            transform: Scale {
+                xScale: Paint.scale
+                yScale: Paint.scale
+            }
         }
 
         Rectangle {

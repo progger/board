@@ -19,9 +19,11 @@ SelectGen::SelectGen(ISheetCanvas *canvas) :
   _my2(0)
 {
   _canvas_obj = static_cast<SheetCanvas*>(canvas);
+  _container = _canvas_obj->container();
   _select_rect = _canvas_obj->selectRect();
   _select_rect->setProperty("selectGen", QVariant::fromValue<QObject*>(this));
-  connect(_canvas_obj, SIGNAL(sheetPointChanged()), SLOT(onSheetPointChanged()));
+  connect(_canvas_obj, SIGNAL(sheetPointChanged()), SLOT(onNeedUpdate()));
+  connect(_canvas_obj->paintObj(), SIGNAL(scaleChanged()), SLOT(onNeedUpdate()));
   connect(_canvas_obj->paintObj(), SIGNAL(del()), SLOT(onDel()));
   connect(_canvas_obj->paintObj(), SIGNAL(duplicate()), SLOT(onDuplicate()));
   connect(_canvas_obj->paintObj(), SIGNAL(toFront()), SLOT(onToFront()));
@@ -49,7 +51,7 @@ void SelectGen::begin(const QPointF &p)
 void SelectGen::end(const QPointF &p)
 {
   move(p);
-  QRectF select(_select_rect->x(), _select_rect->y(),_select_rect->width(), _select_rect->height());
+  QRectF select = _canvas_obj->mapRectToItem(_container, QRectF(_select_rect->x(), _select_rect->y(),_select_rect->width(), _select_rect->height()));
   bool click = select.width() < 8 && select.height() < 8;
   auto items = _canvas->container()->childItems();
   for (auto item : items)
@@ -159,7 +161,7 @@ void SelectGen::onScale(int x, int y)
   updateRoundRect();
 }
 
-void SelectGen::onSheetPointChanged()
+void SelectGen::onNeedUpdate()
 {
   if (!_selected.empty())
   {
@@ -263,14 +265,11 @@ void SelectGen::updateRoundRect()
     x2 = qMax(x2, item->x() + item->width());
     y2 = qMax(y2, item->y() + item->height());
   }
-  _select_rect->setPosition(QPointF(x1, y1));
-  _select_rect->setSize(QSizeF(x2 - x1, y2 - y1));
-}
-
-QPointF SelectGen::getRectPoint(const QPointF &p)
-{
-  return QPointF((p.x() - _select_rect->x()) / _select_rect->width(),
-                 (p.y() - _select_rect->y()) / _select_rect->height());
+  QRectF rect = _canvas_obj->mapRectFromItem(_container, QRectF(x1, y1, x2 - x1, y2 - y1));
+  _select_rect->setX(rect.x());
+  _select_rect->setY(rect.y());
+  _select_rect->setWidth(rect.width());
+  _select_rect->setHeight(rect.height());
 }
 
 void SelectGen::sortSelected()

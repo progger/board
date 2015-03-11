@@ -27,7 +27,7 @@ public slots:
   void onScaleBegin(int x, int y, int mx1, int my1, int mx2, int my2);
   void onScaleEnd();
   void onScale(int x, int y);
-  void onSheetPointChanged();
+  void onNeedUpdate();
   void onDel();
   void onDuplicate();
   void onToFront();
@@ -36,6 +36,7 @@ public slots:
   void onBgcolorChanged();
 private:
   SheetCanvas *_canvas_obj;
+  QQuickItem *_container;
   QQuickItem *_select_rect;
   QList<Shape*> _selected;
   int _mx1;
@@ -43,7 +44,6 @@ private:
   int _mx2;
   int _my2;
   void updateRoundRect();
-  QPointF getRectPoint(const QPointF &p);
   void sortSelected();
 };
 

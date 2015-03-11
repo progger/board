@@ -308,7 +308,7 @@ Rectangle {
     SpinBoxEx {
         id: fontSizeSpinBox
         width: 60
-        anchors.right: transparentButton.left
+        anchors.right: scaleSpinBox.left
         anchors.verticalCenter: parent.verticalCenter
         anchors.rightMargin: 12
         height: buttonSize
@@ -317,6 +317,20 @@ Rectangle {
         minValue: 10
         maxValue: 60
         Component.onCompleted: value = Paint.fontSize
+    }
+
+    SpinBoxEx {
+        id: scaleSpinBox
+        width: 60
+        anchors.right: transparentButton.left
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.rightMargin: 12
+        height: buttonSize
+        onValueChanged: Paint.scale = value
+        step: 0.1
+        minValue: 0.1
+        maxValue: 10
+        Component.onCompleted: value = Paint.scale
     }
 
     Button {

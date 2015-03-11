@@ -23,6 +23,7 @@ class Paint : public QObject, public IPaint
 {
   Q_OBJECT
   Q_INTERFACES(IPaint)
+  Q_PROPERTY(float scale READ scale WRITE setScale NOTIFY scaleChanged)
   Q_PROPERTY(QString mode READ mode WRITE setMode NOTIFY modeChanged)
   Q_PROPERTY(float thickness READ thickness WRITE setThickness NOTIFY thicknessChanged)
   Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
@@ -36,6 +37,7 @@ public:
   explicit Paint(Core *parent);
 
   // IPaint
+  virtual float scale() override;
   virtual QString mode() override;
   virtual float thickness() override;
   virtual QColor color() override;
@@ -53,6 +55,7 @@ public:
   QSharedPointer<ShapeGen> createShapeGen(ISheetCanvas *canvas) const;
   QCursor getCursor() const;
 signals:
+  void scaleChanged();
   void modeChanged();
   void thicknessChanged();
   void colorChanged();
@@ -74,6 +77,7 @@ public slots:
   virtual void RegisterShapeGen(const QString &name, ShapeGenFunc func) override;
   virtual void RegisterShape(const QString &name, ShapeFunc func) override;
   virtual void RegisterCursor(const QString &name, const QCursor &cursor) override;
+  virtual void setScale(float scale) override;
   virtual void setMode(const QString &mode) override;
   virtual void setThickness(float thickness) override;
   virtual void setColor(const QColor &color) override;
@@ -87,6 +91,7 @@ public slots:
   void selectImage(const QUrl &file_url);
   void selectVideo(const QString &url);
 private:
+  float _scale;
   QString _mode;
   float _thickness;
   QColor _color;

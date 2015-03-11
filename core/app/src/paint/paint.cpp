@@ -32,6 +32,7 @@
 
 Paint::Paint(Core *parent) :
   QObject(parent),
+  _scale(1),
   _mode("pen"),
   _thickness(3),
   _color("#000000"),
@@ -79,6 +80,11 @@ Paint::Paint(Core *parent) :
   RegisterCursor("text", Qt::IBeamCursor);
   RegisterCursor("move", Qt::OpenHandCursor);
   RegisterCursor("text", Qt::IBeamCursor);
+}
+
+float Paint::scale()
+{
+  return _scale;
 }
 
 QString Paint::mode()
@@ -130,6 +136,27 @@ QCursor Paint::getCursor() const
   auto it = _map_cursor.find(_mode);
   if (it == _map_cursor.cend()) return Qt::ArrowCursor;
   return it.value();
+}
+
+void Paint::RegisterShapeGen(const QString &name, ShapeGenFunc func)
+{
+  _map_shape_gen[name] = func;
+}
+
+void Paint::RegisterShape(const QString &name, ShapeFunc func)
+{
+  _map_shape[name] = func;
+}
+
+void Paint::RegisterCursor(const QString &name, const QCursor &cursor)
+{
+  _map_cursor[name] = cursor;
+}
+
+void Paint::setScale(float scale)
+{
+  _scale = scale;
+  emit scaleChanged();
 }
 
 void Paint::setMode(const QString &mode)
@@ -201,20 +228,4 @@ void Paint::selectVideo(const QString &url)
 {
   _video_source = url;
   setMode("video");
-}
-
-
-void Paint::RegisterShapeGen(const QString &name, ShapeGenFunc func)
-{
-  _map_shape_gen[name] = func;
-}
-
-void Paint::RegisterShape(const QString &name, ShapeFunc func)
-{
-  _map_shape[name] = func;
-}
-
-void Paint::RegisterCursor(const QString &name, const QCursor &cursor)
-{
-  _map_cursor[name] = cursor;
 }

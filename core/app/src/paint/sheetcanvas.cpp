@@ -34,6 +34,7 @@ SheetCanvas::SheetCanvas(QQuickItem *parent) :
   setAcceptedMouseButtons(Qt::LeftButton);
   setAcceptHoverEvents(true);
   connect(this, SIGNAL(enabledChanged()), SLOT(onEnabledChanged()));
+  connect(_paint, SIGNAL(scaleChanged()), SLOT(onScaleChanged()));
   connect(_paint, SIGNAL(modeChanged()), SLOT(onModeChanged()));
   connect(_paint, SIGNAL(undo()), SLOT(onUndo()));
   connect(_paint, SIGNAL(redo()), SLOT(onRedo()));
@@ -126,8 +127,9 @@ void SheetCanvas::pushState()
 void SheetCanvas::updateSheetRect()
 {
   if (!_container) return;
-  qreal w = width();
-  qreal h = height();
+  QPointF p = mapToItem(_container, QPointF(width(), height()));
+  qreal w = p.x();
+  qreal h = p.y();
   qreal x1 = 0;
   qreal y1 = 0;
   qreal x2 = w;
@@ -171,6 +173,11 @@ void SheetCanvas::onEnabledChanged()
     _start_move.clear();
   }
   setCursor(_paint->getCursor());
+}
+
+void SheetCanvas::onScaleChanged()
+{
+  updateSheetRect();
 }
 
 void SheetCanvas::onModeChanged()

@@ -55,6 +55,7 @@ public:
   bool containsMouse() { return _contains_mouse; }
 public slots:
   void onEnabledChanged();
+  void onScaleChanged();
   void onModeChanged();
   void onUndo();
   void onRedo();

@@ -5,7 +5,7 @@
  */
 
 import QtQuick 2.0
-import QtQuick.Controls 1.3
+import QtQuick.Controls 1.1
 import QtQuick.Dialogs 1.0
 import board.core 2.0
 

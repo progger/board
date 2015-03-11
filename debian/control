@@ -8,7 +8,7 @@ Build-Depends: debhelper (>= 8.0.0),
  qtbase5-dev,
  qtbase5-private-dev,
  qtdeclarative5-dev,
- zlib1g-dev,
+ libquazip-qt5-dev,
  libpoppler-qt5-dev,
  libx11-dev,
  libxi-dev,
@@ -26,6 +26,7 @@ Depends: ${shlibs:Depends}, ${misc:Depends},
  qtdeclarative5-dialogs-plugin,
  qtdeclarative5-quicklayouts-plugin,
  qtdeclarative5-window-plugin,
+ qtdeclarative5-qtmultimedia-plugin,
  libqt5svg5
 Recommends: board-arithmetic, board-black-yellow, board-categories, board-import-documents, board-transform
 Description: board graphics program
@@ -81,13 +82,13 @@ Description: board graphics program
  .
  This package contains import documents plugin
 
-Package: board-mpx
-Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: board graphics program
- Extendable vector graphics program
- .
- This package contains multipoint extension
+#Package: board-mpx
+#Architecture: any
+#Depends: ${shlibs:Depends}, ${misc:Depends}
+#Description: board graphics program
+# Extendable vector graphics program
+# .
+# This package contains multipoint extension
 
 Package: board-transform
 Architecture: any

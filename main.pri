@@ -1,5 +1,5 @@
 VERSION = 2.4.0
-QMAKE_CXXFLAGS += -std=c++14
+QMAKE_CXXFLAGS += -std=c++11
 
 OBJECTS_DIR = ./build
 MOC_DIR = ./build

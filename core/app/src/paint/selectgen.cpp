@@ -40,7 +40,8 @@ SelectGen::~SelectGen()
 
 void SelectGen::begin(const QPointF &p)
 {
-  ShapeGen::begin(p);
+  QPointF sp = _canvas_obj->mapFromItem(_container, p);
+  ShapeGen::begin(sp);
   _select_rect->setPosition(p);
   _select_rect->setSize(QSizeF(0, 0));
   _select_rect->setVisible(true);
@@ -85,10 +86,11 @@ void SelectGen::end(const QPointF &p)
 
 void SelectGen::move(const QPointF &p)
 {
-  qreal x1 = qMin(_start.x(), p.x());
-  qreal y1 = qMin(_start.y(), p.y());
-  qreal x2 = qMax(_start.x(), p.x());
-  qreal y2 = qMax(_start.y(), p.y());
+  QPointF sp = _canvas_obj->mapFromItem(_container, p);
+  qreal x1 = qMin(_start.x(), sp.x());
+  qreal y1 = qMin(_start.y(), sp.y());
+  qreal x2 = qMax(_start.x(), sp.x());
+  qreal y2 = qMax(_start.y(), sp.y());
   _select_rect->setPosition(QPointF(x1, y1));
   QSizeF size(x2 - x1, y2 - y1);
   _select_rect->setSize(size);

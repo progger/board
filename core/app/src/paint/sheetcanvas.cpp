@@ -239,6 +239,7 @@ void SheetCanvas::mousePressEvent(QMouseEvent *event)
   quint16 id = event->modifiers() & 0xffff;
   auto shape_gen = getShapeGen(id);
   QPointF p(event->x(), event->y());
+  p = mapToItem(_container, p);
   shape_gen->begin(p);
   _start_move.insert(id);
 }
@@ -249,6 +250,7 @@ void SheetCanvas::mouseReleaseEvent(QMouseEvent *event)
   quint16 id = event->modifiers() & 0xffff;
   auto shape_gen = getShapeGen(id);
   QPointF p(event->x(), event->y());
+  p = mapToItem(_container, p);
   shape_gen->end(p);
   _start_move.remove(id);
 }
@@ -263,6 +265,7 @@ void SheetCanvas::mouseMoveEvent(QMouseEvent *event)
   if (!_start_move.contains(id)) return;
   auto shape_gen = getShapeGen(id);
   QPointF p(event->x(), event->y());
+  p = mapToItem(_container, p);
   shape_gen->move(p);
 }
 

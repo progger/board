@@ -131,12 +131,36 @@ Sheet {
 
         Item {
             id: textInputItem
-            property variant textItem: textInput.textItem
-            x: textItem ? textItem.x : 0
-            y: textItem ? textItem.y : 0
             width: textInput.width * textInputScale.xScale
             height: textInput.height * textInputScale.yScale
             visible: false
+
+            function updatePos() {
+                var textItem = textInput.textItem
+                var pos = sheetCanvas.mapFromItem(container, textItem.x, textItem.y)
+                textInputItem.x = pos.x
+                textInputItem.y = pos.y
+                textInputScale.xScale = textItem.scalex * Paint.scale
+                textInputScale.yScale = textItem.scaley * Paint.scale
+            }
+
+            Connections {
+                target: Paint
+                onScaleChanged: {
+                    if (textInput.textItem) {
+                        textInputItem.updatePos()
+                    }
+                }
+            }
+
+            Connections {
+                target: sheetCanvas
+                onSheetPointChanged: {
+                    if (textInput.textItem) {
+                        textInputItem.updatePos()
+                    }
+                }
+            }
 
             TextEdit {
                 id: textInput
@@ -153,12 +177,13 @@ Sheet {
 
                 onTextItemChanged: {
                     if (textItem) {
+                        textInputItem.updatePos()
                         textInputItem.visible = true
                         font.family = textItem.fontFamily
                         font.pixelSize = textItem.fontSize
                         color = textItem.color
-                        textInputScale.xScale = textItem.scalex
-                        textInputScale.yScale = textItem.scaley
+                        textInputScale.xScale = textItem.scalex * Paint.scale
+                        textInputScale.yScale = textItem.scaley * Paint.scale
                         text = textItem.text
                         cursorPosition = positionAt((sheetCanvas.mouseX - textItem.x) / textItem.scalex,
                                                     (sheetCanvas.mouseY - textItem.y) / textItem.scaley)

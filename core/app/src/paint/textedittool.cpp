@@ -30,7 +30,10 @@ void TextEditTool::init(QQuickTextDocument *doc)
   }
   else
   {
-    disconnect(_doc, SIGNAL(contentsChange(int,int,int)));
+    if (_doc)
+    {
+      disconnect(_doc, SIGNAL(contentsChange(int,int,int)));
+    }
     disconnect(_paint, SIGNAL(colorChanged()));
     disconnect(_paint, SIGNAL(fontSizeChanged()));
     _doc = nullptr;

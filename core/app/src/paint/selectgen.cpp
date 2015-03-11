@@ -108,12 +108,12 @@ void SelectGen::onMoveEnd()
 void SelectGen::onMove(int x, int y)
 {
   QPointF p = QPointF(x, y) + _select_rect->position();
-  QPointF dp = p - _start;
+  QPointF dp = _canvas_obj->mapToItem(_container, p) - _canvas_obj->mapToItem(_container, _start);
   for (Shape *item : _selected)
   {
     item->setPosition(item->position() + dp);
   }
-  _select_rect->setPosition(_select_rect->position() + dp);
+  _select_rect->setPosition(_select_rect->position() + p - _start);
   _start = p;
 }
 
@@ -134,13 +134,12 @@ void SelectGen::onScaleEnd()
 
 void SelectGen::onScale(int x, int y)
 {
-  QPointF p(x, y);
   qreal rx = _select_rect->x();
   qreal ry = _select_rect->y();
   qreal rw = _select_rect->width();
   qreal rh = _select_rect->height();
-  qreal dw = (p.x() - _start.x()) * (_mx2 - _mx1);
-  qreal dh = (p.y() - _start.y()) * (_my2 - _my1);
+  qreal dw = (x - _start.x()) * (_mx2 - _mx1);
+  qreal dh = (y - _start.y()) * (_my2 - _my1);
   if (rw + dw < 20)
     dw = 20 - rw;
   if (rh + dh < 20)
@@ -149,14 +148,20 @@ void SelectGen::onScale(int x, int y)
   qreal dy = -dh * _my1;
   for (Shape *item : _selected)
   {
-    qreal ix = item->x();
-    qreal iy = item->y();
-    qreal iw = item->width();
-    qreal ih = item->height();
-    item->setX(ix + dw * (ix - rx) / rw + dx);
-    item->setY(iy + dh * (iy - ry) / rh + dy);
-    item->setWidth(iw + dw * iw / rw);
-    item->setHeight(ih + dh * ih / rh);
+    QRectF rect = _canvas_obj->mapRectFromItem(_container, QRectF(item->x(), item->y(), item->width(), item->height()));
+    qreal ix = rect.x();
+    qreal iy = rect.y();
+    qreal iw = rect.width();
+    qreal ih = rect.height();
+    QRectF srect(ix + dw * (ix - rx) / rw + dx,
+                 iy + dh * (iy - ry) / rh + dy,
+                 iw + dw * iw / rw,
+                 ih + dh * ih / rh);
+    rect = _canvas_obj->mapRectToItem(_container, srect);
+    item->setX(rect.x());
+    item->setY(rect.y());
+    item->setWidth(rect.width());
+    item->setHeight(rect.height());
   }
   updateRoundRect();
 }

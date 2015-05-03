@@ -4,6 +4,7 @@
  * See the LICENSE file for terms of use.
  */
 
+#include "global.h"
 #include "textwrapper.h"
 
 static QString DefaultFontFamily = "Arial";
@@ -15,15 +16,26 @@ TextWrapper::TextWrapper(QQuickItem *parent) :
 {
 }
 
+QString TextWrapper::text() const
+{
+  return QString::fromUtf8(g_core->brdStore()->getObject(_hash));
+}
+
 QObject *TextWrapper::textElement() const
 {
   Q_ASSERT(childItems().size() == 1);
   return childItems()[0];
 }
 
+void TextWrapper::setHash(const QString &hash)
+{
+  _hash = hash;
+  emit textChanged();
+}
+
 void TextWrapper::setText(const QString &text)
 {
-  _text = text;
+  _hash = g_core->brdStore()->addObject(text.toUtf8());
   emit textChanged();
 }
 
@@ -48,17 +60,26 @@ void TextWrapper::innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_ob
 {
   Q_UNUSED(brd_objects);
   Shape::innerSerialize(writer, brd_objects);
-  writer->writeAttribute("version", QString::number(0));
-  writer->writeAttribute("text", _text);
+  writer->writeAttribute("version", QString::number(1));
+  writer->writeAttribute("hash", _hash);
   writer->writeAttribute("font_family", _font_family);
   writer->writeAttribute("font_size", QString::number(_font_size));
+  if (brd_objects) brd_objects->insert(_hash);
 }
 
 void TextWrapper::innerDeserialize(QXmlStreamReader *reader)
 {
   Shape::innerDeserialize(reader);
   QXmlStreamAttributes attrs = reader->attributes();
-  setText(attrs.value("text").toString());
+  int version = attrs.value("version").toInt();
+  if (version >= 1)
+  {
+    setHash(attrs.value("hash").toString());
+  }
+  else
+  {
+    setText(attrs.value("text").toString());
+  }
   QString font_family = attrs.value("font_family").toString();
   if (font_family.isEmpty())
   {

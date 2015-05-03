@@ -18,11 +18,12 @@ class TextWrapper : public Shape
   Q_PROPERTY(QObject* textElement READ textElement CONSTANT)
 public:
   explicit TextWrapper(QQuickItem *parent = 0);
-  QString text() const { return _text; }
+  QString text() const;
   QString fontFamily() const { return _font_family; }
   int fontSize() const { return _font_size; }
   QObject *textElement() const;
 public slots:
+  void setHash(const QString &hash);
   void setText(const QString &text);
   void setFontFamily(const QString &font_family);
   void setFontSize(int font_size);
@@ -35,7 +36,7 @@ protected:
   virtual void innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const override;
   virtual void innerDeserialize(QXmlStreamReader *reader) override;
 private:
-  QString _text;
+  QString _hash;
   QString _font_family;
   int _font_size;
 };

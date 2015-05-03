@@ -4,6 +4,7 @@
  * See the LICENSE file for terms of use.
  */
 
+#include <QQuickTextDocument>
 #include "global.h"
 #include "sheetcanvas.h"
 #include "paint.h"
@@ -67,7 +68,8 @@ void TextGen::endEdit()
 {
   if (_item)
   {
-    if (_text_input->property("text").toString().isEmpty())
+    QQuickTextDocument *document = _text_input->property("textDocument").value<QQuickTextDocument*>();
+    if (document && document->textDocument()->isEmpty())
     {
       delete _item;
     }

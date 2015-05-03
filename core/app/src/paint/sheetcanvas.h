@@ -62,6 +62,7 @@ public:
   int mouseY() const { return _mouse_y; }
   bool containsMouse() { return _contains_mouse; }
 public slots:
+  void setSheetPoint(qreal x, qreal y);
   void onEnabledChanged();
   void onModeChanged();
   void onUndo();

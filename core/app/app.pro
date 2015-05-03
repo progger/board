@@ -37,6 +37,7 @@ SOURCES += \
     src/paint/pengen.cpp \
     src/paint/rectangle.cpp \
     src/paint/rectanglegen.cpp \
+    src/paint/scalegen.cpp \
     src/paint/selectgen.cpp \
     src/paint/sheet.cpp \
     src/paint/sheetcanvas.cpp \
@@ -79,6 +80,7 @@ HEADERS += \
     src/paint/pen.h \
     src/paint/pengen.h \
     src/paint/rectangle.h \
+    src/paint/scalegen.h \
     src/paint/rectanglegen.h \
     src/paint/selectgen.h \
     src/paint/sheet.h \

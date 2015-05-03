@@ -331,6 +331,10 @@ Rectangle {
         minValue: 0.1
         maxValue: 10
         Component.onCompleted: value = Paint.scale
+        Connections {
+            target: Paint
+            onScaleChanged: scaleSpinBox.value = Paint.scale
+        }
     }
 
     Button {

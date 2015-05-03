@@ -50,8 +50,8 @@ public:
   void serialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects = nullptr);
   void deserialize(QXmlStreamReader *reader);
   void deserializeShapes(QXmlStreamReader *reader, QList<Shape*> *shapes = nullptr);
-  int mouseX() { return _mouse_x; }
-  int mouseY() { return _mouse_y; }
+  int mouseX() const { return _mouse_x; }
+  int mouseY() const { return _mouse_y; }
   bool containsMouse() { return _contains_mouse; }
 public slots:
   void onEnabledChanged();

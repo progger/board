@@ -39,7 +39,8 @@ Rectangle {
                 {"mode": "circle", "image": "qrc:/core/res/circle.svg", "hint": "круг"},
                 {"mode": "ellipse", "image": "qrc:/core/res/ellipse.svg", "hint": "эллипс"},
                 {"mode": "text", "image": "qrc:/core/res/text.svg", "hint": "текст"},
-                {"mode": "move", "image": "qrc:/core/res/move.svg", "hint": "движение"}
+                {"mode": "move", "image": "qrc:/core/res/move.svg", "hint": "движение"},
+                {"mode": "scale", "image": "qrc:/core/res/scale.svg", "hint": "масштаб"}
             ]
 
             Item {

@@ -18,6 +18,7 @@
 #include "ellipsegen.h"
 #include "textgen.h"
 #include "movegen.h"
+#include "scalegen.h"
 #include "imagegen.h"
 #include "videogen.h"
 #include "erasergen.h"
@@ -59,6 +60,7 @@ Paint::Paint(Core *parent) :
   RegisterShapeGen("ellipse",   [](ISheetCanvas *canvas) -> QSharedPointer<ShapeGen> { return QSharedPointer<EllipseGen>::create(canvas); });
   RegisterShapeGen("text",      [](ISheetCanvas *canvas) -> QSharedPointer<ShapeGen> { return QSharedPointer<TextGen>::create(canvas); });
   RegisterShapeGen("move",      [](ISheetCanvas *canvas) -> QSharedPointer<ShapeGen> { return QSharedPointer<MoveGen>::create(canvas); });
+  RegisterShapeGen("scale",     [](ISheetCanvas *canvas) -> QSharedPointer<ShapeGen> { return QSharedPointer<ScaleGen>::create(canvas); });
   RegisterShapeGen("image",     [](ISheetCanvas *canvas) -> QSharedPointer<ShapeGen> { return QSharedPointer<ImageGen>::create(canvas); });
   RegisterShapeGen("video",     [](ISheetCanvas *canvas) -> QSharedPointer<ShapeGen> { return QSharedPointer<VideoGen>::create(canvas); });
 

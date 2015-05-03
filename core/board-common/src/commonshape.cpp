@@ -26,7 +26,7 @@ bool CommonShape::erase(const QRectF &beg, const QRectF &end)
   qreal sx = scalex();
   qreal sy = scaley();
   QRectF rect((beg.x() - x()) / sx, (beg.y() - y()) / sy, beg.width() / sx, beg.height() / sy);
-  int steps = qMax(qAbs(end.x() - beg.x()), qAbs(end.y() - beg.y())) + 0.1;
+  int steps = qMax(qAbs(end.x() - beg.x()), qAbs(end.y() - beg.y())) * canvas()->zoom() + 0.1;
   if (steps == 0)
   {
     steps = 1;

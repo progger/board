@@ -40,6 +40,7 @@ public:
   explicit Core(QQmlEngine *engine, bool window_mode);
 
   // ICore
+public:
   virtual QWindow *mainWindow() override;
   virtual QDir rootDir() override;
   virtual QSettings *settings() override;
@@ -49,13 +50,19 @@ public:
   virtual int sheetIndex() override;
   virtual ISheet *sheet(int index) override;
   virtual QQmlComponent *getComponent(const QString &url_string) override;
+  virtual bool hasChanges() override;
+public slots:
   virtual void logMessage(const QString &message) override;
   virtual void logError(const QString &error) override;
   virtual void showError(const QString &error) override;
   virtual void registerTool(const QString &name, const QString &section, QQmlComponent *component, int width, int height) override;
   virtual void setChanges() override;
-  virtual bool hasChanges() override;
+signals:
+  void sheetsChanged();
+  void sheetIndexChanged();
+  void hasChangesChanged();
 
+public:
   void init(QWindow *main_window, const QString &brd_file);
   bool windowMode() const;
   bool keyboard() const { return _keyboard; }
@@ -67,15 +74,6 @@ public:
   QQmlListProperty<ToolInfo> toolsProperty();
   QList<Panel*> panels() const { return _panels; }
   QQmlListProperty<Panel> panelsProperty();
-signals:
-  void keyboardChanged();
-  void transparentChanged();
-  void sheetIndexChanged();
-  void sheetsChanged();
-  void toolsChanged();
-  void panelsChanged();
-  void hasChangesChanged();
-  void errorMessageBox(const QString &error);
 public slots:
   void setKeyboard(bool keyboard);
   void setTransparent(bool transparent);
@@ -88,6 +86,12 @@ public slots:
   void insertSheet(int index);
   void deleteSheet(int index);
   void quitActions();
+signals:
+  void keyboardChanged();
+  void transparentChanged();
+  void toolsChanged();
+  void panelsChanged();
+  void errorMessageBox(const QString &error);
 private:
   QQmlEngine *_engine;
   QWindow *_main_window;

@@ -34,6 +34,7 @@ public:
   explicit SheetCanvas(QQuickItem *parent = 0);
 
   // ISheetCanvas
+public:
   virtual QQuickItem *container() override;
   virtual float zoom() override;
   virtual QPointF sheetPoint() override;
@@ -42,7 +43,14 @@ public:
   virtual qreal getZMin() override;
   virtual qreal getZMax() override;
   virtual qreal getZNext() override;
+public slots:
+  virtual void setZoom(float zoom) override;
+  virtual void pushState() override;
+  virtual void updateSheetRect() override;
+signals:
+  void zoomChanged() override;
 
+public:
   Paint *paintObj() const { return _paint; }
   Q_INVOKABLE void moveSheet(qreal dx, qreal dy);
   QQuickItem *selectRect() const { return _select_rect; }
@@ -54,19 +62,11 @@ public:
   int mouseY() const { return _mouse_y; }
   bool containsMouse() { return _contains_mouse; }
 public slots:
-  // ISheetCanvas
-  virtual void setZoom(float zoom) override;
-  virtual void pushState() override;
-  virtual void updateSheetRect() override;
-
   void onEnabledChanged();
   void onModeChanged();
   void onUndo();
   void onRedo();
 signals:
-  // ISheetCanvas
-  void zoomChanged() override;
-
   void sheetPointChanged();
   void sheetRectChanged();
   void mousePositionChanged();

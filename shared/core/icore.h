@@ -27,12 +27,17 @@ public:
   virtual int sheetIndex() = 0;
   virtual ISheet *sheet(int index) = 0;
   virtual QQmlComponent *getComponent(const QString &url_string) = 0;
+  virtual bool hasChanges() = 0;
+public slots:
   virtual void logMessage(const QString &message) = 0;
   virtual void logError(const QString &error) = 0;
   virtual void showError(const QString &error) = 0;
   virtual void registerTool(const QString &name, const QString &section, QQmlComponent *component, int width, int height) = 0;
   virtual void setChanges() = 0;
-  virtual bool hasChanges() = 0;
+signals:
+  virtual void sheetsChanged() = 0;
+  virtual void sheetIndexChanged() = 0;
+  virtual void hasChangesChanged() = 0;
 };
 
 Q_DECLARE_INTERFACE(ICore, "board.core.ICore")

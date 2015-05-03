@@ -36,6 +36,7 @@ public:
   explicit Paint(Core *parent);
 
   // IPaint
+public:
   virtual QString mode() override;
   virtual float thickness() override;
   virtual QColor color() override;
@@ -43,7 +44,25 @@ public:
   virtual int fontSize() override;
   virtual float eraserSize() override;
   virtual Shape *createShape(const QString &name) override;
+public slots:
+  virtual void RegisterShapeGen(const QString &name, ShapeGenFunc func) override;
+  virtual void RegisterShape(const QString &name, ShapeFunc func) override;
+  virtual void RegisterCursor(const QString &name, const QCursor &cursor) override;
+  virtual void setMode(const QString &mode) override;
+  virtual void setThickness(float thickness) override;
+  virtual void setColor(const QColor &color) override;
+  virtual void setBgcolor(const QColor &bgcolor) override;
+  virtual void setFontSize(int font_size) override;
+  virtual void setEraserSize(float eraser_size) override;
+signals:
+  void modeChanged();
+  void thicknessChanged();
+  void colorChanged();
+  void bgcolorChanged();
+  void fontSizeChanged();
+  void eraserSizeChanged();
 
+public:
   bool selected() const { return _selected; }
   bool canUndo() const { return _can_undo; }
   bool canRedo() const { return _can_redo; }
@@ -53,12 +72,6 @@ public:
   QSharedPointer<ShapeGen> createShapeGen(ISheetCanvas *canvas) const;
   QCursor getCursor() const;
 signals:
-  void modeChanged();
-  void thicknessChanged();
-  void colorChanged();
-  void bgcolorChanged();
-  void fontSizeChanged();
-  void eraserSizeChanged();
   void selectedChanged();
   void canUndoChanged();
   void canRedoChanged();
@@ -70,17 +83,6 @@ signals:
   void toBack();
   void save();
 public slots:
-  // IPaint
-  virtual void RegisterShapeGen(const QString &name, ShapeGenFunc func) override;
-  virtual void RegisterShape(const QString &name, ShapeFunc func) override;
-  virtual void RegisterCursor(const QString &name, const QCursor &cursor) override;
-  virtual void setMode(const QString &mode) override;
-  virtual void setThickness(float thickness) override;
-  virtual void setColor(const QColor &color) override;
-  virtual void setBgcolor(const QColor &bgcolor) override;
-  virtual void setFontSize(int font_size) override;
-  virtual void setEraserSize(float eraser_size) override;
-
   void setSelected(bool selected);
   void setCanUndo(bool can_undo);
   void setCanRedo(bool can_redo);

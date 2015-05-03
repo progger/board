@@ -40,7 +40,7 @@ Rectangle {
                 {"mode": "ellipse", "image": "qrc:/core/res/ellipse.svg", "hint": "эллипс"},
                 {"mode": "text", "image": "qrc:/core/res/text.svg", "hint": "текст"},
                 {"mode": "move", "image": "qrc:/core/res/move.svg", "hint": "движение"},
-                {"mode": "scale", "image": "qrc:/core/res/scale.svg", "hint": "масштаб"}
+                {"mode": "zoom", "image": "qrc:/core/res/zoom.svg", "hint": "масштаб"}
             ]
 
             Item {

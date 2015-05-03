@@ -37,7 +37,6 @@ SOURCES += \
     src/paint/pengen.cpp \
     src/paint/rectangle.cpp \
     src/paint/rectanglegen.cpp \
-    src/paint/scalegen.cpp \
     src/paint/selectgen.cpp \
     src/paint/sheet.cpp \
     src/paint/sheetcanvas.cpp \
@@ -46,6 +45,7 @@ SOURCES += \
     src/paint/textwrapper.cpp \
     src/paint/videogen.cpp \
     src/paint/videoplayer.cpp \
+    src/paint/zoomgen.cpp \
     src/panel/panel.cpp \
     src/panel/tool.cpp \
     src/panel/toolinfo.cpp \
@@ -80,7 +80,6 @@ HEADERS += \
     src/paint/pen.h \
     src/paint/pengen.h \
     src/paint/rectangle.h \
-    src/paint/scalegen.h \
     src/paint/rectanglegen.h \
     src/paint/selectgen.h \
     src/paint/sheet.h \
@@ -90,11 +89,12 @@ HEADERS += \
     src/paint/textwrapper.h \
     src/paint/videogen.h \
     src/paint/videoplayer.h \
+    src/paint/zoomgen.h \
     src/panel/panel.h \
     src/panel/tool.h \
     src/panel/toolinfo.h \
     src/str_stack/strstack.h \
-    src/style.h
+    src/style.h \
 
 RESOURCES += app.qrc
 

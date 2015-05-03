@@ -50,7 +50,6 @@
         <file>res/redo.svg</file>
         <file>res/right_arrow.svg</file>
         <file>res/save.svg</file>
-        <file>res/scale.svg</file>
         <file>res/select.svg</file>
         <file>res/settings.svg</file>
         <file>res/stop.svg</file>
@@ -62,5 +61,6 @@
         <file>res/undo.svg</file>
         <file>res/up_arrow.svg</file>
         <file>res/video.svg</file>
+        <file>res/zoom.svg</file>
     </qresource>
 </RCC>

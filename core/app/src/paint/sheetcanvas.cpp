@@ -13,6 +13,7 @@
 
 SheetCanvas::SheetCanvas(QQuickItem *parent) :
   QQuickItem(parent),
+  _zoom(1),
   _sheet_point(),
   _sheet_rect(0, 0, 1, 1),
   _container(),
@@ -34,7 +35,6 @@ SheetCanvas::SheetCanvas(QQuickItem *parent) :
   setAcceptedMouseButtons(Qt::LeftButton);
   setAcceptHoverEvents(true);
   connect(this, SIGNAL(enabledChanged()), SLOT(onEnabledChanged()));
-  connect(_paint, SIGNAL(scaleChanged()), SLOT(onScaleChanged()));
   connect(_paint, SIGNAL(modeChanged()), SLOT(onModeChanged()));
   connect(_paint, SIGNAL(undo()), SLOT(onUndo()));
   connect(_paint, SIGNAL(redo()), SLOT(onRedo()));
@@ -43,6 +43,11 @@ SheetCanvas::SheetCanvas(QQuickItem *parent) :
 QQuickItem *SheetCanvas::container()
 {
   return _container;
+}
+
+float SheetCanvas::zoom()
+{
+  return _zoom;
 }
 
 void SheetCanvas::moveSheet(qreal dx, qreal dy)
@@ -103,6 +108,13 @@ void SheetCanvas::deserializeShapes(QXmlStreamReader *reader, QList<Shape*> *sha
       }
     }
   }
+}
+
+void SheetCanvas::setZoom(float zoom)
+{
+  _zoom = zoom;
+  updateSheetRect();
+  emit zoomChanged();
 }
 
 void SheetCanvas::pushState()
@@ -173,11 +185,6 @@ void SheetCanvas::onEnabledChanged()
     _start_move.clear();
   }
   setCursor(_paint->getCursor());
-}
-
-void SheetCanvas::onScaleChanged()
-{
-  updateSheetRect();
 }
 
 void SheetCanvas::onModeChanged()

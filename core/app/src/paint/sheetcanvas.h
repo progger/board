@@ -24,6 +24,7 @@ class SheetCanvas : public QQuickItem, public ISheetCanvas
 {
   Q_OBJECT
   Q_INTERFACES(ISheetCanvas)
+  Q_PROPERTY(float zoom READ zoom WRITE setZoom NOTIFY zoomChanged)
   Q_PROPERTY(QPointF sheetPoint READ sheetPoint NOTIFY sheetPointChanged)
   Q_PROPERTY(QRectF sheetRect READ sheetRect NOTIFY sheetRectChanged)
   Q_PROPERTY(int mouseX READ mouseX NOTIFY mousePositionChanged)
@@ -34,6 +35,7 @@ public:
 
   // ISheetCanvas
   virtual QQuickItem *container() override;
+  virtual float zoom() override;
   virtual QPointF sheetPoint() override;
   virtual QRectF sheetRect() override;
   virtual QSizeF canvasSize() override;
@@ -54,12 +56,15 @@ public:
   int mouseY() const { return _mouse_y; }
   bool containsMouse() { return _contains_mouse; }
 public slots:
+  // ISheetCanvas
+  virtual void setZoom(float zoom) override;
+
   void onEnabledChanged();
-  void onScaleChanged();
   void onModeChanged();
   void onUndo();
   void onRedo();
 signals:
+  void zoomChanged();
   void sheetPointChanged();
   void sheetRectChanged();
   void mousePositionChanged();
@@ -75,6 +80,7 @@ protected:
   virtual void hoverMoveEvent(QHoverEvent *event) override;
 private:
   Paint *_paint;
+  float _zoom;
   QPointF _sheet_point;
   QRectF _sheet_rect;
   QQuickItem *_container;

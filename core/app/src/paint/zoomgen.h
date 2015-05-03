@@ -9,10 +9,10 @@
 
 #include "shapegen.h"
 
-class ScaleGen : public ShapeGen
+class ZoomGen : public ShapeGen
 {
 public:
-  explicit ScaleGen(ISheetCanvas *canvas);
+  explicit ZoomGen(ISheetCanvas *canvas);
   virtual void begin(const QPointF &p);
   virtual void move(const QPointF &p) override;
   virtual void end(const QPointF &p) override;

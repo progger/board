@@ -18,7 +18,7 @@
 #include "ellipsegen.h"
 #include "textgen.h"
 #include "movegen.h"
-#include "scalegen.h"
+#include "zoomgen.h"
 #include "imagegen.h"
 #include "videogen.h"
 #include "erasergen.h"
@@ -33,7 +33,6 @@
 
 Paint::Paint(Core *parent) :
   QObject(parent),
-  _scale(1),
   _mode("pen"),
   _thickness(3),
   _color("#000000"),
@@ -60,7 +59,7 @@ Paint::Paint(Core *parent) :
   RegisterShapeGen("ellipse",   [](ISheetCanvas *canvas) -> QSharedPointer<ShapeGen> { return QSharedPointer<EllipseGen>::create(canvas); });
   RegisterShapeGen("text",      [](ISheetCanvas *canvas) -> QSharedPointer<ShapeGen> { return QSharedPointer<TextGen>::create(canvas); });
   RegisterShapeGen("move",      [](ISheetCanvas *canvas) -> QSharedPointer<ShapeGen> { return QSharedPointer<MoveGen>::create(canvas); });
-  RegisterShapeGen("scale",     [](ISheetCanvas *canvas) -> QSharedPointer<ShapeGen> { return QSharedPointer<ScaleGen>::create(canvas); });
+  RegisterShapeGen("zoom",      [](ISheetCanvas *canvas) -> QSharedPointer<ShapeGen> { return QSharedPointer<ZoomGen>::create(canvas); });
   RegisterShapeGen("image",     [](ISheetCanvas *canvas) -> QSharedPointer<ShapeGen> { return QSharedPointer<ImageGen>::create(canvas); });
   RegisterShapeGen("video",     [](ISheetCanvas *canvas) -> QSharedPointer<ShapeGen> { return QSharedPointer<VideoGen>::create(canvas); });
 
@@ -82,11 +81,6 @@ Paint::Paint(Core *parent) :
   RegisterCursor("text", Qt::IBeamCursor);
   RegisterCursor("move", Qt::OpenHandCursor);
   RegisterCursor("text", Qt::IBeamCursor);
-}
-
-float Paint::scale()
-{
-  return _scale;
 }
 
 QString Paint::mode()
@@ -153,12 +147,6 @@ void Paint::RegisterShape(const QString &name, ShapeFunc func)
 void Paint::RegisterCursor(const QString &name, const QCursor &cursor)
 {
   _map_cursor[name] = cursor;
-}
-
-void Paint::setScale(float scale)
-{
-  _scale = scale;
-  emit scaleChanged();
 }
 
 void Paint::setMode(const QString &mode)

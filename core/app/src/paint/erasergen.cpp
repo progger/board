@@ -36,7 +36,7 @@ void EraserGen::end(const QPointF &p)
 
 void EraserGen::move(const QPointF &p)
 {
-  float es = g_core->paint()->eraserSize() / g_core->paint()->scale();
+  float es = g_core->paint()->eraserSize() / _canvas->zoom();
   QSizeF size(es * 2, es * 2);
   QRectF beg(QPointF(_start.x() - es, _start.y() - es), size);
   QRectF end(QPointF(p.x() - es, p.y() - es), size);

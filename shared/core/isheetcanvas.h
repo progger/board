@@ -13,6 +13,8 @@ class ISheetCanvas {
 public:
   virtual ~ISheetCanvas() {}
   virtual QQuickItem *container() = 0;
+  virtual float zoom() = 0;
+  virtual void setZoom(float zoom) = 0;
   virtual QPointF sheetPoint() = 0;
   virtual QRectF sheetRect() = 0;
   virtual QSizeF canvasSize() = 0;

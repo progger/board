@@ -43,8 +43,8 @@ Sheet {
             anchors.fill: parent
 
             transform: Scale {
-                xScale: Paint.scale
-                yScale: Paint.scale
+                xScale: sheetCanvas.zoom
+                yScale: sheetCanvas.zoom
             }
         }
 
@@ -145,8 +145,8 @@ Sheet {
             }
 
             Connections {
-                target: Paint
-                onScaleChanged: {
+                target: sheetCanvas
+                onZoomChanged: {
                     if (textInput.textItem) {
                         textInputItem.updatePos()
                     }

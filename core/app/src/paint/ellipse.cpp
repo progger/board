@@ -15,6 +15,12 @@ Ellipse::Ellipse(QQuickItem *parent, float thinkness, QColor color, QColor bgcol
 {
 }
 
+void Ellipse::init(ISheetCanvas *canvas)
+{
+  CommonShape::init(canvas);
+  connect(dynamic_cast<QObject*>(canvas), SIGNAL(zoomChanged()), SLOT(update()));
+}
+
 bool Ellipse::checkIntersect(const QRectF &rect)
 {
   if (!Shape::checkIntersect(rect)) return false;
@@ -62,7 +68,7 @@ void Ellipse::updateMainNode(QSGGeometryNode *node)
   float r2 = height() / 2;
   qreal tx = thickness() * scalex() / 2;
   qreal ty = thickness() * scaley() / 2;
-  int seg_count = getSegCount(qMax(r1 + tx, r2 + ty));
+  int seg_count = getSegCount(qMax(r1 + tx, r2 + ty) * canvas()->zoom());
   int vertex_count = (seg_count + 1) * 2;
   if (g->vertexCount() != vertex_count)
   {

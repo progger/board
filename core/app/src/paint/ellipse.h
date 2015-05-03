@@ -15,6 +15,7 @@ class Ellipse : public CommonShape
 public:
   explicit Ellipse(QQuickItem *parent = 0, float thinkness = 0, QColor color = QColor(),
                    QColor bgcolor = QColor(Qt::transparent));
+  virtual void init(ISheetCanvas *canvas) override;
   virtual bool checkIntersect(const QRectF &rect) override;
 protected:
   virtual void updateMainNode(QSGGeometryNode *node) override;

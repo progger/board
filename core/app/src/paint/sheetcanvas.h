@@ -39,8 +39,6 @@ public:
   virtual QPointF sheetPoint() override;
   virtual QRectF sheetRect() override;
   virtual QSizeF canvasSize() override;
-  virtual void pushState() override;
-  virtual void updateSheetRect() override;
   virtual qreal getZMin() override;
   virtual qreal getZMax() override;
   virtual qreal getZNext() override;
@@ -58,13 +56,17 @@ public:
 public slots:
   // ISheetCanvas
   virtual void setZoom(float zoom) override;
+  virtual void pushState() override;
+  virtual void updateSheetRect() override;
 
   void onEnabledChanged();
   void onModeChanged();
   void onUndo();
   void onRedo();
 signals:
-  void zoomChanged();
+  // ISheetCanvas
+  void zoomChanged() override;
+
   void sheetPointChanged();
   void sheetRectChanged();
   void mousePositionChanged();

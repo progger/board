@@ -25,7 +25,7 @@ class Shape : public QQuickItem
 public:
   explicit Shape(QQuickItem *parent = 0, float thickness = 0, QColor color = QColor(),
                  QColor bgcolor = QColor(Qt::transparent));
-  void init(ISheetCanvas *canvas);
+  virtual void init(ISheetCanvas *canvas);
   ISheetCanvas *canvas() const { return _canvas; }
   void serialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects = nullptr) const;
   void deserialize(QXmlStreamReader *reader);

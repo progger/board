@@ -164,12 +164,15 @@ QRectF CommonShape::getFullInnerRect() const
 
 void CommonShape::innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const
 {
+  Shape::innerSerialize(writer, brd_objects);
+  writer->writeAttribute("common_shape_version", QString::number(1));
   writer->writeAttribute("clips_hash", _clips_hash);
   if (brd_objects) brd_objects->insert(_clips_hash);
 }
 
 void CommonShape::innerDeserialize(QXmlStreamReader *reader)
 {
+  Shape::innerDeserialize(reader);
   _clips_hash = reader->attributes().value("clips_hash").toString();
   if (_clips_hash.isEmpty()) return;
   _clips.clear();

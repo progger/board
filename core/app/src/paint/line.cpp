@@ -110,6 +110,7 @@ QString Line::elementName() const
 void Line::innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const
 {
   CommonShape::innerSerialize(writer, brd_objects);
+  writer->writeAttribute("version", QString::number(1));
   writer->writeAttribute("x1", QString::number(_p1.x()));
   writer->writeAttribute("y1", QString::number(_p1.y()));
   writer->writeAttribute("x2", QString::number(_p2.x()));
@@ -119,28 +120,40 @@ void Line::innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) 
 void Line::innerDeserialize(QXmlStreamReader *reader)
 {
   CommonShape::innerDeserialize(reader);
-  if (reader->attributes().hasAttribute("ltrb"))
-  {
-    // Убрать через некоторое время
-    bool mode_ltrb = reader->attributes().value("ltrb").toString().toInt();
-    _p1.setX(0);
-    _p2.setY(innerSize().width());
-    if (mode_ltrb)
-    {
-      _p1.setY(0);
-      _p2.setY(innerSize().height());
-    }
-    else
-    {
-      _p1.setY(innerSize().height());
-      _p2.setY(0);
-    }
-  }
-  else
+  auto attrs = reader->attributes();
+  int version = attrs.value("version").toInt();
+  if (version >= 1)
   {
     _p1.setX(reader->attributes().value("x1").toString().toDouble());
     _p1.setY(reader->attributes().value("y1").toString().toDouble());
     _p2.setX(reader->attributes().value("x2").toString().toDouble());
     _p2.setY(reader->attributes().value("y2").toString().toDouble());
+  }
+  else
+  {
+    if (reader->attributes().hasAttribute("ltrb"))
+    {
+      // Убрать через некоторое время
+      bool mode_ltrb = reader->attributes().value("ltrb").toString().toInt();
+      _p1.setX(0);
+      _p2.setY(innerSize().width());
+      if (mode_ltrb)
+      {
+        _p1.setY(0);
+        _p2.setY(innerSize().height());
+      }
+      else
+      {
+        _p1.setY(innerSize().height());
+        _p2.setY(0);
+      }
+    }
+    else
+    {
+      _p1.setX(reader->attributes().value("x1").toString().toDouble());
+      _p1.setY(reader->attributes().value("y1").toString().toDouble());
+      _p2.setX(reader->attributes().value("x2").toString().toDouble());
+      _p2.setY(reader->attributes().value("y2").toString().toDouble());
+    }
   }
 }

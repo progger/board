@@ -49,6 +49,7 @@ void Sheet::setImageMode(int image_mode)
 void Sheet::serialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects)
 {
   writer->writeStartElement("sheet");
+  writer->writeAttribute("version", QString::number(1));
   writer->writeAttribute("scrollable", QString::number(_scrollable));
   writer->writeAttribute("color", QString("#%1").arg(_color.rgba(), 8, 16, QLatin1Char('0')));
   writer->writeAttribute("imageHash", _image_hash);
@@ -65,10 +66,12 @@ void Sheet::deserialize(QXmlStreamReader *reader)
 {
   if (reader->tokenType() != QXmlStreamReader::StartElement || reader->name() != "sheet") return;
   auto attrs = reader->attributes();
-  if (attrs.hasAttribute("scrollable"))
+  int version = attrs.value("version").toInt();
+  if (version >= 1)
+  {
     setScrollable(attrs.value("scrollable").toInt());
-  if (attrs.hasAttribute("color"))
     setColor(attrs.value("color").toString());
+  }
   setImageHash(attrs.value("imageHash").toString());
   setImageMode(attrs.value("imageMode").toInt());
   _canvas->deserialize(reader);

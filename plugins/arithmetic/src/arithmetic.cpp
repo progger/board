@@ -81,6 +81,7 @@ QString Arithmetic::elementName() const
 void Arithmetic::innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const
 {
   Shape::innerSerialize(writer, brd_objects);
+  writer->writeAttribute("version", QString::number(1));
   writer->writeAttribute("hash", _hash);
   if (brd_objects) brd_objects->insert(_hash);
 }

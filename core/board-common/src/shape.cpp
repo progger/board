@@ -27,6 +27,7 @@ void Shape::init(ISheetCanvas *canvas)
 void Shape::serialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const
 {
   writer->writeStartElement(elementName());
+  writer->writeAttribute("shape_version", QString::number(1));
   writer->writeAttribute("x", QString::number(x() + _canvas->sheetPoint().x()));
   writer->writeAttribute("y", QString::number(y() + _canvas->sheetPoint().y()));
   writer->writeAttribute("z", QString::number(z()));

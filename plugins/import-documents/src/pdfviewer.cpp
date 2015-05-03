@@ -65,6 +65,8 @@ QString PdfViewer::elementName() const
 
 void PdfViewer::innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const
 {
+  Shape::innerSerialize(writer, brd_objects);
+  writer->writeAttribute("version", QString::number(1));
   writer->writeAttribute("hash", _hash);
   writer->writeAttribute("page", QString::number(_page));
   if (brd_objects) brd_objects->insert(_hash);

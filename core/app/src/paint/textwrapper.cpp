@@ -47,6 +47,8 @@ QString TextWrapper::elementName() const
 void TextWrapper::innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const
 {
   Q_UNUSED(brd_objects);
+  Shape::innerSerialize(writer, brd_objects);
+  writer->writeAttribute("version", QString::number(0));
   writer->writeAttribute("text", _text);
   writer->writeAttribute("font_family", _font_family);
   writer->writeAttribute("font_size", QString::number(_font_size));
@@ -54,6 +56,7 @@ void TextWrapper::innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_ob
 
 void TextWrapper::innerDeserialize(QXmlStreamReader *reader)
 {
+  Shape::innerDeserialize(reader);
   QXmlStreamAttributes attrs = reader->attributes();
   setText(attrs.value("text").toString());
   QString font_family = attrs.value("font_family").toString();

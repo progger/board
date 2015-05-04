@@ -103,19 +103,50 @@ Window {
     FileDialog {
         id: saveBookDialog
         modality: Qt.ApplicationModal
-        nameFilters: ["Book files (*.brd)"]
         selectExisting: false
         title: "Сохранить книгу"
         onAccepted: Core.saveBook(fileUrl)
+        Component.onCompleted: buildNameFilters()
+
+        function buildNameFilters() {
+            nameFilters = []
+            for (var i in Core.exporters) {
+                var exporter = Core.exporters[i]
+                nameFilters.push(exporter.name + " (*." + exporter.suffix + ")")
+            }
+        }
+    }
+
+    Connections {
+        target: Core
+        onExportersChanged: saveBookDialog.buildNameFilters()
     }
 
     FileDialog {
         id: openBookDialog
         modality: Qt.ApplicationModal
-        nameFilters: ["Book files (*.brd)"]
         selectExisting: true
         title: "Открыть книгу"
         onAccepted: Core.openBook(fileUrl)
+        Component.onCompleted: buildNameFilters()
+
+        function buildNameFilters() {
+            var filters = []
+            var suffixes = []
+            for (var i in Core.importers) {
+                var importer = Core.importers[i]
+                var filter = "*." + importer.suffix
+                suffixes.push(filter)
+                filters.push(importer.name + " (" + filter + ")")
+            }
+            filters.unshift("All supported (" + suffixes.join(" ") + ")")
+            nameFilters = filters
+        }
+    }
+
+    Connections {
+        target: Core
+        onImportersChanged: openBookDialog.buildNameFilters()
     }
 
     onClosing: {
@@ -124,4 +155,5 @@ Window {
             close.accepted = false
         }
     }
+
 }

@@ -86,7 +86,7 @@ void Shape::setThickness(int thickness)
   _thickness = thickness;
   emit thicknessChanged();
 }
-#include <QDebug>
+
 void Shape::setColor(const QColor &color)
 {
   _color = color;

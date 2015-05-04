@@ -55,6 +55,8 @@ Core::Core(QQmlEngine *engine, bool window_mode) :
   qmlRegisterType<ToolInfo>();
   qmlRegisterType<Tool>();
   qmlRegisterType<Panel>();
+  qmlRegisterType<Importer>();
+  qmlRegisterType<Exporter>();
   qmlRegisterType<TextEditTool>();
   qmlRegisterType<Style>("board.core", 2, 0, "StyleQml");
   qmlRegisterType<PanelTool>("board.core", 2, 0, "PanelTool");
@@ -291,6 +293,40 @@ QQmlListProperty<Panel> Core::panelsProperty()
   return QQmlListProperty<Panel>(this, nullptr, count_func, at_func);
 }
 
+QQmlListProperty<Importer> Core::importersProperty()
+{
+  auto count_func = [](QQmlListProperty<Importer> *list)
+  {
+    Core *core = qobject_cast<Core*>(list->object);
+    Q_ASSERT(core);
+    return core->importers().size();
+  };
+  auto at_func = [](QQmlListProperty<Importer> *list, int index)
+  {
+    Core *core = qobject_cast<Core*>(list->object);
+    Q_ASSERT(core);
+    return core->importers().at(index);
+  };
+  return QQmlListProperty<Importer>(this, nullptr, count_func, at_func);
+}
+
+QQmlListProperty<Exporter> Core::exportersProperty()
+{
+  auto count_func = [](QQmlListProperty<Exporter> *list)
+  {
+    Core *core = qobject_cast<Core*>(list->object);
+    Q_ASSERT(core);
+    return core->exporters().size();
+  };
+  auto at_func = [](QQmlListProperty<Exporter> *list, int index)
+  {
+    Core *core = qobject_cast<Core*>(list->object);
+    Q_ASSERT(core);
+    return core->exporters().at(index);
+  };
+  return QQmlListProperty<Exporter>(this, nullptr, count_func, at_func);
+}
+
 void Core::emulateKeyPress(int key, int modifiers, const QString &text) const
 {
   Qt::KeyboardModifiers md(modifiers);
@@ -316,7 +352,7 @@ void Core::newBook()
     addSheet();
   }
 }
-#include <QDebug>
+
 void Core::saveBook(const QUrl &file_url)
 {
   QString file_name = file_url.toLocalFile();
@@ -339,7 +375,6 @@ void Core::saveBook(const QUrl &file_url)
   }
   if (!found)
   {
-    qDebug() << "FAIL";
     saveBookBrd(file_name);
   }
   _changes = false;
@@ -436,6 +471,8 @@ void Core::initPlugins()
     plugin->init();
   }
   emit toolsChanged();
+  emit importersChanged();
+  emit exportersChanged();
 }
 
 void Core::savePanels()

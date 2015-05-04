@@ -38,6 +38,8 @@ class Core : public QObject, public ICore
   Q_PROPERTY(QQmlListProperty<Sheet> sheets READ sheetsProperty NOTIFY sheetsChanged)
   Q_PROPERTY(QQmlListProperty<ToolInfo> tools READ toolsProperty NOTIFY toolsChanged)
   Q_PROPERTY(QQmlListProperty<Panel> panels READ panelsProperty NOTIFY panelsChanged)
+  Q_PROPERTY(QQmlListProperty<Importer> importers READ importersProperty NOTIFY importersChanged)
+  Q_PROPERTY(QQmlListProperty<Exporter> exporters READ exportersProperty NOTIFY exportersChanged)
 public:
   explicit Core(QQmlEngine *engine, bool window_mode);
 
@@ -81,6 +83,10 @@ public:
   QQmlListProperty<ToolInfo> toolsProperty();
   QList<Panel*> panels() const { return _panels; }
   QQmlListProperty<Panel> panelsProperty();
+  QList<Importer*> importers() const { return _importers; }
+  QQmlListProperty<Importer> importersProperty();
+  QList<Exporter*> exporters() const { return _exporters; }
+  QQmlListProperty<Exporter> exportersProperty();
 public slots:
   void setKeyboard(bool keyboard);
   void setTransparent(bool transparent);
@@ -97,6 +103,8 @@ signals:
   void transparentChanged();
   void toolsChanged();
   void panelsChanged();
+  void importersChanged();
+  void exportersChanged();
   void errorMessageBox(const QString &error);
 private:
   QQmlEngine *_engine;

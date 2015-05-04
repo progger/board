@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014 Michael Kulabuhov, Kemerovo, Russia.
+ * Copyright (C) 2015 Michael Kulabuhov, Kemerovo, Russia.
  *
  * See the LICENSE file for terms of use.
  */

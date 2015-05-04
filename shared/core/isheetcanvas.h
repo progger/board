@@ -22,10 +22,12 @@ public:
   virtual qreal getZNext() = 0;
 public slots:
   virtual void setZoom(float zoom) = 0;
+  virtual void setSheetPoint(qreal x, qreal y) = 0;
   virtual void pushState() = 0;
   virtual void updateSheetRect() = 0;
 signals:
   virtual void zoomChanged() = 0;
+  virtual void sheetPointChanged() = 0;
 };
 
 Q_DECLARE_INTERFACE(ISheetCanvas, "board.core.ISheetCanvas")

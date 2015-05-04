@@ -32,13 +32,13 @@ public:
   QSizeF innerSize() const { return _inner_size; }
   qreal scalex() const;
   qreal scaley() const;
-  int thickness() const { return _thickness; }
+  float thickness() const { return _thickness; }
   QColor color() const { return _color; }
   QColor bgcolor() const { return _bgcolor; }
   virtual bool checkIntersect(const QRectF &rect);
 public slots:
   void setInnerSize(const QSizeF &size);
-  void setThickness(int thickness);
+  void setThickness(float thickness);
   void setColor(const QColor &color);
   void setBgcolor(const QColor &bgcolor);
 signals:

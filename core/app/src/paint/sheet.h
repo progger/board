@@ -23,29 +23,31 @@ public:
   explicit Sheet(QQuickItem *parent = 0);
 
   // ISheet
+public:
   virtual ISheetCanvas *canvas() override;
+  virtual bool scrollable() override;
+  virtual QColor color() override;
+  virtual QString imageHash() override;
+  virtual QString imageSource() override;
+  virtual int imageMode() override;
+public slots:
+  virtual void setScrollable(bool scrollable) override;
+  virtual void setColor(QColor color) override;
+  virtual void setImageHash(const QString &image_hash) override;
+  virtual void setImageMode(int image_mode) override;
+signals:
+  void scrollableChanged();
+  void colorChanged();
+  void imageSourceChanged();
+  void imageModeChanged();
 
-  SheetCanvas *canvasObj() { return _canvas; }
-  bool scrollable() const { return _scrollable; }
-  void setScrollable(bool scrollable);
-  QColor color() const { return _color; }
-  void setColor(QColor color);
-  QString imageHash() const { return _image_hash; }
-  QString imageSource() const;
-  void setImageHash(const QString &image_hash);
-  int imageMode() const { return _image_mode; }
-  void setImageMode(int image_mode);
+public:
   void serialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects = nullptr);
   void deserialize(QXmlStreamReader *reader);
 public slots:
   void copySettings(Sheet *sheet);
   void selectImage(const QUrl &file_url);
   void deleteImage();
-signals:
-  void scrollableChanged();
-  void colorChanged();
-  void imageSourceChanged();
-  void imageModeChanged();
 protected:
   virtual void componentComplete() override;
 private:

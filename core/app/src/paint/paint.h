@@ -43,7 +43,7 @@ public:
   virtual QColor bgcolor() override;
   virtual int fontSize() override;
   virtual float eraserSize() override;
-  virtual Shape *createShape(const QString &name) override;
+  virtual Shape *createShape(const QString &name, ISheetCanvas *canvas) override;
 public slots:
   virtual void RegisterShapeGen(const QString &name, ShapeGenFunc func) override;
   virtual void RegisterShape(const QString &name, ShapeFunc func) override;

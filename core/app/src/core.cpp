@@ -406,6 +406,8 @@ void Core::openBook(const QUrl &file_url)
     }
     newBook();
   }
+  _changes = false;
+  emit hasChangesChanged();
   emit sheetsChanged();
 }
 

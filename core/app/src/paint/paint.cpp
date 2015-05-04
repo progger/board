@@ -120,11 +120,14 @@ QSharedPointer<ShapeGen> Paint::createShapeGen(ISheetCanvas *canvas) const
   return it.value()(canvas);
 }
 
-Shape *Paint::createShape(const QString &name)
+Shape *Paint::createShape(const QString &name, ISheetCanvas *canvas)
 {
   auto it = _map_shape.find(name);
   if (it == _map_shape.cend()) return nullptr;
-  return it.value()();
+  Shape *shape = it.value()();
+  shape->init(canvas);
+  shape->setZ(canvas->getZNext());
+  return shape;
 }
 
 QCursor Paint::getCursor() const

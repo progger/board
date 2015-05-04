@@ -20,7 +20,7 @@ typedef Shape *(*ShapeFunc)();
 class IPaint {
 public:
   virtual ~IPaint() {}
-  virtual Shape *createShape(const QString &name) = 0;
+  virtual Shape *createShape(const QString &name, ISheetCanvas *canvas) = 0;
   virtual QString mode() = 0;
   virtual float thickness() = 0;
   virtual QColor color() = 0;

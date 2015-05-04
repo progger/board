@@ -18,10 +18,8 @@ void TransformButton::placeTransform()
 {
   ISheet *sheet = g_core->sheet(g_core->sheetIndex());
   ISheetCanvas *canvas = sheet->canvas();
-  CardTransform *transform = qobject_cast<CardTransform*>(g_core->paint()->createShape("transform"));
+  CardTransform *transform = qobject_cast<CardTransform*>(g_core->paint()->createShape("transform", canvas));
   Q_ASSERT(transform);
-  transform->init(canvas);
-  transform->setZ(canvas->getZNext());
   QSizeF size = QSizeF(canvas->container()->width() * 0.75, canvas->container()->height() * 0.85);
   transform->setPosition(QPointF((canvas->container()->width() - size.width()) / 2,
                                  (canvas->container()->height() - size.height()) / 2));

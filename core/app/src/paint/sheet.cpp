@@ -17,6 +17,36 @@ Sheet::Sheet(QQuickItem *parent) :
 {
 }
 
+ISheetCanvas *Sheet::canvas()
+{
+  return _canvas;
+}
+
+bool Sheet::scrollable()
+{
+  return _scrollable;
+}
+
+QColor Sheet::color()
+{
+  return _color;
+}
+
+QString Sheet::imageHash()
+{
+  return _image_hash;
+}
+
+QString Sheet::imageSource()
+{
+  return g_core->brdStore()->getUrlString(_image_hash);
+}
+
+int Sheet::imageMode()
+{
+  return _image_mode;
+}
+
 void Sheet::setScrollable(bool scrollable)
 {
   _scrollable = scrollable;
@@ -27,11 +57,6 @@ void Sheet::setColor(QColor color)
 {
   _color = color;
   emit colorChanged();
-}
-
-QString Sheet::imageSource() const
-{
-  return g_core->brdStore()->getUrlString(_image_hash);
 }
 
 void Sheet::setImageHash(const QString &image_hash)
@@ -108,11 +133,6 @@ void Sheet::deleteImage()
 {
   _image_hash = QString();
   emit imageSourceChanged();
-}
-
-ISheetCanvas *Sheet::canvas()
-{
-  return _canvas;
 }
 
 void Sheet::componentComplete()

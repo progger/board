@@ -11,9 +11,11 @@ DEPENDENCY_LIBRARIES = board-common
 include(../../main.pri)
 
 SOURCES += \
+    src/importer.cpp \
     src/plugin.cpp
 
 HEADERS +=\
+    src/importer.h \
     src/plugin.h
 
 target.path=/opt/board/plugins

@@ -81,7 +81,7 @@ void Shape::setInnerSize(const QSizeF &size)
   emit scaleyChanged();
 }
 
-void Shape::setThickness(int thickness)
+void Shape::setThickness(float thickness)
 {
   _thickness = thickness;
   emit thicknessChanged();

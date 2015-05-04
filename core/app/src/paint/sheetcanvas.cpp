@@ -88,10 +88,9 @@ void SheetCanvas::deserializeShapes(QXmlStreamReader *reader, QList<Shape*> *sha
   while (reader->readNextStartElement())
   {
     QString name = reader->name().toString();
-    Shape *shape = _paint->createShape(name);
+    Shape *shape = _paint->createShape(name, this);
     if (shape)
     {
-      shape->init(this);
       shape->deserialize(reader);
       if (shapes)
       {
@@ -110,17 +109,17 @@ void SheetCanvas::deserializeShapes(QXmlStreamReader *reader, QList<Shape*> *sha
   }
 }
 
-void SheetCanvas::setSheetPoint(qreal x, qreal y)
-{
-  _sheet_point = QPointF(x, y);
-  emit sheetPointChanged();
-}
-
 void SheetCanvas::setZoom(float zoom)
 {
   _zoom = zoom;
   updateSheetRect();
   emit zoomChanged();
+}
+
+void SheetCanvas::setSheetPoint(qreal x, qreal y)
+{
+  _sheet_point = QPointF(x, y);
+  emit sheetPointChanged();
 }
 
 void SheetCanvas::pushState()

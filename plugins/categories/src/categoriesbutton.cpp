@@ -18,10 +18,8 @@ void CategoriesButton::placeCategories()
 {
   ISheet *sheet = g_core->sheet(g_core->sheetIndex());
   ISheetCanvas *canvas = sheet->canvas();
-  Categories *categories = qobject_cast<Categories*>(g_core->paint()->createShape("categories"));
+  Categories *categories = qobject_cast<Categories*>(g_core->paint()->createShape("categories", canvas));
   Q_ASSERT(categories);
-  categories->init(canvas);
-  categories->setZ(canvas->getZNext());
   QSizeF size = QSizeF(canvas->container()->width() * 0.75, canvas->container()->height() * 0.85);
   categories->setPosition(QPointF((canvas->container()->width() - size.width()) / 2,
                                   (canvas->container()->height() - size.height()) / 2));

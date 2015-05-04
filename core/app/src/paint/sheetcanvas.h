@@ -45,10 +45,12 @@ public:
   virtual qreal getZNext() override;
 public slots:
   virtual void setZoom(float zoom) override;
+  virtual void setSheetPoint(qreal x, qreal y) override;
   virtual void pushState() override;
   virtual void updateSheetRect() override;
 signals:
-  void zoomChanged() override;
+  void zoomChanged();
+  void sheetPointChanged();
 
 public:
   Paint *paintObj() const { return _paint; }
@@ -62,13 +64,11 @@ public:
   int mouseY() const { return _mouse_y; }
   bool containsMouse() { return _contains_mouse; }
 public slots:
-  void setSheetPoint(qreal x, qreal y);
   void onEnabledChanged();
   void onModeChanged();
   void onUndo();
   void onRedo();
 signals:
-  void sheetPointChanged();
   void sheetRectChanged();
   void mousePositionChanged();
   void containsMouseChanged();

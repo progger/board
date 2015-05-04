@@ -3,7 +3,6 @@ QT += core gui qml quick
 TARGET = arithmetic
 TEMPLATE = lib
 CONFIG += plugin
-QMAKE_CXXFLAGS += -std=c++11
 DESTDIR = ../../bin/plugins
 LIBSDIR = ../../bin
 DEPENDENCY_LIBRARIES = board-common

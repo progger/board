@@ -3,7 +3,6 @@ QT += core gui qml quick
 TARGET = import-documents
 TEMPLATE = lib
 CONFIG += plugin
-QMAKE_CXXFLAGS += -std=c++11
 win32: LIBS += C:/lib/poppler/qt5/src/libpoppler-qt5.dll
 linux: LIBS += -lpoppler-qt5
 DESTDIR = ../../bin/plugins

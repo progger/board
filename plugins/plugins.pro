@@ -5,6 +5,7 @@ SUBDIRS += \
     black-yellow \
     categories \
     import-documents \
+    import-mimio \
     transform
 
 #linux: SUBDIRS += mpx

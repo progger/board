@@ -566,7 +566,7 @@ bool openBookBrd(const QString &file_name)
 
 bool openBookFiles(QuaZip *zip)
 {
-  for(bool more = zip->goToFirstFile(); more; more = zip->goToNextFile())
+  for (bool more = zip->goToFirstFile(); more; more = zip->goToNextFile())
   {
     QuaZipFile zip_file(zip);
     if (!zip_file.open(QIODevice::ReadOnly))

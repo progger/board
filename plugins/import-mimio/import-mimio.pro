@@ -1,7 +1,8 @@
 QT += core gui qml quick
 
-TARGET = transform
+TARGET = import-mimio
 TEMPLATE = lib
+LIBS += -lquazip-qt5
 CONFIG += plugin
 DESTDIR = ../../bin/plugins
 LIBSDIR = ../../bin
@@ -10,18 +11,10 @@ DEPENDENCY_LIBRARIES = board-common
 include(../../main.pri)
 
 SOURCES += \
-    src/plugin.cpp \
-    src/card.cpp \
-    src/cardtransform.cpp \
-    src/transformbutton.cpp
+    src/plugin.cpp
 
 HEADERS +=\
-    src/plugin.h \
-    src/card.h \
-    src/cardtransform.h \
-    src/transformbutton.h
-
-RESOURCES += transform.qrc
+    src/plugin.h
 
 target.path=/opt/board/plugins
 INSTALLS += target

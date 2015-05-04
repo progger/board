@@ -372,22 +372,4 @@ Rectangle {
         onClicked: Core.quitButton()
         visible: !Core.windowMode
     }
-
-    FileDialog {
-        id: saveBookDialog
-        modality: Qt.ApplicationModal
-        nameFilters: ["Book files (*.brd)"]
-        selectExisting: false
-        title: "Сохранить книгу"
-        onAccepted: Core.saveBook(fileUrl)
-    }
-
-    FileDialog {
-        id: openBookDialog
-        modality: Qt.ApplicationModal
-        nameFilters: ["Book files (*.brd)"]
-        selectExisting: true
-        title: "Открыть книгу"
-        onAccepted: Core.openBook(fileUrl)
-    }
 }

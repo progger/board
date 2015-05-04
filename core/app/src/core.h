@@ -18,6 +18,8 @@
 #include "iplugin.h"
 #include "paint/sheet.h"
 #include "panel/panel.h"
+#include "importer.h"
+#include "exporter.h"
 
 class BrdStore;
 class Paint;
@@ -28,14 +30,14 @@ class Core : public QObject, public ICore
   Q_OBJECT
   Q_INTERFACES(ICore)
   Q_PROPERTY(bool windowMode READ windowMode CONSTANT)
-  Q_PROPERTY(bool keyboard READ keyboard WRITE setKeyboard NOTIFY keyboardChanged FINAL)
-  Q_PROPERTY(bool transparent READ transparent WRITE setTransparent NOTIFY transparentChanged FINAL)
-  Q_PROPERTY(bool hasChanges READ hasChanges NOTIFY hasChangesChanged FINAL)
-  Q_PROPERTY(int sheetIndex READ sheetIndex WRITE setSheetIndex NOTIFY sheetIndexChanged FINAL)
-  Q_PROPERTY(Paint paint READ paintObj CONSTANT FINAL)
-  Q_PROPERTY(QQmlListProperty<Sheet> sheets READ sheetsProperty NOTIFY sheetsChanged FINAL)
+  Q_PROPERTY(bool keyboard READ keyboard WRITE setKeyboard NOTIFY keyboardChanged)
+  Q_PROPERTY(bool transparent READ transparent WRITE setTransparent NOTIFY transparentChanged)
+  Q_PROPERTY(bool hasChanges READ hasChanges NOTIFY hasChangesChanged)
+  Q_PROPERTY(int sheetIndex READ sheetIndex WRITE setSheetIndex NOTIFY sheetIndexChanged)
+  Q_PROPERTY(Paint paint READ paintObj CONSTANT)
+  Q_PROPERTY(QQmlListProperty<Sheet> sheets READ sheetsProperty NOTIFY sheetsChanged)
   Q_PROPERTY(QQmlListProperty<ToolInfo> tools READ toolsProperty NOTIFY toolsChanged)
-  Q_PROPERTY(QQmlListProperty<Panel> panels READ panelsProperty NOTIFY panelsChanged FINAL)
+  Q_PROPERTY(QQmlListProperty<Panel> panels READ panelsProperty NOTIFY panelsChanged)
 public:
   explicit Core(QQmlEngine *engine, bool window_mode);
 
@@ -56,6 +58,11 @@ public slots:
   virtual void logError(const QString &error) override;
   virtual void showError(const QString &error) override;
   virtual void registerTool(const QString &name, const QString &section, QQmlComponent *component, int width, int height) override;
+  virtual void registerImporter(const QString &name, const QString &suffix, ImportFunc func) override;
+  virtual void registerExporter(const QString &name, const QString &suffix, ExportFunc func) override;
+  virtual ISheet *addSheet() override;
+  virtual ISheet *insertSheet(int index) override;
+  virtual void deleteSheet(int index) override;
   virtual void setChanges() override;
 signals:
   void sheetsChanged();
@@ -81,10 +88,9 @@ public slots:
   void emulateKeyPress(int key, int modifiers, const QString & text = "") const;
   void quitButton();
   void minimizeButton();
+  void newBook();
   void saveBook(const QUrl &file_url);
   void openBook(const QUrl &file_url);
-  void insertSheet(int index);
-  void deleteSheet(int index);
   void quitActions();
 signals:
   void keyboardChanged();
@@ -110,10 +116,11 @@ private:
   QMap<QString, ToolInfo*> _tools;
   QList<Sheet*> _sheets;
   QList<IPlugin*> _plugins;
+  QList<Importer*> _importers;
+  QList<Exporter*> _exporters;
   bool _changes;
-  Sheet *createSheet();
-  void saveBookFiles(QuaZip *zip);
-  void openBookFiles(QuaZip *zip);
+  Sheet* createSheet();
+  void clearBook();
   void loadPlugins();
   void initPlugins();
   void savePanels();

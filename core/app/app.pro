@@ -14,8 +14,6 @@ SOURCES += \
     src/brd/brdnetworkaccessmanagerfactory.cpp \
     src/brd/brdreply.cpp \
     src/brd/brdstore.cpp \
-    src/core.cpp \
-    src/main.cpp \
     src/paint/circlegen.cpp \
     src/paint/ellipse.cpp \
     src/paint/ellipsegen.cpp \
@@ -50,6 +48,10 @@ SOURCES += \
     src/panel/tool.cpp \
     src/panel/toolinfo.cpp \
     src/str_stack/strstack.cpp \
+    src/core.cpp \
+    src/exporter.cpp \
+    src/importer.cpp \
+    src/main.cpp \
     src/style.cpp
 
 HEADERS += \
@@ -57,7 +59,6 @@ HEADERS += \
     src/brd/brdnetworkaccessmanagerfactory.h \
     src/brd/brdreply.h \
     src/brd/brdstore.h \
-    src/core.h \
     src/paint/circlegen.h \
     src/paint/ellipse.h \
     src/paint/ellipsegen.h \
@@ -94,7 +95,10 @@ HEADERS += \
     src/panel/tool.h \
     src/panel/toolinfo.h \
     src/str_stack/strstack.h \
-    src/style.h \
+    src/core.h \
+    src/exporter.h \
+    src/importer.h \
+    src/style.h
 
 RESOURCES += app.qrc
 

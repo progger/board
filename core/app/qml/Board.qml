@@ -109,6 +109,15 @@ Window {
         onAccepted: Core.saveBook(fileUrl)
     }
 
+    FileDialog {
+        id: openBookDialog
+        modality: Qt.ApplicationModal
+        nameFilters: ["Book files (*.brd)"]
+        selectExisting: true
+        title: "Открыть книгу"
+        onAccepted: Core.openBook(fileUrl)
+    }
+
     onClosing: {
         if (closeQuestion && Core.hasChanges) {
             closeCaution.show()

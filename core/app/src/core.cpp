@@ -22,6 +22,11 @@
 #include "paneltool.h"
 #include "core.h"
 
+bool openBookBrd(const QString &file_name);
+bool openBookFiles(QuaZip *zip);
+void saveBookBrd(const QString &file_name);
+void saveBookFiles(QuaZip *zip);
+
 Core::Core(QQmlEngine *engine, bool window_mode) :
   QObject(),
   _engine(engine),
@@ -33,6 +38,9 @@ Core::Core(QQmlEngine *engine, bool window_mode) :
   _panels(),
   _tools(),
   _sheets(),
+  _plugins(),
+  _importers(),
+  _exporters(),
   _changes(false)
 {
   _root_dir = QDir(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation));
@@ -71,6 +79,9 @@ Core::Core(QQmlEngine *engine, bool window_mode) :
 
   _comp_sheet = getComponent("qrc:/core/qml/Sheet.qml");
   Q_ASSERT(_comp_sheet);
+
+  registerImporter("Book files", "brd", openBookBrd);
+  registerExporter("Book files", "brd", saveBookBrd);
 
   loadPlugins();
 }
@@ -126,6 +137,40 @@ void Core::registerTool(const QString &name, const QString &section, QQmlCompone
   _tools.insert(name, new ToolInfo(name, section, component, width, height));
 }
 
+void Core::registerImporter(const QString &name, const QString &suffix, ImportFunc func)
+{
+  _importers.append(new Importer(name, suffix, func, this));
+}
+
+void Core::registerExporter(const QString &name, const QString &suffix, ExportFunc func)
+{
+  _exporters.append(new Exporter(name, suffix, func, this));
+}
+
+ISheet *Core::addSheet()
+{
+  Sheet *sheet = createSheet();
+  _sheets.append(sheet);
+  emit sheetsChanged();
+  return sheet;
+}
+
+ISheet *Core::insertSheet(int index)
+{
+  Sheet *sheet = createSheet();
+  _sheets.insert(index, sheet);
+  emit sheetsChanged();
+  return sheet;
+}
+
+void Core::deleteSheet(int index)
+{
+  Sheet *sheet = _sheets[index];
+  sheet->deleteLater();
+  _sheets.removeAt(index);
+  emit sheetsChanged();
+}
+
 void Core::setChanges()
 {
   _changes = true;
@@ -151,11 +196,7 @@ void Core::init(QWindow *main_window, const QString &brd_file)
   }
   else
   {
-    for (int i = 0; i < 5; ++i)
-    {
-      Sheet *sheet = createSheet();
-      _sheets.append(sheet);
-    }
+    newBook();
   }
   emit sheetsChanged();
 }
@@ -267,6 +308,15 @@ void Core::minimizeButton()
   _main_window->showMinimized();
 }
 
+void Core::newBook()
+{
+  clearBook();
+  for (int i = 0; i < 5; ++i)
+  {
+    addSheet();
+  }
+}
+#include <QDebug>
 void Core::saveBook(const QUrl &file_url)
 {
   QString file_name = file_url.toLocalFile();
@@ -274,48 +324,53 @@ void Core::saveBook(const QUrl &file_url)
   if (file_info.suffix().isEmpty())
   {
     file_info.setFile(file_info.filePath() + ".brd");
+    file_name = file_info.filePath();
   }
-  QuaZip zip(file_info.filePath());
-  if (!zip.open(QuaZip::mdCreate))
+  QString suffix = file_info.suffix();
+  bool found = false;
+  for (Exporter *exporter : _exporters)
   {
-    showError(QString("Не удалось открыть %1: error %2").arg(file_name).arg(zip.getZipError()));
-    return;
+    if (QString::compare(exporter->suffix(), suffix, Qt::CaseInsensitive) == 0)
+    {
+      found = true;
+      exporter->func()(file_name);
+      break;
+    }
   }
-  saveBookFiles(&zip);
+  if (!found)
+  {
+    qDebug() << "FAIL";
+    saveBookBrd(file_name);
+  }
+  _changes = false;
+  emit hasChangesChanged();
 }
 
 void Core::openBook(const QUrl &file_url)
 {
   QString file_name = file_url.toLocalFile();
-  QuaZip zip(file_name);
-  if (!zip.open(QuaZip::mdUnzip))
+  QFileInfo file_info(file_name);
+  QString suffix = file_info.suffix();
+  bool ok = false;
+  bool found = false;
+  clearBook();
+  for (Importer *importer : _importers)
   {
-    showError(QString("Не удалось открыть %1: error %2").arg(file_name).arg(zip.getZipError()));
-    return;
+    if (QString::compare(importer->suffix(), suffix, Qt::CaseInsensitive) == 0)
+    {
+      found = true;
+      ok = importer->func()(file_name);
+      break;
+    }
   }
-  for (QQuickItem *sheet : _sheets)
+  if (!ok)
   {
-    sheet->setVisible(false);
-    sheet->deleteLater();
+    if (!found)
+    {
+      showError("Неизвестный формат файла");
+    }
+    newBook();
   }
-  _sheets.clear();
-  _brdStore->clear();
-  openBookFiles(&zip);
-  emit sheetsChanged();
-}
-
-void Core::insertSheet(int index)
-{
-  Sheet *sheet = createSheet();
-  _sheets.insert(index, sheet);
-  emit sheetsChanged();
-}
-
-void Core::deleteSheet(int index)
-{
-  Sheet *sheet = _sheets[index];
-  sheet->deleteLater();
-  _sheets.removeAt(index);
   emit sheetsChanged();
 }
 
@@ -334,86 +389,15 @@ Sheet *Core::createSheet()
   return sheet;
 }
 
-void Core::saveBookFiles(QuaZip *zip)
+void Core::clearBook()
 {
-  QuaZipFile zip_file(zip);
-  if (!zip_file.open(QIODevice::WriteOnly, QuaZipNewInfo("_book.xml")))
+  for (QQuickItem *sheet : _sheets)
   {
-    showError(QString("Не удалось соханить книгу: %1").arg(zip_file.getZipError()));
-    return;
+    sheet->setVisible(false);
+    sheet->deleteLater();
   }
-  QSet<QString> brd_objects;
-  QXmlStreamWriter writer(&zip_file);
-  writer.writeStartDocument();
-  writer.writeStartElement("book");
-  writer.writeAttribute("version", "1.0");
-  writer.writeStartElement("sheets");
-  for (Sheet *sheet : _sheets)
-  {
-    sheet->serialize(&writer, &brd_objects);
-  }
-  writer.writeEndElement();
-  writer.writeEndElement();
-  writer.writeEndDocument();
-  zip_file.close();
-
-  for (QString hash : brd_objects)
-  {
-    QByteArray data = _brdStore->getObject(hash);
-    if (data.isEmpty()) continue;
-    if (!zip_file.open(QIODevice::WriteOnly, QuaZipNewInfo(hash)))
-    {
-      showError(QString("Не удалось соханить книгу: %1").arg(zip_file.getZipError()));
-      return;
-    }
-    zip_file.write(data);
-    zip_file.close();
-  }
-  _changes = false;
-}
-
-void Core::openBookFiles(QuaZip *zip)
-{
-  for(bool more = zip->goToFirstFile(); more; more = zip->goToNextFile())
-  {
-    QuaZipFile zip_file(zip);
-    if (!zip_file.open(QIODevice::ReadOnly))
-    {
-      showError(QString("Не удалось открыть книгу: %1").arg(zip_file.getZipError()));
-      return;
-    }
-    if (zip->getCurrentFileName() != "_book.xml")
-    {
-      QByteArray data = zip_file.readAll();
-      _brdStore->addObject(data);
-    }
-  }
-  if (!zip->setCurrentFile("_book.xml"))
-  {
-    showError(QString("Не удалось открыть книгу: %1").arg(zip->getZipError()));
-    return;
-  }
-  QuaZipFile zip_file(zip);
-  if (!zip_file.open(QIODevice::ReadOnly))
-  {
-    showError(QString("Не удалось открыть книгу: %1").arg(zip_file.getZipError()));
-    return;
-  }
-  QXmlStreamReader reader(&zip_file);
-  reader.readNextStartElement();
-  if (reader.name() != "book" || reader.attributes().value("version") != "1.0") goto error;
-  reader.readNextStartElement();
-  if (reader.name() != "sheets") goto error;
-  while (reader.readNextStartElement())
-  {
-    if (reader.name() != "sheet") goto error;
-    Sheet *sheet = createSheet();
-    _sheets.append(sheet);
-    sheet->deserialize(&reader);
-  }
-  return;
-error:
-  showError("Книга имеет неверный формат");
+  _sheets.clear();
+  _brdStore->clear();
 }
 
 void Core::loadPlugins()
@@ -530,4 +514,113 @@ void Core::setSheetIndex(int index)
 {
   _sheet_index = index;
   emit sheetIndexChanged();
+}
+
+bool openBookBrd(const QString &file_name)
+{
+  QuaZip zip(file_name);
+  if (!zip.open(QuaZip::mdUnzip))
+  {
+    g_core->showError(QString("Не удалось открыть %1: error %2").arg(file_name).arg(zip.getZipError()));
+    return false;
+  }
+  return openBookFiles(&zip);
+}
+
+bool openBookFiles(QuaZip *zip)
+{
+  for(bool more = zip->goToFirstFile(); more; more = zip->goToNextFile())
+  {
+    QuaZipFile zip_file(zip);
+    if (!zip_file.open(QIODevice::ReadOnly))
+    {
+      g_core->showError(QString("Не удалось открыть книгу: %1").arg(zip_file.getZipError()));
+      return false;
+    }
+    if (zip->getCurrentFileName() != "_book.xml")
+    {
+      QByteArray data = zip_file.readAll();
+      g_core->brdStore()->addObject(data);
+    }
+  }
+  if (!zip->setCurrentFile("_book.xml"))
+  {
+    g_core->showError(QString("Не удалось открыть книгу: %1").arg(zip->getZipError()));
+    return false;
+  }
+  QuaZipFile zip_file(zip);
+  if (!zip_file.open(QIODevice::ReadOnly))
+  {
+    g_core->showError(QString("Не удалось открыть книгу: %1").arg(zip_file.getZipError()));
+    return false;
+  }
+  QXmlStreamReader reader(&zip_file);
+  reader.readNextStartElement();
+  if (reader.name() != "book") goto error;
+  reader.readNextStartElement();
+  if (reader.name() != "sheets") goto error;
+  while (reader.readNextStartElement())
+  {
+    if (reader.name() != "sheet") goto error;
+    ISheet *sheet = g_core->addSheet();
+    Sheet *sheet_obj = dynamic_cast<Sheet*>(sheet);
+    Q_ASSERT(sheet_obj);
+    sheet_obj->deserialize(&reader);
+  }
+  return true;
+error:
+  g_core->showError("Книга имеет неверный формат");
+  return false;
+}
+
+void saveBookBrd(const QString &file_name)
+{
+  QuaZip zip(file_name);
+  if (!zip.open(QuaZip::mdCreate))
+  {
+    g_core->showError(QString("Не удалось открыть %1: error %2").arg(file_name).arg(zip.getZipError()));
+    return;
+  }
+  saveBookFiles(&zip);
+}
+
+void saveBookFiles(QuaZip *zip)
+{
+  QuaZipFile zip_file(zip);
+  if (!zip_file.open(QIODevice::WriteOnly, QuaZipNewInfo("_book.xml")))
+  {
+    g_core->showError(QString("Не удалось соханить книгу: %1").arg(zip_file.getZipError()));
+    return;
+  }
+  QSet<QString> brd_objects;
+  QXmlStreamWriter writer(&zip_file);
+  writer.writeStartDocument();
+  writer.writeStartElement("book");
+  writer.writeAttribute("version", QString::number(1));
+  writer.writeStartElement("sheets");
+  int count = g_core->sheetsCount();
+  for (int i = 0; i < count; ++i)
+  {
+    ISheet *sheet = g_core->sheet(i);
+    Sheet *sheet_obj = dynamic_cast<Sheet*>(sheet);
+    Q_ASSERT(sheet_obj);
+    sheet_obj->serialize(&writer, &brd_objects);
+  }
+  writer.writeEndElement();
+  writer.writeEndElement();
+  writer.writeEndDocument();
+  zip_file.close();
+
+  for (QString hash : brd_objects)
+  {
+    QByteArray data = g_core->brdStore()->getObject(hash);
+    if (data.isEmpty()) continue;
+    if (!zip_file.open(QIODevice::WriteOnly, QuaZipNewInfo(hash)))
+    {
+      g_core->showError(QString("Не удалось соханить книгу: %1").arg(zip_file.getZipError()));
+      return;
+    }
+    zip_file.write(data);
+    zip_file.close();
+  }
 }

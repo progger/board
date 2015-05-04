@@ -15,6 +15,9 @@
 #include "isheet.h"
 #include "ibrdstore.h"
 
+typedef bool (*ImportFunc)(const QString &file_name);
+typedef void (*ExportFunc)(const QString &file_name);
+
 class ICore {
 public:
   virtual ~ICore() {}
@@ -33,6 +36,11 @@ public slots:
   virtual void logError(const QString &error) = 0;
   virtual void showError(const QString &error) = 0;
   virtual void registerTool(const QString &name, const QString &section, QQmlComponent *component, int width, int height) = 0;
+  virtual void registerImporter(const QString &name, const QString &suffix, ImportFunc func) = 0;
+  virtual void registerExporter(const QString &name, const QString &suffix, ExportFunc func) = 0;
+  virtual ISheet *addSheet() = 0;
+  virtual ISheet *insertSheet(int index) = 0;
+  virtual void deleteSheet(int index) = 0;
   virtual void setChanges() = 0;
 signals:
   virtual void sheetsChanged() = 0;

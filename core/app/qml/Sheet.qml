@@ -140,8 +140,8 @@ Sheet {
                 var pos = sheetCanvas.mapFromItem(container, textItem.x, textItem.y)
                 textInputItem.x = pos.x
                 textInputItem.y = pos.y
-                textInputScale.xScale = textItem.scalex * Paint.scale
-                textInputScale.yScale = textItem.scaley * Paint.scale
+                textInputScale.xScale = textItem.scalex * sheetCanvas.zoom
+                textInputScale.yScale = textItem.scaley * sheetCanvas.zoom
             }
 
             Connections {
@@ -182,8 +182,8 @@ Sheet {
                         font.family = textItem.fontFamily
                         font.pixelSize = textItem.fontSize
                         color = textItem.color
-                        textInputScale.xScale = textItem.scalex * Paint.scale
-                        textInputScale.yScale = textItem.scaley * Paint.scale
+                        textInputScale.xScale = textItem.scalex * sheetCanvas.zoom
+                        textInputScale.yScale = textItem.scaley * sheetCanvas.zoom
                         text = textItem.text
                         cursorPosition = positionAt((sheetCanvas.mouseX - textItem.x) / textItem.scalex,
                                                     (sheetCanvas.mouseY - textItem.y) / textItem.scaley)
@@ -260,15 +260,15 @@ Sheet {
         anchors.bottom: hscroll.top
         visible: sheet.scrollable
         width: 20
-        onLeftButton: sheetCanvas.moveSheet(0, -10)
-        onRightButton: sheetCanvas.moveSheet(0, 10)
-        onLeftPage: sheetCanvas.moveSheet(0, -sheetCanvas.height / Paint.scale / 2)
-        onRightPage: sheetCanvas.moveSheet(0, sheetCanvas.height / Paint.scale / 2)
-        onMove: sheetCanvas.moveSheet(0, sheetCanvas.height * step)
+        onLeftButton: sheetCanvas.moveSheet(0, -10 / sheetCanvas.zoom)
+        onRightButton: sheetCanvas.moveSheet(0, 10 / sheetCanvas.zoom)
+        onLeftPage: sheetCanvas.moveSheet(0, -sheetCanvas.height / sheetCanvas.zoom / 2)
+        onRightPage: sheetCanvas.moveSheet(0, sheetCanvas.height / sheetCanvas.zoom / 2)
+        onMove: sheetCanvas.moveSheet(0, sheetCanvas.height  / sheetCanvas.zoom * step)
 
         function updateScroll() {
             position = -sheetCanvas.sheetRect.y / sheetCanvas.sheetRect.height;
-            length = sheetCanvas.height / Paint.scale / sheetCanvas.sheetRect.height;
+            length = sheetCanvas.height / sheetCanvas.zoom / sheetCanvas.sheetRect.height;
         }
     }
 
@@ -280,15 +280,15 @@ Sheet {
         anchors.bottom: parent.bottom
         visible: sheet.scrollable
         height: 20
-        onLeftButton: sheetCanvas.moveSheet(-10, 0)
-        onRightButton: sheetCanvas.moveSheet(10, 0)
-        onLeftPage: sheetCanvas.moveSheet(-sheetCanvas.width / Paint.scale / 2, 0)
-        onRightPage: sheetCanvas.moveSheet(sheetCanvas.width / Paint.scale / 2, 0)
-        onMove: sheetCanvas.moveSheet(sheetCanvas.width * step, 0)
+        onLeftButton: sheetCanvas.moveSheet(-10 / sheetCanvas.zoom, 0)
+        onRightButton: sheetCanvas.moveSheet(10 / sheetCanvas.zoom, 0)
+        onLeftPage: sheetCanvas.moveSheet(-sheetCanvas.width / sheetCanvas.zoom / 2, 0)
+        onRightPage: sheetCanvas.moveSheet(sheetCanvas.width / sheetCanvas.zoom / 2, 0)
+        onMove: sheetCanvas.moveSheet(sheetCanvas.width  / sheetCanvas.zoom * step, 0)
 
         function updateScroll() {
             position = -sheetCanvas.sheetRect.x / sheetCanvas.sheetRect.width;
-            length = sheetCanvas.width / Paint.scale / sheetCanvas.sheetRect.width;
+            length = sheetCanvas.width / sheetCanvas.zoom / sheetCanvas.sheetRect.width;
         }
     }
 

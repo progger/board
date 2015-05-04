@@ -166,7 +166,10 @@ void CommonShape::innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_ob
 {
   Shape::innerSerialize(writer, brd_objects);
   writer->writeAttribute("common_shape_version", QString::number(1));
-  writer->writeAttribute("clips_hash", _clips_hash);
+  if (!_clips_hash.isEmpty())
+  {
+    writer->writeAttribute("clips_hash", _clips_hash);
+  }
   if (brd_objects) brd_objects->insert(_clips_hash);
 }
 

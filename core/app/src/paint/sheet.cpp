@@ -52,11 +52,15 @@ void Sheet::serialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects)
   writer->writeAttribute("version", QString::number(1));
   writer->writeAttribute("scrollable", QString::number(_scrollable));
   writer->writeAttribute("color", QString("#%1").arg(_color.rgba(), 8, 16, QLatin1Char('0')));
-  writer->writeAttribute("imageHash", _image_hash);
+  if (!_image_hash.isEmpty())
+  {
+    writer->writeAttribute("imageHash", _image_hash);
+  }
   writer->writeAttribute("imageMode", QString::number(_image_mode));
   writer->writeAttribute("view_x", QString::number(_canvas->sheetPoint().x()));
   writer->writeAttribute("view_y", QString::number(_canvas->sheetPoint().y()));
-  writer->writeAttribute("zoom", QString::number(_canvas->zoom()));
+  writer->writeAttribute("view_width", QString::number(_canvas->width() / _canvas->zoom()));
+  writer->writeAttribute("view_height", QString::number(_canvas->height() / _canvas->zoom()));
   _canvas->serialize(writer, brd_objects);
   writer->writeEndElement();
   if (!_image_hash.isEmpty() && brd_objects)
@@ -75,7 +79,9 @@ void Sheet::deserialize(QXmlStreamReader *reader)
     setScrollable(attrs.value("scrollable").toInt());
     setColor(attrs.value("color").toString());
     _canvas->setSheetPoint(attrs.value("view_x").toDouble(), attrs.value("view_y").toDouble());
-    _canvas->setZoom(attrs.value("zoom").toFloat());
+    qreal view_height = attrs.value("view_height").toDouble();
+    qreal zoom = view_height > 0 ? _canvas->height() / view_height : 1;
+    _canvas->setZoom(zoom);
   }
   setImageHash(attrs.value("imageHash").toString());
   setImageMode(attrs.value("imageMode").toInt());

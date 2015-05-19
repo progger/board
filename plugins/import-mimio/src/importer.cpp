@@ -56,11 +56,17 @@ bool Importer::openBookFiles()
   _reader = &reader;
   while (reader.readNextStartElement())
   {
-    if (reader.name() != "PAGE") return false;
-    _sheet = g_core->addSheet();
-    _sheet->setScrollable(false);
-    _canvas = _sheet->canvas();
-    if (!readPage()) return false;
+    if (reader.name() == "METADATA")
+    {
+      skipElement();
+    }
+    else if (reader.name() == "PAGE")
+    {
+      _sheet = g_core->addSheet();
+      _sheet->setScrollable(false);
+      _canvas = _sheet->canvas();
+      if (!readPage()) return false;
+    }
   }
   return true;
 }

@@ -82,6 +82,14 @@ Description: board graphics program
  .
  This package contains import documents plugin
 
+Package: board-import-mimio
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: board graphics program
+ Extendable vector graphics program
+ .
+ This package contains import mimio plugin
+
 #Package: board-mpx
 #Architecture: any
 #Depends: ${shlibs:Depends}, ${misc:Depends}

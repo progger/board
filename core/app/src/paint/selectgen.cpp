@@ -22,8 +22,8 @@ SelectGen::SelectGen(ISheetCanvas *canvas) :
   _container = _canvas_obj->container();
   _select_rect = _canvas_obj->selectRect();
   _select_rect->setProperty("selectGen", QVariant::fromValue<QObject*>(this));
-  connect(_canvas_obj, SIGNAL(sheetPointChanged()), SLOT(onNeedUpdate()));
-  connect(_canvas_obj->paintObj(), SIGNAL(scaleChanged()), SLOT(onNeedUpdate()));
+  connect(_canvas_obj, SIGNAL(viewRectChanged()), SLOT(onNeedUpdate()));
+  connect(_canvas_obj, SIGNAL(zoomChanged()), SLOT(onNeedUpdate()));
   connect(_canvas_obj->paintObj(), SIGNAL(del()), SLOT(onDel()));
   connect(_canvas_obj->paintObj(), SIGNAL(duplicate()), SLOT(onDuplicate()));
   connect(_canvas_obj->paintObj(), SIGNAL(toFront()), SLOT(onToFront()));

@@ -20,11 +20,8 @@ ImageGen::ImageGen(ISheetCanvas *canvas) :
 
 void ImageGen::begin(const QPointF &p)
 {
-  QObject *obj = g_core->getComponent("qrc:/core/qml/ImageWrapper.qml")->create();
-  ImageWrapper *image = qobject_cast<ImageWrapper*>(obj);
+  ImageWrapper *image = qobject_cast<ImageWrapper*>(g_core->paint()->createShape("image", _canvas));
   Q_ASSERT(image);
-  image->init(_canvas);
-  image->setZ(_canvas->getZNext());
   image->setSize(_image_size);
   image->setInnerSize(_image_size);
   image->setHash(_image_hash);

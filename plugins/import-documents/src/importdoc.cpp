@@ -46,8 +46,7 @@ void ImportDoc::importDoc(const QUrl &file_url)
 
   ISheet *sheet = g_core->sheet(g_core->sheetIndex());
   ISheetCanvas *canvas = sheet->canvas();
-  QQmlComponent *component = g_core->getComponent("qrc:/import-documents/qml/PdfViewer.qml");
-  PdfViewer *viewer = qobject_cast<PdfViewer*>(component->create());
+  PdfViewer *viewer = qobject_cast<PdfViewer*>(g_core->paint()->createShape("PdfViewer", canvas));
   Q_ASSERT(viewer);
   viewer->init(canvas);
   viewer->setZ(canvas->getZNext());

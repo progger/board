@@ -19,11 +19,8 @@ VideoGen::VideoGen(ISheetCanvas *canvas) :
 
 void VideoGen::begin(const QPointF &p)
 {
-  QObject *obj = g_core->getComponent("qrc:/core/qml/VideoPlayer.qml")->create();
-  VideoPlayer *video = qobject_cast<VideoPlayer*>(obj);
+  VideoPlayer *video = qobject_cast<VideoPlayer*>(g_core->paint()->createShape("video", _canvas));
   Q_ASSERT(video);
-  video->init(_canvas);
-  video->setZ(_canvas->getZNext());
   QSizeF size(_canvas->viewRect().width() / 2, _canvas->viewRect().width() / 8 * 3);
   video->setSize(size);
   video->setInnerSize(size);

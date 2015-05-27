@@ -153,8 +153,8 @@ bool Importer::readEllipse()
 bool Importer::readGroup()
 {
   QXmlStreamAttributes attrs = _reader->attributes();
-  qreal gx = attrs.value("X").toDouble() + _canvas->sheetPoint().x();
-  qreal gy = attrs.value("Y").toDouble() + _canvas->sheetPoint().y();
+  qreal gx = attrs.value("X").toDouble();
+  qreal gy = attrs.value("Y").toDouble();
   _group.push(QList<Shape*>());
   bool result = readLayer();
   QList<Shape*> list = _group.pop();
@@ -242,8 +242,8 @@ Shape *Importer::createShape(const QString &name)
 void Importer::fillShape(Shape *shape)
 {
   QXmlStreamAttributes attrs = _reader->attributes();
-  shape->setX(attrs.value("X").toDouble() + _canvas->sheetPoint().x());
-  shape->setY(attrs.value("Y").toDouble() + _canvas->sheetPoint().y());
+  shape->setX(attrs.value("X").toDouble());
+  shape->setY(attrs.value("Y").toDouble());
   QSizeF size(attrs.value("WIDTH").toDouble(), attrs.value("HEIGHT").toDouble());
   shape->setSize(size);
   shape->setInnerSize(size);

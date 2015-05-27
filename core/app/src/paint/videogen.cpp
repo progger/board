@@ -24,7 +24,7 @@ void VideoGen::begin(const QPointF &p)
   Q_ASSERT(video);
   video->init(_canvas);
   video->setZ(_canvas->getZNext());
-  QSizeF size(_canvas->canvasSize().width() / 2, _canvas->canvasSize().width() / 8 * 3);
+  QSizeF size(_canvas->viewRect().width() / 2, _canvas->viewRect().width() / 8 * 3);
   video->setSize(size);
   video->setInnerSize(size);
   video->setSource(_video_source);

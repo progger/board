@@ -28,8 +28,8 @@ void Shape::serialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) cons
 {
   writer->writeStartElement(elementName());
   writer->writeAttribute("shape_version", QString::number(1));
-  writer->writeAttribute("x", QString::number(x() + _canvas->sheetPoint().x()));
-  writer->writeAttribute("y", QString::number(y() + _canvas->sheetPoint().y()));
+  writer->writeAttribute("x", QString::number(x()));
+  writer->writeAttribute("y", QString::number(y()));
   writer->writeAttribute("z", QString::number(z()));
   writer->writeAttribute("width", QString::number(width()));
   writer->writeAttribute("height", QString::number(height()));
@@ -45,8 +45,8 @@ void Shape::serialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) cons
 void Shape::deserialize(QXmlStreamReader *reader)
 {
   auto attrs = reader->attributes();
-  setX(attrs.value("x").toString().toDouble() - _canvas->sheetPoint().x());
-  setY(attrs.value("y").toString().toDouble() - _canvas->sheetPoint().y());
+  setX(attrs.value("x").toString().toDouble());
+  setY(attrs.value("y").toString().toDouble());
   setZ(attrs.value("z").toString().toDouble());
   setSize(QSizeF(attrs.value("width").toString().toDouble(),
                  attrs.value("height").toString().toDouble()));

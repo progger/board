@@ -14,7 +14,6 @@
 SheetCanvas::SheetCanvas(QQuickItem *parent) :
   QQuickItem(parent),
   _zoom(1),
-  _sheet_point(),
   _sheet_rect(0, 0, 1, 1),
   _container(),
   _select_rect(),
@@ -50,16 +49,92 @@ float SheetCanvas::zoom()
   return _zoom;
 }
 
-void SheetCanvas::moveSheet(qreal dx, qreal dy)
+QRectF SheetCanvas::sheetRect()
 {
-  QPointF dp(dx, dy);
+  return _sheet_rect;
+}
+
+QRectF SheetCanvas::viewRect()
+{
+  return mapRectToItem(_container, QRectF(0, 0, width(), height()));
+}
+
+qreal SheetCanvas::getZMin()
+{
+  return _z_min;
+}
+
+qreal SheetCanvas::getZMax()
+{
+  return _z_max;
+}
+
+qreal SheetCanvas::getZNext()
+{
+  return _z_max + 1;
+}
+
+void SheetCanvas::setZoom(float zoom)
+{
+  _zoom = zoom;
+  updateSheetRect();
+  emit zoomChanged();
+  emit viewRectChanged();
+}
+
+void SheetCanvas::setSheetPoint(qreal x, qreal y)
+{
+  _container->setPosition(QPointF(-x / _zoom, -y / _zoom));
+  emit viewRectChanged();
+}
+
+void SheetCanvas::pushState()
+{
+  QByteArray data;
+  QXmlStreamWriter writer(&data);
+  writer.writeStartElement("sheet");
+  serialize(&writer);
+  writer.writeEndElement();
+  if (data != _cur_state)
+  {
+    _undo_stack.push(_cur_state);
+    _redo_stack.clear();
+    _cur_state = data;
+    _paint->setCanUndo(true);
+    _paint->setCanRedo(false);
+  }
+  updateZMinMax();
+  g_core->setChanges();
+}
+
+void SheetCanvas::updateSheetRect()
+{
+  if (!_container) return;
+  QPointF p1 = mapToItem(_container, QPointF(0, 0));
+  QPointF p2 = mapToItem(_container, QPointF(width(), height()));
+  qreal w = p2.x() - p1.x();
+  qreal h = p2.y() - p1.y();
+  qreal x1 = p1.x();
+  qreal y1 = p1.y();
+  qreal x2 = p2.x();
+  qreal y2 = p2.y();
   for (QQuickItem *item : _container->childItems())
   {
-    item->setPosition(item->position() - dp);
+    x1 = qMin(x1, item->x() - w);
+    y1 = qMin(y1, item->y() - h);
+    x2 = qMax(x2, item->x() + item->width() + w);
+    y2 = qMax(y2, item->y() + item->height() + h);
   }
-  _sheet_point += dp;
+  _sheet_rect = QRectF(x1, y1, qMax(x2 - x1, 1.0), qMax(y2 - y1, 1.0));
+  emit sheetRectChanged();
+}
+
+void SheetCanvas::moveSheet(qreal dx, qreal dy)
+{
+  QPointF dp(dx * _zoom, dy * _zoom);
+  _container->setPosition(_container->position() + dp);
   updateSheetRect();
-  emit sheetPointChanged();
+  emit viewRectChanged();
 }
 
 void SheetCanvas::serialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects)
@@ -107,74 +182,6 @@ void SheetCanvas::deserializeShapes(QXmlStreamReader *reader, QList<Shape*> *sha
       }
     }
   }
-}
-
-void SheetCanvas::setZoom(float zoom)
-{
-  _zoom = zoom;
-  updateSheetRect();
-  emit zoomChanged();
-}
-
-void SheetCanvas::setSheetPoint(qreal x, qreal y)
-{
-  _sheet_point = QPointF(x, y);
-  emit sheetPointChanged();
-}
-
-void SheetCanvas::pushState()
-{
-  QByteArray data;
-  QXmlStreamWriter writer(&data);
-  writer.writeStartElement("sheet");
-  serialize(&writer);
-  writer.writeEndElement();
-  if (data != _cur_state)
-  {
-    _undo_stack.push(_cur_state);
-    _redo_stack.clear();
-    _cur_state = data;
-    _paint->setCanUndo(true);
-    _paint->setCanRedo(false);
-  }
-  updateZMinMax();
-  g_core->setChanges();
-}
-
-void SheetCanvas::updateSheetRect()
-{
-  if (!_container) return;
-  QPointF p = mapToItem(_container, QPointF(width(), height()));
-  qreal w = p.x();
-  qreal h = p.y();
-  qreal x1 = 0;
-  qreal y1 = 0;
-  qreal x2 = w;
-  qreal y2 = h;
-  for (QQuickItem *item : _container->childItems())
-  {
-    x1 = qMin(x1, item->x() - w);
-    y1 = qMin(y1, item->y() - h);
-    x2 = qMax(x2, item->x() + item->width() + w);
-    y2 = qMax(y2, item->y() + item->height() + h);
-  }
-  _sheet_rect = QRectF(x1, y1, qMax(x2 - x1, 1.0), qMax(y2 - y1, 1.0));
-  emit sheetRectChanged();
-}
-
-qreal SheetCanvas::getZMin()
-{
-  return _z_min;
-}
-
-qreal SheetCanvas::getZMax()
-{
-  return _z_max;
-}
-
-qreal SheetCanvas::getZNext()
-{
-  return _z_max + 1;
 }
 
 void SheetCanvas::onEnabledChanged()
@@ -327,19 +334,4 @@ QSharedPointer<ShapeGen> SheetCanvas::getShapeGen(int id)
     shape_gen = _paint->createShapeGen(this);
   }
   return shape_gen;
-}
-
-QPointF SheetCanvas::sheetPoint()
-{
-  return _sheet_point;
-}
-
-QRectF SheetCanvas::sheetRect()
-{
-  return _sheet_rect;
-}
-
-QSizeF SheetCanvas::canvasSize()
-{
-  return QSizeF(width(), height());
 }

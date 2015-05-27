@@ -20,9 +20,10 @@ void CategoriesButton::placeCategories()
   ISheetCanvas *canvas = sheet->canvas();
   Categories *categories = qobject_cast<Categories*>(g_core->paint()->createShape("categories", canvas));
   Q_ASSERT(categories);
-  QSizeF size = QSizeF(canvas->container()->width() * 0.75, canvas->container()->height() * 0.85);
-  categories->setPosition(QPointF((canvas->container()->width() - size.width()) / 2,
-                                  (canvas->container()->height() - size.height()) / 2));
+  QRectF viewRect = canvas->viewRect();
+  QSizeF size = QSizeF(viewRect.width() * 0.75, viewRect.height() * 0.85);
+  categories->setPosition(QPointF(viewRect.x() + (viewRect.width() - size.width()) / 2,
+                                  viewRect.y() + (viewRect.height() - size.height()) / 2));
   categories->setSize(size);
   categories->generate();
   canvas->updateSheetRect();

@@ -20,9 +20,10 @@ void TransformButton::placeTransform()
   ISheetCanvas *canvas = sheet->canvas();
   CardTransform *transform = qobject_cast<CardTransform*>(g_core->paint()->createShape("transform", canvas));
   Q_ASSERT(transform);
-  QSizeF size = QSizeF(canvas->container()->width() * 0.75, canvas->container()->height() * 0.85);
-  transform->setPosition(QPointF((canvas->container()->width() - size.width()) / 2,
-                                 (canvas->container()->height() - size.height()) / 2));
+  QRectF viewRect = canvas->viewRect();
+  QSizeF size = QSizeF(viewRect.width() * 0.75, viewRect.height() * 0.85);
+  transform->setPosition(QPointF(viewRect.x() + (viewRect.width() - size.width()) / 2,
+                                 viewRect.y() + (viewRect.height() - size.height()) / 2));
   transform->setSize(size);
   transform->generate();
   canvas->updateSheetRect();

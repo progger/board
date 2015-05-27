@@ -20,9 +20,10 @@ void ArithmeticButton::placeArithmetic()
   ISheetCanvas *canvas = sheet->canvas();
   Arithmetic *arithmetic = qobject_cast<Arithmetic*>(g_core->paint()->createShape("arithmetic", canvas));
   Q_ASSERT(arithmetic);
-  QSizeF size = QSizeF(canvas->container()->width() * 0.75, canvas->container()->height() * 0.85);
-  arithmetic->setPosition(QPointF((canvas->container()->width() - size.width()) / 2,
-                                  (canvas->container()->height() - size.height()) / 2));
+  QRectF viewRect = canvas->viewRect();
+  QSizeF size = QSizeF(viewRect.width() * 0.75, viewRect.height() * 0.85);
+  arithmetic->setPosition(QPointF(viewRect.x() + (viewRect.width() - size.width()) / 2,
+                                  viewRect.y() + (viewRect.height() - size.height()) / 2));
   arithmetic->setSize(size);
   arithmetic->generate();
   arithmetic->saveItems();

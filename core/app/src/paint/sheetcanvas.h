@@ -25,7 +25,7 @@ class SheetCanvas : public QQuickItem, public ISheetCanvas
   Q_OBJECT
   Q_INTERFACES(ISheetCanvas)
   Q_PROPERTY(float zoom READ zoom WRITE setZoom NOTIFY zoomChanged)
-  Q_PROPERTY(QPointF sheetPoint READ sheetPoint NOTIFY sheetPointChanged)
+  Q_PROPERTY(QRectF viewRect READ viewRect NOTIFY viewRectChanged)
   Q_PROPERTY(QRectF sheetRect READ sheetRect NOTIFY sheetRectChanged)
   Q_PROPERTY(int mouseX READ mouseX NOTIFY mousePositionChanged)
   Q_PROPERTY(int mouseY READ mouseY NOTIFY mousePositionChanged)
@@ -37,9 +37,8 @@ public:
 public:
   virtual QQuickItem *container() override;
   virtual float zoom() override;
-  virtual QPointF sheetPoint() override;
   virtual QRectF sheetRect() override;
-  virtual QSizeF canvasSize() override;
+  virtual QRectF viewRect() override;
   virtual qreal getZMin() override;
   virtual qreal getZMax() override;
   virtual qreal getZNext() override;
@@ -50,7 +49,7 @@ public slots:
   virtual void updateSheetRect() override;
 signals:
   void zoomChanged();
-  void sheetPointChanged();
+  void viewRectChanged();
 
 public:
   Paint *paintObj() const { return _paint; }
@@ -84,7 +83,6 @@ protected:
 private:
   Paint *_paint;
   float _zoom;
-  QPointF _sheet_point;
   QRectF _sheet_rect;
   QQuickItem *_container;
   QQuickItem *_select_rect;

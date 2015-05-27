@@ -14,9 +14,8 @@ public:
   virtual ~ISheetCanvas() {}
   virtual QQuickItem *container() = 0;
   virtual float zoom() = 0;
-  virtual QPointF sheetPoint() = 0;
   virtual QRectF sheetRect() = 0;
-  virtual QSizeF canvasSize() = 0;
+  virtual QRectF viewRect() = 0;
   virtual qreal getZMin() = 0;
   virtual qreal getZMax() = 0;
   virtual qreal getZNext() = 0;
@@ -27,7 +26,7 @@ public slots:
   virtual void updateSheetRect() = 0;
 signals:
   virtual void zoomChanged() = 0;
-  virtual void sheetPointChanged() = 0;
+  virtual void viewRectChanged() = 0;
 };
 
 Q_DECLARE_INTERFACE(ISheetCanvas, "board.core.ISheetCanvas")

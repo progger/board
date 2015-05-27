@@ -20,9 +20,10 @@ void BlackYellowButton::placeBlackYellow()
   ISheetCanvas *canvas = sheet->canvas();
   BlackYellow *black_yellow = qobject_cast<BlackYellow*>(g_core->paint()->createShape("black-yellow", canvas));
   Q_ASSERT(black_yellow);
-  QSizeF size = QSizeF(canvas->container()->width() * 0.75, canvas->container()->height() * 0.85);
-  black_yellow->setPosition(QPointF((canvas->container()->width() - size.width()) / 2,
-                                    (canvas->container()->height() - size.height()) / 2));
+  QRectF viewRect = canvas->viewRect();
+  QSizeF size = QSizeF(viewRect.width() * 0.75, viewRect.height() * 0.85);
+  black_yellow->setPosition(QPointF(viewRect.x() + (viewRect.width() - size.width()) / 2,
+                                    viewRect.y() + (viewRect.height() - size.height()) / 2));
   black_yellow->setSize(size);
   black_yellow->addItem();
   black_yellow->saveItems();

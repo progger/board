@@ -40,7 +40,6 @@ Sheet {
         Item {
             id: container
             objectName: "container"
-            anchors.fill: parent
 
             transform: Scale {
                 xScale: sheetCanvas.zoom
@@ -155,7 +154,7 @@ Sheet {
 
             Connections {
                 target: sheetCanvas
-                onSheetPointChanged: {
+                onViewRectChanged: {
                     if (textInput.textItem) {
                         textInputItem.updatePos()
                     }
@@ -196,9 +195,9 @@ Sheet {
                         Core.keyboard = true
                     }
                     else {
-                        textInputItem.visible = false;
-                        Core.keyboard = false;
-                        TextEditTool.init(null);
+                        textInputItem.visible = false
+                        Core.keyboard = false
+                        TextEditTool.init(null)
                     }
                 }
 
@@ -260,15 +259,15 @@ Sheet {
         anchors.bottom: hscroll.top
         visible: sheet.scrollable
         width: 20
-        onLeftButton: sheetCanvas.moveSheet(0, -10 / sheetCanvas.zoom)
-        onRightButton: sheetCanvas.moveSheet(0, 10 / sheetCanvas.zoom)
-        onLeftPage: sheetCanvas.moveSheet(0, -sheetCanvas.height / sheetCanvas.zoom / 2)
-        onRightPage: sheetCanvas.moveSheet(0, sheetCanvas.height / sheetCanvas.zoom / 2)
-        onMove: sheetCanvas.moveSheet(0, sheetCanvas.height  / sheetCanvas.zoom * step)
+        onLeftButton: sheetCanvas.moveSheet(0, 10 / sheetCanvas.zoom)
+        onRightButton: sheetCanvas.moveSheet(0, -10 / sheetCanvas.zoom)
+        onLeftPage: sheetCanvas.moveSheet(0, sheetCanvas.height / sheetCanvas.zoom / 2)
+        onRightPage: sheetCanvas.moveSheet(0, -sheetCanvas.height / sheetCanvas.zoom / 2)
+        onMove: sheetCanvas.moveSheet(0, -sheetCanvas.height  / sheetCanvas.zoom * step)
 
         function updateScroll() {
-            position = -sheetCanvas.sheetRect.y / sheetCanvas.sheetRect.height;
-            length = sheetCanvas.height / sheetCanvas.zoom / sheetCanvas.sheetRect.height;
+            position = (sheetCanvas.viewRect.y - sheetCanvas.sheetRect.y) / sheetCanvas.sheetRect.height
+            length = sheetCanvas.height / sheetCanvas.zoom / sheetCanvas.sheetRect.height
         }
     }
 
@@ -280,15 +279,15 @@ Sheet {
         anchors.bottom: parent.bottom
         visible: sheet.scrollable
         height: 20
-        onLeftButton: sheetCanvas.moveSheet(-10 / sheetCanvas.zoom, 0)
-        onRightButton: sheetCanvas.moveSheet(10 / sheetCanvas.zoom, 0)
-        onLeftPage: sheetCanvas.moveSheet(-sheetCanvas.width / sheetCanvas.zoom / 2, 0)
-        onRightPage: sheetCanvas.moveSheet(sheetCanvas.width / sheetCanvas.zoom / 2, 0)
-        onMove: sheetCanvas.moveSheet(sheetCanvas.width  / sheetCanvas.zoom * step, 0)
+        onLeftButton: sheetCanvas.moveSheet(10 / sheetCanvas.zoom, 0)
+        onRightButton: sheetCanvas.moveSheet(-10 / sheetCanvas.zoom, 0)
+        onLeftPage: sheetCanvas.moveSheet(sheetCanvas.width / sheetCanvas.zoom / 2, 0)
+        onRightPage: sheetCanvas.moveSheet(-sheetCanvas.width / sheetCanvas.zoom / 2, 0)
+        onMove: sheetCanvas.moveSheet(-sheetCanvas.width  / sheetCanvas.zoom * step, 0)
 
         function updateScroll() {
-            position = -sheetCanvas.sheetRect.x / sheetCanvas.sheetRect.width;
-            length = sheetCanvas.width / sheetCanvas.zoom / sheetCanvas.sheetRect.width;
+            position = (sheetCanvas.viewRect.x - sheetCanvas.sheetRect.x) / sheetCanvas.sheetRect.width
+            length = sheetCanvas.width / sheetCanvas.zoom / sheetCanvas.sheetRect.width
         }
     }
 

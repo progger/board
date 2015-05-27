@@ -51,9 +51,10 @@ void ImportDoc::importDoc(const QUrl &file_url)
   Q_ASSERT(viewer);
   viewer->init(canvas);
   viewer->setZ(canvas->getZNext());
-  QSizeF size = QSizeF(canvas->container()->width() / 2, canvas->container()->height() / 1.5);
-  viewer->setPosition(QPointF((canvas->container()->width() - size.width()) / 2,
-                              (canvas->container()->height() - size.height()) / 2));
+  QRectF viewRect = canvas->viewRect();
+  QSizeF size = QSizeF(viewRect.width() * 0.5, viewRect.height() * 0.6);
+  viewer->setPosition(QPointF(viewRect.x() + (viewRect.width() - size.width()) / 2,
+                              viewRect.y() + (viewRect.height() - size.height()) / 2));
   viewer->setSize(size);
   viewer->setPdf(pdf_content);
   canvas->pushState();

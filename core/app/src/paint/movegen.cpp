@@ -14,10 +14,9 @@ MoveGen::MoveGen(ISheetCanvas *canvas) :
 
 void MoveGen::move(const QPointF &p)
 {
-  QPointF dp = _start - p;
+  QPointF dp = p - _start;
   SheetCanvas *canvas = static_cast<SheetCanvas*>(_canvas);
   canvas->moveSheet(dp.x(), dp.y());
-  _start = p;
 }
 
 void MoveGen::end(const QPointF &p)

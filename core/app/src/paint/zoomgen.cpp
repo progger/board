@@ -27,9 +27,8 @@ void ZoomGen::move(const QPointF &p)
   float ds = 1 + (_last - y) / 200;
   _last = canvas->mouseY();
   canvas->setZoom(canvas->zoom() * ds);
-  QPointF dp = _start - _start / ds;
+  QPointF dp = _start / ds - _start;
   canvas->moveSheet(dp.x(), dp.y());
-  _start -= dp;
 }
 
 void ZoomGen::end(const QPointF &p)

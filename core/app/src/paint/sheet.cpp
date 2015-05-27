@@ -82,10 +82,11 @@ void Sheet::serialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects)
     writer->writeAttribute("imageHash", _image_hash);
   }
   writer->writeAttribute("imageMode", QString::number(_image_mode));
-  writer->writeAttribute("view_x", QString::number(_canvas->sheetPoint().x()));
-  writer->writeAttribute("view_y", QString::number(_canvas->sheetPoint().y()));
-  writer->writeAttribute("view_width", QString::number(_canvas->width() / _canvas->zoom()));
-  writer->writeAttribute("view_height", QString::number(_canvas->height() / _canvas->zoom()));
+  QRectF viewRect = _canvas->viewRect();
+  writer->writeAttribute("view_x", QString::number(viewRect.x()));
+  writer->writeAttribute("view_y", QString::number(viewRect.y()));
+  writer->writeAttribute("view_width", QString::number(viewRect.width()));
+  writer->writeAttribute("view_height", QString::number(viewRect.height()));
   _canvas->serialize(writer, brd_objects);
   writer->writeEndElement();
   if (!_image_hash.isEmpty() && brd_objects)

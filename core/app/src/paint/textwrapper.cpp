@@ -21,12 +21,6 @@ QString TextWrapper::text() const
   return QString::fromUtf8(g_core->brdStore()->getObject(_hash));
 }
 
-QObject *TextWrapper::textElement() const
-{
-  Q_ASSERT(childItems().size() == 1);
-  return childItems()[0];
-}
-
 void TextWrapper::setHash(const QString &hash)
 {
   _hash = hash;

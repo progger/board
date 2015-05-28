@@ -215,7 +215,7 @@ bool Importer::readText()
   if (data.isEmpty()) return skipElement();
   QString text = _rtf_converter.convert(data);
   if (text.isEmpty()) return skipElement();
-  Shape *shape = createShape("text");
+  Shape *shape = createShape("mimio-text");
   if (!shape) return skipElement();
   fillShape(shape);
   shape->setProperty("text", text);

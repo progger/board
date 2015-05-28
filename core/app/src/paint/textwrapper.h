@@ -15,13 +15,11 @@ class TextWrapper : public Shape
   Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
   Q_PROPERTY(int fontSize READ fontSize WRITE setFontSize NOTIFY fontSizeChanged)
   Q_PROPERTY(QString fontFamily READ fontFamily WRITE setFontFamily NOTIFY fontFamilyChanged)
-  Q_PROPERTY(QObject* textElement READ textElement CONSTANT)
 public:
   explicit TextWrapper(QQuickItem *parent = 0);
   QString text() const;
   QString fontFamily() const { return _font_family; }
   int fontSize() const { return _font_size; }
-  QObject *textElement() const;
 public slots:
   void setHash(const QString &hash);
   void setText(const QString &text);

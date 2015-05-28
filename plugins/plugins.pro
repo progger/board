@@ -6,6 +6,7 @@ SUBDIRS += \
     categories \
     import-documents \
     import-mimio \
+    mimio-shapes \
     transform
 
 #linux: SUBDIRS += mpx

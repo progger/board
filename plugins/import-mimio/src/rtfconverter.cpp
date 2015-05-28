@@ -94,45 +94,57 @@ void RtfConverter::processTag(RtfTagPtr tag)
   {
     _codec = QTextCodec::codecForName("windows-" + QByteArray::number(tag->param()));
   }
-  if (tag->tag() == "b")
+  else if (tag->tag() == "b")
   {
     _bold = tag->hasParam() ? tag->param() > 0 : true;
   }
-  if (tag->tag() == "f")
+  else if (tag->tag() == "f")
   {
     _font = tag->param();
   }
-  if (tag->tag() == "fs")
+  else if (tag->tag() == "fs")
   {
     _font_size = tag->param();
   }
-  if (tag->tag() == "line")
+  else if (tag->tag() == "i")
+  {
+    _italic = tag->hasParam() ? tag->param() > 0 : true;
+  }
+  else if (tag->tag() == "line")
   {
     _text.append(NewLine);
   }
-  if (tag->tag() == "par")
+  else if (tag->tag() == "par")
   {
     appendPar();
   }
-  if (tag->tag() == "pard")
+  else if (tag->tag() == "pard")
   {
     reset();
   }
-  if (tag->tag() == "qc")
+  else if (tag->tag() == "qc")
   {
     _align = "center";
   }
-  if (tag->tag() == "qj")
+  else if (tag->tag() == "qj")
   {
     _align = "justify";
   }
-  if (tag->tag() == "ql")
+  else if (tag->tag() == "ql")
   {
     _align = "left";
   }
-  if (tag->tag() == "qr")
+  else if (tag->tag() == "qr")
   {
     _align = "right";
+  }
+  else if (tag->tag() == "ul")
+  {
+    _underline = tag->hasParam() ? tag->param() > 0 : true;
+  }
+  else if (tag->tag() == "ulnone")
+  {
+    _underline = false;
   }
 }
 

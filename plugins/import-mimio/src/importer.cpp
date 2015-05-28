@@ -93,8 +93,8 @@ bool Importer::readPage()
     Q_ASSERT(canvas_obj);
     qreal zoom = view_height > 0 ? canvas_obj->height() / view_height : 1;
     qreal dx = (canvas_obj->width() / zoom - view_width) / 2;
-    _canvas->setSheetPoint(-dx, 0);
     _canvas->setZoom(zoom);
+    _canvas->setViewPoint(-dx, 0);
   }
 
   while (_reader->readNextStartElement())

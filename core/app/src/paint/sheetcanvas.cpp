@@ -77,14 +77,14 @@ qreal SheetCanvas::getZNext()
 void SheetCanvas::setZoom(float zoom)
 {
   _zoom = zoom;
-  updateSheetRect();
   emit zoomChanged();
+  updateSheetRect();
   emit viewRectChanged();
 }
 
-void SheetCanvas::setSheetPoint(qreal x, qreal y)
+void SheetCanvas::setViewPoint(qreal x, qreal y)
 {
-  _container->setPosition(QPointF(-x / _zoom, -y / _zoom));
+  _container->setPosition(QPointF(-x * _zoom, -y * _zoom));
   emit viewRectChanged();
 }
 
@@ -182,6 +182,7 @@ void SheetCanvas::deserializeShapes(QXmlStreamReader *reader, QList<Shape*> *sha
       }
     }
   }
+  updateSheetRect();
 }
 
 void SheetCanvas::onEnabledChanged()

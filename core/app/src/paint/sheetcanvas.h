@@ -44,7 +44,7 @@ public:
   virtual qreal getZNext() override;
 public slots:
   virtual void setZoom(float zoom) override;
-  virtual void setSheetPoint(qreal x, qreal y) override;
+  virtual void setViewPoint(qreal x, qreal y) override;
   virtual void pushState() override;
   virtual void updateSheetRect() override;
 signals:

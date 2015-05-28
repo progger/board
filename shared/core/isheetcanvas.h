@@ -21,7 +21,7 @@ public:
   virtual qreal getZNext() = 0;
 public slots:
   virtual void setZoom(float zoom) = 0;
-  virtual void setSheetPoint(qreal x, qreal y) = 0;
+  virtual void setViewPoint(qreal x, qreal y) = 0;
   virtual void pushState() = 0;
   virtual void updateSheetRect() = 0;
 signals:

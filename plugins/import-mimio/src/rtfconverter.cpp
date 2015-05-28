@@ -86,7 +86,10 @@ void RtfConverter::processRoot(RtfGroupPtr root)
       }
     }
   }
-  appendPar();
+  if (!_text.isEmpty())
+  {
+    appendPar();
+  }
 }
 
 void RtfConverter::processTag(RtfTagPtr tag)
@@ -171,6 +174,10 @@ void RtfConverter::processText(RtfTextPtr text)
 {
   QByteArray data = text->text();
   QString txt = _codec ? _codec->toUnicode(data) : QString::fromUtf8(data);
+  if (txt == "Домашнее задание:")
+  {
+    txt = txt;
+  }
   QString font_size_arg = FontSizeFmt.arg(_font_size / 2);
   QString color = _colors[_color];
   if (color.isEmpty())
@@ -303,7 +310,10 @@ void RtfConverter::processFontInfo(RtfGroupPtr group, int &pos)
 
 void RtfConverter::appendPar()
 {
-  if (_text.isEmpty()) return;
+  if (_text.isEmpty())
+  {
+    _text = NewLine;
+  }
   _pars.append(ParFmt
                .arg(_text)
                .arg(_align));

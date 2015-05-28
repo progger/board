@@ -153,7 +153,7 @@ bool RtfParser::readTag(QByteArray &tag, bool &has_param, int &param)
     param = 0;
     has_param = false;
   }
-  while (_cur == ' ')
+  while (_cur <= 32)
   {
     if (!read2()) return false;
   }

@@ -9,14 +9,18 @@ import board.mimio 2.0
 
 MimioText {
     id: mimioText
-    Text {
+    Rectangle {
         anchors.fill: parent
-        text: mimioText.text
-        textFormat: Text.RichText
-        wrapMode: Text.WordWrap
-        transform: Scale {
-            xScale: mimioText.scalex
-            yScale: mimioText.scaley
+        color: mimioText.bgcolor
+        Text {
+            anchors.fill: parent
+            text: mimioText.text
+            textFormat: Text.RichText
+            wrapMode: Text.WordWrap
+            transform: Scale {
+                xScale: mimioText.scalex
+                yScale: mimioText.scaley
+            }
         }
     }
 }

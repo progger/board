@@ -17,7 +17,7 @@ Rectangle {
     Item {
         anchors.left: parent.left
         anchors.top: parent.top
-        anchors.right: saveBookButton.left
+        anchors.right: colorRect.left
         anchors.bottom: parent.bottom
         anchors.rightMargin: 12
 

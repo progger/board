@@ -13,7 +13,8 @@ Importer::Importer() :
   _reader(nullptr),
   _sheet(nullptr),
   _canvas(nullptr),
-  _group()
+  _group(),
+  _rtf_converter()
 {
 }
 
@@ -92,7 +93,7 @@ bool Importer::readPage()
     Q_ASSERT(canvas_obj);
     qreal zoom = view_height > 0 ? canvas_obj->height() / view_height : 1;
     qreal dx = (canvas_obj->width() / zoom - view_width) / 2;
-    _canvas->setSheetPoint(dx, 0);
+    _canvas->setSheetPoint(-dx, 0);
     _canvas->setZoom(zoom);
   }
 
@@ -133,6 +134,10 @@ bool Importer::readLayer()
     else if (name == "RECTANGLE")
     {
       if (!readRectangle()) return false;
+    }
+    else if (name == "TEXT")
+    {
+      if (!readText()) return false;
     }
     else
     {
@@ -203,6 +208,20 @@ bool Importer::readRectangle()
   return skipElement();
 }
 
+bool Importer::readText()
+{
+  QXmlStreamAttributes attrs = _reader->attributes();
+  QByteArray data = getFile(attrs.value("FILE").toString());
+  if (data.isEmpty()) return skipElement();
+  QString text = _rtf_converter.convert(data);
+  if (text.isEmpty()) return skipElement();
+  Shape *shape = createShape("text");
+  if (!shape) return skipElement();
+  fillShape(shape);
+  shape->setProperty("text", text);
+  return skipElement();
+}
+
 bool Importer::skipElement()
 {
   QStringRef name = _reader->name();
@@ -219,9 +238,37 @@ QString Importer::convertColor(QString color)
   return color.replace("0x", "#");
 }
 
+QByteArray Importer::getFile(const QString &file_name)
+{
+  auto it = _files.constFind(file_name);
+  if (it != _files.cend())
+  {
+    return it.value();
+  }
+  QString locale = QLocale::system().name().toLower();
+  QFileInfo file_info(file_name);
+  QString name = file_info.completeBaseName() + "[" + locale + "]." + file_info.suffix();
+  it = _files.constFind(file_name);
+  if (it != _files.cend())
+  {
+    return it.value();
+  }
+  name = file_info.completeBaseName() + "[";
+  it = _files.cbegin();
+  while (it != _files.cend())
+  {
+    if (it.key().startsWith(name))
+    {
+      return it.value();
+    }
+    ++it;
+  }
+  return QByteArray();
+}
+
 QString Importer::importFile(const QString &file_name)
 {
-  QByteArray data = _files[file_name];
+  QByteArray data = getFile(file_name);
   if (data.isEmpty())
   {
     return QString();

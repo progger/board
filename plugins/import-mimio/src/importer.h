@@ -11,6 +11,7 @@
 #include <QXmlStreamReader>
 #include "shape.h"
 #include "isheet.h"
+#include "rtfconverter.h"
 
 class Importer
 {
@@ -23,6 +24,8 @@ private:
   ISheet *_sheet;
   ISheetCanvas *_canvas;
   QStack<QList<Shape*>> _group;
+  RtfConverter _rtf_converter;
+
   bool openBookFiles();
   bool readPage();
   bool readLayer();
@@ -31,9 +34,11 @@ private:
   bool readGroup();
   bool readImage();
   bool readRectangle();
+  bool readText();
 
   bool skipElement();
   QString convertColor(QString color);
+  QByteArray getFile(const QString &file_name);
   QString importFile(const QString &file_name);
   Shape *createShape(const QString &name);
   void fillShape(Shape *shape);

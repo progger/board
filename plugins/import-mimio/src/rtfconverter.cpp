@@ -42,6 +42,7 @@ void RtfConverter::clear()
 {
   _codec = nullptr;
   _fonts.clear();
+  _colors.clear();
   _def_font = 0;
   _pars.clear();
   _align = "left";
@@ -56,7 +57,7 @@ void RtfConverter::reset()
   _bold = false;
   _italic = false;
   _underline = false;
-  _color = "#000000";
+  _color = 0;
 }
 
 void RtfConverter::processRoot(RtfGroupPtr root)
@@ -97,6 +98,10 @@ void RtfConverter::processTag(RtfTagPtr tag)
   else if (tag->tag() == "b")
   {
     _bold = tag->hasParam() ? tag->param() > 0 : true;
+  }
+  else if (tag->tag() == "cf")
+  {
+    _color = tag->param();
   }
   else if (tag->tag() == "f")
   {
@@ -156,22 +161,31 @@ void RtfConverter::processGroup(RtfGroupPtr group)
   {
     processFontTbl(group);
   }
+  else if (tag->tag() == "colortbl")
+  {
+    processColorTbl(group);
+  }
 }
 
 void RtfConverter::processText(RtfTextPtr text)
 {
   QByteArray data = text->text();
   QString txt = _codec ? _codec->toUnicode(data) : QString::fromUtf8(data);
-  QString font_size = FontSizeFmt.arg(_font_size / 2);
-  QString color = ColorFmt.arg(_color);
+  QString font_size_arg = FontSizeFmt.arg(_font_size / 2);
+  QString color = _colors[_color];
+  if (color.isEmpty())
+  {
+    color = "#000000";
+  }
+  QString color_arg = ColorFmt.arg(color);
   _text.append(SpanFmt
                .arg(txt)
                .arg(_fonts[_font])
-               .arg(font_size)
+               .arg(font_size_arg)
                .arg(_bold ? FontBold : "")
                .arg(_italic ? FontItalic : "")
                .arg(_underline ? FontUnderline : "")
-               .arg(color));
+               .arg(color_arg));
 }
 
 void RtfConverter::processFontTbl(RtfGroupPtr group)
@@ -202,6 +216,46 @@ void RtfConverter::processFontTbl(RtfGroupPtr group)
         break;
       }
     }
+  }
+}
+
+void RtfConverter::processColorTbl(RtfGroupPtr group)
+{
+  int count = group->nodes().size();
+  int pos = 1;
+  int index = 0;
+  int r = -1;
+  int g = -1;
+  int b = -1;
+  while (pos < count)
+  {
+    RtfNodePtr node = group->nodes()[pos];
+    if (node->type() == NodeType::Tag)
+    {
+      RtfTagPtr tag = RtfTag::FromNode(node);
+      if (tag->tag() == "red")
+      {
+        r = tag->param();
+      }
+      else if (tag->tag() == "green")
+      {
+        g = tag->param();
+      }
+      else if (tag->tag() == "blue")
+      {
+        b = tag->param();
+      }
+    }
+    else if (node->type() == NodeType::Text && RtfText::FromNode(node)->text() == ";")
+    {
+      if (r >= 0 && g >= 0 && b >= 0)
+      {
+        QString color = QString("#%0%1%2").arg(r, 2, 16, QChar('0')).arg(g, 2, 16, QChar('0')).arg(b, 2, 16, QChar('0'));
+        _colors[index] = color;
+      }
+      ++index;
+    }
+    ++pos;
   }
 }
 

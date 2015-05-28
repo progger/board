@@ -20,6 +20,7 @@ public:
 private:
   QTextCodec *_codec;
   QMap<int, QString> _fonts;
+  QMap<int, QString> _colors;
   int _def_font;
 
   QStringList _pars;
@@ -30,7 +31,7 @@ private:
   bool _bold;
   bool _italic;
   bool _underline;
-  QString _color;
+  int _color;
 
   void clear();
   void reset();
@@ -39,6 +40,7 @@ private:
   void processGroup(RtfGroupPtr group);
   void processText(RtfTextPtr text);
   void processFontTbl(RtfGroupPtr group);
+  void processColorTbl(RtfGroupPtr group);
   void processFontInfo(RtfGroupPtr group, int &pos);
   void appendPar();
 };

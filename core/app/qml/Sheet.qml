@@ -8,7 +8,6 @@ import QtQuick 2.1
 import QtQuick.Controls 1.1
 import board.core 2.0
 import board.core.paint 2.0
-import "sheet.js" as Js
 
 Sheet {
     id: sheet

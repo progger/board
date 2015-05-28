@@ -13,7 +13,6 @@
         <file>qml/ScrollBar.qml</file>
         <file>qml/ScrollButton.qml</file>
         <file>qml/Settings.qml</file>
-        <file>qml/sheet.js</file>
         <file>qml/Sheet.qml</file>
         <file>qml/SpinBoxEx.qml</file>
         <file>qml/StyleQml.qml</file>

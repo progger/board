@@ -23,6 +23,7 @@ private:
   int _def_font;
 
   QStringList _pars;
+  QString _align;
   QString _text;
   int _font;
   int _font_size;

@@ -9,8 +9,10 @@
 const QString HtmlFmt = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
                         "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
                         "p, li { white-space: pre-wrap; }\n"
-                        "</style></head><body>%0</body></html>";
-const QString ParFmt = "<p style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">%0</p>";
+                        "</style></head><body>"
+                        "%0"
+                        "</body></html>";
+const QString ParFmt = "<p align=\"%1\" style=\"margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">%0</p>";
 const QString SpanFmt = "<span style=\"%1%2%3%4%5%6\">%0</span>";
 const QString FontFmt = " font-family:'%0';";
 const QString FontSizeFmt = " font-size:%0pt;";
@@ -29,19 +31,11 @@ QString RtfConverter::convert(const QByteArray &data)
 {
   clear();
   RtfGroupPtr root = RtfParser(data).parse();
-  if (!root)
-  {
-    clear();
-    return QString();
-  }
+  if (!root) return QString();
   processRoot(root);
-  QString pars_text;
-  for (QString par : _pars)
-  {
-    pars_text.append(ParFmt.arg(par));
-  }
+  QString pars = _pars.join('\n');
   clear();
-  return HtmlFmt.arg(pars_text);
+  return HtmlFmt.arg(pars);
 }
 
 void RtfConverter::clear()
@@ -50,6 +44,7 @@ void RtfConverter::clear()
   _fonts.clear();
   _def_font = 0;
   _pars.clear();
+  _align = "left";
   _text.clear();
   reset();
 }
@@ -125,19 +120,19 @@ void RtfConverter::processTag(RtfTagPtr tag)
   }
   if (tag->tag() == "qc")
   {
-    //TODO
+    _align = "center";
   }
   if (tag->tag() == "qj")
   {
-    //TODO
+    _align = "justify";
   }
   if (tag->tag() == "ql")
   {
-    //TODO
+    _align = "left";
   }
   if (tag->tag() == "qr")
   {
-    //TODO
+    _align = "right";
   }
 }
 
@@ -243,6 +238,8 @@ void RtfConverter::processFontInfo(RtfGroupPtr group, int &pos)
 void RtfConverter::appendPar()
 {
   if (_text.isEmpty()) return;
-  _pars.append(_text);
+  _pars.append(ParFmt
+               .arg(_text)
+               .arg(_align));
   _text.clear();
 }

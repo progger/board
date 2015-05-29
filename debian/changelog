@@ -1,8 +1,8 @@
-board (2.4.0+17) stable; urgency=low
+board (2.4.0+18) stable; urgency=low
 
   * Новые инструменты
 
- -- Michael Kulabuhov <progger.ru@gmail.com>  Mon, 04 May 2015 23:05:09 +0700
+ -- Michael Kulabuhov <progger.ru@gmail.com>  Thu, 28 May 2015 21:44:32 +0700
 
 board (2.4.0) stable; urgency=low
 

@@ -84,11 +84,19 @@ Description: board graphics program
 
 Package: board-import-mimio
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, board-mimio-shapes
 Description: board graphics program
  Extendable vector graphics program
  .
  This package contains import mimio plugin
+
+Package: board-mimio-shapes
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: board graphics program
+ Extendable vector graphics program
+ .
+ This package contains mimio shapes plugin
 
 #Package: board-mpx
 #Architecture: any

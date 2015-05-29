@@ -174,10 +174,6 @@ void RtfConverter::processText(RtfTextPtr text)
 {
   QByteArray data = text->text();
   QString txt = _codec ? _codec->toUnicode(data) : QString::fromUtf8(data);
-  if (txt == "Домашнее задание:")
-  {
-    txt = txt;
-  }
   QString font_size_arg = FontSizeFmt.arg(_font_size / 2);
   QString color = _colors[_color];
   if (color.isEmpty())
@@ -259,6 +255,7 @@ void RtfConverter::processColorTbl(RtfGroupPtr group)
       {
         QString color = QString("#%0%1%2").arg(r, 2, 16, QChar('0')).arg(g, 2, 16, QChar('0')).arg(b, 2, 16, QChar('0'));
         _colors[index] = color;
+        r = g = b = -1;
       }
       ++index;
     }

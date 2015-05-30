@@ -33,6 +33,7 @@ private:
   bool readEllipse();
   bool readGroup();
   bool readImage();
+  bool readMultimedia();
   bool readRectangle();
   bool readText();
 

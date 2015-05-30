@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/mimio-shapes">
         <file>qml/MimioText.qml</file>
+        <file>qml/SwfPlayer.qml</file>
     </qresource>
 </RCC>

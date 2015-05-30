@@ -4,29 +4,32 @@
  * See the LICENSE file for terms of use.
  */
 
-#ifndef MIMIOTEXT_H
-#define MIMIOTEXT_H
+#ifndef SWFPLAYER_H
+#define SWFPLAYER_H
 
+#include "swfwebapp.h"
 #include "shape.h"
 
-class MimioText : public Shape
+class SwfPlayer : public Shape
 {
   Q_OBJECT
-  Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
+  Q_PROPERTY(int port READ port CONSTANT)
+  Q_PROPERTY(QString hash READ hash WRITE setHash NOTIFY hashChanged)
 public:
-  explicit MimioText(QQuickItem *parent = 0);
-  QString text() const;
+  explicit SwfPlayer(QQuickItem *parent = 0);
+  int port() const;
+  QString hash() const { return _hash; }
 public slots:
   void setHash(const QString &hash);
-  void setText(const QString &text);
 signals:
-  void textChanged();
+  void hashChanged();
 protected:
   virtual QString elementName() const override;
   virtual void innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const override;
   virtual void innerDeserialize(QXmlStreamReader *reader) override;
 private:
+  QSharedPointer<SwfWebApp> _swf_web_app;
   QString _hash;
 };
 
-#endif // MIMIOTEXT_H
+#endif // SWFPLAYER_H

@@ -131,6 +131,10 @@ bool Importer::readLayer()
     {
       if (!readImage()) return false;
     }
+    else if (name == "MULTIMEDIA")
+    {
+      if (!readMultimedia()) return false;
+    }
     else if (name == "RECTANGLE")
     {
       if (!readRectangle()) return false;
@@ -197,6 +201,31 @@ bool Importer::readImage()
   if (!shape) return skipElement();
   fillShape(shape);
   shape->setProperty("hash", hash);
+  return skipElement();
+}
+
+bool Importer::readMultimedia()
+{
+  QXmlStreamAttributes attrs = _reader->attributes();
+  QString file = attrs.value("FILE").toString();
+  if (!file.isEmpty())
+  {
+    QFileInfo file_info(file);
+    QString suffix = file_info.suffix();
+    if (suffix == "swf")
+    {
+      QString hash = importFile(file);
+      if (hash.isEmpty()) return skipElement();
+      Shape *shape = createShape("swf-player");
+      if (!shape) return skipElement();
+      fillShape(shape);
+      shape->setProperty("hash", hash);
+      return skipElement();
+    }
+    //TODO
+    return skipElement();
+  }
+  //TODO
   return skipElement();
 }
 

@@ -17,12 +17,6 @@ QString MimioText::text() const
   return QString::fromUtf8(g_core->brdStore()->getObject(_hash));
 }
 
-QObject *MimioText::textElement() const
-{
-  Q_ASSERT(childItems().size() == 1);
-  return childItems()[0];
-}
-
 void MimioText::setHash(const QString &hash)
 {
   _hash = hash;
@@ -42,7 +36,6 @@ QString MimioText::elementName() const
 
 void MimioText::innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const
 {
-  Q_UNUSED(brd_objects);
   Shape::innerSerialize(writer, brd_objects);
   writer->writeAttribute("version", QString::number(1));
   writer->writeAttribute("hash", _hash);

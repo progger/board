@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtWebKit 3.0
+import QtWebKit.experimental 1.0
 import board.mimio 2.0
 
 SwfPlayer {
@@ -7,6 +8,7 @@ SwfPlayer {
     WebView {
         id: webView
         anchors.fill: parent
+        experimental.transparentBackground: true
         url: swfPlayer.hash ? "http://127.0.0.1:" + swfPlayer.port + "/html:" + swfPlayer.hash : ""
         onLoadingChanged: {
             if (!loading)

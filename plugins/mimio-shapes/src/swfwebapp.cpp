@@ -12,7 +12,7 @@
 
 const QString HtmlPrefix = "/html:";
 const QString BrdPrefix = "/brd:";
-const QString HtmlFmt = "<html><head></head><body topmargin=\"0\" bottommargin=\"0\" leftmargin=\"0\" rightmargin=\"0\"><object width=\"100%\" height=\"100%\" data=\"http://127.0.0.1:%0/brd:%1\" type=\"application/x-shockwave-flash\"></object></body></html>";
+const QString HtmlFmt = "<html><head></head><body topmargin=\"0\" bottommargin=\"0\" leftmargin=\"0\" rightmargin=\"0\"><object width=\"100%\" height=\"100%\" data=\"http://127.0.0.1:%0/brd:%1\" type=\"application/x-shockwave-flash\"><param name=\"wmode\" value=\"transparent\"></object></body></html>";
 
 QWeakPointer<SwfWebApp> g_swf_web_app;
 

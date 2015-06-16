@@ -225,6 +225,26 @@ bool Importer::readMultimedia()
     //TODO
     return skipElement();
   }
+  else
+  {
+    QString id = attrs.value("ID").toString();
+    if (!id.isEmpty())
+    {
+      QDir app_dir = QDir(QCoreApplication::applicationDirPath());
+      QDir mimio_dir = QDir(app_dir.filePath("mimio"));
+      if (mimio_dir.exists())
+      {
+        QString file_name = mimio_dir.filePath(id) + ".swf";
+        QString hash = g_core->brdStore()->addFromFile(file_name);
+        if (hash.isEmpty()) return skipElement();
+        Shape *shape = createShape("swf-player");
+        if (!shape) return skipElement();
+        fillShape(shape);
+        shape->setProperty("hash", hash);
+        return skipElement();
+      }
+    }
+  }
   //TODO
   return skipElement();
 }

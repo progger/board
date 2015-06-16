@@ -20,6 +20,7 @@ class Shape : public QQuickItem
   Q_PROPERTY(int thickness READ thickness WRITE setThickness NOTIFY thicknessChanged)
   Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
   Q_PROPERTY(QColor bgcolor READ bgcolor WRITE setBgcolor NOTIFY bgcolorChanged)
+  Q_PROPERTY(bool locked READ locked WRITE setLocked NOTIFY lockedChanged)
   Q_PROPERTY(qreal scalex READ scalex NOTIFY scalexChanged)
   Q_PROPERTY(qreal scaley READ scaley NOTIFY scaleyChanged)
 public:
@@ -35,17 +36,20 @@ public:
   float thickness() const { return _thickness; }
   QColor color() const { return _color; }
   QColor bgcolor() const { return _bgcolor; }
+  bool locked() const { return _locked; }
   virtual bool checkIntersect(const QRectF &rect);
 public slots:
   void setInnerSize(const QSizeF &size);
   void setThickness(float thickness);
   void setColor(const QColor &color);
   void setBgcolor(const QColor &bgcolor);
+  void setLocked(bool locked);
 signals:
   void innerSizeChanged();
   void thicknessChanged();
   void colorChanged();
   void bgcolorChanged();
+  void lockedChanged();
   void scalexChanged();
   void scaleyChanged();
 protected:
@@ -61,6 +65,7 @@ private:
   float _thickness;
   QColor _color;
   QColor _bgcolor;
+  bool _locked;
 };
 
 #endif // SHAPE_H

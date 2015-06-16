@@ -10,7 +10,8 @@ Shape::Shape(QQuickItem *parent, float thickness, QColor color, QColor bgcolor) 
   QQuickItem(parent),
   _thickness(thickness),
   _color(color),
-  _bgcolor(bgcolor)
+  _bgcolor(bgcolor),
+  _locked(false)
 {
   setFlag(QQuickItem::ItemHasContents);
   connect(this, SIGNAL(widthChanged()), SLOT(onWidthChanged()));
@@ -99,6 +100,12 @@ void Shape::setBgcolor(const QColor &bgcolor)
   _bgcolor = bgcolor;
   update();
   emit bgcolorChanged();
+}
+
+void Shape::setLocked(bool locked)
+{
+  _locked = locked;
+  emit lockedChanged();
 }
 
 void Shape::innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const

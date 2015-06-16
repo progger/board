@@ -58,7 +58,7 @@ void SelectGen::end(const QPointF &p)
   for (auto item : items)
   {
     Shape *shape = qobject_cast<Shape*>(item);
-    if (!shape) continue;
+    if (!shape || shape->locked()) continue;
     if (shape->checkIntersect(select))
     {
       _selected.append(shape);

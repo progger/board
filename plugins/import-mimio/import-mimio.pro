@@ -1,4 +1,4 @@
-QT += core gui qml quick
+QT += core gui qml quick xml
 
 TARGET = import-mimio
 TEMPLATE = lib

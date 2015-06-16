@@ -5,12 +5,12 @@
  */
 
 #include <quazip/quazipfile.h>
+#include <QDomDocument>
 #include "global.h"
 #include "importer.h"
 
 Importer::Importer() :
   _files(),
-  _reader(nullptr),
   _sheet(nullptr),
   _canvas(nullptr),
   _group(),
@@ -49,46 +49,44 @@ bool Importer::openBookFiles()
 {
   QByteArray data = _files["objects.xml"];
   if (data.isEmpty()) return false;
-  QXmlStreamReader reader(data);
-  reader.readNextStartElement();
-  if (reader.name() != "MIMIO") return false;
-  reader.readNextStartElement();
-  if (reader.name() != "DOCUMENT") return false;
-  _reader = &reader;
-  while (reader.readNextStartElement())
+  QDomDocument xml_doc;
+  if (!xml_doc.setContent(data)) return false;
+  QDomElement root = xml_doc.documentElement();
+  if (root.tagName() != "MIMIO") return false;
+  QDomNodeList nodes = root.elementsByTagName("DOCUMENT");
+  if (nodes.size() != 1) return false;
+  QDomElement document = nodes.at(0).toElement();
+  nodes = document.elementsByTagName("PAGE");
+  int count = nodes.size();
+  for (int i = 0; i < count; ++i)
   {
-    if (reader.name() == "METADATA")
-    {
-      skipElement();
-    }
-    else if (reader.name() == "PAGE")
-    {
-      _sheet = g_core->addSheet();
-      _sheet->setScrollable(false);
-      _canvas = _sheet->canvas();
-      if (!readPage()) return false;
-    }
+    QDomElement page = nodes.at(i).toElement();
+    _sheet = g_core->addSheet();
+    _sheet->setScrollable(false);
+    _canvas = _sheet->canvas();
+    processPage(page);
   }
   return true;
 }
 
-bool Importer::readPage()
+void Importer::processPage(const QDomElement &page)
 {
-  QXmlStreamAttributes attrs = _reader->attributes();
-  if (attrs.hasAttribute("FILL"))
+  QString fill = page.attribute("FILL");
+  if (!fill.isEmpty())
   {
-    _sheet->setColor(convertColor(attrs.value("FILL").toString()));
+    _sheet->setColor(convertColor(fill));
   }
-  if (attrs.hasAttribute("BACKGROUND"))
+  QString background = page.attribute("BACKGROUND");
+  if (!background.isEmpty())
   {
-    QString hash = importFile(attrs.value("BACKGROUND").toString());
+    QString hash = importFile(background);
     _sheet->setImageHash(hash);
     _sheet->setImageMode(0); //TODO: BACKGROUNDMODE
   }
-  if (attrs.hasAttribute("WIDTH") && attrs.hasAttribute("HEIGHT"))
+  qreal view_width = page.attribute("WIDTH").toDouble();
+  qreal view_height = page.attribute("HEIGHT").toDouble();
+  if (view_width && view_height)
   {
-    qreal view_width = attrs.value("WIDTH").toDouble();
-    qreal view_height = attrs.value("HEIGHT").toDouble();
     QQuickItem *canvas_obj = dynamic_cast<QQuickItem*>(_canvas);
     Q_ASSERT(canvas_obj);
     qreal zoom = view_height > 0 ? canvas_obj->height() / view_height : 1;
@@ -97,75 +95,65 @@ bool Importer::readPage()
     _canvas->setViewPoint(-dx, 0);
   }
 
-  while (_reader->readNextStartElement())
+  QDomNodeList nodes = page.elementsByTagName("LAYER");
+  int count = nodes.size();
+  for (int i = 0; i < count; ++i)
   {
-    QStringRef name = _reader->name();
-    if (name == "LAYER")
-    {
-      _group.clear();
-      _group.push(QList<Shape*>());
-      if (!readLayer()) return false;
-    }
-    else
-    {
-      if (!skipElement()) return false;
-    }
+    QDomElement layer = nodes.at(i).toElement();
+    _group.clear();
+    _group.push(QList<Shape*>());
+    processLayer(layer);
   }
-  return true;
 }
 
-bool Importer::readLayer()
+void Importer::processLayer(const QDomElement &layer)
 {
-  while (_reader->readNextStartElement())
+  QDomNodeList nodes = layer.childNodes();
+  int count = nodes.size();
+  for (int i = 0; i < count; ++i)
   {
-    QStringRef name = _reader->name();
+    QDomElement element = nodes.at(i).toElement();
+    QString name = element.tagName();
     if (name == "ELLIPSE")
     {
-      if (!readEllipse()) return false;
+      processEllipse(element);
     }
     else if (name == "GROUP")
     {
-      if (!readGroup()) return false;
+      processGroup(element);
     }
     else if (name == "IMAGE")
     {
-      if (!readImage()) return false;
+      processImage(element);
     }
     else if (name == "MULTIMEDIA")
     {
-      if (!readMultimedia()) return false;
+      processMultimedia(element);
     }
     else if (name == "RECTANGLE")
     {
-      if (!readRectangle()) return false;
+      processRectangle(element);
     }
     else if (name == "TEXT")
     {
-      if (!readText()) return false;
-    }
-    else
-    {
-      if (!skipElement()) return false;
+      processText(element);
     }
   }
-  return true;
 }
 
-bool Importer::readEllipse()
+void Importer::processEllipse(const QDomElement &element)
 {
   Shape *shape = createShape("ellipse");
-  if (!shape) return skipElement();
-  fillShape(shape);
-  return skipElement();
+  if (!shape) return;
+  fillShape(element, shape);
 }
 
-bool Importer::readGroup()
+void Importer::processGroup(const QDomElement &element)
 {
-  QXmlStreamAttributes attrs = _reader->attributes();
-  qreal gx = attrs.value("X").toDouble();
-  qreal gy = attrs.value("Y").toDouble();
+  qreal gx = element.attribute("X").toDouble();
+  qreal gy = element.attribute("Y").toDouble();
   _group.push(QList<Shape*>());
-  bool result = readLayer();
+  processLayer(element);
   QList<Shape*> list = _group.pop();
   int count = list.size();
   if (count > 0)
@@ -189,25 +177,21 @@ bool Importer::readGroup()
       _group.top().append(shape);
     }
   }
-  return result;
 }
 
-bool Importer::readImage()
+void Importer::processImage(const QDomElement &element)
 {
-  QXmlStreamAttributes attrs = _reader->attributes();
-  QString hash = importFile(attrs.value("FILE").toString());
-  if (hash.isEmpty()) return skipElement();
+  QString hash = importFile(element.attribute("FILE"));
+  if (hash.isEmpty()) return;
   Shape *shape = createShape("image");
-  if (!shape) return skipElement();
-  fillShape(shape);
+  if (!shape) return;
+  fillShape(element, shape);
   shape->setProperty("hash", hash);
-  return skipElement();
 }
 
-bool Importer::readMultimedia()
+void Importer::processMultimedia(const QDomElement &element)
 {
-  QXmlStreamAttributes attrs = _reader->attributes();
-  QString file = attrs.value("FILE").toString();
+  QString file = element.attribute("FILE");
   if (!file.isEmpty())
   {
     QFileInfo file_info(file);
@@ -215,19 +199,18 @@ bool Importer::readMultimedia()
     if (suffix == "swf")
     {
       QString hash = importFile(file);
-      if (hash.isEmpty()) return skipElement();
+      if (hash.isEmpty()) return;
       Shape *shape = createShape("swf-player");
-      if (!shape) return skipElement();
-      fillShape(shape);
+      if (!shape) return;
+      fillShape(element, shape);
       shape->setProperty("hash", hash);
-      return skipElement();
+      return;
     }
     //TODO
-    return skipElement();
   }
   else
   {
-    QString id = attrs.value("ID").toString();
+    QString id = element.attribute("ID");
     if (!id.isEmpty())
     {
       QDir app_dir = QDir(QCoreApplication::applicationDirPath());
@@ -236,50 +219,33 @@ bool Importer::readMultimedia()
       {
         QString file_name = mimio_dir.filePath(id) + ".swf";
         QString hash = g_core->brdStore()->addFromFile(file_name);
-        if (hash.isEmpty()) return skipElement();
+        if (hash.isEmpty()) return;
         Shape *shape = createShape("swf-player");
-        if (!shape) return skipElement();
-        fillShape(shape);
+        if (!shape) return;
+        fillShape(element, shape);
         shape->setProperty("hash", hash);
-        return skipElement();
       }
     }
   }
-  //TODO
-  return skipElement();
 }
 
-bool Importer::readRectangle()
+void Importer::processRectangle(const QDomElement &element)
 {
   Shape *shape = createShape("rectangle");
-  if (!shape) return skipElement();
-  fillShape(shape);
-  return skipElement();
+  if (!shape) return;
+  fillShape(element, shape);
 }
 
-bool Importer::readText()
+void Importer::processText(const QDomElement &element)
 {
-  QXmlStreamAttributes attrs = _reader->attributes();
-  QByteArray data = getFile(attrs.value("FILE").toString());
-  if (data.isEmpty()) return skipElement();
+  QByteArray data = getFile(element.attribute("FILE"));
+  if (data.isEmpty()) return;
   QString text = _rtf_converter.convert(data);
-  if (text.isEmpty()) return skipElement();
+  if (text.isEmpty()) return;
   Shape *shape = createShape("mimio-text");
-  if (!shape) return skipElement();
-  fillShape(shape);
+  if (!shape) return;
+  fillShape(element, shape);
   shape->setProperty("text", text);
-  return skipElement();
-}
-
-bool Importer::skipElement()
-{
-  QStringRef name = _reader->name();
-  while (true)
-  {
-    auto token = _reader->readNext();
-    if (token == QXmlStreamReader::Invalid) return false;
-    if (token == QXmlStreamReader::EndElement && _reader->name() == name) return true;
-  }
 }
 
 QString Importer::convertColor(QString color)
@@ -335,24 +301,41 @@ Shape *Importer::createShape(const QString &name)
   return shape;
 }
 
-void Importer::fillShape(Shape *shape)
+void Importer::fillShape(const QDomElement &element, Shape *shape)
 {
-  QXmlStreamAttributes attrs = _reader->attributes();
-  shape->setX(attrs.value("X").toDouble());
-  shape->setY(attrs.value("Y").toDouble());
-  QSizeF size(attrs.value("WIDTH").toDouble(), attrs.value("HEIGHT").toDouble());
+  shape->setX(element.attribute("X").toDouble());
+  shape->setY(element.attribute("Y").toDouble());
+  QSizeF size(element.attribute("WIDTH").toDouble(), element.attribute("HEIGHT").toDouble());
   shape->setSize(size);
   shape->setInnerSize(size);
-  if (attrs.hasAttribute("LINEWIDTH"))
+  if (element.hasAttribute("LINEWIDTH"))
   {
-    shape->setThickness(attrs.value("LINEWIDTH").toDouble());
+    shape->setThickness(element.attribute("LINEWIDTH").toDouble());
   }
-  if (attrs.hasAttribute("LINECOLOR"))
+  if (element.hasAttribute("LINECOLOR"))
   {
-    shape->setColor(convertColor(attrs.value("LINECOLOR").toString()));
+    shape->setColor(convertColor(element.attribute("LINECOLOR")));
   }
-  if (attrs.hasAttribute("FILLCOLOR"))
+  if (element.hasAttribute("FILLCOLOR"))
   {
-    shape->setBgcolor(convertColor(attrs.value("FILLCOLOR").toString()));
+    shape->setBgcolor(convertColor(element.attribute("FILLCOLOR")));
+  }
+
+  QDomNodeList nodes = element.elementsByTagName("METADATA");
+  int count = nodes.size();
+  for (int i = 0; i < count; ++i)
+  {
+    QDomElement metadata = nodes.at(i).toElement();
+    QDomNodeList data_nodes = metadata.elementsByTagName("DATA");
+    int data_count = data_nodes.size();
+    for (int j = 0; j < data_count; ++j)
+    {
+      QDomElement data = data_nodes.at(i).toElement();
+      QString name = data.attribute("NAME");
+      if (name == "LOCKED")
+      {
+        shape->setLocked(true);
+      }
+    }
   }
 }

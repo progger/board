@@ -39,6 +39,7 @@ void Shape::serialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) cons
   writer->writeAttribute("thickness", QString::number(_thickness));
   writer->writeAttribute("color", QString("#%1").arg(_color.rgba(), 8, 16, QLatin1Char('0')));
   writer->writeAttribute("bgcolor", QString("#%1").arg(_bgcolor.rgba(), 8, 16, QLatin1Char('0')));
+  writer->writeAttribute("locked", _locked ? "1" : "0");
   innerSerialize(writer, brd_objects);
   writer->writeEndElement();
 }
@@ -60,6 +61,7 @@ void Shape::deserialize(QXmlStreamReader *reader)
   {
     setBgcolor(bgcolor);
   }
+  setLocked(attrs.value("locked").toInt());
   innerDeserialize(reader);
   reader->readNext();
 }

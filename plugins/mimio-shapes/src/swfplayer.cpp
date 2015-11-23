@@ -10,7 +10,7 @@
 SwfPlayer::SwfPlayer(QQuickItem *parent) :
   Shape(parent)
 {
-  _swf_web_app = g_swf_web_app.lock();
+  _swf_web_app = g_swf_web_app.toStrongRef();
   if (_swf_web_app.isNull())
   {
     _swf_web_app = QSharedPointer<SwfWebApp>::create();

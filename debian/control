@@ -8,13 +8,16 @@ Build-Depends: debhelper (>= 8.0.0),
  qtbase5-dev,
  qtbase5-private-dev,
  qtdeclarative5-dev,
+ libqt5webkit5-dev,
+ libqt5webkit5-qmlwebkitplugin,
  libquazip-qt5-dev,
  libpoppler-qt5-dev,
+ libhttp-parser-dev,
  libx11-dev,
  libxi-dev,
  libxcb1-dev,
  libxcb-xinput0-dev,
- libxcb-xfixes0-dev,
+ libxcb-xfixes0-dev
 Standards-Version: 3.9.4
 Homepage: https://progger.dyndns.info/
 
@@ -92,7 +95,7 @@ Description: board graphics program
 
 Package: board-mimio-shapes
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, libqt5webkit5-qmlwebkitplugin
 Description: board graphics program
  Extendable vector graphics program
  .

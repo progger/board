@@ -20,15 +20,15 @@ Plugin::Plugin(QObject *parent) :
 void Plugin::init()
 {
   QGuiApplication *app = qobject_cast<QGuiApplication*>(QCoreApplication::instance());
-  Display *display = static_cast<Display *>(app->platformNativeInterface()->nativeResourceForWindow("display", g_main_window));
-  app->installNativeEventFilter(new MpxEventFilter(g_main_window));
+  Display *display = static_cast<Display *>(app->platformNativeInterface()->nativeResourceForWindow("display", g_core->mainWindow()));
+  app->installNativeEventFilter(new MpxEventFilter(g_core->mainWindow()));
   XIEventMask eventmask;
   unsigned char mask[1] = { 0 };
-  eventmask.deviceid = XIAllMasterDevices;
+  eventmask.deviceid = XIAllDevices;
   eventmask.mask_len = sizeof(mask);
   eventmask.mask = mask;
   XISetMask(mask, XI_Motion);
   XISetMask(mask, XI_ButtonPress);
   XISetMask(mask, XI_ButtonRelease);
-  XISelectEvents(display, g_main_window->winId(), &eventmask, 1);
+  XISelectEvents(display, g_core->mainWindow()->winId(), &eventmask, 1);
 }

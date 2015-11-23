@@ -56,7 +56,7 @@ BlackYellow {
                             Drag.hotSpot.x: width / 2
                             Drag.hotSpot.y: height / 2
 
-                            TextInput {
+                            TextEdit {
                                 id: questionText
                                 anchors.top: parent.top
                                 anchors.horizontalCenter: parent.horizontalCenter
@@ -66,13 +66,13 @@ BlackYellow {
                                 font.pixelSize: 35
                                 readOnly: !editButton.checked
                                 text: modelData.question
-                                onEditingFinished: {
+                                onTextChanged: {
                                     modelData.question = text
                                     blackYellow.saveItems()
                                 }
                             }
 
-                            TextInput {
+                            TextEdit {
                                 id: answerText
                                 anchors.top: questionText.bottom
                                 anchors.horizontalCenter: parent.horizontalCenter
@@ -82,7 +82,7 @@ BlackYellow {
                                 font.pixelSize: 35
                                 readOnly: !editButton.checked
                                 text: modelData.answer
-                                onEditingFinished: {
+                                onTextChanged: {
                                     modelData.answer = text
                                     blackYellow.saveItems()
                                 }

@@ -9,11 +9,11 @@
 
 #include <QSet>
 #include <QMap>
+#include <QStack>
 #include <QSharedPointer>
 #include <QXmlStreamWriter>
 #include <QXmlStreamReader>
 #include <QQuickItem>
-#include "../str_stack/strstack.h"
 #include "isheetcanvas.h"
 
 class Paint;
@@ -88,8 +88,8 @@ private:
   QQuickItem *_select_rect;
   QQuickItem *_text_input;
   QMap<quint16, QSharedPointer<ShapeGen>> _shape_gen;
-  StrStack _undo_stack;
-  StrStack _redo_stack;
+  QStack<QByteArray> _undo_stack;
+  QStack<QByteArray> _redo_stack;
   QByteArray _cur_state;
   QSet<quint16> _start_move;
   qreal _z_min;

@@ -33,8 +33,7 @@ public:
 
   void clear();
 private:
-  class BrdObject;
-  QMap<QString, QSharedPointer<BrdObject>> _store;
+  QMap<QString, QByteArray> _store;
   QMap<int, QByteArray> _tmp_store;
   QSet<int> _tmp_free;
   QSet<int> _tmp_used;

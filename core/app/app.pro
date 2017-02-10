@@ -2,7 +2,7 @@ QT += core gui qml quick widgets
 
 TARGET = board
 TEMPLATE = app
-LIBS += -lquazip-qt5
+LIBS += -lquazip5
 DESTDIR =  ../../bin
 LIBSDIR = ../../bin
 DEPENDENCY_LIBRARIES = board-common

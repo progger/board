@@ -10,7 +10,7 @@ Build-Depends: debhelper (>= 8.0.0),
  qtdeclarative5-dev,
  libqt5webkit5-dev,
  libqt5webkit5-qmlwebkitplugin,
- libquazip-qt5-dev,
+ libquazip5-dev,
  libpoppler-qt5-dev,
  libhttp-parser-dev,
  libx11-dev,
@@ -24,12 +24,12 @@ Homepage: https://progger.dyndns.info/
 Package: board
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends},
- qtdeclarative5-qtquick2-plugin,
- qtdeclarative5-controls-plugin,
- qtdeclarative5-dialogs-plugin,
- qtdeclarative5-quicklayouts-plugin,
- qtdeclarative5-window-plugin,
- qtdeclarative5-qtmultimedia-plugin,
+ qml-module-qtquick2,
+ qml-module-qtquick-controls,
+ qml-module-qtquick-dialogs,
+ qml-module-qtquick-layouts,
+ qml-module-qtquick-window2,
+ qml-module-qtmultimedia,
  libqt5svg5
 Recommends: board-arithmetic, board-black-yellow, board-categories, board-import-documents, board-transform
 Description: board graphics program

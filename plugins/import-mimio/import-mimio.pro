@@ -2,7 +2,7 @@ QT += core gui qml quick xml
 
 TARGET = import-mimio
 TEMPLATE = lib
-LIBS += -lquazip-qt5
+LIBS += -lquazip5
 CONFIG += plugin
 DESTDIR = ../../bin/plugins
 LIBSDIR = ../../bin

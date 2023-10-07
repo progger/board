@@ -4,7 +4,7 @@
  * See the LICENSE file for terms of use.
  */
 
-#include "defs.h"
+#include <cmath>
 #include "paintutils.h"
 
 int getSegCount(qreal r)

@@ -4,7 +4,7 @@
  * See the LICENSE file for terms of use.
  */
 
-#include <quazip/quazipfile.h>
+#include <quazip5/quazipfile.h>
 #include <QDomDocument>
 #include "global.h"
 #include "importer.h"

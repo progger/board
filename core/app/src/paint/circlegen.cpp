@@ -4,7 +4,7 @@
  * See the LICENSE file for terms of use.
  */
 
-#include "sheetcanvas.h"
+#include <cmath>
 #include "paintutils.h"
 #include "ellipse.h"
 #include "circlegen.h"

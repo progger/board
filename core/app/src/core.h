@@ -13,7 +13,7 @@
 #include <QDir>
 #include <QSettings>
 #include <QQmlListProperty>
-#include <quazip/quazip.h>
+#include <quazip5/quazip.h>
 #include "icore.h"
 #include "iplugin.h"
 #include "paint/sheet.h"

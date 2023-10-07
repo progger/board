@@ -8,7 +8,7 @@
 #include <QGuiApplication>
 #include <QKeyEvent>
 #include <QtQml>
-#include <quazip/quazipfile.h>
+#include <quazip5/quazipfile.h>
 #include "global.h"
 #include "brd/brdstore.h"
 #include "brd/brdnetworkaccessmanagerfactory.h"

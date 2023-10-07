@@ -4,6 +4,7 @@
  * See the LICENSE file for terms of use.
  */
 
+#include <cmath>
 #include <QSGGeometryNode>
 #include <QSGFlatColorMaterial>
 #include "global.h"

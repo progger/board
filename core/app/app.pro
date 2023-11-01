@@ -47,7 +47,6 @@ SOURCES += \
     src/panel/panel.cpp \
     src/panel/tool.cpp \
     src/panel/toolinfo.cpp \
-    src/str_stack/strstack.cpp \
     src/core.cpp \
     src/exporter.cpp \
     src/importer.cpp \
@@ -94,7 +93,6 @@ HEADERS += \
     src/panel/panel.h \
     src/panel/tool.h \
     src/panel/toolinfo.h \
-    src/str_stack/strstack.h \
     src/core.h \
     src/exporter.h \
     src/importer.h \

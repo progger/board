@@ -8,31 +8,6 @@
 #include <QCryptographicHash>
 #include "brdstore.h"
 
-class BrdStore::BrdObject
-{
-public:
-  BrdObject();
-  BrdObject(const QByteArray &data);
-  QByteArray data() const { return _data; }
-  QString hash() const { return _hash; }
-private:
-  QByteArray _data;
-  QString _hash;
-};
-
-BrdStore::BrdObject::BrdObject() :
-  _data(),
-  _hash()
-{
-}
-
-BrdStore::BrdObject::BrdObject(const QByteArray &data) :
-  _data(data)
-{
-  QByteArray hash = QCryptographicHash::hash(data, QCryptographicHash::Md5);
-  _hash = QString::fromLatin1(hash.toHex());
-}
-
 BrdStore::BrdStore(QObject *parent) :
   QObject(parent),
   _store(),
@@ -45,12 +20,7 @@ BrdStore::BrdStore(QObject *parent) :
 
 QByteArray BrdStore::getObject(const QString &hash)
 {
-  QSharedPointer<BrdObject> obj = _store.value(hash);
-  if (!obj)
-  {
-    return QByteArray();
-  }
-  return obj->data();
+  return _store.value(hash);
 }
 
 QString BrdStore::getUrlString(const QString &hash)
@@ -93,9 +63,10 @@ QString BrdStore::getTempUrl(int id)
 
 QString BrdStore::addObject(const QByteArray &data)
 {
-  QSharedPointer<BrdObject> obj = QSharedPointer<BrdObject>::create(data);
-  _store[obj->hash()] = obj;
-  return obj->hash();
+  QByteArray bin_hash = QCryptographicHash::hash(data, QCryptographicHash::Md5);
+  QString hash = QString::fromLatin1(bin_hash.toHex());
+  _store[hash] = data;
+  return hash;
 }
 
 QString BrdStore::addFromFile(const QString &file_name)
@@ -123,4 +94,8 @@ QString BrdStore::addFromUrl(const QUrl &url)
 void BrdStore::clear()
 {
   _store.clear();
+  _tmp_store.clear();
+  _tmp_free.clear();
+  _tmp_used.clear();
+  _tmp_next = 1;
 }

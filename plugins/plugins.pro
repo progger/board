@@ -8,5 +8,3 @@ SUBDIRS += \
     import-mimio \
     mimio-shapes \
     transform
-
-#linux: SUBDIRS += mpx

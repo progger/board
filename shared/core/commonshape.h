@@ -7,7 +7,6 @@
 #ifndef COMMONSHAPE_H
 #define COMMONSHAPE_H
 
-#include <QLinkedList>
 #include <QSGNode>
 #include "shape.h"
 
@@ -33,7 +32,7 @@ private slots:
 private:
   QSGGeometryNode *_main_node;
   QSGGeometryNode *_background_node;
-  QLinkedList<QRectF> _clips;
+  std::list<QRectF> _clips;
   QString _clips_hash;
   bool eraseRect(const QRectF &rect);
   void updateClipNode(QSGClipNode *node);

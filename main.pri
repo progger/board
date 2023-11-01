@@ -1,5 +1,7 @@
 VERSION = 2.4.0
-QMAKE_CXXFLAGS += -std=c++11
+DEFINES += QT_DEPRECATED_WARNINGS
+CONFIG += c++latest
+QMAKE_CXXFLAGS += -Werror -pedantic
 
 OBJECTS_DIR = ./build
 MOC_DIR = ./build

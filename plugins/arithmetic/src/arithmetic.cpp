@@ -67,7 +67,7 @@ void Arithmetic::saveItems()
   QTextStream stream(&data, QIODevice::WriteOnly);
   for (ArithmeticItem *item : _items)
   {
-    stream << item->left() << " " << item->operation() << " " << item->right() << endl;
+    stream << item->left() << " " << item->operation() << " " << item->right() << Qt::endl;
   }
   _hash = g_core->brdStore()->addObject(data);
   canvas()->pushState();

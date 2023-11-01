@@ -48,7 +48,7 @@ void parseCmd(QString &brd_file, bool &window_mode)
       else
       {
         QTextStream cout(stdout);
-        cout << "Invalid argument: " << param << endl;
+        cout << "Invalid argument: " << param << Qt::endl;
         help();
       }
     }
@@ -68,7 +68,6 @@ int main(int argc, char *argv[])
   QString brd_file;
   bool window_mode = true;
   parseCmd(brd_file, window_mode);
-  qsrand(QDateTime::currentMSecsSinceEpoch());
 
   QQmlEngine *engine = new QQmlEngine();
   Core *core = new Core(engine, window_mode);

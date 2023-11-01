@@ -4,6 +4,7 @@
  * See the LICENSE file for terms of use.
  */
 
+#include <QRandomGenerator>
 #include "arithmeticitem.h"
 
 ArithmeticItem::ArithmeticItem(QObject *parent) :
@@ -41,26 +42,29 @@ void ArithmeticItem::setOperation(const QString &operation)
 
 void ArithmeticItem::generate()
 {
-  switch (qrand() % 4)
+  auto *rng = QRandomGenerator::global();
+  switch (rng->bounded(4))
   {
   case 0:
     _operation = "+";
-    _left = qrand() % 10 + 1;
-    _right = qrand() % 10 + 1;
+    _left = rng->bounded(10) + 1;
+    _right = rng->bounded(10) + 1;
     break;
   case 1:
     _operation = "-";
-    _right = qrand() % 9 + 1;
-    _left = 10 - qrand() % (10 - _right);
+    _right = rng->bounded(9) + 1;
+    _left = 10 - rng->bounded(10 - _right);
     break;
   case 2:
     _operation = "*";
-    _left = qrand() % 10 + 1;
-    _right = qrand() % 10 + 1;
+    _left = rng->bounded(10) + 1;
+    _right = rng->bounded(10) + 1;
+    break;
   case 3:
     _operation = "/";
-    _right = qrand() % 10 + 1;
-    _left = _right * (qrand() % 10 + 1);
+    _right = rng->bounded(10) + 1;
+    _left = _right * (rng->bounded(10) + 1);
+    break;
   }
   updateResult();
   emit leftChanged();

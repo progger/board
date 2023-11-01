@@ -5,6 +5,7 @@
  */
 
 #include <algorithm>
+#include <QRandomGenerator>
 #include "global.h"
 #include "categories.h"
 
@@ -110,10 +111,11 @@ void Categories::generate()
 
 void Categories::shuffle()
 {
+  auto *rng = QRandomGenerator::global();
   int count = _remaining_items.size();
   for (int i = 0; i < count; ++i)
   {
-    _remaining_items.swap(i, qrand() % count);
+    _remaining_items.swapItemsAt(i, rng->bounded(count));
   }
   emit remainingItemsChanged();
 }
@@ -219,7 +221,7 @@ void Categories::saveItems()
   QTextStream stream(&data, QIODevice::WriteOnly);
   for (Category *category : _categories)
   {
-    stream << category->name() << endl;
+    stream << category->name() << Qt::endl;
     QStringList list;
     for (CategoryItem *item : _items)
     {
@@ -228,7 +230,7 @@ void Categories::saveItems()
         list.append(item->hash());
       }
     }
-    stream << list.join(" ") << endl;
+    stream << list.join(" ") << Qt::endl;
   }
   _hash = g_core->brdStore()->addObject(data);
   canvas()->pushState();
@@ -276,7 +278,7 @@ void Categories::innerDeserialize(QXmlStreamReader *reader)
     cat->setName(stream.readLine());
     _categories.append(cat);
     QString line = stream.readLine();
-    QStringList hashes = line.split(" ", QString::SkipEmptyParts);
+    QStringList hashes = line.split(" ", Qt::SkipEmptyParts);
     for (QString hash : hashes)
     {
       CategoryItem *item = new CategoryItem(this);

@@ -72,7 +72,7 @@ QString ImportDoc::convert(const QString &file_name, QSharedPointer<QTemporaryDi
   }
   process.start(QString("\"%1\" --headless --convert-to pdf --outdir \"%2\" \"%3\"").arg(soffice_name, dir->path(), file_name));
 #else
-  process.start(QString("soffice --headless --convert-to pdf --outdir \"%1\" \"%2\"").arg(dir->path(), file_name));
+  process.start("soffice", { "--headless", "--convert-to pdf" , QString("--outdir \"%1\" \"%2\"").arg(dir->path(), file_name) });
 #endif
   if (!process.waitForFinished())
   {

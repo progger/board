@@ -15,12 +15,14 @@
 #include "isheet.h"
 #include "ibrdstore.h"
 
-typedef bool (*ImportFunc)(const QString &file_name);
-typedef void (*ExportFunc)(const QString &file_name);
+using ImportFunc = bool (*)(const QString &);
+using ExportFunc = void (*)(const QString &);
 
 class ICore {
+  Q_DISABLE_COPY_MOVE(ICore)
 public:
-  virtual ~ICore() {}
+  ICore() = default;
+  virtual ~ICore() = default;
   virtual QWindow *mainWindow() = 0;
   virtual QDir rootDir() = 0;
   virtual QSettings *settings() = 0;

@@ -25,9 +25,10 @@ class BrdStore;
 class Paint;
 class Style;
 
-class Core : public QObject, public ICore
+class Core final : public QObject, public ICore
 {
   Q_OBJECT
+  Q_DISABLE_COPY_MOVE(Core)
   Q_INTERFACES(ICore)
   Q_PROPERTY(bool windowMode READ windowMode CONSTANT)
   Q_PROPERTY(bool keyboard READ keyboard WRITE setKeyboard NOTIFY keyboardChanged)
@@ -42,34 +43,35 @@ class Core : public QObject, public ICore
   Q_PROPERTY(QQmlListProperty<Exporter> exporters READ exportersProperty NOTIFY exportersChanged)
 public:
   explicit Core(QQmlEngine *engine, bool window_mode);
+  ~Core() override = default;
 
   // ICore
 public:
-  virtual QWindow *mainWindow() override;
-  virtual QDir rootDir() override;
-  virtual QSettings *settings() override;
-  virtual IPaint *paint() override;
-  virtual IBrdStore *brdStore() override;
-  virtual int sheetsCount() override;
-  virtual int sheetIndex() override;
-  virtual ISheet *sheet(int index) override;
-  virtual QQmlComponent *getComponent(const QString &url_string) override;
-  virtual bool hasChanges() override;
+  QWindow *mainWindow() override;
+  QDir rootDir() override;
+  QSettings *settings() override;
+  IPaint *paint() override;
+  IBrdStore *brdStore() override;
+  int sheetsCount() override;
+  int sheetIndex() override;
+  ISheet *sheet(int index) override;
+  QQmlComponent *getComponent(const QString &url_string) override;
+  bool hasChanges() override;
 public slots:
-  virtual void logMessage(const QString &message) override;
-  virtual void logError(const QString &error) override;
-  virtual void showError(const QString &error) override;
-  virtual void registerTool(const QString &name, const QString &section, QQmlComponent *component, int width, int height) override;
-  virtual void registerImporter(const QString &name, const QString &suffix, ImportFunc func) override;
-  virtual void registerExporter(const QString &name, const QString &suffix, ExportFunc func) override;
-  virtual ISheet *addSheet() override;
-  virtual ISheet *insertSheet(int index) override;
-  virtual void deleteSheet(int index) override;
-  virtual void setChanges() override;
+  void logMessage(const QString &message) override;
+  void logError(const QString &error) override;
+  void showError(const QString &error) override;
+  void registerTool(const QString &name, const QString &section, QQmlComponent *component, int width, int height) override;
+  void registerImporter(const QString &name, const QString &suffix, ImportFunc func) override;
+  void registerExporter(const QString &name, const QString &suffix, ExportFunc func) override;
+  ISheet *addSheet() override;
+  ISheet *insertSheet(int index) override;
+  void deleteSheet(int index) override;
+  void setChanges() override;
 signals:
-  void sheetsChanged();
-  void sheetIndexChanged();
-  void hasChangesChanged();
+  void sheetsChanged() override;
+  void sheetIndexChanged() override;
+  void hasChangesChanged() override;
 
 public:
   void init(QWindow *main_window, const QString &brd_file);

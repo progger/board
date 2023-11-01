@@ -34,7 +34,9 @@ Core::Core(QQmlEngine *engine, bool window_mode) :
   _window_mode(window_mode),
   _keyboard(false),
   _transparent(false),
+  _sheet_index(0),
   _map_componenet(),
+  _sheet_place(nullptr),
   _panels(),
   _tools(),
   _sheets(),
@@ -50,14 +52,14 @@ Core::Core(QQmlEngine *engine, bool window_mode) :
   _brdStore = new BrdStore(this);
 
   engine->setNetworkAccessManagerFactory(new BrdNetworkAccessManagerFactory(_brdStore, this));
-  qmlRegisterType<Core>();
-  qmlRegisterType<Paint>();
-  qmlRegisterType<ToolInfo>();
-  qmlRegisterType<Tool>();
-  qmlRegisterType<Panel>();
-  qmlRegisterType<Importer>();
-  qmlRegisterType<Exporter>();
-  qmlRegisterType<TextEditTool>();
+  qmlRegisterAnonymousType<Core>("board.core", 1);
+  qmlRegisterAnonymousType<Paint>("board.core.paint", 1);
+  qmlRegisterAnonymousType<ToolInfo>("board.core", 1);
+  qmlRegisterAnonymousType<Tool>("board.core", 1);
+  qmlRegisterAnonymousType<Panel>("board.core", 1);
+  qmlRegisterAnonymousType<Importer>("board.core", 1);
+  qmlRegisterAnonymousType<Exporter>("board.core", 1);
+  qmlRegisterAnonymousType<TextEditTool>("board.core", 1);
   qmlRegisterType<Style>("board.core", 2, 0, "StyleQml");
   qmlRegisterType<PanelTool>("board.core", 2, 0, "PanelTool");
   qmlRegisterType<Sheet>("board.core.paint", 2, 0, "Sheet");
@@ -67,8 +69,8 @@ Core::Core(QQmlEngine *engine, bool window_mode) :
   qmlRegisterType<VideoPlayer>("board.core.paint", 2, 0, "VideoPlayer");
 
   _paint = new Paint(this);
-  TextEditTool *text_edit_tool = new TextEditTool(_paint, this);
-  auto context = engine->rootContext();
+  auto *text_edit_tool = new TextEditTool(_paint, this);
+  auto *context = engine->rootContext();
   context->setContextProperty("Core", this);
   context->setContextProperty("Paint", _paint);
   context->setContextProperty("TextEditTool", text_edit_tool);
@@ -228,13 +230,13 @@ QQmlComponent *Core::getComponent(const QString &url_string)
 void Core::logMessage(const QString &message)
 {
   QTextStream cout(stdout);
-  cout << message << endl;
+  cout << message << Qt::endl;
 }
 
 void Core::logError(const QString &error)
 {
   QTextStream cerr(stderr);
-  cerr << error << endl;
+  cerr << error << Qt::endl;
 }
 
 QQmlListProperty<Sheet> Core::sheetsProperty()

@@ -7,12 +7,14 @@
 #ifndef IBRDSTORE_H
 #define IBRDSTORE_H
 
-#include <QString>
+#include <QObject>
 #include <QUrl>
 
 class IBrdStore {
+  Q_DISABLE_COPY_MOVE(IBrdStore)
 public:
-  virtual ~IBrdStore() {}
+  IBrdStore() = default;
+  virtual ~IBrdStore() = default;
   virtual QString addObject(const QByteArray &data) = 0;
   virtual QString addFromFile(const QString &file_name) = 0;
   virtual QString addFromUrl(const QUrl &url) = 0;

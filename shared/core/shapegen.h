@@ -14,9 +14,10 @@ class Shape;
 
 class ShapeGen
 {
+  Q_DISABLE_COPY_MOVE(ShapeGen)
 public:
   explicit ShapeGen(ISheetCanvas *canvas);
-  virtual ~ShapeGen() {}
+  virtual ~ShapeGen() = default;
   virtual void begin(const QPointF &p);
   virtual void end(const QPointF &p);
   virtual void move(const QPointF &p);

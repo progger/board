@@ -13,23 +13,25 @@
 #include <QObject>
 #include "ibrdstore.h"
 
-class BrdStore : public QObject, public IBrdStore
+class BrdStore final : public QObject, public IBrdStore
 {
   Q_OBJECT
   Q_INTERFACES(IBrdStore)
+  Q_DISABLE_COPY_MOVE(BrdStore)
 public:
-  explicit BrdStore(QObject *parent = 0);
+  explicit BrdStore(QObject *parent = nullptr);
+  ~BrdStore() override = default;
 
   // IBrdStore
-  virtual QString addObject(const QByteArray &data) override;
-  virtual QString addFromFile(const QString &file_name) override;
-  virtual QString addFromUrl(const QUrl &url) override;
-  virtual QByteArray getObject(const QString &hash) override;
-  virtual QString getUrlString(const QString &hash) override;
-  virtual int addTempObject(const QByteArray &data) override;
-  virtual void removeTempObject(int id) override;
-  virtual QByteArray getTempObject(int id) override;
-  virtual QString getTempUrl(int id) override;
+  QString addObject(const QByteArray &data) override;
+  QString addFromFile(const QString &file_name) override;
+  QString addFromUrl(const QUrl &url) override;
+  QByteArray getObject(const QString &hash) override;
+  QString getUrlString(const QString &hash) override;
+  int addTempObject(const QByteArray &data) override;
+  void removeTempObject(int id) override;
+  QByteArray getTempObject(int id) override;
+  QString getTempUrl(int id) override;
 
   void clear();
 private:

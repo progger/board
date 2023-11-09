@@ -12,12 +12,13 @@
 class TextGen : public QObject, public ShapeGen
 {
   Q_OBJECT
+  Q_DISABLE_COPY_MOVE(TextGen)
 public:
   explicit TextGen(ISheetCanvas *canvas);
-  virtual ~TextGen() override;
-  virtual void begin(const QPointF &);
-  virtual void end(const QPointF &p);
-  virtual void move(const QPointF &);
+  ~TextGen() override;
+  void begin(const QPointF &) override;
+  void end(const QPointF &p) override;
+  void move(const QPointF &) override;
 public slots:
   void endEdit();
 private:

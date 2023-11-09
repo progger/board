@@ -10,6 +10,6 @@
 #include <QVector>
 #include <QPointF>
 
-typedef QVector<QPointF> Points;
+using Points = QVector<QPointF>;
 
 #endif // POINTARRAY_H

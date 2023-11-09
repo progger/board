@@ -9,23 +9,25 @@
 
 #include "commonshape.h"
 
-typedef QVector<QPointF> Points;
+using Points = QVector<QPointF>;
 
 class Pen : public CommonShape
 {
   Q_OBJECT
+  Q_DISABLE_COPY_MOVE(Pen)
 public:
-  explicit Pen(QQuickItem *parent = 0, float thinkness = 0, QColor color = QColor(),
+  explicit Pen(QQuickItem *parent = nullptr, float thinkness = 0, QColor color = QColor(),
                QColor bgcolor = QColor(Qt::transparent));
+  ~Pen() override = default;
   Points &points() { return _points; }
   void savePoints();
-  virtual bool checkIntersect(const QRectF &rect) override;
+  bool checkIntersect(const QRectF &rect) override;
 protected:
-  virtual bool hasBackgroundNode() override { return false; }
-  virtual void updateMainNode(QSGGeometryNode *node) override;
-  virtual QString elementName() const override;
-  virtual void innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const override;
-  virtual void innerDeserialize(QXmlStreamReader *reader) override;
+  bool hasBackgroundNode() override { return false; }
+  void updateMainNode(QSGGeometryNode *node) override;
+  QString elementName() const override;
+  void innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const override;
+  void innerDeserialize(QXmlStreamReader *reader) override;
 private:
   Points _points;
   QString _hash;

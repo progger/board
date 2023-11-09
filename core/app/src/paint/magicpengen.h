@@ -11,9 +11,11 @@
 
 class MagicPenGen : public PenGen
 {
+  Q_DISABLE_COPY_MOVE(MagicPenGen)
 public:
   explicit MagicPenGen(ISheetCanvas *canvas);
-  virtual void end(const QPointF &p) override;
+  ~MagicPenGen() override = default;
+  void end(const QPointF &p) override;
 };
 
 #endif // MAGICPENGEN_H

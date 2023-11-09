@@ -13,10 +13,12 @@
 class Importer : public QObject
 {
   Q_OBJECT
+  Q_DISABLE_COPY_MOVE(Importer)
   Q_PROPERTY(QString name READ name CONSTANT)
   Q_PROPERTY(QString suffix READ suffix CONSTANT)
 public:
-  explicit Importer(const QString &name, const QString &suffix, ImportFunc func,  QObject *parent = 0);
+  explicit Importer(const QString &name, const QString &suffix, ImportFunc func,  QObject *parent = nullptr);
+  ~Importer() override = default;
   QString name() const { return _name; }
   QString suffix() const { return _suffix; }
   ImportFunc func() const { return _func; }

@@ -11,11 +11,13 @@
 
 class VideoGen : public ShapeGen
 {
+  Q_DISABLE_COPY_MOVE(VideoGen)
 public:
   explicit VideoGen(ISheetCanvas *canvas);
-  virtual void begin(const QPointF &p) override;
-  virtual void end(const QPointF &p) override;
-  virtual void move(const QPointF &p) override;
+  ~VideoGen() override = default;
+  void begin(const QPointF &p) override;
+  void end(const QPointF &p) override;
+  void move(const QPointF &p) override;
 private:
   QString _video_source;
 };

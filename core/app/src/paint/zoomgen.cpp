@@ -8,23 +8,24 @@
 #include "zoomgen.h"
 
 ZoomGen::ZoomGen(ISheetCanvas *canvas) :
-  ShapeGen(canvas)
+  ShapeGen(canvas),
+  _last(0)
 {
 }
 
 void ZoomGen::begin(const QPointF &p)
 {
   _start = p;
-  SheetCanvas *canvas = static_cast<SheetCanvas*>(_canvas);
+  auto *canvas = static_cast<SheetCanvas*>(_canvas);
   _last = canvas->mouseY();
 }
 
 void ZoomGen::move(const QPointF &p)
 {
   Q_UNUSED(p);
-  SheetCanvas *canvas = static_cast<SheetCanvas*>(_canvas);
-  float y = canvas->mouseY();
-  float ds = 1 + (_last - y) / 200;
+  auto *canvas = static_cast<SheetCanvas*>(_canvas);
+  auto y = canvas->mouseY();
+  auto ds = 1.0 + (_last - y) / 200.0;
   _last = canvas->mouseY();
   canvas->setZoom(canvas->zoom() * ds);
   QPointF dp = _start / ds - _start;

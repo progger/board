@@ -5,14 +5,14 @@
  */
 
 #include <cmath>
+#include <utility>
 #include <QSGGeometryNode>
 #include <QSGFlatColorMaterial>
-#include "defs.h"
 #include "paintutils.h"
 #include "ellipse.h"
 
 Ellipse::Ellipse(QQuickItem *parent, float thinkness, QColor color, QColor bgcolor) :
-  CommonShape(parent, thinkness, color, bgcolor)
+  CommonShape(parent, thinkness, std::move(color), std::move(bgcolor))
 {
 }
 
@@ -65,27 +65,27 @@ void Ellipse::updateMainNode(QSGGeometryNode *node)
     node->setGeometry(g);
     node->setFlag(QSGNode::OwnsGeometry);
   }
-  float r1 = width() / 2;
-  float r2 = height() / 2;
-  qreal tx = thickness() * scalex() / 2;
-  qreal ty = thickness() * scaley() / 2;
-  int seg_count = getSegCount(qMax(r1 + tx, r2 + ty) * canvas()->zoom());
-  int vertex_count = (seg_count + 1) * 2;
+  auto r1 = width() / 2;
+  auto r2 = height() / 2;
+  auto tx = thickness() * scalex() / 2;
+  auto ty = thickness() * scaley() / 2;
+  auto seg_count = getSegCount(qMax(r1 + tx, r2 + ty) * canvas()->zoom());
+  auto vertex_count = (seg_count + 1) * 2;
   if (g->vertexCount() != vertex_count)
   {
     g->allocate(vertex_count);
   }
-  auto p = g->vertexDataAsPoint2D();
-  for (int i = 0; i <= seg_count; ++i)
+  auto *p = g->vertexDataAsPoint2D();
+  for (ptrdiff_t i = 0; i <= seg_count; ++i)
   {
-    qreal a = 2 * M_PI / seg_count * i;
-    qreal kx = sin(a);
-    qreal ky = cos(a);
-    qreal x = r1 + (r1 + tx) * kx;
-    qreal y = r2 + (r2 + ty) * ky;
+    auto a = 2 * M_PI / seg_count * static_cast<double>(i);
+    auto kx = sin(a);
+    auto ky = cos(a);
+    auto x = static_cast<float>(r1 + (r1 + tx) * kx);
+    auto y = static_cast<float>(r2 + (r2 + ty) * ky);
     p[i * 2].set(x, y);
-    x = r1 + (r1 - tx) * kx;
-    y = r2 + (r2 - ty) * ky;
+    x = static_cast<float>(r1 + (r1 - tx) * kx);
+    y = static_cast<float>(r2 + (r2 - ty) * ky);
     p[i * 2 + 1].set(x, y);
   }
 }
@@ -100,23 +100,23 @@ void Ellipse::updateBackgroundNode(QSGGeometryNode *node)
     node->setGeometry(g);
     node->setFlag(QSGNode::OwnsGeometry);
   }
-  float r1 = width() / 2;
-  float r2 = height() / 2;
-  int seg_count = getSegCount(qMax(r1, r2));
-  int vertex_count = seg_count + 2;
+  auto r1 = width() / 2;
+  auto r2 = height() / 2;
+  auto seg_count = getSegCount(std::max(r1, r2));
+  auto vertex_count = seg_count + 2;
   if (g->vertexCount() != vertex_count)
   {
     g->allocate(vertex_count);
   }
-  auto p = g->vertexDataAsPoint2D();
-  p[0].set(r1, r2);
-  for (int i = 0; i <= seg_count;)
+  auto *p = g->vertexDataAsPoint2D();
+  p[0].set(static_cast<float>(r1), static_cast<float>(r2));
+  for (ptrdiff_t i = 0; i <= seg_count;)
   {
-    qreal a = 2 * M_PI / seg_count * i;
-    qreal kx = sin(a);
-    qreal ky = cos(a);
-    qreal x = r1 * (1 + kx);
-    qreal y = r2 * (1 + ky);
+    auto a = 2 * M_PI / seg_count * static_cast<double>(i);
+    auto kx = sin(a);
+    auto ky = cos(a);
+    auto x = static_cast<float>(r1 * (1 + kx));
+    auto y = static_cast<float>(r2 * (1 + ky));
     p[++i].set(x, y);
   }
 }

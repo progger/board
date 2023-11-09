@@ -11,13 +11,15 @@
 
 class ZoomGen : public ShapeGen
 {
+  Q_DISABLE_COPY_MOVE(ZoomGen)
 public:
   explicit ZoomGen(ISheetCanvas *canvas);
-  virtual void begin(const QPointF &p);
-  virtual void move(const QPointF &p) override;
-  virtual void end(const QPointF &p) override;
+  ~ZoomGen() override = default;
+  void begin(const QPointF &p) override;
+  void move(const QPointF &p) override;
+  void end(const QPointF &p) override;
 private:
-  float _last;
+  int _last;
 };
 
 #endif // SCALEGEN_H

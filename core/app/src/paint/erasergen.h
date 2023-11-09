@@ -13,11 +13,13 @@
 
 class EraserGen : public ShapeGen
 {
+  Q_DISABLE_COPY_MOVE(EraserGen)
 public:
   explicit EraserGen(ISheetCanvas *canvas);
-  virtual void begin(const QPointF &p) override;
-  virtual void end(const QPointF &p) override;
-  virtual void move(const QPointF &p) override;
+  ~EraserGen() override = default;
+  void begin(const QPointF &p) override;
+  void end(const QPointF &p) override;
+  void move(const QPointF &p) override;
 private:
   QSet<CommonShape*> _shape_set;
 };

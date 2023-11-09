@@ -13,10 +13,12 @@ class SheetCanvas;
 
 class MoveGen : public ShapeGen
 {
+  Q_DISABLE_COPY_MOVE(MoveGen)
 public:
   explicit MoveGen(ISheetCanvas *canvas);
-  virtual void move(const QPointF &p) override;
-  virtual void end(const QPointF &p) override;
+  ~MoveGen() override = default;
+  void move(const QPointF &p) override;
+  void end(const QPointF &p) override;
 };
 
 #endif // MOVEGEN_H

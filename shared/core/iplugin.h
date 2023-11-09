@@ -7,11 +7,13 @@
 #ifndef IPLUGIN_H
 #define IPLUGIN_H
 
-#include "icore.h"
+#include <QObject>
 
 class IPlugin {
+  Q_DISABLE_COPY_MOVE(IPlugin)
 public:
-  virtual ~IPlugin() {}
+  IPlugin() = default;
+  virtual ~IPlugin() = default;
   virtual void init() = 0;
 };
 

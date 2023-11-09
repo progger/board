@@ -11,9 +11,11 @@
 
 class RectangleGen : public ShapeGen
 {
+  Q_DISABLE_COPY_MOVE(RectangleGen)
 public:
   explicit RectangleGen(ISheetCanvas *canvas);
-  virtual void begin(const QPointF &p) override;
+  ~RectangleGen() override = default;
+  void begin(const QPointF &p) override;
 };
 
 #endif // RECTANGLEGEN_H

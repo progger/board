@@ -11,28 +11,25 @@
 static QColor g_transparent_color = QColor(Qt::transparent);
 
 CommonShape::CommonShape(QQuickItem *parent, float thickness, QColor color, QColor bgcolor) :
-  Shape(parent, thickness, color, bgcolor),
+  Shape(parent, thickness, std::move(color), std::move(bgcolor)),
   _main_node(nullptr),
   _background_node(nullptr),
   _clips()
 {
-  _clips.push_back(QRectF());
+  _clips.emplace_back();
   connect(this, SIGNAL(innerSizeChanged()), SLOT(onInnerRectChanged()));
   connect(this, SIGNAL(thicknessChanged()), SLOT(onInnerRectChanged()));
 }
 
 bool CommonShape::erase(const QRectF &beg, const QRectF &end)
 {
-  qreal sx = scalex();
-  qreal sy = scaley();
+  auto sx = scalex();
+  auto sy = scaley();
   QRectF rect((beg.x() - x()) / sx, (beg.y() - y()) / sy, beg.width() / sx, beg.height() / sy);
-  int steps = qMax(qAbs(end.x() - beg.x()), qAbs(end.y() - beg.y())) * canvas()->zoom() + 0.1;
-  if (steps == 0)
-  {
-    steps = 1;
-  }
-  qreal dx = (end.x() - beg.x()) / steps / sx;
-  qreal dy = (end.y() - beg.y()) / steps / sy;
+  auto steps = static_cast<int>(std::max(std::abs(end.x() - beg.x()), std::abs(end.y() - beg.y())) * canvas()->zoom() + 0.1);
+  steps = std::max(steps, 1);
+  auto dx = (end.x() - beg.x()) / steps / sx;
+  auto dy = (end.y() - beg.y()) / steps / sy;
   bool need_update = false;
   for (int i = 0; i <= steps; ++i)
   {
@@ -62,7 +59,7 @@ QSGNode *CommonShape::updatePaintNode(QSGNode *node, QQuickItem::UpdatePaintNode
   QSGGeometry *g;
   if (!node)
   {
-    QSGClipNode *clip_node = new QSGClipNode();
+    auto *clip_node = new QSGClipNode();
     g = new QSGGeometry(QSGGeometry::defaultAttributes_Point2D(), 6);
     g->setDrawingMode(GL_TRIANGLES);
     clip_node->setGeometry(g);
@@ -87,7 +84,7 @@ QSGNode *CommonShape::updatePaintNode(QSGNode *node, QQuickItem::UpdatePaintNode
     {
       if (!_main_node)
       {
-        QSGFlatColorMaterial *m = new QSGFlatColorMaterial;
+        auto *m = new QSGFlatColorMaterial;
         m->setColor(color());
         _main_node = new QSGGeometryNode();
         _main_node->setMaterial(m);
@@ -104,7 +101,7 @@ QSGNode *CommonShape::updatePaintNode(QSGNode *node, QQuickItem::UpdatePaintNode
       }
       else
       {
-        QSGFlatColorMaterial *m = static_cast<QSGFlatColorMaterial*>(_main_node->material());
+        auto *m = static_cast<QSGFlatColorMaterial*>(_main_node->material());
         m->setColor(color());
         updateMainNode(_main_node);
       }
@@ -127,7 +124,7 @@ QSGNode *CommonShape::updatePaintNode(QSGNode *node, QQuickItem::UpdatePaintNode
     {
       if (!_background_node)
       {
-        QSGFlatColorMaterial *m = new QSGFlatColorMaterial;
+        auto *m = new QSGFlatColorMaterial;
         m->setColor(bgcolor());
         _background_node = new QSGGeometryNode();
         _background_node->setMaterial(m);
@@ -144,7 +141,7 @@ QSGNode *CommonShape::updatePaintNode(QSGNode *node, QQuickItem::UpdatePaintNode
       }
       else
       {
-        QSGFlatColorMaterial *m = static_cast<QSGFlatColorMaterial*>(_background_node->material());
+        auto *m = static_cast<QSGFlatColorMaterial*>(_background_node->material());
         m->setColor(bgcolor());
         updateBackgroundNode(_background_node);
       }
@@ -159,7 +156,7 @@ QRectF CommonShape::getFullInnerRect() const
 {
   qreal t = thickness();
   QSizeF size = innerSize();
-  return QRectF(-t / 2, -t / 2, size.width() + t, size.height() + t);
+  return {-t / 2, -t / 2, size.width() + t, size.height() + t};
 }
 
 void CommonShape::innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const
@@ -185,7 +182,7 @@ void CommonShape::innerDeserialize(QXmlStreamReader *reader)
   {
     qreal x, y, w, h;
     stream >> x >> y >> w >> h;
-    _clips.push_back(QRectF(x, y, w, h));
+    _clips.emplace_back(x, y, w, h);
   }
 }
 
@@ -205,30 +202,26 @@ bool CommonShape::eraseRect(const QRectF &rect)
   {
     QRectF &clip = *it;
     QRectF intersected = clip.intersected(rect);
-    if (!intersected.width() || !intersected.height())
+    if (intersected.width() == 0 || intersected.height() == 0)
     {
       ++it;
       continue;
     }
     if (clip.x() < intersected.x())
     {
-      _clips.push_front(QRectF(clip.x(), clip.y(),
-                               intersected.x() - clip.x(), clip.height()));
+      _clips.emplace_front(clip.x(), clip.y(), intersected.x() - clip.x(), clip.height());
     }
     if (clip.right() > intersected.right())
     {
-      _clips.push_front(QRectF(intersected.right(), clip.y(),
-                               clip.right() - intersected.right(), clip.height()));
+      _clips.emplace_front(intersected.right(), clip.y(), clip.right() - intersected.right(), clip.height());
     }
     if (clip.y() < intersected.y())
     {
-      _clips.push_front(QRectF(intersected.x(), clip.y(),
-                               intersected.width(), intersected.y() - clip.y()));
+      _clips.emplace_front(intersected.x(), clip.y(), intersected.width(), intersected.y() - clip.y());
     }
     if (clip.bottom() > intersected.bottom())
     {
-      _clips.push_front(QRectF(intersected.x(), intersected.bottom(),
-                               intersected.width(), clip.bottom() - intersected.bottom()));
+      _clips.emplace_front(intersected.x(), intersected.bottom(), intersected.width(), clip.bottom() - intersected.bottom());
     }
     it = _clips.erase(it);
     need_update = true;
@@ -238,24 +231,24 @@ bool CommonShape::eraseRect(const QRectF &rect)
 
 void CommonShape::updateClipNode(QSGClipNode *node)
 {
-  int vertext_count = _clips.size() * 6;
-  auto g = node->geometry();
+  auto vertext_count = static_cast<int>(_clips.size()) * 6;
+  auto *g = node->geometry();
   if (g->vertexCount() != vertext_count)
   {
     g->allocate(vertext_count);
   }
-  auto p = g->vertexDataAsPoint2D();
-  qreal sx = scalex();
-  qreal sy = scaley();
+  auto *p = g->vertexDataAsPoint2D();
+  auto sx = scalex();
+  auto sy = scaley();
   int i = 0;
   for (QRectF &r : _clips)
   {
     QRectF rect(r.x() * sx, r.y() * sy, r.width() * sx, r.height() * sy);
-    p[i++].set(rect.x(), rect.y());
-    p[i++].set(rect.right(), rect.y());
-    p[i++].set(rect.x(), rect.bottom());
-    p[i++].set(rect.right(), rect.bottom());
-    p[i++].set(rect.x(), rect.bottom());
-    p[i++].set(rect.right(), rect.y());
+    p[i++].set(static_cast<float>(rect.x()), static_cast<float>(rect.y()));
+    p[i++].set(static_cast<float>(rect.right()), static_cast<float>(rect.y()));
+    p[i++].set(static_cast<float>(rect.x()), static_cast<float>(rect.bottom()));
+    p[i++].set(static_cast<float>(rect.right()), static_cast<float>(rect.bottom()));
+    p[i++].set(static_cast<float>(rect.x()), static_cast<float>(rect.bottom()));
+    p[i++].set(static_cast<float>(rect.right()), static_cast<float>(rect.y()));
   }
 }

@@ -11,11 +11,13 @@
 
 class PenGen : public ShapeGen
 {
+  Q_DISABLE_COPY_MOVE(PenGen)
 public:
   explicit PenGen(ISheetCanvas *canvas);
-  virtual void begin(const QPointF &p) override;
-  virtual void end(const QPointF &) override;
-  virtual void move(const QPointF &p) override;
+  ~PenGen() override = default;
+  void begin(const QPointF &p) override;
+  void end(const QPointF &) override;
+  void move(const QPointF &p) override;
 };
 
 #endif // PENGEN_H

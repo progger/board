@@ -12,8 +12,10 @@
 class Style : public QQuickItem
 {
   Q_OBJECT
+  Q_DISABLE_COPY_MOVE(Style)
 public:
-  explicit Style(QQuickItem *parent = 0);
+  explicit Style(QQuickItem *parent = nullptr);
+  ~Style() override = default;
 };
 
 #endif // STYLE_H

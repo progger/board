@@ -55,9 +55,9 @@ void SelectGen::end(const QPointF &p)
   QRectF select = _canvas_obj->mapRectToItem(_container, QRectF(_select_rect->x(), _select_rect->y(),_select_rect->width(), _select_rect->height()));
   bool click = select.width() < 8 && select.height() < 8;
   auto items = _canvas->container()->childItems();
-  for (auto item : items)
+  for (auto *item : items)
   {
-    Shape *shape = qobject_cast<Shape*>(item);
+    auto *shape = qobject_cast<Shape*>(item);
     if (!shape || shape->locked()) continue;
     if (shape->checkIntersect(select))
     {
@@ -216,7 +216,7 @@ void SelectGen::onToFront()
 {
   if (_selected.empty()) return;
   sortSelected();
-  int z = _canvas->getZMax();
+  auto z = _canvas->getZMax();
   for (Shape *shape : _selected)
   {
     shape->setZ(++z);
@@ -228,7 +228,7 @@ void SelectGen::onToBack()
 {
   if (_selected.empty()) return;
   sortSelected();
-  int z = _canvas->getZMin();
+  auto z = _canvas->getZMin();
   for (Shape *shape : _selected)
   {
     shape->setZ(--z);

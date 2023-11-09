@@ -21,17 +21,17 @@ QQmlListProperty<Tool> Panel::toolsProperty()
 {
   auto count_func = [](QQmlListProperty<Tool> *list)
   {
-    Panel *panel = qobject_cast<Panel*>(list->object);
+    auto *panel = qobject_cast<Panel*>(list->object);
     Q_ASSERT(panel);
     return panel->tools().size();
   };
   auto at_func =  [](QQmlListProperty<Tool> *list, int index)
   {
-    Panel *panel = qobject_cast<Panel*>(list->object);
+    auto *panel = qobject_cast<Panel*>(list->object);
     Q_ASSERT(panel);
     return panel->tools().at(index);
   };
-  return QQmlListProperty<Tool>(this, nullptr, count_func, at_func);
+  return {this, nullptr, count_func, at_func};
 }
 
 void Panel::setX(int x)
@@ -48,7 +48,7 @@ void Panel::setY(int y)
 
 void Panel::setColor(QColor color)
 {
-  _color = color;
+  _color = std::move(color);
   emit colorChanged();
 }
 

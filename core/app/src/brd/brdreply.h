@@ -12,11 +12,13 @@
 class BrdReply : public QNetworkReply
 {
   Q_OBJECT
+  Q_DISABLE_COPY_MOVE(BrdReply)
 public:
-  explicit BrdReply(const QByteArray &data, QObject *parent = 0);
-  virtual void abort() override {}
-  virtual qint64 bytesAvailable() const override;
-  virtual qint64 readData(char *data, qint64 maxlen) override;
+  explicit BrdReply(const QByteArray &data, QObject *parent = nullptr);
+  ~BrdReply() override = default;
+  void abort() override {}
+  qint64 bytesAvailable() const override;
+  qint64 readData(char *data, qint64 maxlen) override;
 private:
   QByteArray _data;
   qint64 _offset;

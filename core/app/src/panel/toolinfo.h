@@ -13,18 +13,20 @@
 class ToolInfo : public QObject
 {
   Q_OBJECT
+  Q_DISABLE_COPY_MOVE(ToolInfo)
   Q_PROPERTY(QString name READ name CONSTANT)
   Q_PROPERTY(QString section READ section CONSTANT)
   Q_PROPERTY(int width READ width CONSTANT)
   Q_PROPERTY(int height READ height CONSTANT)
 public:
-  ToolInfo(const QString &name, const QString &section, QQmlComponent *component, int width, int height, QObject *parent = 0);
+  ToolInfo(const QString &name, const QString &section, QQmlComponent *component, int width, int height, QObject *parent = nullptr);
+  ~ToolInfo() override = default;
   QString name() const { return _name; }
   QString section() const { return _section; }
   QQmlComponent *component() const  { return _component; }
   int width() const { return _width; }
   int height() const { return _height; }
-  Q_INVOKABLE void create(QQuickItem *parent);
+  Q_INVOKABLE void create(QQuickItem *parent) const;
 private:
   const QString _name;
   const QString _section;

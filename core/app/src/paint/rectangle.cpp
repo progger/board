@@ -9,7 +9,7 @@
 #include "rectangle.h"
 
 Rectangle::Rectangle(QQuickItem *parent, float thinkness, QColor color, QColor bgcolor) :
-  CommonShape(parent, thinkness, color, bgcolor)
+  CommonShape(parent, thinkness, std::move(color), std::move(bgcolor))
 {
 }
 
@@ -23,11 +23,11 @@ void Rectangle::updateMainNode(QSGGeometryNode *node)
     node->setGeometry(g);
     node->setFlag(QSGNode::OwnsGeometry);
   }
-  auto p = g->vertexDataAsPoint2D();
-  float tx = thickness() * scalex() / 2;
-  float ty = thickness() * scaley() / 2;
-  float w = width();
-  float h = height();
+  auto *p = g->vertexDataAsPoint2D();
+  auto tx = static_cast<float>(thickness() * scalex() / 2);
+  auto ty = static_cast<float>(thickness() * scaley() / 2);
+  auto w = static_cast<float>(width());
+  auto h = static_cast<float>(height());
   p[0].set(-tx, -ty);
   p[1].set(tx, ty);
   p[2].set(w + tx, -ty);
@@ -50,9 +50,9 @@ void Rectangle::updateBackgroundNode(QSGGeometryNode *node)
     node->setGeometry(g);
     node->setFlag(QSGNode::OwnsGeometry);
   }
-  auto p = g->vertexDataAsPoint2D();
-  float w = width();
-  float h = height();
+  auto *p = g->vertexDataAsPoint2D();
+  auto w = static_cast<float>(width());
+  auto h = static_cast<float>(height());
   p[0].set(0, 0);
   p[1].set(0, h);
   p[2].set(w, 0);

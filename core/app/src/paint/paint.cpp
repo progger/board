@@ -116,7 +116,7 @@ float Paint::eraserSize()
 QSharedPointer<ShapeGen> Paint::createShapeGen(ISheetCanvas *canvas) const
 {
   auto it = _map_shape_gen.find(_mode);
-  if (it == _map_shape_gen.cend()) return QSharedPointer<ShapeGen>();
+  if (it == _map_shape_gen.cend()) return {};
   return it.value()(canvas);
 }
 

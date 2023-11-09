@@ -12,7 +12,7 @@
 #include "pen.h"
 
 Pen::Pen(QQuickItem *parent, float thinkness, QColor color, QColor bgcolor) :
-  CommonShape(parent, thinkness, color, bgcolor),
+  CommonShape(parent, thinkness, std::move(color), std::move(bgcolor)),
   _points(),
   _hash()
 {
@@ -60,25 +60,25 @@ void Pen::updateMainNode(QSGGeometryNode *node)
   {
     g->allocate(vertex_count);
   }
-  auto p = g->vertexDataAsPoint2D();
-  qreal tx = thickness() * scalex() / 2;
-  qreal ty = thickness() * scaley() / 2;
+  auto *p = g->vertexDataAsPoint2D();
+  auto tx = thickness() * scalex() / 2;
+  auto ty = thickness() * scaley() / 2;
   for (int i = 0; i < count - 1; ++i)
   {
-    qreal x1 = _points[i].x() * scalex();
-    qreal y1 = _points[i].y() * scaley();
-    qreal x2 = _points[i + 1].x() * scalex();
-    qreal y2 = _points[i + 1].y() * scaley();
-    qreal dx = x2 - x1;
-    qreal dy = y2 - y1;
-    qreal l = sqrt(dx * dx + dy * dy);
-    qreal nx = -dy / l * tx;
-    qreal ny = dx / l * ty;
+    auto x1 = _points[i].x() * scalex();
+    auto y1 = _points[i].y() * scaley();
+    auto x2 = _points[i + 1].x() * scalex();
+    auto y2 = _points[i + 1].y() * scaley();
+    auto dx = x2 - x1;
+    auto dy = y2 - y1;
+    auto l = sqrt(dx * dx + dy * dy);
+    auto nx = -dy / l * tx;
+    auto ny = dx / l * ty;
     int n = i * 4;
-    p[n].set(x1 + nx, y1 + ny);
-    p[n + 1].set(x1 - nx, y1 - ny);
-    p[n + 2].set(x2 + nx, y2 + ny);
-    p[n + 3].set(x2 - nx, y2 - ny);
+    p[n].set(static_cast<float>(x1 + nx), static_cast<float>(y1 + ny));
+    p[n + 1].set(static_cast<float>(x1 - nx), static_cast<float>(y1 - ny));
+    p[n + 2].set(static_cast<float>(x2 + nx), static_cast<float>(y2 + ny));
+    p[n + 3].set(static_cast<float>(x2 - nx), static_cast<float>(y2 - ny));
   }
 }
 

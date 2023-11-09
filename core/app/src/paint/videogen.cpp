@@ -13,13 +13,13 @@
 VideoGen::VideoGen(ISheetCanvas *canvas) :
   ShapeGen(canvas)
 {
-  SheetCanvas *canvas_obj = static_cast<SheetCanvas*>(canvas);
+  auto *canvas_obj = static_cast<SheetCanvas*>(canvas);
   _video_source = canvas_obj->paintObj()->videoSource();
 }
 
 void VideoGen::begin(const QPointF &p)
 {
-  VideoPlayer *video = qobject_cast<VideoPlayer*>(g_core->paint()->createShape("video", _canvas));
+  auto *video = qobject_cast<VideoPlayer*>(g_core->paint()->createShape("video", _canvas));
   Q_ASSERT(video);
   QSizeF size(_canvas->viewRect().width() / 2, _canvas->viewRect().width() / 8 * 3);
   video->setSize(size);
@@ -31,7 +31,7 @@ void VideoGen::begin(const QPointF &p)
 
 void VideoGen::end(const QPointF &p)
 {
-  VideoPlayer *video = qobject_cast<VideoPlayer*>(_item);
+  auto *video = qobject_cast<VideoPlayer*>(_item);
   Q_ASSERT(video);
   emit video->play();
   ShapeGen::end(p);

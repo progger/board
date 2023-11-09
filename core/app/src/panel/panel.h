@@ -15,6 +15,7 @@
 class Panel : public QObject
 {
   Q_OBJECT
+  Q_DISABLE_COPY_MOVE(Panel)
   Q_PROPERTY(int x READ x WRITE setX NOTIFY xChanged)
   Q_PROPERTY(int y READ y WRITE setY NOTIFY yChanged)
   Q_PROPERTY(int width READ width NOTIFY toolsChanged)
@@ -22,7 +23,8 @@ class Panel : public QObject
   Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
   Q_PROPERTY(QQmlListProperty<Tool> tools READ toolsProperty NOTIFY toolsChanged)
 public:
-  explicit Panel(QObject *parent = 0);
+  explicit Panel(QObject *parent = nullptr);
+  ~Panel() override = default;
   int x() const { return _x; }
   int y() const { return _y; }
   int width() const { return _width; }

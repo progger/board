@@ -11,9 +11,11 @@
 
 class EllipseGen : public ShapeGen
 {
+  Q_DISABLE_COPY_MOVE(EllipseGen)
 public:
   explicit EllipseGen(ISheetCanvas *canvas);
-  virtual void begin(const QPointF &p) override;
+  ~EllipseGen() override = default;
+  void begin(const QPointF &p) override;
 };
 
 #endif // ELLIPSEGEN_H

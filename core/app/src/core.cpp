@@ -24,6 +24,7 @@
 
 bool openBookBrd(const QString &file_name);
 bool openBookFiles(QuaZip *zip);
+bool readBookFile(QuaZipFile *zipFile);
 void saveBookBrd(const QString &file_name);
 void saveBookFiles(QuaZip *zip);
 
@@ -215,7 +216,7 @@ QQmlComponent *Core::getComponent(const QString &url_string)
   auto it = _map_componenet.find(url_string);
   if (it == _map_componenet.cend())
   {
-    QQmlComponent *component = new QQmlComponent(_engine, QUrl(url_string), this);
+    auto *component = new QQmlComponent(_engine, QUrl(url_string), this);
     if (!component->isReady())
     {
       logError("Error loading component " + url_string + " : " + component->errorString());
@@ -253,7 +254,7 @@ QQmlListProperty<Sheet> Core::sheetsProperty()
     Q_ASSERT(core);
     return core->sheets().at(index);
   };
-  return QQmlListProperty<Sheet>(this, nullptr, count_func, at_func);
+  return {this, nullptr, count_func, at_func};
 }
 
 QList<ToolInfo *> Core::tools() const
@@ -275,7 +276,7 @@ QQmlListProperty<ToolInfo> Core::toolsProperty()
     Q_ASSERT(core);
     return core->tools().at(index);
   };
-  return QQmlListProperty<ToolInfo>(this, nullptr, count_func, at_func);
+  return {this, nullptr, count_func, at_func};
 }
 
 QQmlListProperty<Panel> Core::panelsProperty()
@@ -292,7 +293,7 @@ QQmlListProperty<Panel> Core::panelsProperty()
     Q_ASSERT(core);
     return core->panels().at(index);
   };
-  return QQmlListProperty<Panel>(this, nullptr, count_func, at_func);
+  return {this, nullptr, count_func, at_func};
 }
 
 QQmlListProperty<Importer> Core::importersProperty()
@@ -309,7 +310,7 @@ QQmlListProperty<Importer> Core::importersProperty()
     Q_ASSERT(core);
     return core->importers().at(index);
   };
-  return QQmlListProperty<Importer>(this, nullptr, count_func, at_func);
+  return {this, nullptr, count_func, at_func};
 }
 
 QQmlListProperty<Exporter> Core::exportersProperty()
@@ -326,13 +327,13 @@ QQmlListProperty<Exporter> Core::exportersProperty()
     Q_ASSERT(core);
     return core->exporters().at(index);
   };
-  return QQmlListProperty<Exporter>(this, nullptr, count_func, at_func);
+  return {this, nullptr, count_func, at_func};
 }
 
 void Core::emulateKeyPress(int key, int modifiers, const QString &text) const
 {
   Qt::KeyboardModifiers md(modifiers);
-  QKeyEvent *event = new QKeyEvent(QEvent::KeyPress, key, md, text);
+  auto *event = new QKeyEvent(QEvent::KeyPress, key, md, text);
   QGuiApplication::postEvent(_main_window, event);
 }
 
@@ -420,7 +421,7 @@ void Core::quitActions()
 
 Sheet *Core::createSheet()
 {
-  Sheet *sheet = qobject_cast<Sheet*>(_comp_sheet->create());
+  auto *sheet = qobject_cast<Sheet*>(_comp_sheet->create());
   Q_ASSERT(sheet);
   sheet->setParent(_sheet_place);
   sheet->setVisible(false);
@@ -444,10 +445,10 @@ void Core::loadPlugins()
   QDir dir = QDir(QCoreApplication::applicationDirPath());
   dir.cd("plugins");
   QStringList files = dir.entryList(QDir::Files);
-  for (QString file_name : files)
+  for (const auto &file_name : files)
   {
     QString full_file_name = dir.absoluteFilePath(file_name);
-    QPluginLoader *loader = new QPluginLoader(full_file_name, this);
+    auto *loader = new QPluginLoader(full_file_name, this);
     QObject *plugin_obj = loader->instance();
     if (plugin_obj)
     {
@@ -512,10 +513,10 @@ void Core::loadPanels()
   int panel_count = _settings->beginReadArray("Panel");
   for (int i = 0; i < panel_count; ++i)
   {
-    Panel *panel = new Panel(this);
+    auto *panel = new Panel(this);
     _settings->setArrayIndex(i);
-    panel->setX(_settings->value("x").toReal());
-    panel->setY(_settings->value("y").toReal());
+    panel->setX(_settings->value("x").toInt());
+    panel->setY(_settings->value("y").toInt());
     panel->setColor(_settings->value("color").value<QColor>());
     _panels.append(panel);
 
@@ -589,29 +590,36 @@ bool openBookFiles(QuaZip *zip)
     g_core->showError(QString("Не удалось открыть книгу: %1").arg(zip->getZipError()));
     return false;
   }
-  QuaZipFile zip_file(zip);
-  if (!zip_file.open(QIODevice::ReadOnly))
+  QuaZipFile zipFile(zip);
+  if (!zipFile.open(QIODevice::ReadOnly))
   {
-    g_core->showError(QString("Не удалось открыть книгу: %1").arg(zip_file.getZipError()));
+    g_core->showError(QString("Не удалось открыть книгу: %1").arg(zipFile.getZipError()));
     return false;
   }
-  QXmlStreamReader reader(&zip_file);
+  if (!readBookFile(&zipFile))
+  {
+    g_core->showError("Книга имеет неверный формат");
+    return false;
+  }
+  return true;
+}
+
+bool readBookFile(QuaZipFile *zipFile)
+{
+  QXmlStreamReader reader(zipFile);
   reader.readNextStartElement();
-  if (reader.name() != "book") goto error;
+  if (reader.name() != "book") return false;
   reader.readNextStartElement();
-  if (reader.name() != "sheets") goto error;
+  if (reader.name() != "sheets") return false;
   while (reader.readNextStartElement())
   {
-    if (reader.name() != "sheet") goto error;
-    ISheet *sheet = g_core->addSheet();
-    Sheet *sheet_obj = dynamic_cast<Sheet*>(sheet);
+    if (reader.name() != "sheet") return false;
+    auto *sheet = g_core->addSheet();
+    auto *sheet_obj = dynamic_cast<Sheet*>(sheet);
     Q_ASSERT(sheet_obj);
     sheet_obj->deserialize(&reader);
   }
   return true;
-error:
-  g_core->showError("Книга имеет неверный формат");
-  return false;
 }
 
 void saveBookBrd(const QString &file_name)
@@ -643,7 +651,7 @@ void saveBookFiles(QuaZip *zip)
   for (int i = 0; i < count; ++i)
   {
     ISheet *sheet = g_core->sheet(i);
-    Sheet *sheet_obj = dynamic_cast<Sheet*>(sheet);
+    auto *sheet_obj = dynamic_cast<Sheet*>(sheet);
     Q_ASSERT(sheet_obj);
     sheet_obj->serialize(&writer, &brd_objects);
   }
@@ -652,7 +660,7 @@ void saveBookFiles(QuaZip *zip)
   writer.writeEndDocument();
   zip_file.close();
 
-  for (QString hash : brd_objects)
+  for (const auto &hash : brd_objects)
   {
     QByteArray data = g_core->brdStore()->getObject(hash);
     if (data.isEmpty()) continue;

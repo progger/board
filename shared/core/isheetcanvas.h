@@ -10,17 +10,19 @@
 #include <QQuickItem>
 
 class ISheetCanvas {
+  Q_DISABLE_COPY_MOVE(ISheetCanvas)
 public:
-  virtual ~ISheetCanvas() {}
+  ISheetCanvas() = default;
+  virtual ~ISheetCanvas() = default;
   virtual QQuickItem *container() = 0;
-  virtual float zoom() = 0;
+  virtual qreal zoom() = 0;
   virtual QRectF sheetRect() = 0;
   virtual QRectF viewRect() = 0;
   virtual qreal getZMin() = 0;
   virtual qreal getZMax() = 0;
   virtual qreal getZNext() = 0;
 public slots:
-  virtual void setZoom(float zoom) = 0;
+  virtual void setZoom(qreal zoom) = 0;
   virtual void setViewPoint(qreal x, qreal y) = 0;
   virtual void pushState() = 0;
   virtual void updateSheetRect() = 0;

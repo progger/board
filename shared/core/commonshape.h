@@ -13,20 +13,22 @@
 class CommonShape : public Shape
 {
   Q_OBJECT
+  Q_DISABLE_COPY_MOVE(CommonShape)
 public:
-  explicit CommonShape(QQuickItem *parent = 0, float thickness = 0, QColor color = QColor(),
+  explicit CommonShape(QQuickItem *parent = nullptr, float thickness = 0, QColor color = QColor(),
                        QColor bgcolor = QColor(Qt::transparent));
+  ~CommonShape() override = default;
   bool erase(const QRectF &beg, const QRectF &end);
   void updateClipHash();
 protected:
-  virtual QSGNode *updatePaintNode(QSGNode *node, UpdatePaintNodeData *) override;
+  QSGNode *updatePaintNode(QSGNode *node, UpdatePaintNodeData *) override;
   virtual bool hasMainNode() { return true; }
   virtual bool hasBackgroundNode() { return true; }
   virtual void updateMainNode(QSGGeometryNode *) {}
   virtual void updateBackgroundNode(QSGGeometryNode *) {}
   virtual QRectF getFullInnerRect() const;
-  virtual void innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const override;
-  virtual void innerDeserialize(QXmlStreamReader *reader) override;
+  void innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const override;
+  void innerDeserialize(QXmlStreamReader *reader) override;
 private slots:
   void onInnerRectChanged();
 private:

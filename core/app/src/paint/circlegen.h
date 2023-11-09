@@ -11,10 +11,12 @@
 
 class CircleGen : public ShapeGen
 {
+  Q_DISABLE_COPY_MOVE(CircleGen)
 public:
   explicit CircleGen(ISheetCanvas *canvas);
-  virtual void begin(const QPointF &p) override;
-  virtual void move(const QPointF &p) override;
+  ~CircleGen() override = default;
+  void begin(const QPointF &p) override;
+  void move(const QPointF &p) override;
 };
 
 #endif // CIRCLEGEN_H

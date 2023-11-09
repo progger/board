@@ -30,7 +30,7 @@ void parseCmd(QString &brd_file, bool &window_mode)
   int count = args.count();
   for (int i = 1; i < count; i++)
   {
-    QString param = args.at(i);
+    const auto &param = args.at(i);
     if (param.startsWith('-'))
     {
       if (param == "--help" || param == "-h")
@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
   bool window_mode = true;
   parseCmd(brd_file, window_mode);
 
-  QQmlEngine *engine = new QQmlEngine();
+  auto *engine = new QQmlEngine();
   Core *core = new Core(engine, window_mode);
   g_core = core;
   QQuickWindow::setDefaultAlphaBuffer(true);
@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
     main_window->showMaximized();
   else
     main_window->showFullScreen();
-  int result = app.exec();
+  int result = QApplication::exec();
   core->quitActions();
   delete obj;
   delete engine;

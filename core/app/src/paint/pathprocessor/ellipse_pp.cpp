@@ -5,15 +5,10 @@
  */
 
 #include <cmath>
-#include "defs.h"
 #include "../paintutils.h"
 #include "ellipse.h"
 
 using namespace PathProcessor;
-
-Ellipse::Ellipse()
-{
-}
 
 void Ellipse::init(Points *, QRectF *)
 {

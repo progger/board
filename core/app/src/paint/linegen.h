@@ -11,10 +11,12 @@
 
 class LineGen : public ShapeGen
 {
+  Q_DISABLE_COPY_MOVE(LineGen)
 public:
   explicit LineGen(ISheetCanvas *canvas);
-  virtual void begin(const QPointF &p) override;
-  virtual void move(const QPointF &p) override;
+  ~LineGen() override = default;
+  void begin(const QPointF &p) override;
+  void move(const QPointF &p) override;
 };
 
 #endif // LINEGEN_H

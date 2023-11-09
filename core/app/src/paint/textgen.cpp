@@ -7,14 +7,13 @@
 #include <QQuickTextDocument>
 #include "global.h"
 #include "sheetcanvas.h"
-#include "paint.h"
 #include "textwrapper.h"
 #include "textgen.h"
 
 TextGen::TextGen(ISheetCanvas *canvas) :
   ShapeGen(canvas)
 {
-  SheetCanvas *canvas_obj = static_cast<SheetCanvas*>(canvas);
+  auto *canvas_obj = static_cast<SheetCanvas*>(canvas);
   _text_input = canvas_obj->textInput();
   _text_input->setProperty("textGen", QVariant::fromValue<QObject*>(this));
 }
@@ -43,12 +42,12 @@ void TextGen::end(const QPointF &p)
   }
   if (!_item)
   {
-    TextWrapper *text = qobject_cast<TextWrapper*>(g_core->paint()->createShape("text", _canvas));
+    auto *text = qobject_cast<TextWrapper*>(g_core->paint()->createShape("text", _canvas));
     Q_ASSERT(text);
-    int font_size = g_core->paint()->fontSize();
+    auto font_size = g_core->paint()->fontSize();
     text->setColor(g_core->paint()->color());
     text->setFontSize(font_size);
-    text->setPosition(QPointF(p.x(), p.y() - font_size / 2));
+    text->setPosition(QPointF(p.x(), p.y() - font_size / 2.0));
     text->setSize(text->innerSize());
     _item = text;
   }
@@ -65,7 +64,7 @@ void TextGen::endEdit()
 {
   if (_item)
   {
-    QQuickTextDocument *document = _text_input->property("textDocument").value<QQuickTextDocument*>();
+    auto *document = _text_input->property("textDocument").value<QQuickTextDocument*>();
     if (document && document->textDocument()->isEmpty())
     {
       delete _item;

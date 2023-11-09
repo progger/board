@@ -9,7 +9,6 @@
 
 #include "isheetcanvas.h"
 #include "global.h"
-#include "paint.h"
 
 template <class T> T * createItem(ISheetCanvas *canvas, QPointF pos)
 {

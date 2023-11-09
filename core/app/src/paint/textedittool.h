@@ -13,13 +13,15 @@
 class TextEditTool : public QObject
 {
   Q_OBJECT
+  Q_DISABLE_COPY_MOVE(TextEditTool)
   Q_PROPERTY(int selectionStart READ selectionStart WRITE setSelectionStart NOTIFY selectionStartChanged)
   Q_PROPERTY(int selectionEnd READ selectionEnd WRITE setSelectionEnd NOTIFY selectionEndChanged)
   Q_PROPERTY(bool bold READ bold WRITE setBold NOTIFY boldChanged)
   Q_PROPERTY(bool italic READ italic WRITE setItalic NOTIFY italicChanged)
   Q_PROPERTY(bool underline READ underline WRITE setUnderline NOTIFY underlineChanged)
 public:
-  explicit TextEditTool(Paint *paint, QObject *parent = 0);
+  explicit TextEditTool(Paint *paint, QObject *parent = nullptr);
+  ~TextEditTool() override = default;
   int selectionStart() const { return _selection_start; }
   int selectionEnd() const { return _selection_end; }
   bool bold() const { return _bold; }

@@ -43,7 +43,6 @@ void processPath(Points *points)
   deviation = hunter.hunt(&ellipse) * 2;
   if (deviation < best_deviation)
   {
-    best_deviation = deviation;
     best_shape = &ellipse;
   }
 

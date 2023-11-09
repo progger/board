@@ -36,13 +36,13 @@ void EraserGen::end(const QPointF &p)
 
 void EraserGen::move(const QPointF &p)
 {
-  float es = g_core->paint()->eraserSize() / _canvas->zoom();
+  auto es = g_core->paint()->eraserSize() / _canvas->zoom();
   QSizeF size(es * 2, es * 2);
   QRectF beg(QPointF(_start.x() - es, _start.y() - es), size);
   QRectF end(QPointF(p.x() - es, p.y() - es), size);
   for (QQuickItem *item : _canvas->container()->childItems())
   {
-    CommonShape *shape = qobject_cast<CommonShape*>(item);
+    auto *shape = qobject_cast<CommonShape*>(item);
     if (shape)
     {
       if (shape->erase(beg, end))

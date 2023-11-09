@@ -24,6 +24,7 @@ class SheetCanvas : public QQuickItem, public ISheetCanvas
 {
   Q_OBJECT
   Q_INTERFACES(ISheetCanvas)
+  Q_DISABLE_COPY_MOVE(SheetCanvas)
   Q_PROPERTY(float zoom READ zoom WRITE setZoom NOTIFY zoomChanged)
   Q_PROPERTY(QRectF viewRect READ viewRect NOTIFY viewRectChanged)
   Q_PROPERTY(QRectF sheetRect READ sheetRect NOTIFY sheetRectChanged)
@@ -31,25 +32,26 @@ class SheetCanvas : public QQuickItem, public ISheetCanvas
   Q_PROPERTY(int mouseY READ mouseY NOTIFY mousePositionChanged)
   Q_PROPERTY(bool containsMouse READ containsMouse NOTIFY containsMouseChanged)
 public:
-  explicit SheetCanvas(QQuickItem *parent = 0);
+  explicit SheetCanvas(QQuickItem *parent = nullptr);
+  ~SheetCanvas() override = default;
 
   // ISheetCanvas
 public:
-  virtual QQuickItem *container() override;
-  virtual float zoom() override;
-  virtual QRectF sheetRect() override;
-  virtual QRectF viewRect() override;
-  virtual qreal getZMin() override;
-  virtual qreal getZMax() override;
-  virtual qreal getZNext() override;
+  QQuickItem *container() override;
+  qreal zoom() override;
+  QRectF sheetRect() override;
+  QRectF viewRect() override;
+  qreal getZMin() override;
+  qreal getZMax() override;
+  qreal getZNext() override;
 public slots:
-  virtual void setZoom(float zoom) override;
-  virtual void setViewPoint(qreal x, qreal y) override;
-  virtual void pushState() override;
-  virtual void updateSheetRect() override;
+  void setZoom(qreal zoom) override;
+  void setViewPoint(qreal x, qreal y) override;
+  void pushState() override;
+  void updateSheetRect() override;
 signals:
-  void zoomChanged();
-  void viewRectChanged();
+  void zoomChanged() override;
+  void viewRectChanged() override;
 
 public:
   Paint *paintObj() const { return _paint; }
@@ -61,7 +63,7 @@ public:
   void deserializeShapes(QXmlStreamReader *reader, QList<Shape*> *shapes = nullptr);
   int mouseX() const { return _mouse_x; }
   int mouseY() const { return _mouse_y; }
-  bool containsMouse() { return _contains_mouse; }
+  bool containsMouse() const { return _contains_mouse; }
 public slots:
   void onEnabledChanged();
   void onModeChanged();
@@ -72,17 +74,17 @@ signals:
   void mousePositionChanged();
   void containsMouseChanged();
 protected:
-  virtual void componentComplete() override;
-  virtual void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry) override;
-  virtual void mousePressEvent(QMouseEvent *event) override;
-  virtual void mouseReleaseEvent(QMouseEvent *event) override;
-  virtual void mouseMoveEvent(QMouseEvent *event) override;
-  virtual void hoverEnterEvent(QHoverEvent *) override;
-  virtual void hoverLeaveEvent(QHoverEvent *) override;
-  virtual void hoverMoveEvent(QHoverEvent *event) override;
+  void componentComplete() override;
+  void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry) override;
+  void mousePressEvent(QMouseEvent *event) override;
+  void mouseReleaseEvent(QMouseEvent *event) override;
+  void mouseMoveEvent(QMouseEvent *event) override;
+  void hoverEnterEvent(QHoverEvent *) override;
+  void hoverLeaveEvent(QHoverEvent *) override;
+  void hoverMoveEvent(QHoverEvent *event) override;
 private:
   Paint *_paint;
-  float _zoom;
+  qreal _zoom;
   QRectF _sheet_rect;
   QQuickItem *_container;
   QQuickItem *_select_rect;

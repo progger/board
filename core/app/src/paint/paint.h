@@ -19,10 +19,11 @@ class Core;
 class Shape;
 class ShapeGen;
 
-class Paint : public QObject, public IPaint
+class Paint final : public QObject, public IPaint
 {
   Q_OBJECT
   Q_INTERFACES(IPaint)
+  Q_DISABLE_COPY_MOVE(Paint)
   Q_PROPERTY(QString mode READ mode WRITE setMode NOTIFY modeChanged)
   Q_PROPERTY(float thickness READ thickness WRITE setThickness NOTIFY thicknessChanged)
   Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
@@ -34,33 +35,34 @@ class Paint : public QObject, public IPaint
   Q_PROPERTY(bool canRedo READ canRedo WRITE setCanRedo NOTIFY canRedoChanged)
 public:
   explicit Paint(Core *parent);
+  ~Paint() override = default;
 
   // IPaint
 public:
-  virtual QString mode() override;
-  virtual float thickness() override;
-  virtual QColor color() override;
-  virtual QColor bgcolor() override;
-  virtual int fontSize() override;
-  virtual float eraserSize() override;
-  virtual Shape *createShape(const QString &name, ISheetCanvas *canvas) override;
+  QString mode() override;
+  float thickness() override;
+  QColor color() override;
+  QColor bgcolor() override;
+  int fontSize() override;
+  float eraserSize() override;
+  Shape *createShape(const QString &name, ISheetCanvas *canvas) override;
 public slots:
-  virtual void RegisterShapeGen(const QString &name, ShapeGenFunc func) override;
-  virtual void RegisterShape(const QString &name, ShapeFunc func) override;
-  virtual void RegisterCursor(const QString &name, const QCursor &cursor) override;
-  virtual void setMode(const QString &mode) override;
-  virtual void setThickness(float thickness) override;
-  virtual void setColor(const QColor &color) override;
-  virtual void setBgcolor(const QColor &bgcolor) override;
-  virtual void setFontSize(int font_size) override;
-  virtual void setEraserSize(float eraser_size) override;
+  void RegisterShapeGen(const QString &name, ShapeGenFunc func) override;
+  void RegisterShape(const QString &name, ShapeFunc func) override;
+  void RegisterCursor(const QString &name, const QCursor &cursor) override;
+  void setMode(const QString &mode) override;
+  void setThickness(float thickness) override;
+  void setColor(const QColor &color) override;
+  void setBgcolor(const QColor &bgcolor) override;
+  void setFontSize(int font_size) override;
+  void setEraserSize(float eraser_size) override;
 signals:
-  void modeChanged();
-  void thicknessChanged();
-  void colorChanged();
-  void bgcolorChanged();
-  void fontSizeChanged();
-  void eraserSizeChanged();
+  void modeChanged() override;
+  void thicknessChanged() override;
+  void colorChanged() override;
+  void bgcolorChanged() override;
+  void fontSizeChanged() override;
+  void eraserSizeChanged() override;
 
 public:
   bool selected() const { return _selected; }

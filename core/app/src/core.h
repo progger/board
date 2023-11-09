@@ -28,8 +28,8 @@ class Style;
 class Core final : public QObject, public ICore
 {
   Q_OBJECT
-  Q_DISABLE_COPY_MOVE(Core)
   Q_INTERFACES(ICore)
+  Q_DISABLE_COPY_MOVE(Core)
   Q_PROPERTY(bool windowMode READ windowMode CONSTANT)
   Q_PROPERTY(bool keyboard READ keyboard WRITE setKeyboard NOTIFY keyboardChanged)
   Q_PROPERTY(bool transparent READ transparent WRITE setTransparent NOTIFY transparentChanged)

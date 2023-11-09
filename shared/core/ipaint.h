@@ -14,12 +14,14 @@
 #include "shapegen.h"
 #include "isheetcanvas.h"
 
-typedef QSharedPointer<ShapeGen>(*ShapeGenFunc)(ISheetCanvas *);
-typedef Shape *(*ShapeFunc)();
+using ShapeGenFunc = QSharedPointer<ShapeGen> (*)(ISheetCanvas *);
+using ShapeFunc = Shape *(*)();
 
 class IPaint {
+  Q_DISABLE_COPY_MOVE(IPaint)
 public:
-  virtual ~IPaint() {}
+  IPaint() = default;
+  virtual ~IPaint() = default;
   virtual Shape *createShape(const QString &name, ISheetCanvas *canvas) = 0;
   virtual QString mode() = 0;
   virtual float thickness() = 0;

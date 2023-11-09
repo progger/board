@@ -14,12 +14,13 @@ class SheetCanvas;
 class SelectGen : public QObject, public ShapeGen
 {
   Q_OBJECT
+  Q_DISABLE_COPY_MOVE(SelectGen)
 public:
   explicit SelectGen(ISheetCanvas *canvas);
-  virtual ~SelectGen() override;
-  virtual void begin(const QPointF &p) override;
-  virtual void end(const QPointF &p) override;
-  virtual void move(const QPointF &p) override;
+  ~SelectGen() override;
+  void begin(const QPointF &p) override;
+  void end(const QPointF &p) override;
+  void move(const QPointF &p) override;
 public slots:
   void onMoveBegin(int x, int y);
   void onMoveEnd();

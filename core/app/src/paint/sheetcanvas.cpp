@@ -44,7 +44,7 @@ QQuickItem *SheetCanvas::container()
   return _container;
 }
 
-float SheetCanvas::zoom()
+qreal SheetCanvas::zoom()
 {
   return _zoom;
 }
@@ -74,7 +74,7 @@ qreal SheetCanvas::getZNext()
   return _z_max + 1;
 }
 
-void SheetCanvas::setZoom(float zoom)
+void SheetCanvas::setZoom(qreal zoom)
 {
   _zoom = zoom;
   emit zoomChanged();
@@ -141,7 +141,7 @@ void SheetCanvas::serialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects
 {
   for (QQuickItem *item : _container->childItems())
   {
-    Shape *shape = qobject_cast<Shape*>(item);
+    auto *shape = qobject_cast<Shape*>(item);
     if (shape)
     {
       shape->serialize(writer, brd_objects);

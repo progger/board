@@ -104,8 +104,8 @@ void Sheet::deserialize(QXmlStreamReader *reader)
   {
     setScrollable(attrs.value("scrollable").toInt());
     setColor(attrs.value("color").toString());
-    qreal view_height = attrs.value("view_height").toDouble();
-    qreal zoom = view_height > 0 ? _canvas->height() / view_height : 1;
+    auto view_height = attrs.value("view_height").toDouble();
+    auto zoom = view_height > 0 ? _canvas->height() / view_height : 1;
     _canvas->setZoom(zoom);
     _canvas->setViewPoint(attrs.value("view_x").toDouble(), attrs.value("view_y").toDouble());
   }

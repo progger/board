@@ -13,10 +13,12 @@
 class Exporter : public QObject
 {
   Q_OBJECT
+  Q_DISABLE_COPY_MOVE(Exporter)
   Q_PROPERTY(QString name READ name CONSTANT)
   Q_PROPERTY(QString suffix READ suffix CONSTANT)
 public:
-  explicit Exporter(const QString &name, const QString &suffix, ExportFunc func, QObject *parent = 0);
+  explicit Exporter(const QString &name, const QString &suffix, ExportFunc func, QObject *parent = nullptr);
+  ~Exporter() override = default;
   QString name() const { return _name; }
   QString suffix() const { return _suffix; }
   ExportFunc func() const { return _func; }

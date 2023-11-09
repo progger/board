@@ -14,19 +14,19 @@ namespace PathProcessor {
 class Ellipse : public Shape
 {
 public:
-  Ellipse();
-  virtual void init(Points *, QRectF *);
-  virtual qreal getDeviation(Points *points);
-  virtual int getParamCount();
-  virtual void changeParam(int param_num, int value, QRectF *rect);
-  virtual void fillPoints(Points *points);
+  Ellipse() = default;
+  void init(Points *, QRectF *) override;
+  qreal getDeviation(Points *points) override;
+  int getParamCount() override;
+  void changeParam(int param_num, int value, QRectF *rect) override;
+  void fillPoints(Points *points) override;
+private:
+  qreal getDistance(const QPointF &p);
 private:
   QPointF _center;
-  qreal _rx;
-  qreal _ry;
-  qreal _e;
-
-  qreal getDistance(const QPointF &p);
+  qreal _rx {};
+  qreal _ry {};
+  qreal _e {};
 };
 
 }

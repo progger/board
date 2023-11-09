@@ -10,6 +10,7 @@
 TextEditTool::TextEditTool(Paint *paint, QObject *parent) :
   QObject(parent),
   _paint(paint),
+  _doc(nullptr),
   _selection_start(0),
   _selection_end(0),
   _lock(false),

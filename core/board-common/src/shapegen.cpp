@@ -30,10 +30,10 @@ void ShapeGen::end(const QPointF &p)
 void ShapeGen::move(const QPointF &p)
 {
   if (!_item) return;
-  qreal x1 = qMin(_start.x(), p.x());
-  qreal y1 = qMin(_start.y(), p.y());
-  qreal x2 = qMax(_start.x(), p.x());
-  qreal y2 = qMax(_start.y(), p.y());
+  qreal x1 = std::min(_start.x(), p.x());
+  qreal y1 = std::min(_start.y(), p.y());
+  qreal x2 = std::max(_start.x(), p.x());
+  qreal y2 = std::max(_start.y(), p.y());
   _item->setPosition(QPointF(x1, y1));
   QSizeF size(x2 - x1, y2 - y1);
   _item->setSize(size);

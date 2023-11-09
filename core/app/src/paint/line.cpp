@@ -20,7 +20,7 @@ static bool cmpIntr(qreal Ax, qreal Ay, qreal Bx, qreal By,
 }
 
 Line::Line(QQuickItem *parent, float thinkness, QColor color, QColor bgcolor) :
-  CommonShape(parent, thinkness, color, bgcolor),
+  CommonShape(parent, thinkness, std::move(color), std::move(bgcolor)),
   _p1(),
   _p2()
 {
@@ -42,7 +42,7 @@ int Line::computeCohenOutcode(const QPointF &p, const QRectF &rect)
   if (p.y() > rect.bottom()) code = 8;
   else if(p.y() < rect.top()) code = 4;
   if(p.x() > rect.right()) return code + 2;
-  else if(p.x() < rect.left()) return code + 1;
+  if(p.x() < rect.left()) return code + 1;
   return code;
 }
 
@@ -85,22 +85,22 @@ void Line::updateMainNode(QSGGeometryNode *node)
     node->setGeometry(g);
     node->setFlag(QSGNode::OwnsGeometry);
   }
-  auto p = g->vertexDataAsPoint2D();
-  float tx = thickness() * scalex() / 2;
-  float ty = thickness() * scaley() / 2;
-  qreal x1 = _p1.x() * scalex();
-  qreal y1 = _p1.y() * scaley();
-  qreal x2 = _p2.x() * scalex();
-  qreal y2 = _p2.y() * scaley();
-  qreal dx = x2 - x1;
-  qreal dy = y2 - y1;
-  qreal l = sqrt(dx * dx + dy * dy);
-  qreal nx = -dy / l * tx;
-  qreal ny = dx / l * ty;
-  p[0].set(x1 + nx, y1 + ny);
-  p[1].set(x1 - nx, y1 - ny);
-  p[2].set(x2 + nx, y2 + ny);
-  p[3].set(x2 - nx, y2 - ny);
+  auto *p = g->vertexDataAsPoint2D();
+  auto tx = thickness() * scalex() / 2;
+  auto ty = thickness() * scaley() / 2;
+  auto x1 = _p1.x() * scalex();
+  auto y1 = _p1.y() * scaley();
+  auto x2 = _p2.x() * scalex();
+  auto y2 = _p2.y() * scaley();
+  auto dx = x2 - x1;
+  auto dy = y2 - y1;
+  auto l = sqrt(dx * dx + dy * dy);
+  auto nx = -dy / l * tx;
+  auto ny = dx / l * ty;
+  p[0].set(static_cast<float>(x1 + nx), static_cast<float>(y1 + ny));
+  p[1].set(static_cast<float>(x1 - nx), static_cast<float>(y1 - ny));
+  p[2].set(static_cast<float>(x2 + nx), static_cast<float>(y2 + ny));
+  p[3].set(static_cast<float>(x2 - nx), static_cast<float>(y2 - ny));
 }
 
 QString Line::elementName() const

@@ -16,10 +16,10 @@ ToolInfo::ToolInfo(const QString &name, const QString &section, QQmlComponent *c
 {
 }
 
-void ToolInfo::create(QQuickItem *parent)
+void ToolInfo::create(QQuickItem *parent) const
 {
-  QObject *obj = component()->create();
-  QQuickItem *item = qobject_cast<QQuickItem*>(obj);
+  auto *obj = component()->create();
+  auto *item = qobject_cast<QQuickItem*>(obj);
   Q_ASSERT(item);
   item->setParent(parent);
   item->setParentItem(parent);

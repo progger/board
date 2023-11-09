@@ -12,13 +12,15 @@
 class Rectangle : public CommonShape
 {
   Q_OBJECT
+  Q_DISABLE_COPY_MOVE(Rectangle)
 public:
-  explicit Rectangle(QQuickItem *parent = 0, float thinkness = 0, QColor color = QColor(),
+  explicit Rectangle(QQuickItem *parent = nullptr, float thinkness = 0, QColor color = QColor(),
                      QColor bgcolor = QColor(Qt::transparent));
+  ~Rectangle() override = default;
 protected:
-  virtual void updateMainNode(QSGGeometryNode *node) override;
-  virtual void updateBackgroundNode(QSGGeometryNode *node) override;
-  virtual QString elementName() const override;
+  void updateMainNode(QSGGeometryNode *node) override;
+  void updateBackgroundNode(QSGGeometryNode *node) override;
+  QString elementName() const override;
 };
 
 #endif // RECTANGLE_H

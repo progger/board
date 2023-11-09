@@ -10,8 +10,10 @@
 #include "isheetcanvas.h"
 
 class ISheet {
+  Q_DISABLE_COPY_MOVE(ISheet)
 public:
-  virtual ~ISheet() {}
+  ISheet() = default;
+  virtual ~ISheet() = default;
   virtual ISheetCanvas *canvas() = 0;
   virtual bool scrollable() = 0;
   virtual QColor color() = 0;

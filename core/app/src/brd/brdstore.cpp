@@ -74,7 +74,7 @@ QString BrdStore::addFromFile(const QString &file_name)
   QFile file(file_name);
   if (!file.open(QIODevice::ReadOnly))
   {
-    return QString();
+    return {};
   }
   QByteArray data = file.readAll();
   return addObject(data);
@@ -88,7 +88,7 @@ QString BrdStore::addFromUrl(const QUrl &url)
     return addFromFile(file_name);
   }
   //TODO
-  return QString();
+  return {};
 }
 
 void BrdStore::clear()

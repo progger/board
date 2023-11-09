@@ -12,11 +12,13 @@
 
 class ImageGen : public ShapeGen
 {
+  Q_DISABLE_COPY_MOVE(ImageGen)
 public:
   explicit ImageGen(ISheetCanvas *canvas);
-  virtual void begin(const QPointF &p) override;
-  virtual void end(const QPointF &p) override;
-  virtual void move(const QPointF &p) override;
+  ~ImageGen() override = default;
+  void begin(const QPointF &p) override;
+  void end(const QPointF &p) override;
+  void move(const QPointF &p) override;
 private:
   QSize _image_size;
   QString _image_hash;

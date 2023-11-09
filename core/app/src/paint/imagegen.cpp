@@ -13,14 +13,14 @@
 ImageGen::ImageGen(ISheetCanvas *canvas) :
   ShapeGen(canvas)
 {
-  SheetCanvas *canvas_obj = static_cast<SheetCanvas*>(canvas);
+  auto *canvas_obj = static_cast<SheetCanvas*>(canvas);
   _image_size = canvas_obj->paintObj()->imageSize();
   _image_hash = canvas_obj->paintObj()->imageHash();
 }
 
 void ImageGen::begin(const QPointF &p)
 {
-  ImageWrapper *image = qobject_cast<ImageWrapper*>(g_core->paint()->createShape("image", _canvas));
+  auto *image = qobject_cast<ImageWrapper*>(g_core->paint()->createShape("image", _canvas));
   Q_ASSERT(image);
   image->setSize(_image_size);
   image->setInnerSize(_image_size);

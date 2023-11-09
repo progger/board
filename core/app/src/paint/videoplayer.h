@@ -12,9 +12,11 @@
 class VideoPlayer : public Shape
 {
   Q_OBJECT
+  Q_DISABLE_COPY_MOVE(VideoPlayer)
   Q_PROPERTY(QString source READ source WRITE setSource NOTIFY sourceChanged)
 public:
-  explicit VideoPlayer(QQuickItem *parent = 0);
+  explicit VideoPlayer(QQuickItem *parent = nullptr);
+  ~VideoPlayer() override = default;
   QString source() const { return _source; }
 public slots:
   void setSource(const QString &source);
@@ -22,9 +24,9 @@ signals:
   void sourceChanged();
   void play();
 protected:
-  virtual QString elementName() const override;
-  virtual void innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const override;
-  virtual void innerDeserialize(QXmlStreamReader *reader) override;
+  QString elementName() const override;
+  void innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const override;
+  void innerDeserialize(QXmlStreamReader *reader) override;
 private:
   QString _source;
 };

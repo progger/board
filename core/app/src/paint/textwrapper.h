@@ -12,11 +12,13 @@
 class TextWrapper : public Shape
 {
   Q_OBJECT
+  Q_DISABLE_COPY_MOVE(TextWrapper)
   Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
   Q_PROPERTY(int fontSize READ fontSize WRITE setFontSize NOTIFY fontSizeChanged)
   Q_PROPERTY(QString fontFamily READ fontFamily WRITE setFontFamily NOTIFY fontFamilyChanged)
 public:
-  explicit TextWrapper(QQuickItem *parent = 0);
+  explicit TextWrapper(QQuickItem *parent = nullptr);
+  ~TextWrapper() override = default;
   QString text() const;
   QString fontFamily() const { return _font_family; }
   int fontSize() const { return _font_size; }
@@ -30,9 +32,9 @@ signals:
   void fontFamilyChanged();
   void fontSizeChanged();
 protected:
-  virtual QString elementName() const override;
-  virtual void innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const override;
-  virtual void innerDeserialize(QXmlStreamReader *reader) override;
+  QString elementName() const override;
+  void innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const override;
+  void innerDeserialize(QXmlStreamReader *reader) override;
 private:
   QString _hash;
   QString _font_family;

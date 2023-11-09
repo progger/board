@@ -17,12 +17,10 @@ class ShapeHunter
 {
 public:
   ShapeHunter(Points *points);
-  ~ShapeHunter();
   qreal hunt(Shape *shape);
-
 private:
   Points *_points;
-  QRectF *_rect;
+  QRectF _rect;
 };
 
 }

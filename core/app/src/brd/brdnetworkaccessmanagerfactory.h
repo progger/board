@@ -14,9 +14,11 @@ class BrdStore;
 class BrdNetworkAccessManagerFactory : public QObject, public QQmlNetworkAccessManagerFactory
 {
   Q_OBJECT
+  Q_DISABLE_COPY_MOVE(BrdNetworkAccessManagerFactory)
 public:
   explicit BrdNetworkAccessManagerFactory(BrdStore *store, QObject *parent);
-  virtual QNetworkAccessManager *create(QObject *parent) override;
+  ~BrdNetworkAccessManagerFactory() override = default;
+  QNetworkAccessManager *create(QObject *parent) override;
 private:
   BrdStore *_store;
 };

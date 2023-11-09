@@ -26,17 +26,12 @@ ShapeHunter::ShapeHunter(Points *points) :
     x2 = qMax(x2, p.x());
     y2 = qMax(y2, p.y());
   }
-  _rect = new QRectF(x1, y1, x2 - x1, y2 - y1);
-}
-
-ShapeHunter::~ShapeHunter()
-{
-  delete _rect;
+  _rect = QRectF(x1, y1, x2 - x1, y2 - y1);
 }
 
 qreal ShapeHunter::hunt(Shape *shape)
 {
-  shape->init(_points, _rect);
+  shape->init(_points, &_rect);
   qreal deviation_current = shape->getDeviation(_points);
   while (true)
   {
@@ -44,19 +39,19 @@ qreal ShapeHunter::hunt(Shape *shape)
     int count = shape->getParamCount();
     for (int i = 0; i < count; i++)
     {
-      shape->changeParam(i, 1, _rect);
+      shape->changeParam(i, 1, &_rect);
       qreal deviation_plus = shape->getDeviation(_points);
-      shape->changeParam(i, -2, _rect);
+      shape->changeParam(i, -2, &_rect);
       qreal deviation_minus = shape->getDeviation(_points);
-      shape->changeParam(i, 1, _rect);
+      shape->changeParam(i, 1, &_rect);
       if (deviation_plus < deviation_base && deviation_plus < deviation_minus)
       {
-        shape->changeParam(i, 1, _rect);
+        shape->changeParam(i, 1, &_rect);
         deviation_current = deviation_plus;
       }
       else if (deviation_minus < deviation_base)
       {
-        shape->changeParam(i, -1, _rect);
+        shape->changeParam(i, -1, &_rect);
         deviation_current = deviation_minus;
       }
     }

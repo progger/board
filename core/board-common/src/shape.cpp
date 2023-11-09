@@ -8,9 +8,10 @@
 
 Shape::Shape(QQuickItem *parent, float thickness, QColor color, QColor bgcolor) :
   QQuickItem(parent),
+  _canvas(nullptr),
   _thickness(thickness),
-  _color(color),
-  _bgcolor(bgcolor),
+  _color(std::move(color)),
+  _bgcolor(std::move(bgcolor)),
   _locked(false)
 {
   setFlag(QQuickItem::ItemHasContents);
@@ -68,12 +69,12 @@ void Shape::deserialize(QXmlStreamReader *reader)
 
 qreal Shape::scalex() const
 {
-  return _inner_size.width() ? width() / _inner_size.width() : 1;
+  return _inner_size.width() > 0 ? width() / _inner_size.width() : 1;
 }
 
 qreal Shape::scaley() const
 {
-  return _inner_size.height() ? height() / _inner_size.height() : 1;
+  return _inner_size.height() > 0 ? height() / _inner_size.height() : 1;
 }
 
 void Shape::setInnerSize(const QSizeF &size)
@@ -84,7 +85,7 @@ void Shape::setInnerSize(const QSizeF &size)
   emit scaleyChanged();
 }
 
-void Shape::setThickness(float thickness)
+void Shape::setThickness(qreal thickness)
 {
   _thickness = thickness;
   emit thicknessChanged();
@@ -133,8 +134,8 @@ void Shape::onHeightChanged()
 
 bool Shape::checkIntersect(const QRectF &rect)
 {
-  return !(rect.right() < x() ||
-           rect.left() > x() + width() ||
-           rect.bottom() < y() ||
-           rect.top() > y() + height());
+  return rect.right() >= x() &&
+         rect.left() <= x() + width() &&
+         rect.bottom() >= y() &&
+         rect.top() <= y() + height();
 }

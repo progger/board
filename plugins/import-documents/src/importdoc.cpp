@@ -44,14 +44,14 @@ void ImportDoc::importDoc(const QUrl &file_url)
   }
   delete document;
 
-  ISheet *sheet = g_core->sheet(g_core->sheetIndex());
-  ISheetCanvas *canvas = sheet->canvas();
-  PdfViewer *viewer = qobject_cast<PdfViewer*>(g_core->paint()->createShape("PdfViewer", canvas));
+  auto *sheet = g_core->sheet(g_core->sheetIndex());
+  auto *canvas = sheet->canvas();
+  auto *viewer = qobject_cast<PdfViewer*>(g_core->paint()->createShape("PdfViewer", canvas));
   Q_ASSERT(viewer);
   viewer->init(canvas);
   viewer->setZ(canvas->getZNext());
-  QRectF viewRect = canvas->viewRect();
-  QSizeF size = QSizeF(viewRect.width() * 0.5, viewRect.height() * 0.6);
+  auto viewRect = canvas->viewRect();
+  auto size = QSizeF(viewRect.width() * 0.5, viewRect.height() * 0.6);
   viewer->setPosition(QPointF(viewRect.x() + (viewRect.width() - size.width()) / 2,
                               viewRect.y() + (viewRect.height() - size.height()) / 2));
   viewer->setSize(size);
@@ -60,7 +60,7 @@ void ImportDoc::importDoc(const QUrl &file_url)
   canvas->updateSheetRect();
 }
 
-QString ImportDoc::convert(const QString &file_name, QSharedPointer<QTemporaryDir> dir)
+QString ImportDoc::convert(const QString &file_name, const QSharedPointer<QTemporaryDir> &dir)
 {
   QProcess process;
 #ifdef Q_OS_WIN
@@ -83,5 +83,5 @@ QString ImportDoc::convert(const QString &file_name, QSharedPointer<QTemporaryDi
   {
     return files.first().filePath();
   }
-  return QString();
+  return {};
 }

@@ -13,9 +13,11 @@
 class Arithmetic : public Shape
 {
   Q_OBJECT
+  Q_DISABLE_COPY_MOVE(Arithmetic)
   Q_PROPERTY(QQmlListProperty<ArithmeticItem> items READ itemsProperty NOTIFY itemsChanged)
 public:
-  explicit Arithmetic(QQuickItem *parent = 0);
+  explicit Arithmetic(QQuickItem *parent = nullptr);
+  ~Arithmetic() override = default;
   QList<ArithmeticItem*> items() { return _items; }
   QQmlListProperty<ArithmeticItem> itemsProperty();
 signals:
@@ -26,9 +28,9 @@ public slots:
   void removeItem(int index);
   void saveItems();
 protected:
-  virtual QString elementName() const override;
-  virtual void innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const override;
-  virtual void innerDeserialize(QXmlStreamReader *reader) override;
+  QString elementName() const override;
+  void innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const override;
+  void innerDeserialize(QXmlStreamReader *reader) override;
 private:
   QList<ArithmeticItem*> _items;
   QString _hash;

@@ -16,24 +16,24 @@ BlackYellow::BlackYellow(QQuickItem *parent) :
 
 QQmlListProperty<BlackYellowItem> BlackYellow::itemsProperty()
 {
-  return QQmlListProperty<BlackYellowItem>(this, nullptr,
+  return {this, nullptr,
     [](QQmlListProperty<BlackYellowItem> *list) -> int
     {
-      BlackYellow *black_yellow = qobject_cast<BlackYellow*>(list->object);
+      auto *black_yellow = qobject_cast<BlackYellow*>(list->object);
       Q_ASSERT(black_yellow);
       return black_yellow->items()->size();
     },
     [](QQmlListProperty<BlackYellowItem> *list, int index) -> BlackYellowItem*
     {
-      BlackYellow *black_yellow = qobject_cast<BlackYellow*>(list->object);
+      auto *black_yellow = qobject_cast<BlackYellow*>(list->object);
       Q_ASSERT(black_yellow);
       return black_yellow->items()->at(index);
-    });
+    }};
 }
 
 void BlackYellow::addItem()
 {
-  BlackYellowItem *item = new BlackYellowItem(this);
+  auto *item = new BlackYellowItem(this);
   item->setQuestion("Вопрос");
   item->setAnswer("Ответ");
   _items.append(item);
@@ -89,7 +89,7 @@ void BlackYellow::innerDeserialize(QXmlStreamReader *reader)
   int count = list.size() / 2;
   for (int i = 0; i < count; ++i)
   {
-    BlackYellowItem *item = new BlackYellowItem(this);
+    auto *item = new BlackYellowItem(this);
     item->setQuestion(list[i * 2]);
     item->setAnswer(list[i * 2 + 1]);
     _items.append(item);

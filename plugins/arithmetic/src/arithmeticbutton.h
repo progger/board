@@ -12,8 +12,10 @@
 class ArithmeticButton : public QQuickItem
 {
   Q_OBJECT
+  Q_DISABLE_COPY_MOVE(ArithmeticButton)
 public:
-  explicit ArithmeticButton(QQuickItem *parent = 0);
+  explicit ArithmeticButton(QQuickItem *parent = nullptr);
+  ~ArithmeticButton() override = default;
 public slots:
   void placeArithmetic();
 };

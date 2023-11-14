@@ -7,14 +7,14 @@
 #include "global.h"
 #include "importdoc.h"
 #include "pdfviewer.h"
-#include "plugin.h"
+#include "importdocplugin.h"
 
-Plugin::Plugin(QObject *parent) :
+ImportDocPlugin::ImportDocPlugin(QObject *parent) :
   QObject(parent)
 {
 }
 
-void Plugin::init()
+void ImportDocPlugin::init()
 {
   qmlRegisterType<PdfViewer>("board.importdocuments", 2, 0, "PdfViewer");
   qmlRegisterSingletonType<ImportDoc>("board.importdocuments", 2, 0, "ImportDoc",

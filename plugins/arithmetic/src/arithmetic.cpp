@@ -16,19 +16,19 @@ Arithmetic::Arithmetic(QQuickItem *parent) :
 
 QQmlListProperty<ArithmeticItem> Arithmetic::itemsProperty()
 {
-  return QQmlListProperty<ArithmeticItem>(this, nullptr,
+  return {this, nullptr,
     [](QQmlListProperty<ArithmeticItem> *list) -> int
     {
-      Arithmetic *arithmetic = qobject_cast<Arithmetic*>(list->object);
+      auto *arithmetic = qobject_cast<Arithmetic*>(list->object);
       Q_ASSERT(arithmetic);
       return arithmetic->items().size();
     },
     [](QQmlListProperty<ArithmeticItem> *list, int index) -> ArithmeticItem*
     {
-      Arithmetic *arithmetic = qobject_cast<Arithmetic*>(list->object);
+      auto *arithmetic = qobject_cast<Arithmetic*>(list->object);
       Q_ASSERT(arithmetic);
       return arithmetic->items().at(index);
-    });
+    }};
 }
 
 void Arithmetic::generate()
@@ -37,7 +37,7 @@ void Arithmetic::generate()
   {
     _items.append(new ArithmeticItem(this));
   }
-  for (auto item : _items)
+  for (auto *item : _items)
   {
     item->generate();
   }
@@ -46,7 +46,7 @@ void Arithmetic::generate()
 
 void Arithmetic::addItem()
 {
-  ArithmeticItem *item = new ArithmeticItem(this);
+  auto *item = new ArithmeticItem(this);
   item->generate();
   _items.append(item);
   saveItems();
@@ -103,7 +103,7 @@ void Arithmetic::innerDeserialize(QXmlStreamReader *reader)
     QString operation;
     stream >> left >> operation >> right;
     stream.readLine();
-    ArithmeticItem *item = new ArithmeticItem(this);
+    auto *item = new ArithmeticItem(this);
     item->setLeft(left);
     item->setRight(right);
     item->setOperation(operation);

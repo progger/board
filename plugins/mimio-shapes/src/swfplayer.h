@@ -13,10 +13,12 @@
 class SwfPlayer : public Shape
 {
   Q_OBJECT
+  Q_DISABLE_COPY_MOVE(SwfPlayer)
   Q_PROPERTY(int port READ port CONSTANT)
   Q_PROPERTY(QString hash READ hash WRITE setHash NOTIFY hashChanged)
 public:
-  explicit SwfPlayer(QQuickItem *parent = 0);
+  explicit SwfPlayer(QQuickItem *parent = nullptr);
+  ~SwfPlayer() override = default;
   int port() const;
   QString hash() const { return _hash; }
 public slots:
@@ -24,9 +26,9 @@ public slots:
 signals:
   void hashChanged();
 protected:
-  virtual QString elementName() const override;
-  virtual void innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const override;
-  virtual void innerDeserialize(QXmlStreamReader *reader) override;
+  QString elementName() const override;
+  void innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const override;
+  void innerDeserialize(QXmlStreamReader *reader) override;
 private:
   QSharedPointer<SwfWebApp> _swf_web_app;
   QString _hash;

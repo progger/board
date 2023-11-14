@@ -36,11 +36,11 @@ private:
   void processRectangle(const QDomElement &element);
   void processText(const QDomElement &element);
 
-  QString convertColor(QString color);
+  static QString convertColor(QString color);
   QByteArray getFile(const QString &file_name);
   QString importFile(const QString &file_name);
   Shape *createShape(const QString &name);
-  void fillShape(const QDomElement &element, Shape *shape);
+  static void fillShape(const QDomElement &element, Shape *shape);
 };
 
 #endif // IMPORTER_H

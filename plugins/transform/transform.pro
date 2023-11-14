@@ -10,16 +10,16 @@ DEPENDENCY_LIBRARIES = board-common
 include(../../main.pri)
 
 SOURCES += \
-    src/plugin.cpp \
     src/card.cpp \
     src/cardtransform.cpp \
-    src/transformbutton.cpp
+    src/transformbutton.cpp \
+    src/transformplugin.cpp
 
 HEADERS +=\
-    src/plugin.h \
     src/card.h \
     src/cardtransform.h \
-    src/transformbutton.h
+    src/transformbutton.h \
+    src/transformplugin.h
 
 RESOURCES += transform.qrc
 

@@ -15,19 +15,19 @@ Category::Category(QObject *parent) :
 
 QQmlListProperty<CategoryItem> Category::itemsProperty()
 {
-  return QQmlListProperty<CategoryItem>(this, nullptr,
+  return {this, nullptr,
     [](QQmlListProperty<CategoryItem> *list) -> int
     {
-      Category *category = qobject_cast<Category*>(list->object);
+      auto *category = qobject_cast<Category*>(list->object);
       Q_ASSERT(category);
       return category->items()->size();
     },
     [](QQmlListProperty<CategoryItem> *list, int index) -> CategoryItem*
     {
-      Category *category = qobject_cast<Category*>(list->object);
+      auto *category = qobject_cast<Category*>(list->object);
       Q_ASSERT(category);
       return category->items()->at(index);
-    });
+    }};
 }
 
 void Category::setName(const QString &name)

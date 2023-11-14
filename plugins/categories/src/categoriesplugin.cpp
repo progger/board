@@ -7,14 +7,14 @@
 #include "global.h"
 #include "categories.h"
 #include "categoriesbutton.h"
-#include "plugin.h"
+#include "categoriesplugin.h"
 
-Plugin::Plugin(QObject *parent) :
+CategoriesPlugin::CategoriesPlugin(QObject *parent) :
   QObject(parent)
 {
 }
 
-void Plugin::init()
+void CategoriesPlugin::init()
 {
   qmlRegisterType<Categories>("board.categories", 2, 0, "Categories");
   qmlRegisterType<CategoriesButton>("board.categories", 2, 0, "CategoriesButton");

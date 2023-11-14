@@ -12,12 +12,14 @@
 class Card : public QObject
 {
   Q_OBJECT
+  Q_DISABLE_COPY_MOVE(Card)
   Q_PROPERTY(QString leftHash READ leftHash WRITE setLeftHash NOTIFY leftHashChanged)
   Q_PROPERTY(QString leftSource READ leftSource NOTIFY leftHashChanged)
   Q_PROPERTY(QString rightHash READ rightHash WRITE setRightHash NOTIFY rightHashChanged)
   Q_PROPERTY(QString rightSource READ rightSource NOTIFY rightHashChanged)
 public:
-  explicit Card(QObject *parent = 0);
+  explicit Card(QObject *parent = nullptr);
+  ~Card() override = default;
   QString leftHash() const { return _left_hash; }
   QString leftSource() const;
   QString rightHash() const { return _right_hash; }

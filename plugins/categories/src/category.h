@@ -13,10 +13,12 @@
 class Category : public QObject
 {
   Q_OBJECT
+  Q_DISABLE_COPY_MOVE(Category)
   Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
   Q_PROPERTY(QQmlListProperty<CategoryItem> items READ itemsProperty NOTIFY itemsChanged)
 public:
-  explicit Category(QObject *parent = 0);
+  explicit Category(QObject *parent = nullptr);
+  ~Category() override = default;
   QString name() const { return _name; }
   QList<CategoryItem*> *items() { return &_items; }
   QQmlListProperty<CategoryItem> itemsProperty();

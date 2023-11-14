@@ -10,16 +10,16 @@ DEPENDENCY_LIBRARIES = board-common
 include(../../main.pri)
 
 SOURCES += \
-    src/plugin.cpp \
     src/blackyellowbutton.cpp \
     src/blackyellow.cpp \
-    src/blackyellowitem.cpp
+    src/blackyellowitem.cpp \
+    src/blackyellowplugin.cpp
 
 HEADERS +=\
-    src/plugin.h \
     src/blackyellowbutton.h \
     src/blackyellow.h \
-    src/blackyellowitem.h
+    src/blackyellowitem.h \
+    src/blackyellowplugin.h
 
 RESOURCES += black-yellow.qrc
 

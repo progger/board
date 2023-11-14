@@ -85,9 +85,9 @@ void Importer::processPage(const QDomElement &page)
   }
   qreal view_width = page.attribute("WIDTH").toDouble();
   qreal view_height = page.attribute("HEIGHT").toDouble();
-  if (view_width && view_height)
+  if (view_width > 0 && view_height > 0)
   {
-    QQuickItem *canvas_obj = dynamic_cast<QQuickItem*>(_canvas);
+    auto *canvas_obj = dynamic_cast<QQuickItem*>(_canvas);
     Q_ASSERT(canvas_obj);
     qreal zoom = view_height > 0 ? canvas_obj->height() / view_height : 1;
     qreal dx = (canvas_obj->width() / zoom - view_width) / 2;
@@ -278,7 +278,7 @@ QByteArray Importer::getFile(const QString &file_name)
     }
     ++it;
   }
-  return QByteArray();
+  return {};
 }
 
 QString Importer::importFile(const QString &file_name)
@@ -286,7 +286,7 @@ QString Importer::importFile(const QString &file_name)
   QByteArray data = getFile(file_name);
   if (data.isEmpty())
   {
-    return QString();
+    return {};
   }
   return g_core->brdStore()->addObject(data);
 }

@@ -17,19 +17,19 @@ CardTransform::CardTransform(QQuickItem *parent) :
 
 QQmlListProperty<Card> CardTransform::cardsProperty()
 {
-  return QQmlListProperty<Card>(this, nullptr,
+  return {this, nullptr,
     [](QQmlListProperty<Card> *list) -> int
     {
-      CardTransform *transform = qobject_cast<CardTransform*>(list->object);
+      auto *transform = qobject_cast<CardTransform*>(list->object);
       Q_ASSERT(transform);
       return transform->cards()->size();
     },
     [](QQmlListProperty<Card> *list, int index) -> Card*
     {
-  CardTransform *transform = qobject_cast<CardTransform*>(list->object);
-  Q_ASSERT(transform);
+      auto *transform = qobject_cast<CardTransform*>(list->object);
+      Q_ASSERT(transform);
       return transform->cards()->at(index);
-});
+    }};
 }
 
 void CardTransform::generate()
@@ -41,7 +41,7 @@ void CardTransform::generate()
 
 void CardTransform::addItem()
 {
-  Card *card = new Card(this);
+  auto *card = new Card(this);
   QString file_name = QString(":/transform/res/cardX.svg");
   card->setLeftHash(g_core->brdStore()->addFromFile(file_name));
   file_name = QString(":/transform/res/cardY.svg");

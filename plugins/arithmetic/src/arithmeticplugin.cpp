@@ -7,14 +7,14 @@
 #include "global.h"
 #include "arithmetic.h"
 #include "arithmeticbutton.h"
-#include "plugin.h"
+#include "arithmeticplugin.h"
 
-Plugin::Plugin(QObject *parent) :
+ArithmeticPlugin::ArithmeticPlugin(QObject *parent) :
   QObject(parent)
 {
 }
 
-void Plugin::init()
+void ArithmeticPlugin::init()
 {
   qmlRegisterType<Arithmetic>("board.arithmetic", 2, 0, "Arithmetic");
   qmlRegisterType<ArithmeticButton>("board.arithmetic", 2, 0, "ArithmeticButton");

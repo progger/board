@@ -14,12 +14,14 @@
 class ImportDoc : public QObject
 {
   Q_OBJECT
+  Q_DISABLE_COPY_MOVE(ImportDoc)
 public:
-  explicit ImportDoc(QObject *parent = 0);
+  explicit ImportDoc(QObject *parent = nullptr);
+  ~ImportDoc() override = default;
 public slots:
   void importDoc(const QUrl &file_url);
 private:
-  QString convert(const QString &file_name, QSharedPointer<QTemporaryDir> dir);
+  static QString convert(const QString &file_name, const QSharedPointer<QTemporaryDir> &dir);
 };
 
 #endif // IMPORTDOC_H

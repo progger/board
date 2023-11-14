@@ -14,11 +14,13 @@ class Category;
 class CategoryItem : public QObject
 {
   Q_OBJECT
+  Q_DISABLE_COPY_MOVE(CategoryItem)
   Q_PROPERTY(Category *category READ category WRITE setCategory NOTIFY categoryChanged)
   Q_PROPERTY(QString hash READ hash WRITE setHash NOTIFY hashChanged)
   Q_PROPERTY(QString source READ source NOTIFY hashChanged)
 public:
-  explicit CategoryItem(QObject *parent = 0);
+  explicit CategoryItem(QObject *parent = nullptr);
+  ~CategoryItem() override = default;
   Category *category() const { return _category; }
   QString hash() const { return _hash; }
   QString source() const;

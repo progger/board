@@ -12,8 +12,10 @@
 class CategoriesButton : public QQuickItem
 {
   Q_OBJECT
+  Q_DISABLE_COPY_MOVE(CategoriesButton)
 public:
-  explicit CategoriesButton(QQuickItem *parent = 0);
+  explicit CategoriesButton(QQuickItem *parent = nullptr);
+  ~CategoriesButton() override = default;
 public slots:
   void placeCategories();
 };

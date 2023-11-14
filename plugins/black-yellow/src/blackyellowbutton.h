@@ -12,8 +12,10 @@
 class BlackYellowButton : public QQuickItem
 {
   Q_OBJECT
+  Q_DISABLE_COPY_MOVE(BlackYellowButton)
 public:
-  explicit BlackYellowButton(QQuickItem *parent = 0);
+  explicit BlackYellowButton(QQuickItem *parent = nullptr);
+  ~BlackYellowButton() override = default;
 public slots:
   void placeBlackYellow();
 };

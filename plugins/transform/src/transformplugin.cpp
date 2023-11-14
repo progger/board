@@ -7,14 +7,14 @@
 #include "global.h"
 #include "cardtransform.h"
 #include "transformbutton.h"
-#include "plugin.h"
+#include "transformplugin.h"
 
-Plugin::Plugin(QObject *parent) :
+TransformPlugin::TransformPlugin(QObject *parent) :
   QObject(parent)
 {
 }
 
-void Plugin::init()
+void TransformPlugin::init()
 {
   qmlRegisterType<CardTransform>("board.transform", 2, 0, "CardTransform");
   qmlRegisterType<TransformButton>("board.transform", 2, 0, "TransformButton");

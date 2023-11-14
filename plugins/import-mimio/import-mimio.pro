@@ -12,13 +12,13 @@ include(../../main.pri)
 
 SOURCES += \
     src/importer.cpp \
-    src/plugin.cpp \
+    src/importmimioplugin.cpp \
     src/rtfconverter.cpp \
     src/rtfparser.cpp
 
 HEADERS +=\
     src/importer.h \
-    src/plugin.h \
+    src/importmimioplugin.h \
     src/rtfconverter.h \
     src/rtfparser.h
 

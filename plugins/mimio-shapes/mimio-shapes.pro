@@ -11,18 +11,18 @@ DEPENDENCY_LIBRARIES = board-common
 include(../../main.pri)
 
 SOURCES += \
+    src/mimioshapesplugin.cpp \
     src/mimiotext.cpp \
     src/qhttpserver/qhttpconnection.cpp \
     src/qhttpserver/qhttprequest.cpp \
     src/qhttpserver/qhttpresponse.cpp \
     src/qhttpserver/qhttpserver.cpp \
-    src/plugin.cpp \
     src/swfplayer.cpp \
     src/swfwebapp.cpp
 
 HEADERS +=\
+    src/mimioshapesplugin.h \
     src/mimiotext.h \
-    src/plugin.h \
     src/qhttpserver/qhttpconnection.h \
     src/qhttpserver/qhttprequest.h \
     src/qhttpserver/qhttpresponse.h \

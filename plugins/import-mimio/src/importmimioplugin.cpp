@@ -6,16 +6,16 @@
 
 #include "global.h"
 #include "importer.h"
-#include "plugin.h"
+#include "importmimioplugin.h"
 
 bool openBookMimio(const QString &file_name);
 
-Plugin::Plugin(QObject *parent) :
+ImportMimioPlugin::ImportMimioPlugin(QObject *parent) :
   QObject(parent)
 {
 }
 
-void Plugin::init()
+void ImportMimioPlugin::init()
 {
   g_core->registerImporter("Mimio", "ink", openBookMimio);
 }

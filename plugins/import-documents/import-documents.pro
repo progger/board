@@ -14,12 +14,12 @@ include(../../main.pri)
 win32: INCLUDEPATH += C:/lib/poppler/qt5/src/
 
 SOURCES += \
-    src/plugin.cpp \
+    src/importdocplugin.cpp \
     src/pdfviewer.cpp \
     src/importdoc.cpp
 
 HEADERS += \
-    src/plugin.h \
+    src/importdocplugin.h \
     src/pdfviewer.h \
     src/importdoc.h
 

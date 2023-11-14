@@ -11,16 +11,16 @@ DEPENDENCY_LIBRARIES = board-common
 include(../../main.pri)
 
 SOURCES += \
-    src/plugin.cpp \
     src/categories.cpp \
     src/categoriesbutton.cpp \
+    src/categoriesplugin.cpp \
     src/category.cpp \
     src/categoryitem.cpp
 
 HEADERS +=\
-    src/plugin.h \
     src/categories.h \
     src/categoriesbutton.h \
+    src/categoriesplugin.h \
     src/category.h \
     src/categoryitem.h
 

@@ -17,11 +17,11 @@ class RtfNode;
 class RtfTag;
 class RtfGroup;
 class RtfText;
-typedef QSharedPointer<RtfNode> RtfNodePtr;
-typedef QList<RtfNodePtr> RtfNodeList;
-typedef QSharedPointer<RtfTag> RtfTagPtr;
-typedef QSharedPointer<RtfGroup> RtfGroupPtr;
-typedef QSharedPointer<RtfText> RtfTextPtr;
+using RtfNodePtr = QSharedPointer<RtfNode>;
+using RtfNodeList = QList<RtfNodePtr>;
+using RtfTagPtr = QSharedPointer<RtfTag>;
+using RtfGroupPtr = QSharedPointer<RtfGroup>;
+using RtfTextPtr = QSharedPointer<RtfText>;
 
 class RtfNode
 {
@@ -39,7 +39,7 @@ public:
   QByteArray tag() const { return _tag; }
   bool hasParam() const { return _has_param; }
   int param() const { return _param; }
-  static RtfTagPtr FromNode(RtfNodePtr node) { return node->type() == NodeType::Tag ? node.staticCast<RtfTag>() : RtfTagPtr(); }
+  static RtfTagPtr FromNode(const RtfNodePtr &node) { return node->type() == NodeType::Tag ? node.staticCast<RtfTag>() : RtfTagPtr(); }
 private:
   QByteArray _tag;
   bool _has_param;
@@ -51,7 +51,7 @@ class RtfGroup : public RtfNode
 public:
   RtfGroup(const RtfNodeList &nodes) : RtfNode(NodeType::Group), _nodes(nodes) {}
   RtfNodeList nodes() const { return _nodes; }
-  static RtfGroupPtr FromNode(RtfNodePtr node) { return node->type() == NodeType::Group ? node.staticCast<RtfGroup>() : RtfGroupPtr(); }
+  static RtfGroupPtr FromNode(const RtfNodePtr &node) { return node->type() == NodeType::Group ? node.staticCast<RtfGroup>() : RtfGroupPtr(); }
 private:
   RtfNodeList _nodes;
 };
@@ -61,7 +61,7 @@ class RtfText : public RtfNode
 public:
   RtfText(const QByteArray &text) : RtfNode(NodeType::Text), _text(text) {}
   QByteArray text() const { return _text; }
-  static RtfTextPtr FromNode(RtfNodePtr node) { return node->type() == NodeType::Text ? node.staticCast<RtfText>() : RtfTextPtr(); }
+  static RtfTextPtr FromNode(const RtfNodePtr &node) { return node->type() == NodeType::Text ? node.staticCast<RtfText>() : RtfTextPtr(); }
 private:
   QByteArray _text;
 };

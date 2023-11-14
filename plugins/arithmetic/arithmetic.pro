@@ -10,16 +10,16 @@ DEPENDENCY_LIBRARIES = board-common
 include(../../main.pri)
 
 SOURCES += \
-    src/plugin.cpp \
     src/arithmetic.cpp \
     src/arithmeticbutton.cpp \
-    src/arithmeticitem.cpp
+    src/arithmeticitem.cpp \
+    src/arithmeticplugin.cpp
 
 HEADERS +=\
-    src/plugin.h \
     src/arithmetic.h \
     src/arithmeticbutton.h \
-    src/arithmeticitem.h
+    src/arithmeticitem.h \
+    src/arithmeticplugin.h
 
 RESOURCES += arithmetic.qrc
 

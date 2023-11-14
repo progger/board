@@ -12,10 +12,12 @@
 class BlackYellowItem : public QObject
 {
   Q_OBJECT
+  Q_DISABLE_COPY_MOVE(BlackYellowItem)
   Q_PROPERTY(QString question READ question WRITE setQuestion NOTIFY questionChanged)
   Q_PROPERTY(QString answer READ answer WRITE setAnswer NOTIFY answerChanged)
 public:
-  explicit BlackYellowItem(QObject *parent = 0);
+  explicit BlackYellowItem(QObject *parent = nullptr);
+  ~BlackYellowItem() override = default;
   QString question() const { return _question; }
   QString answer() const { return _answer; }
 signals:

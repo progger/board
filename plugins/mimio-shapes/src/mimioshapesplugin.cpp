@@ -7,7 +7,7 @@
 #include "global.h"
 #include "mimiotext.h"
 #include "swfplayer.h"
-#include "plugin.h"
+#include "mimioshapesplugin.h"
 
 class QQuickWebViewExperimental : public QObject
 {
@@ -15,12 +15,12 @@ public:
   static void setFlickableViewportEnabled(bool enable);
 };
 
-Plugin::Plugin(QObject *parent) :
+MimioShapesPlugin::MimioShapesPlugin(QObject *parent) :
   QObject(parent)
 {
 }
 
-void Plugin::init()
+void MimioShapesPlugin::init()
 {
   QQuickWebViewExperimental::setFlickableViewportEnabled(false);
   qmlRegisterType<MimioText>("board.mimio", 2, 0, "MimioText");

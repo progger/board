@@ -12,12 +12,14 @@
 class ArithmeticItem : public QObject
 {
   Q_OBJECT
+  Q_DISABLE_COPY_MOVE(ArithmeticItem)
   Q_PROPERTY(int left READ left WRITE setLeft NOTIFY leftChanged)
   Q_PROPERTY(int right READ right WRITE setRight NOTIFY rightChanged)
   Q_PROPERTY(QString operation READ operation WRITE setOperation NOTIFY operationChanged)
   Q_PROPERTY(int result READ result NOTIFY resultChanged)
 public:
-  explicit ArithmeticItem(QObject *parent = 0);
+  explicit ArithmeticItem(QObject *parent = nullptr);
+  ~ArithmeticItem() override = default;
   int left() const { return _left; }
   int right() const { return _right; }
   QString operation() const { return _operation; }

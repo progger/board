@@ -14,8 +14,10 @@
 class SwfWebApp : public QObject
 {
   Q_OBJECT
+  Q_DISABLE_COPY_MOVE(SwfWebApp)
 public:
-  explicit SwfWebApp(QObject *parent = 0);
+  explicit SwfWebApp(QObject *parent = nullptr);
+  ~SwfWebApp() override = default;
   int port() const { return _port; }
 private slots:
   void handleRequest(QHttpRequest *req, QHttpResponse *resp);

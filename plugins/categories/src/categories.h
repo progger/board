@@ -13,11 +13,13 @@
 class Categories : public Shape
 {
   Q_OBJECT
+  Q_DISABLE_COPY_MOVE(Categories)
   Q_PROPERTY(QQmlListProperty<Category> categories READ categoriesProperty NOTIFY categoriesChanged)
   Q_PROPERTY(QQmlListProperty<CategoryItem> items READ itemsProperty NOTIFY itemsChanged)
   Q_PROPERTY(QQmlListProperty<CategoryItem> remainingItems READ remainingItemsProperty NOTIFY remainingItemsChanged)
 public:
-  explicit Categories(QQuickItem *parent = 0);
+  explicit Categories(QQuickItem *parent = nullptr);
+  ~Categories() override = default;
   QList<Category*> *categories() { return &_categories; }
   QQmlListProperty<Category> categoriesProperty();
   QList<CategoryItem*> *items() { return &_items; }
@@ -41,9 +43,9 @@ public slots:
   void fillCategoriesItems();
   void saveItems();
 protected:
-  virtual QString elementName() const override;
-  virtual void innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const override;
-  virtual void innerDeserialize(QXmlStreamReader *reader) override;
+  QString elementName() const override;
+  void innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const override;
+  void innerDeserialize(QXmlStreamReader *reader) override;
 private:
   QList<Category*> _categories;
   QList<CategoryItem*> _items;

@@ -12,9 +12,11 @@
 class MimioText : public Shape
 {
   Q_OBJECT
+  Q_DISABLE_COPY_MOVE(MimioText)
   Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
 public:
-  explicit MimioText(QQuickItem *parent = 0);
+  explicit MimioText(QQuickItem *parent = nullptr);
+  ~MimioText() override = default;
   QString text() const;
 public slots:
   void setHash(const QString &hash);
@@ -22,9 +24,9 @@ public slots:
 signals:
   void textChanged();
 protected:
-  virtual QString elementName() const override;
-  virtual void innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const override;
-  virtual void innerDeserialize(QXmlStreamReader *reader) override;
+  QString elementName() const override;
+  void innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const override;
+  void innerDeserialize(QXmlStreamReader *reader) override;
 private:
   QString _hash;
 };

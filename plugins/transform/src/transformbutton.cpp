@@ -18,7 +18,7 @@ void TransformButton::placeTransform()
 {
   ISheet *sheet = g_core->sheet(g_core->sheetIndex());
   ISheetCanvas *canvas = sheet->canvas();
-  CardTransform *transform = qobject_cast<CardTransform*>(g_core->paint()->createShape("transform", canvas));
+  auto *transform = qobject_cast<CardTransform*>(g_core->paint()->createShape("transform", canvas));
   Q_ASSERT(transform);
   QRectF viewRect = canvas->viewRect();
   QSizeF size = QSizeF(viewRect.width() * 0.75, viewRect.height() * 0.85);

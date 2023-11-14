@@ -18,7 +18,7 @@ void CategoriesButton::placeCategories()
 {
   ISheet *sheet = g_core->sheet(g_core->sheetIndex());
   ISheetCanvas *canvas = sheet->canvas();
-  Categories *categories = qobject_cast<Categories*>(g_core->paint()->createShape("categories", canvas));
+  auto *categories = qobject_cast<Categories*>(g_core->paint()->createShape("categories", canvas));
   Q_ASSERT(categories);
   QRectF viewRect = canvas->viewRect();
   QSizeF size = QSizeF(viewRect.width() * 0.75, viewRect.height() * 0.85);

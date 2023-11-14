@@ -13,9 +13,11 @@
 class CardTransform : public Shape
 {
   Q_OBJECT
+  Q_DISABLE_COPY_MOVE(CardTransform)
   Q_PROPERTY(QQmlListProperty<Card> cards READ cardsProperty NOTIFY cardsChanged)
 public:
-  explicit CardTransform(QQuickItem *parent = 0);
+  explicit CardTransform(QQuickItem *parent = nullptr);
+  ~CardTransform() override = default;
   QList<Card*> *cards() { return &_cards; }
   QQmlListProperty<Card> cardsProperty();
 signals:
@@ -28,9 +30,9 @@ public slots:
   void setCardRightImage(int index, const QUrl &file_url);
   void saveItems();
 protected:
-  virtual QString elementName() const override;
-  virtual void innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const override;
-  virtual void innerDeserialize(QXmlStreamReader *reader) override;
+  QString elementName() const override;
+  void innerSerialize(QXmlStreamWriter *writer, QSet<QString> *brd_objects) const override;
+  void innerDeserialize(QXmlStreamReader *reader) override;
 private:
   QList<Card*> _cards;
   QString _hash;

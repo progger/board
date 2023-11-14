@@ -20,61 +20,61 @@ Categories::Categories(QQuickItem *parent) :
 
 QQmlListProperty<Category> Categories::categoriesProperty()
 {
-  return QQmlListProperty<Category>(this, nullptr,
+  return {this, nullptr,
     [](QQmlListProperty<Category> *list) -> int
     {
-      Categories *categories = qobject_cast<Categories*>(list->object);
+      auto *categories = qobject_cast<Categories*>(list->object);
       Q_ASSERT(categories);
       return categories->categories()->size();
     },
     [](QQmlListProperty<Category> *list, int index) -> Category*
     {
-      Categories *categories = qobject_cast<Categories*>(list->object);
+      auto *categories = qobject_cast<Categories*>(list->object);
       Q_ASSERT(categories);
       return categories->categories()->at(index);
-});
+    }};
 }
 
 QQmlListProperty<CategoryItem> Categories::itemsProperty()
 {
-  return QQmlListProperty<CategoryItem>(this, nullptr,
+  return {this, nullptr,
     [](QQmlListProperty<CategoryItem> *list) -> int
     {
-      Categories *categories = qobject_cast<Categories*>(list->object);
+      auto *categories = qobject_cast<Categories*>(list->object);
       Q_ASSERT(categories);
       return categories->items()->size();
     },
     [](QQmlListProperty<CategoryItem> *list, int index) -> CategoryItem*
     {
-      Categories *categories = qobject_cast<Categories*>(list->object);
+      auto *categories = qobject_cast<Categories*>(list->object);
       Q_ASSERT(categories);
       return categories->items()->at(index);
-    });
+    }};
 }
 
 QQmlListProperty<CategoryItem> Categories::remainingItemsProperty()
 {
-  return QQmlListProperty<CategoryItem>(this, nullptr,
+  return {this, nullptr,
     [](QQmlListProperty<CategoryItem> *list) -> int
     {
-      Categories *categories = qobject_cast<Categories*>(list->object);
+      auto *categories = qobject_cast<Categories*>(list->object);
       Q_ASSERT(categories);
       return categories->remainingItems()->size();
     },
     [](QQmlListProperty<CategoryItem> *list, int index) -> CategoryItem*
     {
-      Categories *categories = qobject_cast<Categories*>(list->object);
+      auto *categories = qobject_cast<Categories*>(list->object);
       Q_ASSERT(categories);
       return categories->remainingItems()->at(index);
-});
+    }};
 }
 
 bool Categories::checkResult() const
 {
-  if (_remaining_items.size() > 0) return false;
-  for (Category *category : _categories)
+  if (!_remaining_items.empty()) return false;
+  for (auto *category : _categories)
   {
-    for (CategoryItem *item : *category->items())
+    for (auto *item : *category->items())
     {
       if (item->category() != category) return false;
     }
@@ -84,17 +84,17 @@ bool Categories::checkResult() const
 
 void Categories::generate()
 {
-  Category *cat1 = new Category(this);
+  auto *cat1 = new Category(this);
   cat1->setName("Чётные числа");
   _categories.append(cat1);
-  Category *cat2 = new Category(this);
+  auto *cat2 = new Category(this);
   cat2->setName("Нечётные числа");
   _categories.append(cat2);
   for (int i = 1; i <= 8; ++i)
   {
-    QString file_name = QString(":/categories/res/card%1.svg").arg(i);
-    QString hash = g_core->brdStore()->addFromFile(file_name);
-    CategoryItem *item = new CategoryItem(this);
+    auto file_name = QString(":/categories/res/card%1.svg").arg(i);
+    auto hash = g_core->brdStore()->addFromFile(file_name);
+    auto *item = new CategoryItem(this);
     item->setHash(hash);
     if (i % 2)
       item->setCategory(cat2);
@@ -122,7 +122,7 @@ void Categories::shuffle()
 
 void Categories::addCategory()
 {
-  Category *category = new Category(this);
+  auto *category = new Category(this);
   category->setName("Новая категория");
   _categories.append(category);
   saveItems();
@@ -155,7 +155,7 @@ void Categories::addItem(Category *category, const QUrl &file_url)
   QString file_name = file_url.toLocalFile();
   QString hash = g_core->brdStore()->addFromFile(file_name);
   if (hash.isEmpty()) return;
-  CategoryItem *item = new CategoryItem(this);
+  auto *item = new CategoryItem(this);
   item->setHash(hash);
   item->setCategory(category);
   _items.append(item);
@@ -274,14 +274,14 @@ void Categories::innerDeserialize(QXmlStreamReader *reader)
   QTextStream stream(data);
   while (!stream.atEnd())
   {
-    Category *cat = new Category(this);
+    auto *cat = new Category(this);
     cat->setName(stream.readLine());
     _categories.append(cat);
-    QString line = stream.readLine();
-    QStringList hashes = line.split(" ", Qt::SkipEmptyParts);
-    for (QString hash : hashes)
+    auto line = stream.readLine();
+    auto hashes = line.split(" ", Qt::SkipEmptyParts);
+    for (const auto &hash : hashes)
     {
-      CategoryItem *item = new CategoryItem(this);
+      auto *item = new CategoryItem(this);
       item->setCategory(cat);
       item->setHash(hash);
       _items.append(item);

@@ -18,7 +18,7 @@ void ArithmeticButton::placeArithmetic()
 {
   ISheet *sheet = g_core->sheet(g_core->sheetIndex());
   ISheetCanvas *canvas = sheet->canvas();
-  Arithmetic *arithmetic = qobject_cast<Arithmetic*>(g_core->paint()->createShape("arithmetic", canvas));
+  auto *arithmetic = qobject_cast<Arithmetic*>(g_core->paint()->createShape("arithmetic", canvas));
   Q_ASSERT(arithmetic);
   QRectF viewRect = canvas->viewRect();
   QSizeF size = QSizeF(viewRect.width() * 0.75, viewRect.height() * 0.85);

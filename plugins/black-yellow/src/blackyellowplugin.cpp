@@ -7,14 +7,14 @@
 #include "global.h"
 #include "blackyellow.h"
 #include "blackyellowbutton.h"
-#include "plugin.h"
+#include "blackyellowplugin.h"
 
-Plugin::Plugin(QObject *parent) :
+BlackYellowPlugin::BlackYellowPlugin(QObject *parent) :
   QObject(parent)
 {
 }
 
-void Plugin::init()
+void BlackYellowPlugin::init()
 {
   qmlRegisterType<BlackYellow>("board.blackyellow", 2, 0, "BlackYellow");
   qmlRegisterType<BlackYellowButton>("board.blackyellow", 2, 0, "BlackYellowButton");
